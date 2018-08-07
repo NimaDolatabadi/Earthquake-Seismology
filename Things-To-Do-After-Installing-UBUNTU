@@ -1,0 +1,48 @@
+1# Enable "Minimise on Click"
+gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-minimize-window true
+============================================================================================================
+2# Move The Unity Launcher
+gsettings set com.canonical.Unity.Launcher launcher-position <<Bottom>>
+============================================================================================================
+3# If you are running a 64 bit system, first enable 32 bit architecture
+dpkg --add-architecture i386
+============================================================================================================
+4# Install Media Codecs
+sudo apt-get install ubuntu-restricted-extras
+============================================================================================================
+5# Night Mode
+sudo apt-get install redshift
+============================================================================================================
+6# Install Flash player
+sudo apt-get install flashplugin-installer
+============================================================================================================
+7# Manage Windowing
+sudo apt-get install compizconfig-settings-manager
+============================================================================================================
+8# costumizing Desktop and wallpaper:
+sudo apt-get install unity-tweak-tool
+============================================================================================================
+9# configuring Graphic Driver (can be ignored for AMD Drivers):
+sudo add-apt-repository ppa:graphics-drivers
+sudo apt-get update
+sudo ubuntu-drivers devices
+sudo apt-get install <nvidia-Recommended Version>
+============================================================================================================
+============================================================================================================
+9# configuring Graphic Driver (can be ignored for AMD Drivers):
+sudo add-apt-repository ppa:graphics-drivers
+sudo apt-get update
+sudo ubuntu-drivers devices
+sudo apt-get install <nvidia-Recommended Version>
+============================================================================================================
+10# Dropbox
+sudo apt-get install nautilus-dropbox
+============================================================================================================
+11# Telegram
+sudo add-apt-repository ppa:atareao/telegram
+sudo apt-get update
+sudo apt-get install telegram
+============================================================================================================
+12# VLC Media Player
+sudo apt-get install vlc browser-plugin-vlc
+============================================================================================================
