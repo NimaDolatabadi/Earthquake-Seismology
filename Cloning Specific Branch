@@ -1,5 +1,0 @@
-for cloning specific branch you can use the following code:
-
-git clone --single-branch -b <name-of-branch> <url-of-git-repository>
-
-Nice job..

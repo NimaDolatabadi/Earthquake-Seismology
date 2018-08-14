@@ -1,0 +1,8 @@
+################################### Using GITHUB under ubuntu command line #############################
+      sudo apt-get install git
+######################### Cloning a Repository ####################################################
+      git clone <url-of-git-repository>
+######################### for cloning specific branch you can use the following code #################
+       git clone --single-branch -b <name-of-branch> <url-of-git-repository>
+!!##
+Nice job..
