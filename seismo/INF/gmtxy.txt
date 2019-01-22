@@ -1,0 +1,121 @@
+GMTXY - XY plot using GMT
+
+The GMTXY script enables the user to make XY-plots with GMT, and can easily 
+be adjusted to a preferred layout. The script is written by Matthias Ohrnberger 
+and Eirik Tvedt. The input file for GMTXY contains the settings and the XY-data for 
+the diagram to be plotted, and is easily adjusted by the user.
+
+Last update August 2004 by Eirik
+
+In order to run on your system, set GMTHOME variable in 3. line of script.
+ 
+Below is an example of an outputfile from the SPEC program.
+
+# OFILENAME   spec_ave_LE-L2S__N_LE-L2S__Z.gmt.ps
+# MAINTITLE    Av. of relative spectra w/st. dev. for LE-L2S  N
+# MAIN_FONT_SIZE                18 
+# MAIN_FONT_TYPE Times-Roman 
+# give title, size and switch on or off (1 or 0) the log-scaling of the x-axis.
+# XTITLE      Frequency (Hz)                                                    
+# XSIZE          12 
+# XLOG            1 
+# YTITLE      Relative amplitude 
+# YSIZE          10 
+# YLOG            1 
+# GRID_X		1
+# GRID_Y		1
+# NTRACES                        3 
+# BAR_WIDTH		1.0
+# LEGEND                         1 
+# TRACETITLE   First line 
+# TRACECOLOR  black 
+# TRACESYMBOL  t
+# SYMBOL_SIZE                 0.60 
+# LINE_WIDTH                     5 
+# LINESTYLE   solid 
+# MINX                  0.12207032 
+# MAXX                 19.99511719
+# MINY                  0.53115237
+# MAXY                  1.11497903 
+    0.122070   0.563863
+    0.146484   0.565051
+    0.170898   0.568624
+...
+(XY-data for the different curves follow)
+
+This file is used as an input for the GMTXY program, with this command line:
+gmtxy  spec_all.out
+
+Below is an explanation of the inputfile. These parameters can be changed by 
+the user before running the GMTXY, to obtain the preferred result.
+
+# OFILENAME   spec_ave_LE-L2S__N_LE-L2S__Z.gmt.ps
+Gives the name of the outputfile, which is a postscript-file. 
+# MAINTITLE    Av. of relative spectra w/st. dev. for LE-L2S  N
+Gives the title to be printed above the XY-plot. Nothing is printed 
+if no title is given. Nordic, German or Spanish characters are not recognized.
+# MAIN_FONT_SIZE  18      
+Gives the fontsize of the maintitle. (Minimum value is 14.) The fontsizes 
+of the annotation and the X- and Y-title is calculated from this fontsize.
+# MAIN_FONT_TYPE Times-Roman 
+Font-type of the titles and annotations. Several options are available: 
+Times-Roman, Times-Bold, Courier, Helvetica-Bold and Bookman-Demi 
+(more options are given in the gmtdefaults manual).
+# XTITLE      Frequency (Hz)  
+Title of the X-axis
+# XSIZE  12 
+Length of the diagram in cm. Annotations and titles not included.
+# XLOG    1 
+Linear (0) or logarithmic (1) scale of the X-axis.
+# YTITLE      Relative amplitude 
+# YSIZE          10 
+# YLOG            1
+As for X.
+# GRID_X		1
+# GRID_Y		1
+Plot gridlines (1) or not (0), vertical (GRID_X ) and horizontally (GRID_Y ).
+# NTRACES  3
+Indicates the number of traces to be plotted.
+# BAR_WIDTH  1.0
+This option is only used when plotting histograms (TRACESYMBOL b), 
+and may be left out when plotting curves. The width of the bars is given, 
+and the same unit as the X-axis is used. That is, if bar-width is set to 1.0, 
+there should be no space between the bars. However, if plotting catstat outputfiles, 
+with months as input, the bar-width should be approx. 0.08, with days as input, 
+the unit should be 0.0025, to get no space between the bars.  
+If TRACECOLOR is white, the bars is not filled. 
+# LEGEND   1 
+This option does not support histogram plotting (TRACESYMBOL b). Indicate 
+if legend should be plotted (1) or not (0). If 1, the colours and/or the symbols 
+of the different curves will be given to the right of the diagram together with 
+the titles of each curve. If the titles are too long, the text will be cut by the 
+rigth margin (can be avoided by reducing MAIN_FONT_SIZE ).
+
+The following parameters are repeated for every dataset to be plotted: 
+# TRACETITLE    First line
+Title of trace.
+# TRACECOLOR  black
+Color of trace and/or symbol.  Several options are available, such as 
+black, red, blue, yellow, green, pink, purple, brown, orange, cyan, white. 
+(for a complete list, give "showrgb" in the command line. Only those colours 
+written in one word may be used. Some long names are also not recognized)
+# TRACESYMBOL t
+Symbol of trace. Options: t (triangle), c (circle), d (diamond), x (cross), 
+p (point) or a (star). Append b for plotting histograms. Blank means no symbol. 
+(crosses and points are only plotted in black, points also has a fixed size)
+# SYMBOL_SIZE    0.60 
+Size of symbol (the diameter in cm.)
+# LINE_WIDTH  5  
+Width of the line. Range 1-20.
+# LINESTYLE   solid 
+Linestyle. Options: solid, dashed, dotted. No line if blank.
+# MINX                  0.12207032
+# MAXX                 19.99511719
+# MINY                  0.53115237 
+# MAXY                  1.11497903 
+The maximum and minimum values of the data to be plotted are given here. 
+Also, these datas are used to set the range of the X- and Y-axis.
+ 
+Known bugs:
+If plotting histograms together with curves, the dataset to be plotted with 
+bars should be presented first. 

@@ -1,0 +1,29 @@
+start in s-times and Vp/Vs ratio (optionally)
+2.0
+absolute start time (sec)
+30
+window length (sec)
+30
+spreading parameter
+0.5
+constant v in q = q0*f**v
+1.0
+minimum signal to noise ratio
+3
+noise window in front of signal and length of RMS window
+15,5
+minimum correlation coefficient
+0.50
+maximum counts to use
+2000000
+number of frequencies and number of octaves (optional)
+5  2.0 
+frequencies and bands (optional if octave given)
+1
+2  
+4
+8
+16
+station(1.line), 50a5, blank line is no default, 2.line is components, 50(a4,1x)
+
+

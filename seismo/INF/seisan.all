@@ -1,0 +1,831 @@
+This file is a complete list of all files in all SEISAN distributions
+
+The version of this distribution is set in INC file version.inc
+
+For each file, the two first columns indicate the status of the file.
+
+First column:  blank: file exist on all distributions
+               p: only on pc,             
+               u: all 3 unix platforms
+               s: Only Solaris             
+               o: Only SunOS
+               l: Only linux
+               L: Only liunx 64 bit
+
+If file has label p,s,o or l, files are only available on respective platforms.
+
+Second column: blank: An ascii file
+               b:     Binary file
+
+It is possible to specify to copy to a subdirectory in distribution if info
+given on comment line, see example below
+
+pb qjpeg4.dll                 : ------, in subdir s:imageformats
+
+The file qjpeg4.dll will be copied to PCWIN/PRO/imageformats in only the
+Windows distribution. the subdirectory is specified with s:. The subdirectory
+name must follow without a space after s:. For Windows, no conversion of
+text files is implemented.
+
+Normally, there will be an executable file for all source files listed in the
+the PRO directory. However, some programs only come with executable (only 
+executable listed) or the program has been compiled with a different compiler 
+(both source and executable listed)
+
+Some programs are not installed or only executable is installed. The complete
+distrubution is found in a ZIP or tar file in directory SUP. For Windows
+projects, the files must be installed in a subdirectory under PRO in
+order to compile with Windows Workbench. The Java distriubtions can be installed
+in any separate directory. 
+
+program check can check if all files are there
+program new_version make a new version for all platforms, see program for
+ documentation, must be recompiled for a new version number or a new
+ location of output
+
+ 
+
+changes:
+
+  October 5,1999 jh : cleaned for distribution
+  November 8 99 bmt : add pclib.c
+  December 9    jh  : remove neisei binary, now in new version
+  December 10  bmt  : remove io.h,bgiasc.*.  add bgisei.inc
+  February 11  jh   : add sissei
+  May               : add various for version 7.1
+                      velest only on unix, h_models
+  August 21    jh   : make hypocent.pdf binary, non readable in 7.1
+  October 17        : add rsasei.for, rsanor.for,sgrsei.for,gursei.for,
+                      nmxb32n.dll,nmxq32.dll,y5dump.exe,y5dump (is it missing
+                      from version 7.1.x CD ?), remove pcqsei.exe
+  Oct     25          add swarm.for
+  Nov     10        : add lensei.for
+  May 27 2001  jh   : add sample_read_write_s.for
+  June  ???    lo   : a few programs added ???????
+  July 1       jh   : add w_emap.zip,tsig.for,sample_read_wav.for,
+                      sample_graphics.for, epi.pdf, qspec.pdf
+  September  12     : add wgssei
+  July 3            : add tersei, qualified arrows.h and xview_lib.c a unix
+                      ----------- change cplot to be only unix, ok ? --- 
+  sep 17, 01 lo     : add rdseed
+                      add norims
+  mar 5   02 jh     : add gmt.for subroutine, gmtxy script
+                          gmr_xy_par.inc
+  mar 8             : add focmec.pdf
+  may 13     lo     : add focmec_exe
+  may 26     bm     : add JSEISAN
+  april 9, 2003 jh  : replace compact by norhead, extract by wavetool
+  april 25          : remove seisan and promac project files, move to a zip 
+                      file, add/changejave programs, add sort_text 
+  may 10  jh+lo     : major clean up for version 8
+  may 27  jh        : add ascsei, remove gsesei.def
+  jun 11 jh         : make smsei old
+  jun 13  jh        : add sample_read_cont.for
+  jun 18            : add seibinasc.pl
+  jun 20  jh        : remove read.me and seisconf.jar
+  jun 22  jh        : add rea.bat, isf include and subroutines
+  jun 25            : small corrections
+  jun 26            : degtra.zip to degtra.exe
+  jul 14            : only one version of focmec_exe.for
+  aug 12  jh        : add statstat
+  sep 03  lo        : moved jseisan and seisconf on Unix to .SEISAN
+  sep 03  jh        : also moved sformat to .SEISAN
+  aug 04 2004 jh    : change gmtxy.doc to gmtxy.txt
+  oct 13 2004 jh    : nmx..dll were set to ascii, must be binary
+  may 31 2005 lo    : add nor2dd and nor2jhd
+  jun    2005 jh    : latest undates for 8.1
+  jun 12 2005 lo    : added iscloc_docs.tar.gz
+  mar    2006 lo    : added condet
+  nov    2006 jh    : add stasei, nrwsei, version 8.1.3,silmseed
+                      bctool(for silmseed)
+  dec 21            : nor2dd also on pc
+  jan 4 2007  jh    : add harnor
+  jun  6 2007 jh    : add msfix and msrepack
+  dec 20 2007 jh    : add gmap.for
+  mar/may 08  jh lo : add ttplot.for, pfit.for, sei2psxy.for 
+  may 13 08   pv    : add p_align.for
+  may 21      pv    : add mscut.tar, mscut
+  jun 20      pv    : add rea2.inc and rea2.for
+  jun 27      jh    : seems lik ebgisei compiles on both linux and sun
+  sep 10 08   jh    : add is.bat
+  oct 03 08   lo    : add congap
+  nov 02 09   jh    : add ahsei, allow herrmann programs for pc
+  nov 3  09   lo    : add evanoi, database2mseed, dimassei,connoi
+                      FOCMEC.DEF
+  nov 4  09   jh    : add place_names.macro, postal_code.dat
+  2009-12-17  pv    : add change-mag - change database to isapei magnitude type
+  mar 12 2010 jh    : change change-mag to change_mag
+  2010-04-12  pv    : add maglib.for
+  apr 28 2010 jh    : add pinv.for
+  apr 30 2010 lo    : added sample_write_wav
+  may 3  2010 jh    : add gursei for solaris, iasp files for 64 bit linux, 
+                      REA,CAL and WAV directories. All must be in sub 
+                      like REA/REA. Forer REA, all files
+                      are copied to TEST_/1996/06
+  2010-05-04 pv     : manual is changed from INF/seisan_8.2.1.pdf 
+                      to INF/seisan.pdf
+  may 5 2010 jh     : removed qspec.pdf
+  may 26 2010 lo    : renamed .SEISAN
+  nov 19 2010 jh    : add add sample_read_arc.for, fpfit.for, 
+                      fpfit_seisan.for, hash_foc.for, foc.for,avq.for,slick.c 
+                      general.for,plot_foc.for,seisanarch.c
+  dec 23 2010 jh    : now on all: corr, crisis99, gursei, mech,  nor2jhd_pujol, 
+                      sacsei  
+                      remove winplot includes, comp_unix, dirf_pc, get_files,
+                      resp_fil.for, sfil.for, sort_fi.for
+                      new: dislinplot.for for pc
+  dec 29 2010 jh    : add rdseed_many, rdsee.exe, rsasei.for
+                      rsanor.for,and some more  where did they go ?
+  dec 30 2010 jh    : remove seisanarch.c from PRO
+  jan 10 2011 jh    : put in missing INF files, where did they go ?
+  jan 26 2011 jh    : add fpfit.pdf and hash.pdf
+  jan 27 2011 jh    : add mag2, remove silmseed, bctool, bgisei and related
+                      files, add xget_screen_size, xget_screen_size_linux,
+                      rename seis_unix seis_sub, remove comp_pc
+  jan 31 2011 jh      remove dialog.for, does not seem to be used
+  feb 01 2011 jh    : add libmseed-2.5.1.tar.gz to SUP, remove pc make files
+  feb 03 2011 jh    : rearrange location of files on different distributions
+                      only binary files are left in platform specific in
+                      directories so to be copied for a platform specific
+                      directory both platform and b must be given
+  feb 10 2011  jh     add mag2.par
+  feb 11 2011  jh   : add gsesei.def, lars thinks it is used
+  feb 14 2011  jh   : add statis.def
+  feb 18 2011  jh   : remove statlog, add magstat
+  feb 28 2011  pv   : add PRO/getPDE.jar and DAT/getPDE.xml by Ruben
+  feb 28 2011  pv   : add PRO/seis2viewer.jar, DAT/seis2viewer.def + 
+                      azores.xyz and europe.xyz by Ruben
+  feb 26 2011  jh   : make above jar files binary, add smap.cmd
+  jun 17 2011  pv   : add PRO/sei2048.c program for fix sun reading problem
+  aug 5  2011  jh   : include mscut all pltforms for compilation
+  oct 20 2011  jh   : include seismseed.c
+  nov 01 2011  jh   : include libmseed.c and associated include files,
+                      and dislin files
+  nov 27 2011  jh   : add guralp.for, hinor.for
+  dec 5  2011  jh   : add gmap_sub.for, sample_read_seed.for
+  dec 13 2011  jh   : change sample_read_seed to sample_read_write_seed
+  jan 4  2012  jh   : add mt files
+  jan 23 2012  jh   : add getpde.cmd
+  jan 27 2912  jh   : add fmap_subs.for for dreger, mscut.c
+  feb 22 2012  jh   : add selectc.c, codaq_area
+  apr 08 2012  jh   : include norhyp in all dist.
+  apr 23 2012  pv   : remove jseisan.jar
+  may 11 2012  lo   : add norcsv
+  jun 5  2012  jh+pv: add seimeca and include files
+  nov 19 2012  jh   : add smap for Linux
+  jan 2, 2013  jh   : add gcf2msd_many
+  jan 10 2013  jh   : add chandef.inc
+  jan 28 2013  jh   : add afadseis.for, remove dirf.for
+  mar 08 2013  jh   : add sample_resp_correction.for
+  mar 19 2013  jh   : remove seisconf.cmd
+  apr 2  2013  jh   : add auto_proc.for
+  apr 15 2013  jh   : automag.for,asso.for,asso.def,cluster.def
+  apr 22 2013  jh   : plotmoment.for
+  may 02 2013  jh   : add plotml, dels
+  may 20 2013  jh   : add new crisis
+  may 20 2013  pv   : add PRO/rdseed2seisan
+  jun 18 2013  jh   : remove seisan.zip,seisan.exe,cripar.for,criatt.for
+                      eqrrsk.for,eqrsei.for,crisis99.txt,crisis99.pdf
+                      par files for cirisis99,criat,eqrisk
+  oct 14 2013 jh    : add plotspec
+  dec 09 2013 jh    : add merge_seisan.pl by frederik tilmann
+  jan 24 2014 jh    : add program isccsv2nor
+  mar 5 2014  jh    : add seisan_tutorial.pdF
+  2014-04-14 pv     : add program neiccsv2nor
+  sep 6 2014  jh    : add program getstressdrop
+  sep 8 2014  jh    : add qt libs and se.exe
+  oct 22 2014 jh    : add common.inc,box2.inc,box3.inc,hypinv_seisan,
+                      hypoinverse.pdf, remove hinor.for and old hypcom.. 
+                      include files for old hypoinverse
+  jan 15 2015 lo    : include nmsop_is11.7_seisan.pdf
+  mar 9  2015 jh    : fixed s-file names for REA
+  apr 2  2015 jh    : add vincenty_wgs84.for, get_stat.for
+  jun 3  2015 pv    : add seisan_logging.for
+  jul 27 2015 jh    : add qstat.for
+  oct 28 2015 jh    : add get_arc.for
+  dec 7  2015 pv    : add autoratio.for
+  dec 7  2015 pv    : add spec_amp.for
+  dec 20 2015 jh    : add seisan_subroutines.txt
+  dec 21 2015 tu    : add autophase and include files
+  jan 04 2016 jh    : remove jseisan.cmd
+  jan 20 2016 lo    : add plotpolarity, autoratio plotratio
+  mar 22 2016 lo    : removed various from SUP, also rdseed and msrepack
+                    : removed eqrisk
+  aug 10 2016 jh    : added compare.hyp
+  nov 30 2016 jh    : remove getpde
+  dec  1 2016 jh    : put in new dll for se in seisan 5.0
+  dec 13 2016 pv    : added network.c 
+  dec 29 2016 jh    : added sample_udp_message
+  jan 17 2017 jh    : add plotfoc, change names of fptfit programs
+                      and hash program
+  jun 03 2017 jh    : add mopad.py
+  nov 13 2017 jh    : add  rea_c.h and sample_read_write_s_c.cpp
+  nov 26 2017 jh    : include old focmec, remove seimeca etc
+  dec 08 2017 jh+pv : cleanup. removed dirf.for,getpde.jar,fortran miniseed 
+                      reading routines,files for jseisan,surface.pdf,
+                      rdseed.txt
+  dec 18 2017 jh    : add spectrogram.py
+  dec 22 2017 jh    : add map.for
+  jan 03 2018 jh    : add gridsearch.out
+  jan 11 2018 jh    : remove spec_amp, make_tt
+  jan 18 2018 jh,lo : add mapg, spectrogram.py
+  jan 22 2018 jh    : add codaq_area.inp, remove seisan_subroutines.txt
+  feb 7  2018 jh    : add wget.exe for windows, get_web_locations.c
+
+PRO                           : Program directory
+
+   afadsei.for                : Converts afad acc. to mseed
+   ahsei.for                  : Converts ah ascii to seisan
+   append.for                 : Append seismic traces
+   arc_del.for                : Delete ARC lines from s-file
+p  arcsei.for                 : Extract data from Reftek archive
+   ascsei.for                 : simple ascii to seisan
+   asso.for                   : Associate events, for hazard
+   associ.for                 : Associate events near in time
+   auto.for                   : Driver program for AUTOPIC
+   avq.for                    : Average q-relations
+   autopic.for                : Automatic phase picking, called by EEV and AUTO
+   automag.for                ! Auto ml and and mw
+   autophase.c                ! Lomax pick routine
+   autosig.for                : Automatic processing
+   autoratio.for              : Compute time domain and spectral amp ratios
+   autoreg.for                : Automatic registration of waveform files
+   base.for                   : Get content of SEISAN data bases
+   bouch.for                  : Bouchon modelling program
+   bousei.for                 : Makes waveform files from BOUCH output files
+   bul.for                    : Bulletin program
+   bvalue.for                 : b-value calculation
+   cat_aga.for                : Reorder catalogs after agency
+   catstat.for                : Catalog statistics
+   check.for                  : Check completeness of seisan distribution
+   change_mag.for             : Change database to isapei magnitude type
+   checkre.for                : Checks a CAT file
+   check_base.for             : Checks data base
+   citsei.for                 : City shark to seisan
+   cluster.for                : Cluster check
+pb cnvssa.exe                 : Kinemetrics SSA format to kinemetrics dataseis 
+pb cnvssr.exe                 : Kinemetrics SSR format  to kinemetrics dataseis
+   codaq.for                  : Calculation of coda q
+   codaq_area.for             : Calculation of coda q by area
+   collect.for                : Extraction of events from data base 
+   compare_hyp.for            : Compare catalogs to find differences
+   condet.for                 : Event detection on continuous data
+   connoi.for                 : make noise curvves
+   congap.for                 : Determine completeness of continuous data
+   corr.for                   : Trace correlation
+   database2mseed.for         : make mseed files from  data base
+   delf.for                   : Delete events
+   dels.for                   : Delete content in S-file 
+   drsei.for                  : Conversion from Sprengnether to SEISAN 
+   dimassei.for               : convert dimas format to seisan
+   dirf.c                     : Make a numbered list of files
+   edrnor.for                 : Convert USGS EDR formatted files to Nordic 
+   eev.for                    : Single EEV program
+   epimap.for                 : Plotting of epicenter
+   evanoi.for                 ! evaluate noise spectra
+   exfilter.for               : Filter a catalog for explosions
+   fk.for                     : FK program
+   fkrprog_seisan.for         : Dreger greens function
+   foc.for                    : Plots and manipulates fault plane solutions
+   focmec.for                 : Fault plane solution
+   focmec_old.for             : Old ----, before 2017
+   focmec_exe.for             : Original FOCMEC program
+   focmec_exe_old.for         : Old ----- before 2017
+   fpfit.for                  : Driver for fpfit 
+   fpfit_org.for              : Original fpfit modified
+   get_arc.for                : Extract wav files from a seiscomp archive
+   get_web_locations.c        : Extract locations from data centers
+   get_stat.for               : Get coordinates of a station
+   get_wav.for                : Get waveform files from data base
+   giisei.for                 : Geophysical Institute of Israel wav to SEISAN
+   giinor.for                 : --------------------- bulletin files to Nordic
+   getstressdrop.c            : Extract stress drop from s-files
+   gmap.for                   : put epicenters on google map
+   gmtxy                      : gmt script for gmt xy-plots
+   gseresp.for                : Convers gse response files to seisan
+   gseresp2seed.for           : Conv. gse resp. to dataless SEED using gse2seed
+   gsrsei.for                 : GeoSys GBV recorders to seisan
+   gursei.for                 : Guralp to Seisan
+   gcf2msd_many.for           : Many Guralp to miniseed using gcf2msd 
+   harnor.for                 : Harvard fps to nordic
+   hash.for                   : Hash fault plane sol. program, a bit changed
+   herrman.for                : Driver program to run Herrmann modeling program
+   hersei.for                 : Makes waveform files from Herrmann output
+   hinnor.for                 : Hypoinverse archival format to Nordic format
+   hspec8.for                 : Herrmann modeling program
+   hsumnor.for                : Hypo summary to seisan format
+   hyp.for                    : Hypocenter location program
+   hypinv.for                 : Main program for Hypoinverse
+   hypinv_seisan.for          : Driver program for hypoinverse
+   hyp_isc.for                : ISC location program
+   hypnor.for                 : Converts from HYPO71 to nordic format 
+   hypo71.for                 : Program to run Hypo71 with Seisan
+   hypo71exe.for              : Hypo71 location program
+pb icudt54.dll                : For se                                          
+pb icuin54.dll                                                           
+pb icuuc54.dll                                                           
+   iasp.for                   : Generating traveltimes from IASPEI91 tables   
+   invrad.for                 : Inversion of amplitudes
+   irisei.for                 : Iris to SEISAN
+   isccsv2nor.for             : Convert isc csv to nordic format
+   iscnor.for                 : Converting ISC readings to Nordic format
+   isfnor.for                 : Nordic to and from ISF
+   iscsta.for                 : ISC station list to SEISAN station list
+   ismsei.cpp                 : ISMES to SEISAN
+pb ismsei.exe                 : ISMES to SEISAN, executable
+p  k2sei.for                  : Kinemetrics K2 to seisan
+   kacsei.for                 : Kinemetrics ascii film record to seisan
+   kinnor.for                 : Kinemetrics readins to Nordic
+   kinsei.for                 : Kinemetrics dataseis to SEISAN
+pb kw2asc32.exe               : Kinemetrics K2 to ascii, Kinemetrics program
+   leesei.for                 : Willy Lee to SEISAN format, version 6 
+pb lenpcq.exe                 : From some Lennarts format to PCEQ, DOS version
+   lensei.for                 : Lennartz ascii to seisan
+pb libgcc_s_dw2-1.dll         : For SE
+pb libgfortran-3.dll
+pb libstdc++-6.dll                                                       
+pb libquadmath-0.dll
+pb libwinpthread-1.dll                                                   
+   lsq.for                    : Simple least squares program
+   Makefile                   : compile and link all programs
+   macromap.for               : Make macroseismic map
+   macroin.for                : Macroseismic input, for EEV
+   mag.for                    : Magnitudes
+   mag2.for                   : Ml inversion
+   magstat.for                : Statisitcs for Ml inversion
+   m88sei.for                 : Converting from Lenartz Mars88 to Seisan
+   mech.for                   : For Herrmann modelling
+   makehin.for                : Help program for Hypoinverse in Seisan
+   makerea.for                : Make REA directory structure
+   map.for                    : Epimap without questions
+   mapg.for                   : GMT map without questions
+   merge_seisan.pl            : Script to merge SEISAN catalogs and more
+   mopad.py                   : Plot moment tensor solutions
+   mscut.c                    : Cut miniseed files
+   mulplt.for                 : Plotting trace data
+   nansei.for                 : Nanometrics to seisan
+   neiccsv2nor.for            : Convert NEIC csv to nordic format
+   neisei.for                 : NEIS CDrom  waveform data to SEISAN 
+   neweve.for                 : Entry of data for an S-file
+pb nmxb32n.dll                : DLL for PC y5dump
+pb nmxq32n.dll                : DLL for PC y5dump
+   norcsv.for                 : Nordic to csv format
+   norgse.for                 : GSE parameters to Nordic format
+   norhin.for                 : Nordic to Hypoinverse format
+   norhead.for                : Makes a compact file from a CAT file
+   norims.for                 : Nordic to and from IMS1.0
+   norhyp.for                 : Nordic to hypo71 format
+   nor2dd.for                 : Prepare input for double difference loc
+   nor2jhd_pujol.for          : Prepare input for Pujol JHD program
+   nor2simulps.for            : Conversion Nordic to simulps
+   nor2simulr.for             : Conversion Nordic to simulr
+   nrwsei.for                 : Geol. Sur. Westphalia to SEISAN wav
+p  pcqsei.for                 : From PCEQ format to SEISAN 
+   os9sei.for                 : From os9 to seisan
+   p_align.for                : Time shifts traces
+   pdasei.for                 : Convert PDAS files to SEISAN files
+   pdenor.for                 : PDE bulletin format to Nordic format
+   pfit.for                   : Plane wave method
+   pinv.for                   : P-plarity inversion
+   plotpolarity.for           : Plot traces with polarities
+   plotratio.for              : Plot restuls from autoratio
+   pr_resp.for                : Print out response files
+   presp.for                  : Plot repsonse files
+   psnsei.for                 : From public seismic network format to SEISAN
+   plotfoc.for                : Plot focal mechanism
+   plotml.for                 : Plot ml as a function of distance
+   plotmoment.for             : Plot moment as a function of time
+   plotspec.for               : Plot spectral fits from automa
+   qlg.for                    : QLg inversion
+   qstat.for                  : Plot codaq statistics
+   qnxsei.for                 : Seislog QNX to SEISAN
+pb Qt5Core.dll                : Qt libraries                                   
+pb Qt5Concurrent.dll
+pb Qt5Gui.dll                                                           
+pb Qt5Network.dll                                                        
+pb Qt5PrintSupport.dll                                                   
+pb Qt5Widgets.dll       
+pb qjpeg4.dll                 : ------, in subdir s:imageformats
+pb qwindows.dll               : ------, in subdir s:platforms
+   remodl.for                 : Make IASP91 tables, step 1
+   report.for                 : Program to make reports of parameters
+   resamp.for                 : Resample waweform files
+   resp.for                   : Response calculation
+   rdseed_many.for            : Chop SEED files using rdseed
+   rdseed2seisan.for          : Used to get rdseed RESP and station list into SEISAN
+   rhfoc10.for                : For Herrmann modelling
+   rhwvinta.for               : For Herrmann modelling
+   rmsdep.for                 : Finds RMS as a function of hypocentral depth
+   rsanor.for                 : Granada digital data to seisan
+   rsasei.for                 : Granada digital data to seisan
+   s89sei.for                 : From SEIS89 to SEISAN
+   sacsei.for                 : From SAC to SEISAN
+   sample_graphics.for        : Sample program for graphics
+   sample_resp_correction.for : Sample program to correct for response and pick amp
+   sample_read_arc.for        : Sample program to read archives in cont. mode
+   sample_read_cont.for       : Sample program to read cont. seisan waveforms 
+   sample_read_write_seed.for : Sample program to read a Seed file
+   sample_read_wav.for        : Sample program for reading SEISAN wav-files
+   sample_write_wav.for       : Sample program for writing SEISAN wav-files
+   sample_udp_message.for     : Sample program for sending UDP messages between progs.
+   sample_read_write_s.for    : Sample program for reading and writing S-files
+   sample_read_write_s_c.cpp  : Sample program for reading and writing S-files in c
+ b sformat.jar                : Read and check seisan wav file
+pb se.exe                     : SeisanExplorer for Windows
+   seedresp2gse.for           : SEED response file to GSE response file
+   sei2048.c                  : adds 2048 spaces to file/stdout
+   sei2psxy.for               : Convert SEISAN files to psxy time trace
+   seiasc.for                 : Converting SEISAN files to/from ascii 
+   seibinasc.pl               : Perl script to read SEISAN waveform files
+   seicut.for                 : Cut out part of waveform file
+   seidel.for                 : Split a waveform file in 2
+   seigmt.for                 : SEISAN to GMT
+   seim88a.for                : From SEISAN to Mars88 ascii
+ b seis2viewer.jar            : Plots eqs on map, by Ruben
+sb seisan2mseed               : Seisan to mseed, solaris
+lb seisan2mseed               : Seisan to mseed,  linux
+pb seisan2mseed.exe           : Seisan to mseed,  pc
+   seisaf.for                 : Seisan to SESAME ascii
+   seisei.for                 : Merging and splitting SEISAN files
+   seipitsa.for               : Making ascii files from SEISAN binary
+   select.for                 : Selection of events
+   selectc.c                  : Selection of text in events
+   selmap.for                 : Select out part of map files
+   selsei.for                 : Search waveform files headers for a station 
+   setbrn.for                 : Generate IASP91, tables, step 2
+   silsei.for                 : Conversion, SIL ASCII to SEISAN
+   slick.c                    : Slick inversion, michels program
+   sgrsei.for                 : SeisGram to Seisan
+p  sudsei.for                 : PCSUDS to SEISAN
+pb sud2asc.exe                : SUDSPC to ascii, used with SUDSEI
+   swarm.for                  : Find swarms
+   sissei.for                 : Convert from Sismalp to SEISAN
+   spec.for                   : Spectral analysis
+   spectrogram.py             : making spectrogram 
+   split.for                  : Splitting of a Nordic file
+   stasei.for                 : Convert USGS station list to SEISAN
+   statis.for                 : Event statistics
+   statstat.for               : Station-event statistics
+   tersei.for                 : Terra ASCII to SEISAN 
+   tdmt_invc_seisan.c         : Greger mt inversion
+   trace_plot.for             : Program to produce trace plots with GMT
+   tsig.for                   : Program to make test signals
+   ttlayer.for                : Calculation of travel time curves
+   ttlocal.for                : Calculate local travel times
+   ttplot.for                 : Plot travel times
+   ttim.for                   : Interactivly calculate IASP91 travel times
+   update.for                 : Update date base with locations
+   upd.for                    : ---------------- without relocating
+   usgsnor.for                : USGS CDroM hypocenters to Nordic
+   velest.for                 : Travel time inversion
+   velmenu.for                : For VELEST
+   volcstat.for               : Produce GMT plots for volcanic events
+   wavfullname.for            : Print full path for waveform file
+   wadati.for                 : Make Wadati calcualtion for Vp/Vs
+   wad_plot.for               : Plot results from Wadati
+   wavfix.for                 : Fix headers in waweform files
+   wavetool.for               : Convert, extract and modify waveform data
+pb wget.exe                   : Web tool for windows
+   wgssei.for                 : wgsn format to SEISAN format
+   wkbj.for                   : Main driver WKBJ modelling program
+   wkbj_or.for                : Original WKBJ program
+   wgssei.for                 : wgsn format to SEISAN format
+   wkbj.for                   : Main driver WKBJ modelling program
+   volcstat.for               : Produce GMT plots for volcanic events
+   wavfullname.for            : Print full path for waveform file
+   wadati.for                 : Make Wadati calcualtion for Vp/Vs
+   wad_plot.for               : Plot results from Wadati
+   wvint_seisan.for           : mt, convert from freq. to time+filter
+   xclust.for                 : Cluster analysis, used with corr output
+pb y5dump.exe                 : Nanometrics program
+
+
+INC                           : Include files
+
+   arcsei.inc                 : include for arcsei
+   autosig.inc                : for AUTOSIG
+   box2.inc                   : For hypoinverse
+   box3.inc                   : For hypoinverse
+   codeco_common.f            : Codeco include file
+   common.inc                 : For hypoinverse
+   continuous.inc             : Continous data
+   chandef.inc                : for gursei
+   dislin.h                   : For dislin on windows
+   epimap.inc                 : Epimap
+   ew_bridge.h                : for autophase
+   FilterPicker5.h            : for autophase
+   FilterPicker5_Memory.h     : for autophase
+   FOCMEC.INC                 : include file for focmec_exe_sub.for
+   gmt_xy_par.inc             : For gmt routines in xy-plots
+   hypparm.inc                : HYP (Hypocenter) main dimensions
+   iscloc.h                   : For isc location program
+   iscloc_jb_model.h          : ------------------------
+   iscloc_jb_tables.h         : ------------------------
+   isf_bul.h                  : Include file for isc_isf.for
+   isfnor.inc                 : for isfnor
+   libmseed.h                 : For libmseed
+   lmplatform.h               : For libmseed
+   libsei.inc                 : Many programs, file handeling
+   limits.inc                 : REMODL etc IASP91
+   mbn.inc                    : used for mbn computation
+   mulplt.inc                 : For mulplt
+   noise.inc                  : for connoi
+   nrutil.h                   : For dreger mt
+   packdata.h                 : For libmseed
+   PickData.h                 : for autophase
+   qlg.inc                    : For qlg
+   packdata.h                 : For dreger mt
+   rea.inc                    : Include for rea.for
+   rea2.inc                   : Include for rea2.for
+   rea_c.h                    : For c-routines for reading s-files
+   resp.inc                   : For resp routintes
+   seed.inc.f                 : For SEED reading, user routines
+   seed_internal.inc.f        : SEED reading, internal routines
+   seidim.inc                 : Many progrms, SEISAN dimensions
+   seiplot.inc                : All graphics programs
+   seisan.inc                 : General SEISAN
+   steimdata.h                : For libmseed
+   symbol.inc                 : For symbols, SEIPLOT
+   tdmt_invb.h                : For tdmt_invc program
+   trace_plot.inc             : Include for trace_plot.for
+   ttlim.inc                  : TTIM   
+   unpackdata.h               : For libmseed
+   vel_com.f                  : For VELEST
+   version.inc                : Version settings
+   waveform.inc               : Waveform structure
+
+
+LIB  The  LIB directory containing subroutines
+
+   abstim.for                 : time calcualtions
+   auto_tr.for                : Finds waveform files in S-file
+   auto_amp.for               : Automatic amplitiude
+   auto_proc.for              : Processing routines for autosig+mulplt
+   autocoda.for               : Automatic coda determination
+   autofil.for                : Finds S-file name
+   azibazi.for                : Calculates azimuths  
+   bcd.for                    : decode bytes
+   bndpas.for                 : Band pass filter
+   check_s.for                : Checks an S-file
+   codecoutil.for             : Codeco utility routines
+   compdecomp.for             : Compression and decompression routines
+   comp_linux.for             : Computer dependent routines for Linux
+   comp_sun.for               : Computer dependent routines on Sun
+   comp_pc.for                : Computer type on PC
+   componen.for               : Convert component notation
+   conv_def.for               : Routines for conversion programs 
+   delip.for                  : IDC error ellipse routine
+ b dismg.a                    : Library for DISLIN, windows
+   eev_sub.for                : Subroutines for eev
+   err_ellipse.for            : Used with norgse
+   fft.for                    : Fast Fourier transform 
+   filename.for               : Reads a filenr.lis file
+   findchan.for               : Finds a channel in a waveform file
+   findevin.for               : Position pointer in INDEX file or directory
+   focmec_exe_sub.for         : Routines used to compile original FOCMEC
+   fmap_subs.for              : For Dreger mt
+   ga_lib.for                 : Genetic algorithm routines
+   general.for                : Different routines
+   get_baz.for                : Finds station backazimuths
+   gmt.for                    : For making gmt input files  
+   gmap_sub.for               : For gmap
+   gsesei_lib.for             : GSE to Seisan routines
+   gserespl.for               : Resonse routines for GSE
+   gse_io.for                 : Codeco GSE I/O routines
+   guralp.for                 : Routines for reding gcf files
+   hypoloc.for                : Routines for HYP (Hypocenter) 
+   hypoloc1.for               : Routines for HYP (Hypocneter)
+   hypmain.for                : main subroutine for HYP
+   hypmbn.for                 ! used for mbn computation
+   hyposub1.for               : ------------------------------------- 
+   hyposub2.for               : -------------------------------------
+   hyposub3.for               : ------------------------------------- 
+   hyposub4.for               : -------------------------------------
+   hyposub6.for               : -------------------------------------
+   hypo71sub.for              : subroutines used in hypo71
+   inc_id.for                 : Id increment for S-file name
+   indata.for                 : Reads one event in Nordic format 
+   iscloc.c                   : ISC location program
+   iscloc_id_jb.c             : For iscloc
+   iscloc_utils.c             : For iscloc
+   iscloc_wrap.for            : iscloc fortran interface
+   isf_isc.for                : Routines for isf format
+   isfnor_lib.for             : ----------------------
+   lgstr.for                  : used by sacsubf.for
+   libsei.for                 : File I/O
+   libmseed.c                 : Chads miniseed routines
+   lsqlin.for                 : Linear least squares
+   Makefile                   : Compile files
+   maglib.for                 : ?????
+   make_hypoc_brief.for       : make summary output format
+   maxlik.for                 : Maximum likelihood least squares
+   mb_att.for                 : used with norgse
+   merge_f.for                : Merges two events in Nordic format 
+   mfhead.for                 : Make one seisan header
+   mul_spec.for               : Spectral routines for MULPLT
+   network.c                  : send udp message 
+   nortype.for                : Find if file is S-file or compact
+   picsub.for                 : Routines for MULPLT
+   plot_foc.for               : Plot fps routines
+   polos.for                  : Finds points inside a polygon
+   random.for                 : Random number generator
+   rea.for                    : S-file reading and writing routines
+   rea2.for                   : S-file reading and writing routines
+   quarrycheck.for            : BGS routine to check for quarries
+   recfil.for                 : Filter routines
+   removedc.for               : Removes DC 
+   respfil.c                  : Read response file
+   sacsei_lib.for             : Sac - Seisan routines
+   sacsubf.for                : SAC reading and writing routines
+   sei_mes.for                : Sends messages between programs
+   seisan_logging.for         : Logging routines
+   seiplot.for                : Plotting routines
+   seis_sub.c                 : Seisan c-routines
+   seisanarch.c               : Read archives
+   seismseed.c                ! Implemetation of chads seed reading
+   seisinc.for                : Read a SEISAN waveform file
+   sfil.c                     : Finds files in a directory, unix only 
+   sfilname.for               : Makes the S-file name
+   shead.for                  : Makes one SEISAN wav header
+   sheads.for                 : Makes all seisan wav headers
+   sig_spec.for               : Signal processing routines
+   spec_dist.for              : calculates geometrical spreading
+   spectrogram.for            : spectrogram calculation
+   svd.for                    : singular value decomposition routines
+   stat_loc.for               : Finds a station in STATION0.HYP file
+   syntsel.for                : Joins synthetic data from WKBJ and real data
+   sys_resp.for               : Response routines
+   systime.for                : Gets system time
+   swap.for                   : Byte swapping
+   tau.for                    : For iasp91 traveltime calculations
+   text_sort.for              : Sort text strin and give numerical order
+   timerout.for               : Time conversion routines
+   volcano.for                : processing of volcanic data
+   vincenty_wgs84.for         :
+   wave.for                   : Waveform handling routines
+   dislinplot.for             : Windows graphics routines
+   xy_plot.for                : Makes xy plots
+   xlib.c                     : Graphics for X
+   xget_screen_size_pc.c      : get screen size on pc
+   xget_screen_size_unix.c    : ------------------ on X
+
+
+COM                           : The COM  directory  contains  command  files. 
+
+   SEISAN.csh                 : File to source to get paths etc to SEISAN      
+   SEISAN.bash                : .............paths to SEISAN in bash shell      
+   ca.bat                     : Change to directory CAL
+   co.bat                     : Change to directory COM
+   da.bat                     : Change to directory DAT
+   ic.bat                     : Change to directory INC
+   in.bat                     : Change to directory INF
+   is.bat                     : Change to directory ISO
+   li.bat                     : Change to directory LIB
+   pr.bat                     : Change to directory PRO
+   re.bat                     : Change to directory REA
+   seisanpr.bat               : Print command 
+   sformat.cmd                : To run sformat on pc
+   wa.bat                     : Change to directory WAV
+   wo.bat                     : Change to directory WOR
+   smap.cmd                   : To run seis2viewer on PC
+   smap                       : -------------------- Linux
+
+
+DAT                           : This directory contains fixed data files. 
+
+   ARCSEI.DEF         j       : Parameter inout file for arcsei
+   AUTOPIC.INP                : Parameter input file for Autopic  
+   autosig.par                : Parameter input file for AUTOSIG
+   asso.def                   : Parmeter file for ASSO
+   azores.xyz                 : Input for seis2viewer.jar, Plots eqs on map
+   BUL.INP                    : Front page and layout for BUL program
+   COLOR.DEF                  : Color definitions
+   cluster.def                : Parameter file for CLUSTER
+   codaq_area.inp             : Parameter file for coda_area
+   EEV.HLP                    : Help file for EEV
+   europe.xyz                 : Input for seis2viewer.jar, Plots eqs on map
+   EUROPE.MAP                 : Europe map
+   EXFILTER.PAR               : Parameters for exfilter program
+   gsesei.def                 : parameter file for GSE codes
+   getPDE.xml                 : parameter file for getPDE.jar
+   gmap-automatic.kml         : Example of gmap in automatic mode
+   gridsearch.out             : Example of contour file
+   mbn.par                    : Parameter file for MN calculation
+   MODEL.DEF                  : Def of model indicator in station filename
+   MULPLT.DEF                 : Default stations, etc to use with MULPLT
+   MULPLT.HLP                 : MULPLT help file
+   SEISAN.DEF                 : Definitions for SEISAN
+   STATION0.HYP               : Station-model file for HYP and EPIMAP
+   RTU.INI            j       : Init file for rt_seis
+   VOLCANO.DEF                : Volcano definitions
+   WORLD.MAP                  : World map
+   codaq.inp                  : Test input file for CODAQ program
+   codaq.par                  : Test parameter file for CODAQ program
+   condet.par                 : Test parameter file to condet
+   congap.par                 : Test parameter file to congap
+   corr.inp                   : Test parameter file to corr
+   drsei.def                  : drsei definition file
+   FOCMEC.DEF                 : Parameter file for focmec
+   IASP.DEF                   : Definition of phases to calculate with iasp
+pb iasp91_windows.hed         : Travel time tables for distant phases, binary 
+pb iasp91_windows.tbl         : Travel time tables for distant phases, binary 
+sb IASP91_sun.HED             : Travel time tables for distant phases, binary 
+sb IASP91_sun.TBL             : Travel time tables for distant phases, binary 
+lb IASP91_linux.HED           : Travel time tables for distant phases, binary 
+lb IASP91_linux.TBL           : Travel time tables for distant phases, binary 
+Lb IASP91_linux.HED           : ........ for distant phases, binary 64 bit
+Lb IASP91_linux.TBL           : ........ for distant phases, binary 64 bit
+   h_models.par               : Input parameter file for  HYP multi model
+   iscloc.def                 : Parameter file for isc location program
+   isomodel.par               : attenuation model parameters (examples)
+   k2sei.def                  : k2sei definition file
+   mag.par                    : Example parameter file for MAG
+   mag2.par                   : Example parameter file for MAG2
+   mag2nor.cat                : Example data file for MAG2
+   m88sei.def                 : Example of conversion program definition file
+   postal_code.dat            : Example of postal code file for macromap
+   place_names.macro          : Example of place names file for various programs
+   qlg.par                    : Input for qlg
+   sacsei.def                 : Definition file for sacsei
+   seis2viewer.def            : Input for seis2viewer.jar, Plots eqs on map
+   spec.par                   : parameter file for SPEC
+   spec.inp                   : ----------------------
+   statis.def                 : Example parameter file for statis
+   xclust.par                 : parameter file for xclust
+   trace_plot.par             : Input for trace_plot
+   wavfix.def                 : Definition file for wavfix
+   pitsa.cfg                  : Pitsa configuration file
+   8X11_landscape.PS          : Used for making hardcopies with pitsa
+   8X11_landscape_bold.PS     : -------------------------------------
+   annealing.cfg              : for moment magnitude
+   kirnos_d.cal               : for magnitude determination
+   woodande.cal               : ---------------------------
+   wwssn_lp.cal               : ---------------------------
+   wwssn_sp.cal               : ---------------------------
+
+INF             This directory has information files
+
+ b CRISIS2008Manual.pdf       : Crisis 2008/2012 manual
+   ebel.txt                   : original ebel manual
+ b epi.pdf                    : Epicenter location notes
+ b focmec.pdf                 : Focmec manual from Snoke
+ b fpfit.pdf                  : Fpfit manual
+   gmtxy.txt                  : Gmtxy manual
+ b hash.pdf                   : HASH manual
+ b hypocent.pdf               : The old HYP manual
+ b hypocent_new.pdf           : Latest changes to hypocenter
+ b hypoinverse.pdf            : Hypoinverse manual
+   invrad.txt                 : Info on invrad program
+ b iscloc_docs.tar.gz         : Info on ISC location program in html format
+ b Kissling-1988.pdf          : Article on travel time inversion
+ b Kissling-1994.pdf          : Article on travel time inversion
+ b nmsop_is11.7_seisan.pdf    : Illustration of earthquake processing
+ b mt_dreger.pdf              : Dregers mt tutorial
+   readme_macosx.txt          ! Additional macosx instructions
+   rdseed.txt                 : rdseed manual
+   seisan.all                 : List of this file
+ b seisan_seed.doc            : Seed reading in SEISAN
+ b seisan.pdf                 : Seisan manual, pdf format
+ b seisan-tutorial.pdf        : A tutorial for SEISAN
+ b seitrain.pdf               : SEISAN training course 
+ b velest.pdf                 : Velest info
+ b promac.pdf                 : Promac Manual   
+ b surface.pdf                : Surface wave analysis
+
+
+SUP
+
+pb crisis99.zip               : Windows crisis99
+pb degtra.exe                 : Windows eng. software
+pb promac.zip                 : PROMAC distribution
+ b se-source.tar.gz           : SE source code
+pb SetupCRISIS2012.msi        : Crisis 2012
+pb velest_pc_3.3.zip          : Velest for PC
+pb w_emap.exe                 : Windows map plotting program, version 4.8.2
+ b dataselect-3.17.tar.gz     : IRIS dataselect software
+       
+        
+PIC
+
+ b no-eqs.gif                 : picture example on pp command in eev see 03-1955-40D.S199606
+
+
+WAV
+
+ b 1996-06-03-2002-18S.TEST__012
+ b 1996-06-03-1917-52S.TEST__002
+ b 1996-06-25-0337-20S.NNSN__039
+
+CAL
+
+   TRO__S__Z.1993-08-06-1200
+   KONO_BV_Z.1991-06-24-1800
+   KONO_L__Z.1991-06-24-1800
+   HYA__S__Z.1994-02-09-1200
+
+REA
+
+   03-1955-35D.S199606
+   25-0337-32L.S199606
+
+

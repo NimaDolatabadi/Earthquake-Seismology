@@ -1,0 +1,25 @@
+This file contain the definitions of phases to be used when calculating
+synthetic phases to be plotted with mulplt. There is one phase pr line
+and each phase is preceeded with the keyword IASP-PHASE. Only lines with this
+keyword will be read. The defined phase then follows in column 13 to 20.
+If no phases are defined, all ISPEI91 phases will be used.
+
+Phase ID    Phase---
+--------------------
+IASP-PHASE  P
+IASP-PHASE  PP
+IASP-PHASE  PPP
+IASP-PHASE  PKP
+IASP-PHASE  pP
+IASP-PHASE  sP
+IASP_PHASE  PcP
+IASP-PHASE  S
+IASP-PHASE  SS
+IASP-PHASE  SSS
+IASP-PHASE  SKS
+IASP-PHASE  ScS
+IASP-PHASE  PS
+IASP-PHASE  SP
+IASP-PHASE  ScP
+IASP-PHASE
+IASP-PHASE

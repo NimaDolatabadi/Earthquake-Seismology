@@ -1,0 +1,124 @@
+
+#
+# autosig.par: autosig input parameter file, comments can be added to this file,
+#              but the comments must not match a KEYWORD 
+#
+
+KEYWORD............Comments.............Par 1.....Par 2
+
+#
+# spectral parameters
+#
+SPECTRAL S-Q0      Q0                   440.0
+SPECTRAL P-Q0      Q0                   85.0
+SPECTRAL S-QALPHA  Q = Q0**Qalpha       0.70
+SPECTRAL P-QALPHA  Q = Q0**Qalpha       0.70
+SPECTRAL KAPPA                          0.02
+SPECTRAL P-VELOCITY P velocity          6.2
+SPECTRAL S-VELOCITY S velocity          3.6
+SPECTRAL DENSITY   Density              2.8
+
+#
+# auto signal processing parameters
+#
+REMOVE MEAN         1. for true         0.
+REMOVE TREND        1. for true         1.
+CHAR FUNCT          1. for true         1.
+K IN CHAR FUNCT     K IN X=Y^2+K*Y'^2.  3.
+STALTA NREC/REC     rec 0./ non-rec 1.  1. 
+STALTA SQUARE/ABS   square 1.           1.  
+AUTOCODA SQUARE/ABS square 1.           0.  
+AUTO PHASE          1. for true         0.
+                    only if no phase
+AUTO SPECTRUM       1. for true         1.
+AUTO AMPLITUDE      1. for true         1.
+AUTO LOCATE         1. for true         0.
+AUTO SPECTRUM       1. for true         1.
+NORM                                    1.
+SEARCH ALGORITHM    1.=GA 2.=GRID       2.
+
+#
+# window selection
+#
+SPECTRUM P LENGTH   in seconds          5.
+SPECTRUM S LENGTH   in seconds          2.
+SPECTRUM PRE LENGTH in seconds          .5
+GROUP VEL WINDOW P                      5.0       6.5
+GROUP VEL WINDOW S                      2.7       3.7
+SPECDURATION CHOICE 0:SPEC. P/S LEN.    1.
+                    1:GROUP VEL W. P/S
+
+#
+# select phase
+#
+SELECT PHASE        0:auto  P           2. 
+                    1:synth P 
+                    2:synth S  
+                    3:P from file only  
+                    4:S from file only 
+                    5:S or P from file
+     --- for 3-5, if no phase and AUTO PHASE is 1. use auto phase pick ---
+DIST FREQ SELECT                        1.        10.
+
+#
+# parameters used in the genetic algorithm searching for spectral parameters
+#
+GA POPULATION SIZE                      50.
+GA GENERATIONS                          250.
+
+#
+# grid dimension in case of grid search
+#
+GRID NLOOP                              5.
+NGRID FREQUENCY                         100.
+NGRID SPECTRAL AMP                      100.
+
+
+#
+# low filter limit to use for auto spectrum
+SEPCTRUM F LOW                          .05
+
+#
+# parameters controlling output 
+#
+CREATE WAVEOUT                          1. 
+SPEC OVERWRITE                          0.
+PHASE OVERWRITE                         0.
+
+#
+# station parameters
+#
+
+#       STAT- COMP -sta-- -lta-- -ratio mincod -dtrle fill filh
+STATION MOL   S  Z    3.0   20.0   10.0    2.5    1.5  5.0 10.0
+STATION MOL   B  Z    3.0   20.0   10.0    2.5    1.5  5.0 10.0
+STATION HYA   S  Z    3.0   20.0   10.0    2.5    1.5  5.0 10.0
+STATION LSA   L  Z    3.0   20.0   10.0   10.0 9999.0 00.1 10.1
+STATION CHTO  L  Z    3.0   20.0   10.0   10.0 9999.0 00.1 10.1
+STATION XAN   L  Z    3.0   20.0   10.0   10.0 9999.0 00.1 10.1
+STATION BJI   L  Z    3.0   20.0   10.0   10.0 9999.0 00.1 10.1
+STATION HIA   L  Z    3.0   20.0   10.0   10.0 9999.0 00.1 10.1
+STATION KEV   L  Z    3.0   20.0   10.0   10.0 9999.0 00.1 10.1
+STATION KBS   L00Z   10.0  400.0   10.0   10.0 9999.0 0.01  0.1
+STATION KBS   B00Z    3.0  100.0   10.0   10.0 9999.0  1.0  5.0
+STATION KONO  L00Z   10.0  400.0   10.0   10.0 9999.0 0.01  0.1
+STATION KONO  B00Z    3.0  100.0   10.0   10.0 9999.0  1.0  5.0
+STATION KONO  B10Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION KONO  BHZ     3.0  100.0   10.0    2.5    1.5  0.5  3.0
+STATION SUE   S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION LOF   S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION NSS   S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION NSS   B  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION TRO   S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION RUND  B  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION KTK1  S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION MOL   S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION BER   S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION EGD   S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION ASK   S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION KMY   S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION ODD1  S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION MOR8  S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION MOR8  B  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+STATION BLS5  S  Z    3.0  100.0   10.0    2.5    1.5  5.0 10.0
+

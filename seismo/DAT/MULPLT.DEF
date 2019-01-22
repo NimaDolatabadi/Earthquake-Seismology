@@ -1,0 +1,95 @@
+This file is for defaults for MULPLT and called MULPLT.DEF. The name must
+be in upper case on Linux. The following shows the parameters which can be set.
+The file can contain any lines in any order, only the lines with 
+recognized keywords and a non blank field under Par 1 will be read.  The two
+parameters are in column 41-50 and 51-60, repectively. The
+comments have no importance. Blank means default is used. The numbers in Par 1
+and Par 2 are always real numbers and anc be placed anywhere withing the 10 
+fields.
+
+KEYWORD............Comments.............Par 1.....Par 2
+
+*** Screen appearance ***
+
+X_SCREEN_SIZE      Size in pixels       90.0
+NCHAN PER SCREEN   # chan pr screen
+NSORT_DISTANCE     0: no, 1: yes 
+RESOLUTIONX        # points pl. screen  1500.0
+RESOLUTIONHC       # points pl. hc      3000.0
+PLOT DISTANCE      0: no 1: epi 2: hyp  1.0
+BANDPASS FILTER    Default filter       4.5       9.6   
+CHANNEL SORTING    Sort channels
+
+*** Channel selection ***
+
+#DEFAULT CHANNEL                         TRO       S  Z
+MULPLT AREA                             0.0
+MULPLT LAT LON                          60.0      5.0
+MULPLT RADIUS                           2.0
+MULPLT STAT                             BER
+
+*** Key assignments, see also filters for processing ***
+
+# Example of using 1 and 2 for P and S, uncomment to use
+#PHASE NAME KEY     Phase key and phase  1         IP                  
+#PHASE NAME KEY                          2         IS
+PHASE WEIGHT KEY   Weight key and weight                     
+PHASE MOUSE KEY    Mouse key character
+
+*** Filters for processing ***
+
+### Set Filter type 0 for bndpas 1 for recfil routine
+FILTER TYPE                             0.0
+FIX FILTER  Fix BANDPASS FILTER, 0, 1
+### Setup user-defined filters
+FILTER 1                                0.01      0.1
+FILTER 2                                0.1       1.0
+FILTER 3                                1.0       5.0
+FILTER 4                                5.0       10.0
+FILTER 5                                10.0      15.0
+FILTER 6                                15.0      25.0
+FILTER 7                                2.0       4.0
+
+*** Spectral analysis ***
+
+SPECTRAL Q0        Q0                   440.0 
+SPECTRAL QALPHA    Q = Q0**Qalpha       0.70 
+SPECTRAL KAPPA                            
+SPECTRAL P-VELOCITY P velocity          6.2 
+SPECTRAL S-VELOCITY S velocity          3.6
+SPECTRAL DENSITY   Density
+SPECTRAL MODEL      0 no 1 yes          1.0
+SPECTRAL OUTPUT   Makes a file          1.0
+SPECTRAL F-BAND   Spectral band to show 0.01      20.0
+
+*** Spectrogram ***
+
+SPECTROGRAM COMMAND                     spectrogram.py
+SPECTROGRAM WINDOW                      60.0
+SPECTROGRAM FILTER                      2.0
+SPECTROGRAM PLOT TRACE                  1.0
+
+*** Three component analysis ***
+
+3COMP VELOCITY     velocity for 3 comp  
+
+*** Magnitude ***
+
+AUTOCODA FILTER                         0.1       10.0
+AUTOCODA STA                            3.0
+AUTOCODA RATIO                          1.2
+CODA AUTO                               0.0 
+#ML LOW CUT AND POLES                    1.25      8.0
+#ML HIGH CUT AND POLES                   20.       8.0
+
+*** Auto processing ***
+
+AUTO_LOCATE        0,1,2       0,1,2    0.0       2.0
+AUTO_PROCESS       0,1,2       name     0.0       ls 
+
+*** Format of waveform output ***           
+
+MULPLT WAV OUT FORMAT  Output format    SEISAN
+
+
+
