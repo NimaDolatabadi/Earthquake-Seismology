@@ -1,0 +1,235 @@
+MULPLT has 3 modes:
+
+  multi trace mode:  Displaying many traces, some picking options
+  single trace mode: One trace, all picking options
+  all channel mode:  All channels for selected stations
+
+  
+Most commands are given by pressing one key, however several commands can 
+also be given by clicking in the appropriate menu box on top of the screen.
+If the full menu is not displayed, select the menu on top right part of the
+screen. The following commands are available, first given by the single 
+letter command and if also available as a mouse click, the letters in the 
+menu box is shown. COMMANDS ARE CASE SENSITIVE.
+
+Channel selection: In multitrace mode, one or several channels can be 
+selected by clicking on the station code. Several channels can be selected 
+by first clicking on first channel with left mouse button and then cliking 
+on last chanel with right mouse button.  If only one channel is selected, 
+and toggl (t) to single trace mode is done, a new toggl in single trace mode 
+will display all previous channels again.  For the channels selected in 
+multi channel mode, it is possible to change to single station 3-component 
+mode with y and back again with y. If all channels from all stations shown in
+multi trace mode are desired, press u, back again with u or y.
+From single channel mode it is also possible to go to all channel mode for that 
+station with y and back again with y.
+Two channels can be plotted on same trace with different colors. If the channel
+below is to be plotted on top the one above, the channel below is selected by putting cursor on
+channel and pressing & and then r for repolot.
+
+  
+Zooming:  Select a window with the mouse and a zoomed window
+          will appear below in single mode and replace the plot
+          in multi mode. In Single mode, it is also possible replot
+          the zoomed window in place of the original by placing the 
+          cursor above the trace when selecting the zoom window. This 
+          makes it possible to zoom in the zoomed window. In order to
+          go back to the original window in multi mode, do an opposite
+          zoom, meaning picking the last point first.
+		  
+a:        Read amplitude. Position cursor at the top of 
+          a wave and press a.  Position cursor at the 
+          bottom of the wave and press a. Amplitude(0-p) and 
+          period are now stored. These values will be stored 
+          with the NEXT phase pick. Amplitude and period are 
+          displayed.
+
+A:        Automatic amplitude reading, phase become AMP  or
+          read phase AMP but only after using a twice for reading amplitude.           
+
+b:        Filter 5-10 hz, see below
+
+B: Back   Go back one trace in single trace mode
+          From eev, multi: Go back one event
+          Continous data base: Go back one window
+
+c:        Read coda.
+
+C:        Read end of coda automatically
+
+d:        Delete phase. Position cursor near phase and press d.
+
+d: Del W: Delete waveform file(s), cursor outside area of trace plot, file(s)
+          must be in working directory, else no files displayed. If done
+          from EEV, only file names in S-file are deleted.
+
+D: Del S: Delete S-file if operated from EEV, multi mode
+
+e:        Phase E
+
+E:        Call external program (defined in MULPLT.DEF) to compute spectrogram.
+          Only in multi trace mode
+
+f: Next:  Single: Go to next channel
+          Multi, One event: Go to next event
+          multi, continous data base: Go to next window
+
+F: FK:    FK analysis of array data
+
+g: Groun: Make a ground motion seismogram(s).
+
+h: Azim:  Make 3 component analysis (single mode ONLY) to 
+          determine azimuth of arrival. Select a window around
+          the P-phase on the Z-component. Azimuth and apparent
+          velocity  will enter the S-file with the next phase
+          reading.
+
+i:        Phase I
+
+I: Iasp   Calculate IASPEI synthetic arrival times, which are then 
+          displayed, multitrace only. For teleseismic events
+          the IASP91 tables are used, while for local events
+          the model defined in STATION0.HYP is used.
+          If I is pressed again the synthetic arrivales are removed 
+          and the iasp.out file is deleted.
+
+j: mb:    Generate a synthetic SP seismogram for reading amplitudes
+          for determining mb.
+
+J: mB:    Generate a synthetic BB velocity seismogram for reading 
+          amplitudes for determining mB.
+
+k: Ms:    Generate a synthetic LP seismogram for reading amplitudes
+          for determining Ms.
+
+K: MS:    Generate a synthetic BB velocity seismogram for reading 
+          amplitudes for determining MS.
+
+l: Locat: Locate event, only multi trace mode
+
+m:        Filter 15-24 hz, see below
+
+M: Merge: Merge waveform file, mulplt called from EEV, only if files are
+          In working directory.
+
+n:        Filter 10- 15 hz, see below.
+ 
+N:        Toggle multiple windows to show all traces in one screen or
+          one of the multiple windows.
+
+o: Oth C: Select other channels 
+ 
+O: Out:   Makes an output waveform file of current
+          data on screen. Only multi mode. Response info not saved.
+          Standard name with YYYY_MM... is used, name is written in
+          text window.
+
+p: Regis: PUT (Register) event in database, you will be 
+          prompted for event type and waveform file will be copied
+          to WAV.
+
+P: PartM  Particle motion plot, requires the three components in 
+          multi trace plot
+
+q: Quit:  Quit program
+		  
+r: Plot:  Replot same event, useful when screen is cluttered 
+          up with e.g. many picks. Also used when a replot is
+          wanted with new parameters e.g. filter.
+
+R:        Change radius from epicenter or other selected point from
+          which to select stations.
+
+s: Spec   Make a spectrum, single mode ONLY. Press s, select 
+          window with cursor, answer questions and the spectrum 
+          will appear below with noise spectrum.
+
+s:        Make a spectrogram of all traces, multi trace mode only.
+
+S:        Same as s without the noise spectrum, singel trace.
+
+S:        Select station for area selection, only multi trace mode. 
+
+t: Toggl: Toggle between multi and single mode
+ 
+T: OutW:  Output file mulplt.wav of what is on screen
+ 
+u:        Same as 'y' with the difference that all components for all
+          stations are shown.
+
+U: Rotat: Rotate components. Backazimuth is calculated from location
+          in header or as a second option, taken from observed + azimuth
+          residual for respective station. R is plotted instead of N and
+          T instead of E. Combining 3 component option (h) with u, the
+          user is asked for the backazimuth angle.
+
+v:        Filter 1-5 Hz, see below.
+
+y: AllC:  Toggle to and from all channel mode. All channels are only
+          for one station, for more stations use 'u'.
+
+Y:        Pick a theoretical phase if displayed. Place cursor
+          where the phase might be. Press y and the program will
+          select nearest synthetic phase.
+
+w: WA:    Remove system response and display synthetic 
+          Wood-Anderson ground motion in nanometers (nm)
+          on next plot (using R or zoom).
+
+W: Oth W: Select other waveform file, same event
+
+z:        Filter 0.001 to 0.1, see below 
+x:        Filter 0.1 to 1.0 Hz, see below
+Z: <W>    Increase window length in plotting from a continous data base
+X: >W<    Decrease window lenght when plotting from a continous data base 
+ 
+>: Print: Will make a hardcopy of all channels of current event with
+          the last selected filter, only in multitrace mode.
+
+<:        Same as D
+
+*: Scale: Fixed scaling of trace amplitudes.
+
+Up and down arrows: Increase and decrease amplitude
+
+Horizontal arrows: Scroll
+
+_: Dist:  Select plotting channels in distance order.
+
+:  Resp:  Plot response file, single trace mode only.
+
+TAB: NextW: Next window if multiple windows
+
+Filter options: The fixed filters (4/8 pole Butterworth) are placed 
+on keys z,x,v,b,n,m with the following frequencies:
+
+z: 01-.1: 0.01 -  0.1 Hz  Pressing key once gives a 4 pole filter one way
+x: .1-1.: 0.10 -  1.0 Hz  Pressing the key twice, and the filter also
+v: 1 - 5:  1.0 -  5.0 Hz  go the other way and it is now an 8 pole filter.
+;  2 - 4:  2.0 -  4.0 Hz  
+b: 5-10 :  5.0 - 10.0 Hz  From menu, only 4 pole filters are used.
+n: 10-15: 10.0 - 15.0 Hz
+m: 15-23: 15.0 - 23.0 Hz
+
+.: Filt: Variable filter, question of filter limits is given in text 
+         window.
+,: FixF  Fix filter. If pressed aftrer selecting as filter, the filter 
+         remains fixed until pressing ',' again. 
+'        Variable filter also with number of poles
+&        Overlay, see in beginning of help section.
+Phase picking: This is possible in both modes. In Single mode, the phases
+               defined are shown on top with some of the options, while
+               they are not shown in Multi mode, but have the same 
+               definitions.
+
+Combining options: Note that you can select several options together. 
+               E.g. V and S will first filter the signal and then 
+               make the spectrum. 
+
+Saving observations: When you go to the next trace or another event (F),
+               the readings are saved in the S-file. They are also
+               saved when you pick the next trace in Multi mode. 
+
+               This is also true for spectral parameters and azimuth 
+               determination.
+                                                        jh 5-2-2018

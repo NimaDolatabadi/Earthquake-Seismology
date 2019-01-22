@@ -1,0 +1,59 @@
+% This is the parameterfile needed by program: --- PREPROCESS ---
+%
+% The following rules apply:
+% 1. All lines with % in the first column are comment lines
+% 2. Lines with a blank in column 1 are read for fixed parameters.
+% 3. All lines starting with "filter_x", where x is a number, 
+%    are read for filter variable parameters
+% 4. All lines with * in the first column are read for stations to process
+% 5. A breif explanation of all parameters is given in preprocess.inf
+%
+% FIXED PARAMETERS THAT ARE USED THROUGHOUT THE PROGRAM
+% ----------------------------------------------------------------------
+% Lwind Ishift Isigma Cohmin  Ndmin  Svelo  Nfilt   Crat   Lwin  Thres
+%     !      !      !      !      !      !      !      !      !      !
+% ----------------------------------------------------------------------
+    4.0   30.0   06.0    0.1    3.0   2.75    4.0    1.6   30.0    3.0
+%
+%
+% PARAMETERS THAT ARE FILTER DEPENDANT
+% ----------------------------------------------------------------------
+%Filter_nr    Window        F1        F2    Thrsh1    Thrsh2
+%        !         !         !         !         !         !         
+% ----------------------------------------------------------------------
+filter_1         0.8       2.0       4.0      2.30      3.0
+filter_2         0.6       5.0      10.0      2.30      3.00
+filter_3         0.4       8.0      16.0      2.30      3.00
+filter_4         2.0       0.5       2.0      4.0       5.0
+%
+%
+% STATIONS TO USE IN THE PROCESSING
+% ----------------------------------------------------------------------
+*SUE  S  Z 3 component
+*BER  S  Z
+*HYA  S  Z
+*KMY  S  Z 3 component
+*ODD1 S  Z 3 component
+*BLS5 S  Z 3 component
+*ESG  S  Z
+*EGD  S  Z
+*KTK1 S  Z 3 component
+*NSS  S  Z 3 component
+*MOL  S  Z 3 component
+*MOL  S  A 3 component
+*JNW  S  Z 
+*JNE  S  Z
+*FRO  S  Z
+*JMI  S  Z 3 component
+*ASK1 S  Z 3 component
+*ASK  S  Z 3 component
+*MOR7 S  Z 3 component 
+*MOR8 S  Z 3 component 
+*LOF  S  Z 3 component
+*LOF  A  Z 3 component
+*OSG  S  Z 3 component
+*TRO  S  Z 3 component
+*FOO  S  Z 3 component
+*ALVN S  Z 3 component
+*UGA  S  Z 3 component
+*ENT  A  Z 3 component 

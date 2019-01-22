@@ -1,0 +1,160 @@
+Notes on moment tensor inversion programs
+
+INVRAD.FOR
+INVDC.FOR
+SYNRAD.FOR
+
+by John E. Ebel, Dec., 1988.
+
+The above three programs were written in the summer of 1987 at the 
+Geophysical Institute of the University of Karlsruhe in West Germany to test 
+the idea that the amplitudes of the direct arrivals from small earthquakes 
+could be inverted for the source focal mechanism.  Each program performs a 
+different but related reduction of the input amplitude data, as follows:
+
+INVRAD.FOR - Inverts the direct P, SV and SH amplitudes to find a traceless 
+moment tensor using the generalized inverse method as outlined in Aki 
+& Richards.  The program finds the largest double-couple component of 
+the resulting traceless moment tensor by subtracting out a CLVD 
+component and then returns focal mechanism, seismic moment and error 
+information.  Since the amplitudes are directly proportional to the 
+moment tensor components, the inversion is non-iterative and is a least 
+squares solution if 5 or more amplitude readings are entered to solve for 
+the 5 independent moment-tensor components.
+
+INVDC.FOR - Inverts the direct P, SV and SH amplitudes to find the best 
+constrained double-couple solution for the data.  The generalized inverse 
+method as outlined in Aki and Richards is used.  Since the double-couple 
+formulation for the amplitudes is non-linear, the program needs a 
+starting focal mechanism (strike, dip and rake) and then attempts to 
+iteratively find the best-fitting focal mechanism solution based on the 
+data and the starting solution.  The best focal mechanism, seismic 
+moment and error information are listed.
+
+SYNRAD.FOR - Solves the forward problem of calculating the amplitudes of 
+direct P, SV and SH arrivals at selected stations given a focal mechanism 
+and seismic moment.  Amplitude data are entered, and the fit of the 
+predicted amplitudes to the observed amplitudes are calculated.
+
+In general, I use INVRAD to do initial inversions on the data, INVDC to see if 
+a somewhat better constrained double-couple solution can be found using 
+the solution from INVRAD as the starting solution, and SYNRAD to test any 
+additional poorer quality data which I may have.  Since INVRAD solves for a 
+moment tensor and then extracts a double-couple solution from that moment 
+tensor, the fit of the observed amplitudes to the predicted amplitudes from 
+double-couple solution is not as good as the fit of the observed amplitudes to 
+predicted amplitudes from least-squares moment tensor solution.  For events 
+with large CLVD components, differences in the amplitudes between the 
+observations and those predicted by the double-couple solution can be quite 
+large for individual data points.  The program INVDC was written to try to 
+improve the fits from INVRAD by constraining the solution to be a double 
+couple, although in my limited experience to date, I have found the 
+improvements to be quite minor.  The program SYNRAD was written to test 
+individual data points of questionable quality using solutions found from 
+INVRAD and INVDC.  Since INVRAD and INVDC give least-squares solutions 
+for 5 or more data points, one or two bad data points can badly throw off the 
+solution.  My practice so far, again with limited experience, has been to use 
+only amplitude readings of high confidence in initial runs using INVRAD and 
+INVDC, then to use the solutions from these programs in SYNRAD to test my 
+less confident amplitude readings.  All of the solutions in my paper on the 
+Black Forest earthquakes were found using INVRAD.
+
+Program assumptions
+
+A number of assumptions and simplifications are built into the present 
+versions of these programs.  First, the programs, as written, can only handle 
+direct P and S waves (upgoing) from the earthquake source.  All rays must 
+intercept all velocity discontinuities at pre-critical angles.  The subroutines 
+which calculate the ray path, such as PATHDEF and NEWTTME, were initially 
+programed with the idea in mind of allowing more complicated ray paths 
+(such as reflections, phase conversions, etc.), but that has not been completed 
+in this version of these programs.  Second, the programs as written correct 
+the ray amplitudes only for 1/R geometric spreading and not for anelastic 
+attenuation or for the proper transmission coefficients at velocity interfaces.  
+The first assumption should be acceptible in source areas of high Q.  If 
+reflected phases or converted phases are to be programed in, then the 
+proper reflection/transmission coefficients must be included.  Third, the 
+crustal model must have planar layers, but it is allowed to have vertical 
+velocity gradients within any or all of the layers.  The velocity model resides 
+in its own file where each line gives the depth (in km) and velocity (in 
+km/sec) for the top or bottom of a crustal layer, starting with the values at 
+the free surface.  The format for each line is 2F10.4.  A sample velocity 
+model is:
+
+		0.00		5.0
+		2.00		6.0
+		2.00		6.0
+		10.0		6.0
+		10.0		6.6
+		20.0		6.9
+		20.0		7.1
+		34.0		7.2
+		34.0		8.1
+
+This model has gradients in the top layer (5.0 km./sec to 6.0 km/sec over 2 
+km depth), then a constant velocity (6.0 km/sec) layer from 2 to 10 km.  At 
+10 km is a velocity discontinuity, with a jump from 6.0 km/sec to 6.6 
+km/sec.  Between 10 km and 20 km there is a velocity gradient from 6.6 
+km/sec to 6.9 km/sec.  At 20 km, the velocity jumps to 7.1 km/sec and from 
+there to 34 km there is a slight velocity gradient.  Finally, at 34 km the 
+velocity jumps from 7.2 km/sec to 8.1 km/sec.  The S-wave velocity 
+structure is assumed to be the same as the P-wave structure except for the 
+usual factor of 1.732.  Fourth, the parameter TAREA is the area of the 
+farfield time function, and this must either be known or assumed in order to 
+calculate correctly scaled theoretical amplitudes (TAREA scales the source 
+time function to unit area).  I have set it to .01 sec, which assumes 
+essentially a delta function as the source time function shape.  This is 
+probably a pretty good value for small earthquakes (less than about 2.2 or 
+so), but should be larger for larger events.  Changing the value of TAREA by 
+some factor C will change the theoretical (predicted) amplitudes for a given 
+seismic moment computed in the programs by 1/C.
+
+Program Notes
+
+1.  The number of amplitude readings is presently limited to 50 by the 
+dimensions in the main programs.  Also, the maximum number of layers 
+which can be traversed by a ray is limited to 50 by the dimensions in the 
+main programs.
+
+2.  The programs were originally written on an HP-1000 computer where the 
+screen read and write units were 1.  These versions were modified for a VAX 
+VMS machine where the read and write units are 5.  You can modify these if 
+need be.  Also, the HP computer had a special statement EMA to handle 
+larger programs and arrays.  The EMA statements themselves have been 
+deleted from the programs, but some of the statements and comments still 
+refer to the coding necessary for the EMA format on the HP-1000.
+
+3.  The units for variables in the program are as follows:  all amplitudes in 
+microns (including estimates of the data errors needed for the variance 
+calculations), velocities in km/sec, density in g/cm**3, strike, dip and rake in 
+degrees, moment in dyne-cm (generally x 10**16), azimuths in degrees and 
+all distances in km.  The density of the source region which is set in the 
+beginning of the program is 2.7 g/cm**3.
+
+4.  In the program INVDC the user is asked for a multiplicative factor for the 
+model steps.  This factor, which should be set between 0 and 1, is multiplied 
+into all of the calculated perturbations to the model parameters as calculated 
+in the inversion subroutine.  The purpose of the factor is to control the 
+inversion to be sure it does not overshoot a local minimum into some other, 
+undesirable part of the solution space.
+
+5.  The programs contain extra subroutines which are not called or needed in 
+one or more of the individual programs.  I include them partly out of 
+laziness and partly because they contain comments which may help explain 
+how the subroutines work.
+
+6.  The programs do not check for rays past critical angle except to 
+determine if SV rays are past critical angle at the free surface.  If so, the 
+programs list those rays past critical angle, and then they bomb.  At this 
+point the best remedy is to delete the offending station readings from the 
+data list and rerun the programs.
+
+Note:  The programs were revised slightly since December, 1988 when an 
+initial distribution of the programs was made.  Several bugs were found and 
+corrected, and some of these bugs could give spurious results under some 
+particular circumstances.  I cannot guarantee that all errors are out of these 
+programs, and I would appreciate it if you would let me know about any 
+other bugs which you may find.  I would also like to know of data sets where 
+the programs were found to work well, and those data sets for which poor or 
+incorrect results were obtained.  There is still a lot to learn about the utility 
+and limitations of the methods in these programs.  -  J E E, October, 31, 1989.

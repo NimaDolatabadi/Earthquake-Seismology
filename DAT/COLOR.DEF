@@ -1,0 +1,60 @@
+This file is for defining SEISAN color objects. If no file available,
+default colors will be used. The entries can come in any order, however the
+keword MUST appear as shown below. If a object color is not defined,
+it will retain its default value. If a black or white background and no
+colors are chosen, all colors will be reset accordingly.
+Since verison 9.0, the size of the window (% of full screen) for most graphics 
+programs is also set in this file.
+
+*********NEVER USE TABS IN THIS FILE, IT WILL NOT WORK*****************
+
+The color codes are:
+
+1: blue   2: green   3: red   4: yellow   5: white   6: black
+
+color_screen            1   ! 0: no colors, 1: colors
+color_hard_copy         0   ! -----------------------
+color_back              5   ! background color
+color_trace             6   ! seismic traces, map contours
+color_pic               3   ! phase picking
+color_zoom              2   ! zoo lines in mulplt
+color_def               6   ! default color
+color_frame             1   ! frames like epimap map frames, mulplt
+color_title             6   ! titles on top of plots
+color_spec              1   ! spectras
+color_axis_not          3   ! axis notations
+color_epi               3   ! epicenters
+color_station           3   ! seismic stations
+color_map_contour       1   ! epimap contours
+color_map_grid          6   ! Lat-long/(x,y) grid
+color_label_grid        6   ! Grid labels for map
+color_symbol_key        6   ! Diagram key.
+color_prompt            1   ! Prompt text.
+color_section           3   ! section outline in epimap
+color_bval_np           2   ! bvalue, number of events
+color_bval_ac           1   ! ------, accumulated ---
+color_bval_line         1   ! ------, lsq line
+color_box               5   ! box for interactive input
+color_box_letter        6   ! letters in --------------
+color_foc_dilat         3   ! focmec dilatation
+color_foc_comp          1   ! focmec compression
+color_foc_p             2   ! focmec P-axis
+color_foc_t             3   ! focmec T-axis
+color_foc_plane         1   ! focmec fault planes
+color_syn               1   ! synthetic picks, blue
+size_bvalue            50
+size_sample_graphics   80
+size_catstat           60
+size_codaq             70
+size_corr               0   ! not implemeted
+size_epimap            70
+size_fk                60
+size_focmec            70
+size_lsq               60
+size_mag               60
+size of mulplt          0   ! set in MULPLT.DEF
+size_presp             65
+size_rmsdep            50
+size_spec              80
+size_ttplot            60
+size_wad_plot          60

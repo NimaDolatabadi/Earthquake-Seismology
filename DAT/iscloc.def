@@ -1,0 +1,43 @@
+# iscloc configuration file
+
+# Needed output filenames
+logfile           = print.out   # for reports of actions and errors
+errfile           = stderr      # for errors
+
+# Starting depth used if seed hypocentre depth is NULL
+default_depth     = 0
+
+# Option to reidentify phases that don't fit the model
+# eg Pn at depth greater than 33 km would be renamed P
+reid_phase        = 1           # flag 1/0 for reidentify/no reidentify
+
+# Option to discard phases with large residulas after initial convergence
+# and then carry out more iterations to get solution without them.
+purge_phase       = 1           # flag 1/0 for purge/no purge 
+purge_resid       = 20          # threshold for purge_pha rejections (sec)
+
+# Weighting options
+# If both weighting types set then will converge using first type
+# then change to other weighting type and carry out more iterations.
+min_phases        = 4
+weighting1        = huber
+weighting2        = buland  # To use only one weighting type don't set this
+sigma_start       = 1.145
+mu                = 0.05
+init_max_resid    = 30      # used to exclude phases from initial alpha calc
+max_resid         = 70      # used to exclude phases from solution
+
+# Options for iteration control
+max_iter          = 16
+avg_weight_thresh = 0.4		
+alpha_thresh      = 0.01
+dalpha_thresh     = 0.01
+dsigma_low        = -0.1
+dsigma_high       = 0.5
+
+# Elevation correction 
+elev_corr_on      = 0      # flag 1/0 for on/off station elevation correction
+
+# Equation solution
+max_err_factor    = 0.25   # used in solve to set limit for diagonal values
+

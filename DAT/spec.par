@@ -1,0 +1,35 @@
+selection criteria 1: P, 2: S, 3: S from P, 4: abs
+2
+start
+1 
+window length, # of windows, overlap
+5.0,1,1
+number of times to smooth
+5
+gain factor of channel 1
+1
+noise spectrum 0: n 1: y
+1
+make relative spectras 1: y, 0; n
+1
+plot pics
+1
+frequency band to use
+1.0 7.0 
+response removal: 0: none, 1: displ., 2: vel, 3: accel. 4. noise pwr, 5: kappa
+0
+rotate: 0: no, 1: yes
+0
+q0, qalpha and kappa
+-1.0,0,0
+distance correction
+1
+minimum correlation, min s/n ratio, only kappe determinaiton
+0.5, 2.0
+velocity and density
+0.0 0.0
+magnitude spectrum: 0: None, 1: Moment, 2: Mw
+0
+stations and components, format a5,1x,a4,1x,a5,1x,a4
+FOO   S  Z SUE   S  Z
+

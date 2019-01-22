@@ -1,0 +1,12 @@
+#
+# xclust input parameter file
+#
+# comment lines start with #
+#
+
+KEYWORD............Comments.............Par 1.....Par 2.....
+
+MINIMUM CORRELATION                     0.9
+MINIMUM PERGROUP                        5.
+TRACE OUTPUT                            1.
+

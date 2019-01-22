@@ -1,0 +1,9 @@
+seismicity.view.invertcolors = YES
+seismicity.init.rotation = 0, 0, 0
+seismicity.show.axes3d = NO
+seismicity.color.grid = black
+seismicity.event.depthcolormap = 0, red
+seismicity.show.magnitude=YES
+seismicity.lines.gray = azores.xyz
+
+

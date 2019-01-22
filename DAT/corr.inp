@@ -1,0 +1,120 @@
+#
+# corr input file
+#
+# the program can do 2 things:
+#
+#    1) find correlated events, in this case comment out
+#       parameter SFILE MASTER; program then correlates
+#       all events and finds groups, output in file corr.out;
+#       this should be done before 2 is attempted in 
+#       addition to visual inspection
+#
+#    2) pick phases in events by correlating with master event,
+#       in this case define SFILE MASTER; program uses
+#       parts of master event signals and computes correlation
+#       for the remaining events; phase output is written to corr.out
+#
+#  trace file corr.trace gives additional info on the program run
+#
+
+
+KEYWORD............Comments.............Par 1.....Par 2.....
+
+SFILE MASTER       file name            20-0644-28L.S200306
+SFILE EVENT                             20-0644-28L.S200306
+SFILE EVENT                             20-0653-34L.S200306
+
+# minimum correlation value
+MIN CORR                                0.6
+
+# number of stations required for event pair to be correlated
+MIN CORR CHAN                           1
+
+# either 0. or 1.
+INTERACTIVE                             0.
+
+# activate (1.) or deactivate (0.) filters set below
+FILTER                                  1.
+
+# time of window before phase as ratio of selected duration
+PRE SIGNAL                              0.1
+
+# use either full trace (0.) or same criteria as for master event (1.)
+EVENT SELCRIT                           1.
+
+# double sample rate n times
+N DOUBLE SRATE                          0.
+
+# time window for cross-correlation matrix, 999. for max
+#CC MATRIX WINDOW                        10. 
+
+# set hypocenter start latitude and longitude, 999. to not use
+# (only affects output file, and use of location program afterwards)
+START LATITUDE                          56.173
+START LONGITUDE                         -4.433
+
+# set hypocenter fixed depth, 999. to not use 
+# (only affects output file, and use of location program afterwards)
+FIX DEPTH                               4.
+
+# keep original waveform names (0.) or put corr output file names (1.)
+WAVENAME OUT                            1.
+
+# output of correlation function, 0 for none,
+# 1. for full data, 2 for reduced
+# data 1 for data > MIN CORRELATION, otherwise 0
+WAVE CORR OUT                           1.
+
+# reduce to 0 (-) and 1 (+) if set to 1, full data if set to 1.
+SINGLE BIT                              0.
+
+# write out phases for correlation above threshold if set to 1.
+CONTINUOUS MODE                         0.
+
+# extract event files for correlation above threshold, 0. for no extract,
+# 1. to extract single channel used, 2. extract all channels 
+CONTINUOUS EXTRACT                      0.
+
+# flag to write corr.trace output file
+TRACE OUTPUT                            1.
+
+# maximum distance between event pair to compute correlation
+MAX EVENT DISTANCE                      20.
+
+# maximum distance between event and station
+MAX STAT DISTANCE                       500.
+
+
+
+
+# setup of stations
+#   STAT, COMP    - station and component codes
+#   SELCRIT       - 1=P, 2=S, 4=full trace
+#   DURATION      - signal duration in seconds if selcrit<4
+#   FLOW, FHIGH   - filter limits for bandpass filter, can be
+#                   disabled by FILTER (see above)
+---------------------------------------------------------------------------
+KEYWORD...STAT......COMP......SELCRIT...DURATION..FLOW......FHIGH.....
+
+--- p ---
+STATION   ELO       S  Z      1.        4.        3.        8.
+STATION   EAU       S  Z      1.        10.       3.        8.
+STATION   EDI       S  Z      1.        10.       3.        8.
+STATION   PCO       S  Z      1.        4.        3.        8.
+STATION   PCA       S  Z      1.        6.        3.        8.
+STATION   PMS       S  Z      1.        6.        3.        8.
+STATION   BWH       S IZ      1.        12.       3.        8.
+STATION   GMK       S  Z      1.        4.         3.        8.
+STATION   GAL       S  Z      1.        10.       3.        8.
+STATION   MCD       S  Z      1.        20.       3.        8.
+STATION   MDO       S  Z      1.        20.       3.        8.
+STATION   ESY       S  Z      1.        12.       3.        8.
+STATION   KAR       S  Z      1.        10.       3.        8.
+STATION   KPL       S  Z      1.        12.       3.        8.
+--- s ---
+STATION   EDI       S  E      2.        5.        3.        8.
+STATION   KPL       S  E      2.        10.       3.        8.
+STATION   GAL       S  E      2.        10.       3.        8.
+STATION   MCD       S  E      2.        20.       3.        8.
+
+
