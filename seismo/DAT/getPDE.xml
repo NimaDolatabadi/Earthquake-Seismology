@@ -1,6 +1,0 @@
-<GetPDEConfiguration>
-    <seisanTop></seisanTop> <!-- Leave empty to use the SEISAN_TOP environmental variable -->
-    <dbName>PDE</dbName> <!-- Name of the database to create... use less than 5 characters -->
-    <updatePeriod>5</updatePeriod> <!-- Update period in minutes -->
-    <webAddress>http://neic.usgs.gov/neis/finger/quake.asc</webAddress> <!-- URL of the file to read data from -->
-</GetPDEConfiguration>

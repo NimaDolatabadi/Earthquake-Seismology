@@ -1,1 +1,0 @@
-cd /d %seisan_top%\cal

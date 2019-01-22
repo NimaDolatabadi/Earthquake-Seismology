@@ -1,9 +1,0 @@
-Def file for focmec, tstar on for teleseismic events
-
-*********NEVER USE TABS IN THIS FILE, IT WILL NOT WORK*****************
-
-Parameter description                   par 1     par 2
-
-QZERO and QALPHA FOR P                  470.0      0.7
-QZERO and QALPHA FOR S                  470.0      0.7
-TSTAR for P AND S                        1.1      4.2
