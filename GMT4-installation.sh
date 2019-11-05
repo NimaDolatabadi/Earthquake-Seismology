@@ -9,6 +9,9 @@
 #### Uncomment if you're in need of this version of GMT ########
 #### SAC, Works with GMT4 #######
 sudo su
+apt-get install cmake ghostscript cdftools libnetcdf-dev libnetcdf11 libnetcdff-dev libnetcdff6 gdal-devel gdal-python make glibc curl
+apt-get install subversion ghostscript build-essential cmake libnetcdf-dev libgdal1-dev libfftw3-dev libpcre3-dev
+apt-get install subversion ghostscript build-essential cmake libnetcdf-dev libfftw3-dev libpcre3-dev libgdal-dev gdal-bin
 wget -c --retry-connrefused --tries=0 --timeout=5 http://gmt.mirror.ac.za/legacy/gmt-4.5.16-src.tar.bz2
 mkdir /opt/gmt-4.5.16
 tar -xf gmt-4.5.16-src.tar.bz2
