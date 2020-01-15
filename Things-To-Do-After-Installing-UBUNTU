@@ -28,13 +28,6 @@ sudo apt-get update
 sudo ubuntu-drivers devices
 sudo apt-get install <nvidia-Recommended Version>
 ============================================================================================================
-============================================================================================================
-9# configuring Graphic Driver (can be ignored for AMD Drivers):
-sudo add-apt-repository ppa:graphics-drivers
-sudo apt-get update
-sudo ubuntu-drivers devices
-sudo apt-get install <nvidia-Recommended Version>
-============================================================================================================
 10# Dropbox
 sudo apt-get install nautilus-dropbox
 ============================================================================================================
