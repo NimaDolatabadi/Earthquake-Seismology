@@ -11,18 +11,19 @@ sudo apt-get install curl lynx
 
 # Let's Define some Variables in which you can fill it
 # to your needs.
-sy="2013"
-sm="01"
-sd="01"
-ey="2020"
-em="03"
-ed="19"
-minlat="29"
-maxlat="31"
-minlon="55.5"
-maxlon="60"
-minmag="2.5"
-maxmag="10"
+
+sy="2013"	# start year
+sm="01" 	# start month
+sd="01"		# start day
+ey="2020"	# end year
+em="03"		# end month
+ed="19"		# end day
+minlat="29"	# minimum latitude
+maxlat="31"	# maximum latitude
+minlon="55.5"	# minimum longitude
+maxlon="60"	# maximum longitude
+minmag="2.5"	# minimum magnitude
+maxmag="10"	# maximum magnitude
 # Now it's time to get the catalogue from IRSC.UT.AC.IR
 curl --cookie cjar --cookie-jar cjar \
 	-d "start_Y=$sy" \
