@@ -1,4 +1,6 @@
 #!/bin/bash
+# A very simple script in order to get earthquake catalogue from Iranian Seismological Center (IRSC).
+# If you're using other distributions then change line NO 8. to your needs.
 
 ##### This Script Has Been Written By N.Dolatabadi ######
 
