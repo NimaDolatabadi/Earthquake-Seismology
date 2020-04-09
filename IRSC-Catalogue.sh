@@ -1,12 +1,13 @@
 #!/bin/bash
 # A very simple script in order to get earthquake catalogue from Iranian Seismological Center (IRSC).
-# If you're using other distributions then change line NO 8. to your needs.
+# If you're using other distributions then change line NO 11. to your needs.
 
 ##### This Script Has Been Written By N.Dolatabadi ######
 
 #### If you were in need, contact me ------> syn_org939@rocketmail.com ######
 #========================================================================#
 # fist install Dependencies as shown below
+
 sudo apt-get install curl lynx
 
 # Let's Define some Variables in which you can fill it
