@@ -11,20 +11,21 @@ apt-get install gfortran libhdf5-serial-dev libfftw3-dev gfortran gcc-4.8 libpcr
 add-apt-repository ppa:ubuntu-toolchain-r/test && apt-get update
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
 pwd=`pwd`
-NMXHOME="/home/nima/src/seismo/LIB/nmx/"
+NMXHOME="/home/nima/src/seismo/LIB/nmx"
 cd COM/
-sed -i "16i export SEISAN_TOP=$pwd" SEISAN.bash
-source SEISAN.bash
+sed -i -e "16s|SEISAN_TOP|SEISAN_TOP=$pwd|g" SEISAN.bash
 cd ../PRO
-sed -i "120i INSTALL_PRO_PATH = $pwd/pro" Makefile
-make all
-make install
+sed -i -e "16s|SEISAN_TOP|INSTALL_PRO_PATH=$pwd/pro|g" Makefile
+#make all
+#make install
 cd ../LIB/
-make all
+#make all
 patchelf --replace-needed $NMXHOME/libnmxbase.so $pwd/LIB/nmx/libnmxbase.so libnmxacq.so
 cd ../PRO
-patchelf --replace-needed $NMXHOME/libnmxacq.so $pwd/LIB/nmx/libnmxacq.so
-patchelf --replace-needed $NMXHOME/libnmxbase.so $pwd/LIB/nmx/libnmxbase.so
-echo '#SEISAN' >> ~/.bashrc
+patchelf --replace-needed $NMXHOME/libnmxacq.so $pwd/LIB/nmx/libnmxacq.so y5dump
+patchelf --replace-needed $NMXHOME/libnmxbase.so $pwd/LIB/nmx/libnmxbase.so y5dump
+echo '# SEISAN' >> ~/.bashrc
+echo "export SEISANHOME=$pwd" >> ~/.bashrc
 echo "export $pwd/COM/SEISAN.bash" >> ~/.bashrc
+echo "export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SEISANHOME}/LIB" >> ~/.bashrc
 source ~/.bashrc
