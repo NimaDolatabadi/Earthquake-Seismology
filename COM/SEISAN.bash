@@ -13,8 +13,7 @@ export SEISARCH="linux64"
 #
 #    set SEISAN top directory
 #
-
-
+SEISAN_TOP
 #
 # set editor
 #
