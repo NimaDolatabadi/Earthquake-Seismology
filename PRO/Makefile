@@ -117,7 +117,7 @@ distribution: debug_flags =
 
 ##################################################
 # PATH TO WHICH EXECUTABLES ARE INSTALLED
-
+INSTALL_PRO_PATH
 
 ##################################################
 # LINK TO X11 LIBRARIEs
