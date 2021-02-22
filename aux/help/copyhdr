@@ -1,0 +1,59 @@
+
+COPYHDR
++++++++
+
+SUMMARY
+-------
+Copies header variables from one file in memory to all others.
+
+SYNTAX
+------
+
+  ``COPYHDR {FROM name|n} hdrlist``
+
+INPUT
+-----
+   :FROM name:  Copy header list from named file in memory.
+    
+   :FROM n:  Copy header list from numbered file in memory.
+    
+   :hdrlist:  Space delimited list of header variables to copy.
+    
+DEFAULT VALUES
+--------------
+
+  ``COPYHDR FROM 1``
+
+DESCRIPTION
+-----------
+   This command lets you copy the values of any SAC header variable from one
+   file in memory to all of the remaining files in memory.  You can select which
+   file you want to copy from.
+
+EXAMPLES
+--------
+  Assume you are using PPK to mark several times in the header of a file called
+  FILE1.  You are using the header variables T3 and T4.  To copy those same
+  markers into files FILE2 and FILE3::
+
+      u:  READ FILE1
+      u:  PPK
+      u:  ... use cursor to mark times T3 and T4.
+      u:  READ MORE FILE2 FILE3
+      u:  COPYHDR FROM 1 T3 T4
+
+  In this next example, assume you have read in a large number of files and you
+  want to copy the event location, EVLA and EVLO, from the file called ABC into
+  all of the other headers.  This can be easily done by referencing the file by
+  name not number::
+
+      u:  COPYHDR FROM ABC STLA STLO
+
+HEADER CHANGES
+--------------
+  Potentially all.
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

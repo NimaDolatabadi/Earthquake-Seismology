@@ -1,0 +1,40 @@
+
+READBBF
++++++++
+
+SUMMARY
+-------
+Reads a blackboard variable file into memory.
+
+SYNTAX
+------
+
+  ``READBBF {file}``
+
+INPUT
+-----
+   :file:  The name of a blackboard variable file.  It may be a simple
+       filename or a relative or absolute pathname.
+    
+DEFAULT VALUES
+--------------
+
+  ``READBBF BBF``
+
+DESCRIPTION
+-----------
+   This command lets you read in a blackboard variable file.  This file must have
+   been previously written to disk using the WRITEBBF_ command.  This feature lets
+   you save information from one execution of SAC to another.  You can also add
+   coding to your own programs to access the information in these blackboard
+   variable files.  This lets you transfer information between your own programs
+   and SAC.  See the SAC Subroutines Reference Manual for details.
+
+SEE COMMANDS
+------------
+   WRITEBBF_, SETBB_, GETBB_
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

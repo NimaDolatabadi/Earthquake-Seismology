@@ -1,0 +1,119 @@
+
+GETBB
++++++
+
+SUMMARY
+-------
+Gets (prints) values of blackboard variables.
+
+SYNTAX
+------
+
+  ``GETBB {options}  ALL|variable {variable ...}``
+   where options is one or more of the following:
+
+
+  ``TO TERMINAL|filename``
+
+  ``NAMES ON|OFF``
+
+  ``NEWLINE ON|OFF``
+
+
+INPUT
+-----
+   :TO TERMINAL:  Print the values to the terminal.
+    
+   :TO filename:  Append the values to a file called filename.
+    
+   :NAMES [ON]:  Include the name of the blackboard variable followed by
+       an equals sign and then its value.
+    
+   :NAMES OFF:  Only print the value of the blackboard variable.
+    
+   :NEWLINE [ON]:  Put a newline (carriage-return) after each blackboard
+       value printed.
+    
+   :NEWLINE OFF:  Do not a newline after each value.
+    
+   :ALL:  Print the values of all currently defined blackboard variables.
+    
+    
+   :variable:  Print the values of the specific blackboard variables
+       listed.
+    
+DEFAULT VALUES
+--------------
+
+  ``GETBB TO TERMINAL NAMES ON NEWLINE ON ALL``
+
+
+
+  ``FUNCTIONAL MODULE: Executive``
+
+DESCRIPTION
+-----------
+   The blackboard is a place to temporarily store information.  This command lets
+   you print the values of selected blackboard variables.  Variables can be
+   defined using the SETBB_ command.  You can also use the EVALUATE_ command to
+   perform basic arithmetic operations on blackboard variables and store the
+   results in new blackboard variables.  Blackboard variables can also be
+   substituted directly into SAC commands.  See the section on Macros in the
+   Users Manual.
+   The options to this command let you control where the values are printed
+   and in what format to print them.  You can print them to the terminal or
+   append them to the end of a text file.  You can include the variable name and
+   an equals sign before the value or you can just have the value printed.  You
+   can have a newline placed after each value printed in a list or you can have
+   them placed on a single line.  You can use these options to make measurements
+   on a set of data files, extract these measurements into a text file, and then
+   read this file back into SAC using the READALPHA command to plot the results
+   or to perform more analysis.  This is illustrated in the examples section.
+
+EXAMPLES
+--------
+   Assume you have already set several blackboard variables::
+
+      u:  SETBB C1 2.45 C2 4.94
+
+   To later print their values you would use this command::
+
+      u:  GETBB C1 C2
+      s:  C1 = 2.45
+      s:  C2 = 4.94
+
+   To print just their values on a single line::
+
+      u:  GETBB NAMES OFF NEWLINE OFF C1 C2
+      s:  2.45 4.94
+
+   Assume you have a macro called GETXY that performs some type of analysis on a
+   single data file and stores the results into two blackboard variables called
+   X and Y.  You want to perform this analysis on all of the vertical components
+   in the current directory, save each set of X and Y values, and plot them.  In
+   the following macro the first (and only) argument is the name of the text
+   file to be used to store the results::
+
+     DO FILE WILD *Z
+     READ FILE
+     MACRO GETXY
+     GETBB TO 1 NAMES OFF NEWLINE OFF X Y
+     ENDDO
+
+     GETBB_ TO TERMINAL
+     READALPHA CONTENT P 1
+     PLOT
+
+   The text file would contain pairs of x-y data points, one per line, for each
+   of the vertical data files.  The final GETBB_ command redirecting the output
+   back to the terminal is needed in order to close the text file and dump the
+   buffer.
+
+SEE COMMANDS
+------------
+   SETBB_, EVALUATE_
+
+LATEST REVISION
+---------------
+   Sept. 1, 1988 (Version 10.3E)
+

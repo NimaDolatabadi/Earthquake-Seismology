@@ -1,0 +1,54 @@
+
+BEGINWINDOW
++++++++++++
+
+SUMMARY
+-------
+Begins plotting to a new graphics window.
+
+SYNTAX
+------
+
+  ``BEGINWINDOW n``
+
+INPUT
+-----
+   :n:  The graphics window number to begin plotting in.  There are a
+       total of five graphics windows.
+    
+DEFAULT VALUES
+--------------
+
+  ``BEGINWINDOW 1``
+
+DESCRIPTION
+-----------
+   Many of the newer graphics terminals and workstations support the
+   concept of multiple "windows".  Different jobs or activities can run in each
+   window and display their results on the screen at the same time.  "X-windows"
+   and "Sun windows" are two of the more popular systems currently available.
+   If you are using a device that supports one of these systems, then you can
+   use multiple graphics windows in SAC to display your results.  If you are not
+   using such a device, SAC will accept but ignore all commands that refer to
+   multiple graphics windows.
+   There are two commands that control the use of this multi-windowing
+   option.  The WINDOW_ command lets you control the location and shape of the
+   graphics windows.  The BEGINWINDOW_ command lets you select the window in which
+   to display subsequent plots.  BEGINWINDOW_ will create the requested window if
+   it does not currently exist on your display.  The WINDOW_ command only works
+   BEFORE the window is created.  On most systems you can also move and resize
+   these windows dynamically using the mouse and pop-up menus.  Generally but not
+   always (you should check for yourself), the moving of a window will result in
+   the current plot being automatically redrawn whereas the resizing of a window
+   results in the current plot being redrawn but not rescaled.  The next plot in
+   a resized window will be scaled correctly.  All text (the commands you type
+   and SAC's responses) are displayed in the window in which you started SAC.
+
+SEE COMMANDS
+------------
+   WINDOW_
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

@@ -1,0 +1,128 @@
+
+WRITESP
++++++++
+
+SUMMARY
+-------
+Writes spectral files to disk as "normal" data files.
+
+SYNTAX
+------
+
+  ``WRITESP {type} {COMMIT|ROLLBACK|RECALLTRACE} {OVER|filelist}``
+   where type is one of the following:
+
+  ``ASIS|RLIM|AMPH|RL|IM|AM|PH``
+
+INPUT
+-----
+   :ASIS:  Write components in their present format.
+    
+   :RLIM:  Write real and imaginary components.
+    
+   :AMPH:  Write amplitude and phase components.
+    
+   :RL:  Write real component only.
+    
+   :IM:  Write imaginary component only.
+    
+   :AM:  Write amplitude component only.
+    
+   :PH:  Write phase component only.
+    
+   :COMMIT_:  Commits headers and waveforms in SAC memory -- removing any
+       previous versions of headers or waveforms from RAM -- prior
+       to writing files.  COMMIT is the default.
+    
+   :ROLLBACK_:  reverts to the last committed version of the header and
+       waveform before writing files.
+    
+   :RECALLTRACE_:
+
+      - reverts to the last committed version of the waveform,
+      - reverts to the last committed version of those header
+      	variables closely linked to the waveform,
+      - commits those header variables which are loosely linked
+      	to the waveform.
+	(use HELP_ RECALLTRACE for a list of which header variables are
+	committed, and which are rolled back.)
+
+   :filelis:  A list of SAC binary data files.  This list may contain
+      simple filenames and full or relative pathnames.
+
+DEFAULT VALUES
+--------------
+
+  ``WRITESP ASIS COMMIT``
+
+DESCRIPTION
+-----------
+  SAC data files may contain either time-series data or spectral data.
+  Certain fields in the header distinguish between the two formats.  When you
+  read (see READ) a time-series file into memory, take the fast fourier
+  transform (see FFT), and write the data to disk (see WRITE), then the data on
+  disk will be in the spectral format.
+
+  Certain operations can only be performed on time-series data and
+  certain operations only on spectral data.  For example, you can't apply a
+  taper to spectral data files or multiply two spectral files together.  This is
+  a protection mechanism built into SAC.
+
+  Sometimes, however, you may need to perform some of these operations on
+  spectral data.  To override SAC's protection mechanism, you can use this
+  command to write spectral data to disk as time-series data.  Each component is
+  written as a separate data file.  You may then read these files back into SAC
+  and perform any operation that you wish, since SAC thinks they are time
+  series data files.  Once these calculations are completed, you may write the
+  modified data back to disk using the WRITE_ command.  If you wish to
+  reconstruct the spectral data file, use the READSP_ command.
+  To help you keep track of the data on disk, SAC appends a suffix to the
+  filename you request that identifies the spectral component stored in that
+  file.  The suffixes are ".RL", ".IM", ".AM", and ".PH"" for the real
+  component, imaginary component, amplitude, and phase respectively.
+
+EXAMPLES
+--------
+  Assume that you want to perform some operations on the spectral amplitude of
+  FILE1::
+
+    u:  READ FILE1
+    u:  FFT AMPH
+    u:  WRITESP OVER
+
+  SAC will then write out two files, FILE1.AM and FILE1.PH.  Now you perform the
+  operations on the amplitude file::
+
+    u:  READ FILE1.AM
+    u:  ...perform operations.
+    u:  WRITE OVER
+
+  Now the files on disk represent the modified spectral data.  If you wanted to
+  reconstruct the SAC spectral data file and take the inverse transform::
+
+    u:  READSP FILE1
+    u:  IFFT
+    u:  WRITE FILE2
+
+  **Note**  for examples of the behavior of COMMIT, ROLLBACK, and 
+  RECALLTRACE, see the commands of the same name.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1305: Illegal operation on time series file
+
+
+HEADER CHANGES
+--------------
+  B, E, and DELTA for the files on disk will contain the beginning, ending, and
+  incremental frequency in Hz.
+
+SEE COMMANDS
+------------
+  READSP_, COMMIT_, ROLLBACK_, RECALLTRACE_
+
+LATEST REVISION
+---------------
+  Oct. 27, 1998 (Version 0.58)
+

@@ -1,0 +1,29 @@
+#!/bin/csh -xvf
+# Steps to add an external command to libext.so, 
+# a shared external command library, under Solaris.  
+#
+# 1) compile/load srcs into one or more external libs.  
+cc -o libext.so -G flipxy.c  # note: can have multiple srcs on this line
+# Note that libext.so is the shared library and flipxy is the 
+# command to be loaded.  By default it will be called flipxy.  
+# See the load command for more details.  
+# I think multiple commands can be loaded at once as follows
+# cc -o libext.so -G extern.c velarr.c flipxy.c 
+#
+# 2) setup the SACSOLIST and LD_LIBRARY_PATH environments. 
+#    Not from this script but in login since these only are set temporarily.  
+# setenv SACSOLIST libext.so   # Use space delim and quotes for multiple libs
+# setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/us/peterg/res1/sac/bin/external 
+# 
+# 3) Optional:  Use init script to load automatically. 
+# alias sac "/usr/local/bin/sac /us/peterg/bin/sacmac/sac.init" 
+# where sac.init includes the command load command_name
+#
+# 4) Startup sac and load the command 
+# E.g.,  SAC> load flipxy  (may be unnecessary if loaded in sac.init.  
+# Run the command as designed.  
+# 
+###  How to pass this out.  ###
+#  a) Give the users the function and this notes file.  
+#  b) Give out the libext.so and tell users to do steps 2-4.  
+

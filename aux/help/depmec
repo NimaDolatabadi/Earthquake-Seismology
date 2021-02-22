@@ -1,0 +1,311 @@
+DEPMEC
+++++++
+
+SUMMARY
+-------
+Launch a Matlab GUI for estimating source depth and mechanism.
+
+SYNTAX
+------
+
+  ``depmec``
+
+  ``(An extended description of how to use this tool is included below)``
+
+DESCRIPTION
+-----------
+  depmec allows the user to estimate source depth and mechanism using
+  both grid search and simplex methods to fit ray theory synthetics to
+  data. Results from this analysis are stored in the EVDP, USER0(strike),
+  USER1(dip), USER2(rake) header variables.
+  A detailed description of the technique can be found in:
+
+  Goldstein, P., and D. Dodge, Fast and accurate depth and
+  mechanism estimation using P-waveform modeling: a tool for special
+  event analysis, event screening and regional calibration,
+  Geophys. Res. Lett., 26, 2569-2572, 1999
+
+
+LATEST REVISION
+---------------
+ June 2000 (Version 00.59)
+
+::
+
+   ************************************************************************
+   **  DEPMEC: P-wave Modeling Based Depth and Mechanism Estimation Tool **
+   ************************************************************************
+   *
+   *  Authors:  Peter Goldstein and Doug Dodge
+   *
+   *            Lawrence Livermore National Laboratory
+   *            L-205
+   *            P.O. Box 808
+   *            Livermore, CA  94550
+   *            USA
+   *
+   *            peterg@llnl.gov
+   *            (415) 423-1231
+   *
+   *
+   * Please cite the following reference when you use this tool:
+   *
+   *  Goldstein, P., and D. Dodge, Fast and accurate depth and
+   *  mechanism estimation using P-waveform modeling: a tool for special
+   *  event analysis, event screening and regional calibration,
+   *  Geophys. Res. Lett., 26, 2569-2572, 1999
+   *
+   ************************************************************************
+
+   The following is a hands on description of how to use DepMec V1.0.
+   It assumes that you have version 59 or later of sac2000 and
+   have the appropriate matlab licences and libraries.
+
+   *** System Preparation:
+
+   Make sure your SACAUX and MATLABPATH environments are set.
+
+   *** Data preparation:
+
+   Depmec will work with any vertical component velocity or
+   displacement data that can be read into sac, provided the
+   appropriate SAC data headers are set.
+   You may find it useful to store your data in event based directories.
+
+
+   The following SAC headers should be set:
+
+   reference time (nzyear nzjday nzhour nzmin nzsec nzmsec)
+   origin time (o) should be zero.
+   reference time type (iztype=io) (The origin time should be the reference time)
+   * If necessary, you can use the following to set a reference origin time.
+   ch o GMT year jday hour min sec msec (only if origin isn't already set)
+   ch allt (0. - &1,o )
+   event latitude (evla)
+   event longitude (evlo)
+   event depth (evdp)
+   event magnitude (mag)
+   data type, velocity or displacement (idep)
+   station lat (stla)
+   station lon (stlo)
+   station name (kstnm)
+   component name (kcmpnm)
+
+
+   (Optional) Pick first arrivals and store in T0 sac header.
+   If no picks are defined, depmec will set the first arrivals using the
+   default velocity model (currently AK135).  The user can also repick
+   these interactively in depmec.
+
+
+   *** Depth and Mechanism estimation ***
+
+   At this point it is assumed that you are running SAC2000
+   and have read in data with properly loaded headers (see above).
+
+
+
+   1) To start depmec type:
+
+   depmec
+
+   (You should see the matlab insignia flash by, a waitbar saying
+   loading initialization file will popup and disappear and then
+   the main depmec window will appear with menus across the top.)
+
+   Before analysing the data there are a number of preferences you
+   may want to set under the edit and preferences menus.  However,
+   if you are just getting started, I'd suggest using the defaults.
+   Further discussion of the preferences is given below.
+
+
+
+   2) Load the data using the file menu.
+   You can use either displacements or velocity.
+   Displacements may be better if the SNR is large
+   at low frequencies because there are fewer concerns
+   about cycle skipping when doing the cross-correlation
+   to estimate the misfit.
+   However, velocities have potentially higher resolution
+   and work better when the low-frequency SNR is poor.
+
+   Click file>Load SAC Velocity
+
+   If your data have the necessary headers loaded and are within
+   an appropriate distance range 15 to 90 degrees they will
+   plotted along with synthetics and a mechanism beachball in
+   the main window.
+
+
+
+   * Most of the following involves using tools started by
+   * clicking on Icons at the top of the depmec main window.
+   * If you can't figure out what a particular Icon is for
+   * place your cursor over the icon and an short
+   * explanation should appear.
+
+   3) Picking and Filtering:
+   If you haven't already done so, you may want to filter and
+   pick or repick some of the traces.
+
+   The easiest way to do this is to open both the single trace
+   pick window (Icon with single trace and pick mark), and the
+   filtering window (Icon with spectrum and F in upper right).
+
+
+   It is usuall best to begin by applying some nominal filtering
+   to the data and then remove traces with very poor SNR.
+
+   While the main window and the picking and filter window are
+   all visible, adjust filter parameters by selecting the
+   the filter type and corners then selecting assign to all.
+   Then apply this filter to all the data with the button to
+   the left of the close box in the upper right corner.
+   If these filter parameters are unacceptable, filter selected
+   traces by stepping through the data with the red arrows at
+   the top of the pick and filter windows.
+
+   After a preliminary filtering of the data, traces with poor
+   SNR can be deleted using the wastebasket icon on in the
+   pick window.  Alternatively, you can deselect a trace by
+   clicking the check box to the left of a trace or the check
+   mark icon in the pick tool window.  This changes the color
+   of the trace to gray and leaves it visible but it will not
+   be used to estimate the depth or mechanism.
+
+
+   To adjust the picks point the cursor at the vertical black
+   line labeled P and use the middle mouse button to drag it
+   to the desired pick location.  The size and location of the
+   pick window can be adjusted using the grey box enclosing
+   the current trace in the main window.  Point to the edge
+   and use the middle mouse button to drag the whole window
+   or point to the bowtie handle on the right hand side and
+   drag to reduce or enlarge the lengthe of the window.  You
+   can also drag this gray box to another trace and the pick
+   and filter windows will be updated appropriately.
+
+
+   When the picks and filters are satisfactory close the pick
+   and filter windows and click the floppy disk icon at the top
+   of the main menu to store these parameters in the SAC data
+   headers.
+   *** Note that these pick and filter parameters are not
+   *** permanently written in the SAC data files unless you
+   *** save them with write or writeheader after closing depmec.
+   *** To close depmec you use the closebox icon at the upper right
+   *** of the main window.
+
+
+   4) (optional) Estimate magnitude:
+   You can estimate the magnitude by turning the
+   Auto-calculate Magnitude on under preferences.
+   However, the magnitude returned when using velocities
+   is still currently under development.
+
+
+   *** Event parameter estimation
+
+   5) Perform a fast grid search data for depth and mechanism
+   by clicking the main window icon with the lightening bolt
+   over a grid.  Even with a lot of data this only takes a few
+   minutes on an Ultra-Sparc with a ~300 MHz processor.
+
+   If you have lots of data or are impatient, you can
+   speed things up by deselecting all but the best SNR
+   traces.  This will often give a reasonable preliminary
+   fit to the data which can be iteratively improved upon
+   by reselecting the rest of the traces and using the
+   simplex method (diamond or kite shaped Icon) to refine
+   the solution.
+
+   Estimate errors by clicking on the bootstraping icon
+   (the boot with a strap next to the simplex tool).
+   This can take 10 or more minutes so it may be better
+   to run this in batch mode if you have many events to
+   look at.
+
+
+   6) Storing/Saving:
+
+   Filters, Picks, Source Parameters and filelist:
+
+   If you select Save SAC Data under the file menu, or click
+   on the floppy disk Icon with the S on it the filter, pick,
+   and estimated parameters will be stored in the SAC file headers.
+   This will also create a new de2RestrictFile file with a list
+   of the files that are currently visible.  This file can be
+   used as a SAC macro to read in selected data for future analysis.
+   You can also save the estimated source parameters to a text
+   file using the "add current solution to log file" Icon or the
+   option on the file menu.
+
+   Preferences:
+
+   When you exit depmec it will write a file called de2.ini that
+   contains your preferences. The next time you start depmec in this
+   directory it will read this file.  You can copy this file to other
+   directories if you want to use it with other data.
+
+
+
+   7) Setting Preferences:
+
+   If necessary, modify the default parameters using the edit
+   and preferences menus.
+
+   If you're running depmec for the first time in the current
+   directory or you've removed any previously generated de2.ini
+   files you should find that most default preferences such as
+   automatic magnitude calculation, and filtering are off.
+
+   Under the edit menu the key parameters are
+
+   a) max correlation lag
+   This determines how much the first arrival can be shifted.
+   If you think your picks are really good set this to zero.
+
+   b) max isotropic percent
+   This determines how big an isotropic component depmec will
+   allow for in the moment tensor.  For events deeper than
+   a few km (e.g., earthquakes) this is best left as zero or
+   small since it is another free parameter. However, can
+   be useful to test hypotheses when looking at shallow
+   events.
+
+   c) min synthetic length (T_sP - T_P):
+   Initially this should be long enough to encompass any
+   of the modeled arrivals over the depth range of interest.
+   For events shallower than 70 km 25-30 s should be enough.
+
+   * Be careful!  If this is too short you can force depmec to
+   find a shallow depth source.  However, This could be useful for
+   hypothesis testing with a limited number of noisy stations
+   or stations with large site effects where you only want
+   to fit the initial part of the waveform.
+
+
+   Under the prefereneces menu the key parameters are:
+
+   a) S/N cutoff:  I usually start with this at .1 and remove traces interactively.
+
+   b) Data selection:
+
+   - file mask: This determines what data files get read in.
+   - pre pick length:
+   - post pick length:
+   - min delta: Current default is 15 deg but beware of triplication before 30 deg
+   - max delta: current default is 90 deg
+
+   c) Auto filter traces: will automatically filter data when read in using
+   filter parameters stored in SAC headers.
+   d) Auto calculate Magnitude: Will calculate magnitude from the data
+   based on an estimated corner frequency, the assumed stress drop (see
+   edit menu), an assumed circular crack model, and the Kanamori and Anderson
+   Moment-Magnitude relation.  This works well with good snr displacement
+   data but still needs work in the velocity domain
+
+   e) Use Restriction File: If selected, depmec will read from the list of
+   files specified in the de2RestrictFile file in the current data directory.
+
+

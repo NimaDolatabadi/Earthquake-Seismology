@@ -1,0 +1,45 @@
+TIMEAXIS
+++++++++
+
+SUMMARY
+-------
+Controls the time axis properties on subsequent record section plots.
+
+SYNTAX
+------
+  
+   ``[T]IME[A]XIX [F]IXED v|[S]CALED v``
+
+INPUT
+-----
+   :FIXED v:        Fix the length of the time axis in cm to v.
+
+   :SCALED v:       Scale the length of the time axis in cm to be
+       v times the total time window.
+
+DEFAULTS VALUES
+---------------
+
+   ``TIMEAXIS FIXED 23.0``
+
+EXAMPLES
+--------
+  If you are making several record setion plots with different time
+  windows and you want each 2 seconds on these plots to be 1 cm long:
+
+    u:  TIMEAXIS SCALED 0.5
+
+KNOWN BUGS
+----------
+  The y and x aspect ration defined by this command and by the
+  DISTANCEAXIS command is correct onplots to any device.  The physical
+  size requested is ignored when plotting to an interactive device
+  (e.g. TERMINAL, XWINDOWS)  If the SGF device is requested, the
+  physical size is stored in these files.  The current SGF plot programs do
+  not have the capability to make arbitrary sized plots (i.e. panelling).
+  This panelling option is planned for a future release.
+
+SEE COMMANDS
+------------
+  PLOTRECORDSECTION_, DISTANCEAXIS_
+

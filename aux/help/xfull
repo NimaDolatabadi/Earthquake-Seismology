@@ -1,0 +1,39 @@
+
+XFULL
++++++
+
+SUMMARY
+-------
+Controls plotting of x axis full logarithmic decades.
+
+SYNTAX
+------
+
+  ``XFULL {ON|OFF}``
+
+INPUT
+-----
+   :{ON}:  Turn full decade plotting on.
+    
+   :OFF:  Turn full decade plotting off.
+    
+DEFAULT VALUES
+--------------
+
+  ``XFULL ON``
+
+DESCRIPTION
+-----------
+   Full decade plotting applies only when logarithmic interpolation is being
+   used and when the fixed limits option is off (see XLIM.) When on, the actual
+   axis limits will be set to the first full decade before and after the data
+   limits.  When off, the actual data limits will be used.
+
+SEE COMMANDS
+------------
+   XLIM_
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

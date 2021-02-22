@@ -1,0 +1,26 @@
+
+EXP10
++++++
+
+SUMMARY
+-------
+Computes the base 10 exponential (10.**y) of each data point.
+
+SYNTAX
+------
+
+  ``EXP10``
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1307: Illegal operation on spectral file
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+  January 15, 1985 (Version 9.10)
+

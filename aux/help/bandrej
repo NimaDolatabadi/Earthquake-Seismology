@@ -1,0 +1,76 @@
+
+BANDREJ
++++++++
+
+SUMMARY
+-------
+Applies an IIR bandreject filter.
+
+SYNTAX
+------
+
+  ``BANDREJ {BUTTER|BESSEL|C1|C2},{CORNERS v1 v2},``
+
+  ``{NPOLES n},{PASSES n},{TRANBW v},{ATTEN v}``
+
+INPUT
+-----
+   :BUTTER:  Apply a Butterworth filter.
+    
+   :BESSEL:  Apply a Bessel Filter.
+    
+   :C1:  Apply a Chebyshev Type I filter.
+    
+   :C2:  Apply a Chebyshev Type II filter.
+    
+   :CORNERS v1 v2:  Set corner frequencies to v1 and v2.
+    
+   :NPOLES n:  Set number of poles to n {range: 1-10}.
+    
+   :PASSES n:  Set number of passes to N {range: 1-2}.
+    
+   :TRANBW v:  Set the Chebyshev transition bandwidth to V.
+    
+   :ATTEN v:  Set the Chebyshev attenuation factor to V.
+    
+DEFAULT VALUES
+--------------
+
+  ``BANDREJ BUTTER CORNER 0.1 0.4 NPOLES 2 PASSES 1 TRANBW 0.3 ATTEN 30.``
+
+DESCRIPTION
+-----------
+   See the BANDPASS_ command for definitions of the filter parameters and
+   descriptions on how to use them.
+
+EXAMPLES
+--------
+   To apply a four-pole Butterworth with corners at 2 and 5 Hz.::
+
+      u:  BANDREJ NPOLES 4 CORNER 2 5
+
+   To apply a two-pole two-pass Bessel with the same corners.::
+
+      u:  BR N 2 BE P 2
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+- 1307: Illegal operation on spectral file
+- 1002: Bad value for
+
+   - corner frequency larger than Nyquist frequency.
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+SEE COMMANDS
+------------
+  BANDPASS_
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

@@ -1,0 +1,26 @@
+
+ABS
++++
+
+SUMMARY
+-------
+Takes the absolute value of each data point.
+
+SYNTAX
+------
+
+  ``ABS``
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1307: Illegal operation on spectral file
+
+HEADER CHANGES
+--------------
+   DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

@@ -1,0 +1,45 @@
+
+SMOOTH
+++++++
+
+SUMMARY
+-------
+Applies an arithmetic smoothing algorithm to the data.
+
+SYNTAX
+------
+
+  ``SMOOTH {MEAN|MEDIAN},{HALFWIDTH n}``
+
+INPUT
+-----
+   :MEAN:  Apply a mean (average) smoothing algorithm.
+    
+   :MEDIAN:  Apply a median point smoothing algorithm.
+    
+   :HALFWIDTH n:  Set halfwidth of smoothing window to n.  The moving
+       window will contain n points on each side of the point being
+       smoothed.
+    
+DEFAULT VALUES
+--------------
+
+  ``SMOOTH MEAN HALFWIDTH 1``
+
+DESCRIPTION
+-----------
+   This command applies an arithmetic smoothing algorithm to each data point.
+   The type of algorithm and the size of the sliding window around each data
+   point can be varied.  The size of the window is defined by specifying its
+   halfwidth.  This forces the moving window to be centered around each data point
+   and forces the window size to be an odd number of points, which makes the
+   algorithms easier and less ambiguous.
+
+HEADER CHANGES
+--------------
+   DEPMIN, DEPMAX,DEPMEN
+
+LATEST REVISION
+---------------
+   April 13, 1987 (Version 10.1)
+

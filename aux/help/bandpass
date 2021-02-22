@@ -1,0 +1,141 @@
+
+BANDPASS
+++++++++
+
+SUMMARY
+-------
+Applies an IIR bandpass filter.
+
+SYNTAX
+------
+
+  ``[B]AND[P]ASS {[BU]TTER|[BE]SSEL|C1|C2},{[C]ORNERS v1 v2}, {[N]POLES n},{[P]ASSES n},{[T]RANBW v},{[A]TTEN v}``
+
+
+INPUT
+-----
+   :BUTTER:  Apply a Butterworth filter.
+    
+   :BESSEL:  Apply a Bessel filter.
+    
+   :C1:  Apply a Chebyshev Type I filter.
+    
+   :C2:  Apply a Chebyshev Type II filter.
+    
+   :CORNERS v1 v2:  Set corner frequencies to V1 and V2.
+    
+   :NPOLES n:  Set number of poles to N {range: 1-10}.
+    
+   :PASSES n:  Set number of passes to N {range: 1-2}.
+    
+   :TRANBW v:  Set the Chebyshev transition bandwidth to v.
+    
+   :ATTEN v:  Set the Chebyshev attenuation factor to v.
+    
+DEFAULT VALUES
+--------------
+
+  ``BANDPASS BUTTER CORNER 0.1 0.4 NPOLES 2 PASSES 1 TRANBW 0.3 ATTEN 30.``
+
+DESCRIPTION
+-----------
+  A set of Infinite Impulse Response (IIR) filters is available in SAC.
+  These recursive digital filters are all based upon classical analog designs:
+  Butterworth, Bessel, Chebyshev type I, and Chebyshev type II.  These analog
+  prototype filters are mapped to digital filters via the bilinear
+  transformation, a transformation which preserves the stability of the analog
+  prototypes.  A complete description of this method of design can be found in
+  the reference given below.  However, it is not necessary to read that
+  description, unless you want complete control over the more complicated
+  Chebyshev filters.
+
+  Generally speaking, the Butterworth filter is a good choice for most
+  applications, since it has a fairly sharp transition from pass band to stop
+  band, and its group delay response is moderate.  The Butterworth filter is the
+  default filter type.  It's 3 db point is at the designated cutoff frequency.
+  The Bessel filter is best for those applications which require linear phase
+  without twopass filtering.  It's amplitude response is not very good.  The SAC
+  Bessel filters have been normalized so that their 3 db points are also at the
+  designated cutoff freqency.  The two Chebyshev filters are included for
+  situations which require very rapid transitions from pass band to stop band.
+  Although they have good magnitude discrimination, their group delay responses
+  are the worst among the filters contained in SAC.
+
+  Some caution must be exercised in applying these filters.  First, all
+  recursive filters have non-linear phase, which can result in some dispersion
+  of filtered waveforms.  For applications where the phase of the resulting
+  filtered waveform is important, a zero-phase implementation of the recursive
+  filters is provided.  Zero-phase filtering is possible by running the filter
+  forward and backward over the data, instead of just forward over the data.
+  This two-pass operation results in a effective filter magnitude response
+  which is the square of the original magnitude response.  It also results in a
+  non-causal filter impulse response, which can leave a signal containing a
+  sharp time onset with a ringing precursor.  For this reason, you should not
+  measure arrival times of data that has been filtered using this two-pass
+  option.  For cases where signal precursors cannot be tolerated, such as onset
+  picking operations, it may not be a good idea to do two-pass filtering.
+  Second, the filters can become numerically unstable if the width of the
+  filter pass band is very small compared to the folding frequency of the data.
+  The problem is only aggravated by increasing the number of poles in the
+  filter.  Situations that seem to require an exceptionally narrow band filter
+  can be handled more reliably by decimation, filtering with a filter of more
+  moderate band width, and interpolation to the original sampling rate.
+  Recourse to this resampling strategy should be made when the filter band
+  width drops below a few percent of the folding frequency.
+
+  Generally, the filter will have a sharper transition from pass band to
+  stop band as the number of poles is increased.  However, there are penalties
+  for using a large numbers of poles.  Filter group delays generally get wider
+  as the number of poles increases, resulting in worse dispersion of the
+  filtered waveform.  Applications that appear to require more than three or
+  four poles should probably be reconsidered.
+
+  The design of Butterworth and Bessel filters is particularly simple.
+  You simply specify the cutoffs of the filter and the number of poles.
+  Chebyshev filters are more complicated to design.  In addition to cutoffs and
+  number of poles, you must supply a transition band width, and a stop band
+  attenuation factor for the analog prototype filter.  The transition band width
+  is the width of the region between the filter pass band and stop band.  It is
+  specified as a fraction of the analog prototype pass band width.
+
+  Due to the non-linear warping of the frequency axis of the bilinear
+  transformation, the transition band width of the recursive digital filter may
+  be smaller than that specified in the design.  In SAC, the analog prototype
+  filter cutoffs are compensated to ensure that they map to the requested
+  cutoffs after the bilinear transformation is performed.  The same is not true
+  of the stop band edges.  Consequently, if precisely located stop band edges
+  are necessary, you must compensate for this shrinkage when choosing your
+  cutoffs.
+
+  The stop band attenuation is specified as the ratio of the pass band
+  gain to the stop band gain.
+
+
+EXAMPLES
+--------
+  To apply a four-pole Butterworth with corners at 2 and 5 Hz.::
+
+      SAC>  BANDPASS NPOLES 4 CORNER 2 5
+
+  To later apply a two-pole two-pass Bessel with the same corners.::
+
+      SAC>  BP N 2 BE P 2
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+- 1307: Illegal operation on spectral file
+- 1002: Bad value for
+
+   - corner frequency larger than Nyquist frequency.
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+  Magnitude Frequency Response of Chebyshev Type II Filter
+

@@ -1,0 +1,74 @@
+
+PICKS
++++++
+
+SUMMARY
+-------
+Controls the display of time picks on most SAC plots.
+
+SYNTAX
+------
+
+  ``PICKS {ON|OFF} {pick type},{WIDTH v},{HEIGHT v}``
+
+   where pick is one of the following
+
+  ``O|A|F|Tn, n=0...9``
+
+   where type is one of the following
+
+  ``VERTICAL|HORIZONTAL|CROSS``
+
+INPUT
+-----
+   :PICKS ON:  Turn on pick display.
+    
+   :PICKS OFF:  Turn off pick display.
+    
+   :pick:  The name of a SAC time pick header variable: ,BREAK O|A|F|Tn,
+       n=0...9
+    
+   :VERTICAL:  A vertical line at time pick.  Pick id at bottom right of
+       line.
+    
+   :HORIZONTAL:  A horizontal line at the data point nearest the time
+       pick.  Pick id is placed above or below the line.
+    
+   :CROSS:  A vertical line at the time pick and a horizontal line at the
+       nearest data point.
+    
+   :WIDTH v:  Change the width of the pick display to v.
+    
+   :HEIGHT v:  Change the height of the pick display to v.  Height and
+       width refer to HORIZONTAL and CROSS only and are in fractions of
+       full plot size.
+    
+DEFAULT VALUES
+--------------
+
+  ``PICK ON WIDTH 0.1 HEIGHT 0.1; all pick types are VERTICAL.``
+
+DESCRIPTION
+-----------
+   This command controls the display of time pick information on most SAC plots.
+   These time picks identify previously defined times of interest such as phase
+   arrivals, event origin, etc.  When this display is on, each defined time pick
+   is displayed on the plot at the time of the pick with a time pick id near the
+   line.  The time pick id is a header variable 8 characters in length.  KA, KF,
+   KO, and KTn are the time pick ids for A, F, O, and Tn respectively.  If the
+   time pick id is not defined, the name of the pick itself is used.  Each pick
+   may be displayed as a vertical line, a horizontal line, or a cross.
+
+EXAMPLES
+--------
+  To display time picks T4, T5, and T6 as crosses and to change the height and
+  width of the crosses::
+
+      u:  PICKS T4 C T5 C T6 C W 0.3 H 0.1
+
+  Other time pick display types will remain unchanged.
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

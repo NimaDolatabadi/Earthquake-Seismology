@@ -1,0 +1,89 @@
+
+MERGE
++++++
+
+SUMMARY
+-------
+Merges (concantenates) a set of files to data in memory.
+
+SYNTAX
+------
+
+  ``MERGE {VERBOSE} {GAP ZERO|INTERP} {OVERLAP COMPARE|AVERAGE} {filelist}``
+
+INPUT
+-----
+    
+   :GAP ZERO | INTERP: How to handle data gaps
+       ZERO - Fill with 0.0 amplitude
+       INTERP - Interpolate, linear, within the data gap 
+
+   :OVERLAP COMPARE | AVERAGE: How to handle data overlaps
+       COMPARE - Compare overlapping data points, exit on mismatch
+       AVERAGE - Average overlapping data points
+
+   :VERBOSE: Describe the merge details
+
+   :filelist:  A list of SAC binary data files.  This list may contain
+       simple filenames, full or relative pathnames, and wildcard
+       characters.  See the READ_ command for a complete description.
+    
+
+DESCRIPTION
+-----------
+   The data in the files in this merge list is appended or concantenated to the
+   data in memory.  Each pair of files to be merged is checked to make sure they
+   have the same sampling interval and station name.  Any number of file, in any
+   order are able to be merged.  Data currently in memory and data identified in
+   the merge command are merged together.  If no data is specified with the merge
+   command, data currently in memory will be merged. 
+
+EXAMPLES
+--------
+   To merge FILE3, FILE4, FILE1 and FILE2 into one file::
+
+      u:  READ FILE1 FILE2
+      u:  MERGE FILE3 FILE4
+
+   or
+      
+      u: READ FILE1 FILE2 FILE3 FILE4
+      u: MERGE
+
+   or
+      
+      u: DELETECHANNEL ALL
+      u: MERGE FILE1 FILE2 FILE3 FILE4
+
+   To merge files for the same station, say ELKO.Z, from four different events
+   each stored in a separate UNIX directory::
+
+      u:  READ data/event1/elko.z
+      u:  MERGE data/event2/elko.z data/event3/elko.z data/event4/elko.z
+
+   
+HEADER CHANGES
+--------------
+   NPTS, DEPMIN, DEPMAX, DEPMEN, E
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1803: No binary data files read in.
+- 1307: Illegal operation on spectral file
+- 1306: Illegal operation on unevenly spaced file
+- 1801: Header field mismatch:
+- 9005: Amplitude mismatch
+
+WARNING MESSAGES
+----------------
+- 1805: Time gap (zeros added):
+
+SEE COMMANDS
+------------
+   READ_
+
+LATEST REVISION
+---------------
+   Feb. 27, 2013 (Version 101.6)
+

@@ -1,0 +1,51 @@
+
+RTREND
+++++++
+
+SUMMARY
+-------
+Removes the linear trend.
+
+SYNTAX
+------
+::
+
+  [RTR]END  [QUIET [ON | OFF]] [VERBOSE [ON | OFF]]
+
+INPUT
+-----
+   :QUIET: If ON, supresses screen output
+    
+   :VERBOSE: If on, there is output to the screen about slope removed, et.
+       
+   :DEFAULT VALUES:  RTR QUIET
+
+DESCRIPTION
+-----------
+   A least-squares curve-fit to a straight line is calculated.  This straight
+   line (trend and intercept) is then "subtracted" from the data.  The data does
+   not have to be evenly spaced.
+
+   OUTPUT: The best-fitting straight line parameters for the last file in
+   the data file list are written to blackboard variables begining with RTR.
+
+   - RTR_SLP is the slope of the line.
+   - RTR_SDSLP is the standard deviation in the slope.
+   - RTR_YINT is the y intercept of the line.
+   - RTR_SDYINT is the standard deviation in the y intercept.
+   - RTR_SDDTA is the standard deviation in the data.
+   - RTR_CORRCF is the data correlation coeficient.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1307: Illegal operation on spectral file
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+  July, 2011 (Version 101.5)
+

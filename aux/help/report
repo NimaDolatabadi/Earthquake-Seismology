@@ -1,0 +1,94 @@
+
+REPORT
+++++++
+
+SUMMARY
+-------
+Informs the user about the current state of SAC.
+
+SYNTAX
+------
+
+  ``REPORT {list}``
+
+   where list is one or more of the following:
+
+  ``APF, COLOR, CUT,``
+
+  ``DEVICES, FILEID, GTEXT,``
+
+  ``HPF, LINE, MEMORY,``
+
+  ``MTW, PICKS, SYMBOL,``
+
+  ``TITLE, XLABEL,``
+
+  ``XLIM, YLABEL, YLIM``
+
+
+INPUT
+-----
+   :APF:  The name of the alphanumeric pick file.
+    
+   :COLOR:  The current color attributes.  No color table is read in until
+       a graphics device is activated.  Unless a graphics device has been
+       activated, this report will not be correct.
+    
+   :CUT:  The current CUT_ status.
+    
+   :DEVICES:  A list of the graphics devices available on your system.
+    
+   :FILEID:  The current file id display attributes.
+    
+   :GTEXT:  The current graphics text  attributes.
+    
+   :HPF:  The name of the HYPO pick file.
+    
+   :LINE:  The current linestyle attributes.
+    
+   :MEMORY:  A dump of the available memory blocks from the memory
+       manager.  This is probably of little interest unless the memory
+       manager is not working properly.
+    
+   :MTW:  The current measurement time window status.
+    
+   :PICKS:  The current time pick display attributes.
+    
+   :SYMBOL:  The current symbol drawing attributes.
+    
+   :TITLE:  The current plot title attributes.
+    
+   :XLABEL:  The current x axis label attributes.
+    
+   :XLIM:  The current x axis plot limits.
+    
+   :YLABEL:  The current y axis label attributes.
+    
+   :YLIM:  The current y axis plot limits.
+    
+DESCRIPTION
+-----------
+   This command can be used to find out about the current values of certain SAC
+   options.  The values are printed to the terminal.
+
+EXAMPLES
+--------
+  To get a list of the current color attributes::
+
+      u: REPORT COLOR
+      s:   COLOR option is ON
+      s:   DATA color is YELLOW
+      s:   INCREMENT data color is OFF
+      s:   SKELETON color is BLUE
+      s:   BACKGROUND color is NORMAL
+
+  To get the names of the HYPO and card image pick files::
+
+      u: REPORT APF HPF
+      s:   Alphanumeric pick file is MYPICKFILE
+      s:   HYPO pick file is HYPOPICKFILE
+
+LATEST REVISION
+---------------
+  March 20, 1991 (Version 10.6e)
+

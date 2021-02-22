@@ -1,0 +1,101 @@
+
+CORRELATE
++++++++++
+
+SUMMARY
+-------
+Computes the auto- and cross- correlation functions.
+
+SYNTAX
+------
+
+  ``CORRELATE  {MASTER name|n},``
+
+  ``{NUMBER n},{LENGTH ON|OFF|v},``
+
+  ``{TYPE  RECTANGLE|HAMMING|HANNING|COSINE|TRIANGLE}``
+
+INPUT
+-----
+   :MASTER name|n:  Select master file in data file list by name or
+       number.  All files will be correlated against this one.
+    
+   :NUMBER n:  Set number of correlation windows to be used.
+    
+   :NORMALIZED: Results are normalized between -1.0 and 1.0
+    
+   :LENGTH {ON}:  Turn fixed window length option on.
+    
+   :LENGTH OFF:  Turn fixed window length option off.
+    
+   :LENGTH v:  Turn fixed window length option on and change window
+       length in seconds to v.
+    
+   :TYPE RECTANGLE:  Apply a rectangle function to each window.  This is
+       equivalent to applying no function to each window.
+    
+   :TYPE HAMMING:  Apply a hamming function to each window.
+    
+   :TYPE HANNING:  Apply a hanning function to each window.
+    
+   :TYPE COSINE:  Apply a cosine function to each window.
+    
+   :TYPE TRIANGLE:  Apply a triangle function to each window.
+    
+DEFAULT VALUES
+--------------
+
+  ``CORRELATE MASTER 1 NUMBER 1 LENGTH OFF TYPE RECTANGLE``
+
+DESCRIPTION
+-----------
+  An auto-correlation function is computed on the signal which you declare
+  to be the master one, and a cross-correlation function is calculated between
+  it and each of the other signals in memory.
+
+  The windowing features of this command allow you to compute an average
+  correlation function over a set of data windows.  The number of windows is
+  selectable and there are five standard windowing functions to choose from.
+  When this windowing feature is on, a cross-correlation function is computed 
+  for each window.  This collection of cross-correlation functions is then 
+  averaged, cut to the same length as the original data file, and replaces 
+  the data file in memory.  You may also select the length of each window.  
+
+  Window overlap is automatically calculated and used whenever the product 
+  of the requested window length (LENGTH option) and the number of windows 
+  (NUMBER option) exceeds the number of points in the data file (NPTS).  
+  By default, this windowing feature is off.
+
+EXAMPLES
+--------
+  To calculate the correlation functions using the third file in memory
+  as the master file::
+
+      u:  CORRELATE MASTER 3
+
+  You could also specify the master file by name if this is easier.
+  Assume you have two data files that each contain 1000 points of noise.
+  To compute the average correlation functions using 10 windows of 100 points
+  each (i.e. no overlap) with a hanning function applied to each window::
+
+      u:  CORRELATE TYPE HANNING NUMBER 10
+
+  To achieve a twenty percent overlap of each window, set the window length to
+  the equivalent of 120 data points.  Assuming a sampling interval of 0.025 (40
+  samples per second) this would be three seconds as shown below::
+
+      u:  CORRELATE TYPE HANNING NUMBER 10 LENGTH 3.0
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+
+ACKNOWLEDGEMENTS
+----------------
+This command is based on an algorithm developed by Dave Harris (DBH)
+
+LATEST REVISION
+---------------
+  Dec. 4, 1996 (Version 52a)
+

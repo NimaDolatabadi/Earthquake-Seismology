@@ -1,0 +1,45 @@
+
+DIVOMEGA
+++++++++
+
+SUMMARY
+-------
+Performs integration in the frequency domain.
+
+DESCRIPTION
+-----------
+  This command divides each point of a spectral file by its frequency
+  given by::
+
+     OMEGA = 2.0 * PI * FREQ
+
+  This is analogous to integrating the equivalent time series file.  The
+  spectral file can in either amplitude-phase or real-imaginary format.
+  This is often convenient with normal data but is critical when obtaining
+  the FFT_ of data whose spectra ranges over many orders of magnitude.  For
+  example, suppose you have prewhitened a data file by using the DIF_ command,
+  and then taken its transform using the FFT_ command.  The effect of the
+  differentiation in time domain can be removed by an integration in the
+  frequency domain using this command.
+
+EXAMPLES
+--------
+  The steps discussed above are shown in this example::
+
+      u:  READ FILE1
+      u:  DIF
+      u:  FFT AMPH
+      u:  DIVOMEGA
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+SEE COMMANDS
+------------
+  DIF_, FFT_, MULOMEGA_, WRITESP_, READSP_
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

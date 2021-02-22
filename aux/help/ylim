@@ -1,0 +1,59 @@
+
+YLIM
+++++
+
+SUMMARY
+-------
+Determines the plot limits for the y axis.
+
+SYNTAX
+------
+
+  ``YLIM {ON|OFF|ALL|min max|PM v ....}``
+
+INPUT
+-----
+   :{ON}:  Turn y limits option on, but don't change limits.
+    
+   :OFF:  Turn y limits option off.
+    
+   :ALL:  Scale y limits to the minimum and maximum of all files in
+       memory.
+    
+   :min max:  Turn fixed y option on and change limits to min and max.
+    
+   :PM v:  Turn fixed y option on and change limits to minus and plus the
+       absolute value of v.  ,SKIP You may define different y limit
+       options for each file in memory if you wish.  The first entry in the
+       command applies to the first file in memory, the second entry to
+       the second file, etc.  The last entry applies to the remainder of
+       the files in memory.
+    
+DEFAULT VALUES
+--------------
+
+  ``YLIM OFF``
+
+DESCRIPTION
+-----------
+   When this option is on, fixed limits are used in plotting.  When off, the
+   limits are scaled to the data.  The limits can also be scaled to the entire
+   data set if desired.  Different values may be set for each file in memory.
+
+EXAMPLES
+--------
+  Consider the following set of commands::
+
+      u:  YLIM 0.0 30.0 ALL OFF
+      u:  READ FILE1 FILE2 FILE3
+      u:  PLOT
+
+  FILE1 would be plotted with y limits of 0.0 and 30.  FILE2 would be scaled to
+  the minimum and maximum values of all files in memory.  FILE3 would be scaled
+  to its own minimum and maximum values.  If more than three files were read in,
+  they would also be scaled to their own minimum and maximum values.
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

@@ -1,0 +1,142 @@
+
+CHNHDR
+++++++
+
+SUMMARY
+-------
+Changes the values of selected header fields.
+
+SYNTAX
+------
+
+  ``CHNHDR  { file n1 n2 ... } field v  {field v ... }``
+
+INPUT
+-----
+   :file:  This is an optional keyword that can be followed by
+       a list of numbers indicating which file headers
+       are to be changed.
+    
+   :n1 n2 ...:  Integers indicating the file headers to be changed.
+    
+    
+   :field:  The name of a SAC header variable.  These variables are listed
+       in SAC_Format_.  Also, field may be the keyword ALLT
+       as discussed below.  Note, in order to maintain internal consistency,
+       the following header variables cannot be changed with CHNHDR_:
+       NVHDR, NPTS, NWFID, NORID, and NEVID.
+    
+   :v:  Set the value of that field to v.  The type of the field and its
+       new value must match.  Use single quotes for alphanumeric fields
+       with embedded blanks.  Use TRUE or FALSE for logical fields.  YES or
+       NO are also acceptable for logical fields.  Use variable names (see
+       SAC_Format_) for value fields.  For offset time fields (B, E, O, A, F,
+       and Tn), v may also be of the form -- GMT v1 v2 v3 v4 v5 v6 where v1,
+       v2, v3, v4, v5, and v6 are the GMT year, day-of-year, hour, minute,
+       second, and millisecond of the time.  If v1 is a two-digit number,
+       SAC will assume it is in the current century, unless that would mean
+       that the year is in the future, in which case, SAC assumes the
+       previous century.  To be certain you get what you want, use four
+       digits.
+    
+   :UNDEF:  Use this keyword instead of v to "undefine" a header field.
+    
+   :ALLT v:  Add v seconds to all defined header times.  Subtract v
+       seconds from the reference time.
+    
+DESCRIPTION
+-----------
+   This command lets you change any of SAC's header fields.
+   A specific file or list of files can be changed by specifying the
+   integer value(s) corresponding to the order in which the file(s)
+   were read in.  If no integer filelist is specified, all files in memory
+   will have their header fields changed.  To change the headers of the
+   files on disk, follow this command with the WRITE_ or WRITEHDR_ command.
+   SAC does some validity checking on the new values but you may want to
+   verify the results using the LISTHDR_ command.
+   
+   There are dight enumerated (I type) variaables, such as IZTYPE, IDEP, and
+   IZTYPE.  These are explained and options listed in SAC_FORMAT_.
+   
+   There is a set of six variables in the header (NZYEAR, NZJDAY, NZHOUR,
+   NZMIN, NZSEC, and NZMSEC) that contain the reference or "zero" time of the
+   file.  This is the only GMT in the SAC header.  All other times in the header
+   (B, E, O, A, F, and Tn) are offsets in seconds relative to this reference
+   time.  You may change the reference time and all of the defined offset times
+   by using the "ALLT v" option.  That number of seconds are added to each
+   defined offset time.  That same number of seconds is also subtracted from the
+   reference time.  This preserves the actual GMT time of the data.  As a
+   convenience, you may enter a GMT time instead of a relative time when
+   changing the offset times.  When the GMT time is entered it is converted to
+   a relative time before storing it in the offset time field.
+
+EXAMPLES
+--------
+   To define the event latitude, longitude and name in all the files in memory::
+
+      SAC>  CHNHDR EVLA 34.3 EVLO -118.5
+      SAC>  CHNHDR KEVNM 'LA goes under'
+
+   To define the event latitude, longitude and name in files 2 and 4::
+
+      SAC>  CHNHDR file 2 4 EVLA 34.3 EVLO -118.5
+      SAC>  CHNHDR file 2 4 KEVNM 'LA goes under'
+
+   To change the event type to earthquake::
+
+      SAC>  CHNHDR IEVTYP IQUAKE   
+
+   To set the first arrival time to its undefined state::
+
+      SAC>  CHNHDR A UNDEF   
+
+   Assume you know the GMT origin time of an event and that you want to quickly
+   change all the times in the header so that this origin time is the zero or
+   reference time and all other offset times are correct relative to this time.
+   First set the origin time using the GMT option::
+
+      SAC>  CHNHDR O GMT 1982 123 13 37 10 103
+   
+   Now use the [L]IST[H]DR command to find out what O is relative to the current
+   reference time::
+
+      SAC>  LISTHDR O
+      O 123.103
+
+   Now use the ALLT option to subtract this value from all of the offset times
+   and add it to the reference time.  You also want to change the field that
+   describes the type of reference time stored in these files::
+
+      SAC>  CHNHDR ALLT -123.103 IZTYPE IO
+
+   Notice the minus sign because you are subtracting this value from the offset
+   times.
+
+   Alternatively, if you have several waveforms in memory for the same event bur
+   with different reference times, after setting O as above, the following command 
+   will subtract off the origin time from all defined times for all files and 
+   change the reference time to origin time::
+   
+     SAC> chnhdr allt (0 - &1,o&) IZTYPE IO
+     
+HEADER CHANGES
+--------------
+   Potentially almost all header fields (exceptions given above).
+
+ERROR MESSAGES
+--------------
+- 1006: Length of string variable exceeded at symbol
+
+  - Alphanumeric header field too long.
+
+- 1301: No data files read in.
+
+
+SEE COMMANDS
+------------
+   LISTHDR_, WRITE_, WRITEHDR_, SAC_FORMAT_
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)  Wording updated in Ocober 2011
+

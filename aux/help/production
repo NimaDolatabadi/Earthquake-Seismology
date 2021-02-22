@@ -1,0 +1,33 @@
+
+PRODUCTION
+++++++++++
+
+SUMMARY
+-------
+Controls the production mode option.
+
+SYNTAX
+------
+
+  ``PRODUCTION ON|OFF``
+
+INPUT
+-----
+   :ON:  Turn production mode option on.
+    
+   :OFF:  Turn production mode option off.
+    
+DEFAULT VALUES
+--------------
+
+  ``PROD OFF``
+
+DESCRIPTION
+-----------
+   When this option is on, fatal errors terminate SAC immediately.  When this
+   option if off, control is returned to the terminal after fatal errors.
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

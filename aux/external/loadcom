@@ -1,0 +1,1 @@
+cc -o libcom.so -G *.c

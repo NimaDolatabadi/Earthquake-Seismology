@@ -1,0 +1,47 @@
+
+PLOTXY
+++++++
+
+SUMMARY
+-------
+Plots one or more data files versus another data file.
+
+SYNTAX
+------
+
+  ``PLOTXY name|number  name|number  { name|number ... }``
+
+INPUT
+-----
+   :name:  The name of a data file in the data file list.
+    
+   :number:  The number of a data file in the data file list.
+    
+DESCRIPTION
+-----------
+   This command lets you plot one or more data files versus another data
+   file.  The first data file you select (either by name or number) becomes the
+   independent variable and is plotted along the x axis.  The remainder of the
+   data files you select become the dependent variables and are plotted along
+   the y axis.  All of the graphics environment commands such as TITLE_, LINE_,
+   and SYMBOL_ can be used to control attributes about the plot.
+   This command can be used to easily plot multi-columned data that has
+   been read in with the READALPHA command.  In this case it can be viewed as a
+   spreadsheet like plotting command.  An example is given below.
+
+EXAMPLES
+--------
+  Assume you have an ascii file that contains four columns of numbers.  You
+  wish to read these into SAC and plot various columns versus each other.  The
+  following commands would read this file in and store it as four separate data
+  files inside SAC, turn linestyle incrementing on and then plot the first,
+  third, and fourth columns versus the second column::
+
+      u: READALPHA CONTENT YNNN MYFILE
+      u: LINE INCREMENT ON
+      u: PLOTXY 2 1 3 4
+
+LATEST REVISION
+---------------
+  April 21, 1989 (Version 10.4c)
+

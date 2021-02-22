@@ -1,0 +1,45 @@
+$KEYS dir
+
+echo off
+message ' '
+message 'Each SAC data file contains the data from a single seismic'
+message 'component along with header information describing that data.'
+message 'The READ command reads data from disk, the CUT command can'
+message 'be used to specify what part of the data to read, and the'
+message 'PLOT command graphically displays the data currently in memory.'
+message ' '
+pause message "Press return to continue ..."
+echo on
+
+read $dir$cdv_z
+title 'A sample seismogram from a local event'
+xdiv power off ; xlabel 'Time (sec)'
+window 1 y .01 .55
+bw 1
+plot
+saveimg ../results/local_event.pdf
+listhdr columns 2
+echo off
+pause message "Press return to continue ..." ; echo on
+
+cut a f
+read
+title 'Same seismogram windowed around the event'
+bw 2
+plot
+saveimg ../results/event_cut.pdf
+listhdr
+echo off
+pause message "Press return to continue ..." ; echo on
+
+cut a -0.2 2.0
+read
+title 'Same seismogram windowed around the arrival time'
+bw 3
+plot
+saveimg ../results/arrival_cut.pdf
+listhdr
+echo off
+pause message "Press return to continue ..." ; echo on
+
+cut off

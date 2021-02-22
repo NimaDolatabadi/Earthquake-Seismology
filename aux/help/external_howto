@@ -1,0 +1,60 @@
+
+*** How to use SAC's external function capability. ***
+
+
+Summary: Build a shared object according to specifications
+use load command to load into sac
+run the command as desired
+
+STEP 1: compile srcs into one or more external libs.
+For example the following loads a command called
+flipxy into a shared object library libext.so
+
+cc -o /us/peterg/lib/libext.so -G flipxy.c
+
+By default sac will call the command flipxy.
+Note: we can have multiple srcs on this line.
+e.g., cc -o /us/peterg/lib/libext.so -G extern.c velarr.c flipxy.c
+See the load command for more details.
+
+STEP 2: Setup the SACSOLIST and LD_LIBRARY_PATH environments.
+
+setenv SACSOLIST "Shared library name"
+e.g., setenv SACSOLIST libext.so
+Use space delim and quotes for multiple libs
+
+setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/Path_to_Shared_Library
+e.g., setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:/us/peterg/lib
+
+STEP 3: {Optional}  Use init script to load automatically.
+alias sac "/usr/local/bin/sac /us/peterg/bin/sacmac/sac.init"
+where sac.init includes the users startup commands including
+load external_function_command_name
+The following is an example initialization file:
+setmacro /us/peterg/bin/sacmac
+window 1 x .34 1.0 y 0.5 1.0
+qdp 5000
+load flipxy
+
+STEP 4: Startup sac and load the command (if you didn't load it via STEP 3).
+e.g.,  SAC> load flipxy
+SAC> fg
+SAC> flipxy
+
+
+*** How to Share with other users: ***
+
+STEP 1: Give other users your function or shared library and this notes file.
+Tell the other users to do step 2-4.
+
+STEP 2: You can also send external function you would like distributed
+as part of the SAC distribution to:
+
+peterg@llnl.gov
+
+Please include a brief description with a relevant references that
+we can include as part of the documentation.
+All contributions will be acknowledged appropriately.
+
+
+

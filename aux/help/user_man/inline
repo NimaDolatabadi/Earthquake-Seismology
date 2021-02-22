@@ -1,0 +1,279 @@
+SAC Inline Functions
+++++++++++++++++++++
+
+Overview
+--------
+An inline function is one that is enclosed in parenthesis and placed within a 
+regular SAC command. The inline function is evaluated and its resulting value 
+replaces the function in the SAC command before the command is executed. 
+
+There are three general classes of inline functions:
+
+  - embedded arithmetic functions that begin with a number and have the 
+    name of the function embedded in the argument list.
+  - regular arithmetic functions that begin with the function name and are 
+    followed by zero or more arguments.
+  - character string manipulation functions that begin with the function name 
+    and are followed by zero or more arguments. 
+
+Inline functions can be placed inside other inline functions. This is refered 
+to as nesting.  Beginning with v 101.6, there is no nesting limits of inline functions. 
+Macro arguments, blackboard variables, and header variables can be used as arguments 
+to inline functions. They are inserted in inline functions using the same 
+syntax as in regular SAC commands.
+
+Embedded Arithmetic Functions
+-----------------------------
+
+An embedded arithmetic function is a simple math operation similar to those
+in any programming language, e.g. FORTRAN, C, etc, and is of the general
+form::
+
+ ( number operator number ... )
+
+where number is a numeric value and operator is one of the following 
+arithmetic operators::
+
+  +   -   *   /   ** 
+
+All numbers are treated as real, and all arithmetic is done in double-precision
+floating point.
+
+Here is a simple example::
+
+
+  SAC> SETBB A (4 + 7 / 3)
+  ===> SETBB A 6.33333
+
+Prior to version 101.6, the answer would have been 3.666667 because operations
+were executed from left to right.  Beginning with version 101.6, the FORTRAN
+heirarchy is used: ** then / then * then + and -.  As in FORTRAN, the heirarchy
+can be changed by using parentheses::
+
+  SAC> SETBB A ((4 + 7) / 3)
+  ==> SETBB A 3.66667
+
+Because there are many scripts and macros written before v101.6, expressions with
+inline functions like the above will give the incorrect answer if there are no
+specific parentheses.  If the new (with v101.6) function MATHOP_ is called with
+the option old before lines with inline functions, the precedence rules that
+held prior to v101.6 will be followed::
+
+  SAC> MATHOP OLD
+  SAC> SETBB A (4 + 7 / 3)
+  ===> SETBB A 3.66667
+
+Regular Arithmetic Functions
+----------------------------
+
+There are 20 regular arithmetic functions available. They correspond 
+to the arithmetic functions found in the EVALUATE command. Each of these 
+functions is described below. Some examples are given at the end of this 
+subsection.
+
+=========== ======================== =========================================
+Command     Syntax                   Purpose
+=========== ======================== =========================================
+ADD         ( ADD v1 v2 ... vn )     Add (sum) a set of numbers.
+SINE        ( SINE v)                Take the sine of a number.
+SUBTRACT    ( SUBTRACT v1 v2 ... vn) Subtract a set of numbers.
+ARCSINE     ( ARCSINE v)             Take the arcsine of a number.
+MULTIPLY    ( MULTIPLY v1 v2 ... vn) Multiply a set of numbers.
+COSINE      ( COSINE v)              Take the cosine of a number.
+DIVIDE      ( DIVIDE v1 v2 ... vn)   Divide a set of numbers.
+ARCCOSINE   ( ARCCOSINE v)           Take the arccosine of a number.
+SQRT        ( SQRT v)                Take the square root of a number.
+TANGENT     ( TANGENT v)             Take the tangent of a number.
+EXP         ( EXP v)                 Exponentiate a number.
+ARCTANGENT  ( ARCTANGENT v)          Take the arctangent of a number.
+ALOG        ( ALOG v)                Take the natural logarithm of a number.
+INTEGER     ( INTEGER v)             Convert a number to an integer.
+POWER       ( POWER v)               Raise a number to its power of 10.
+PI          PI  or ( PI )            Return the value of pi.
+ALOG10      ( ALOG10 v)              Take the log to base 10 of a number.
+MAXIMUM     ( MAXIMUM v1 v2 ... vn)  Maximum value of a set of numbers.
+MINIMUM     ( MINIMUM v1 v2 ... vn)  Minimum value of a set of numbers.
+ABSOLUTE    ( ABSOLUTE v)            Take the absolute value of a number.
+=========== ======================== =========================================
+
+Exampples
+---------
+
+To normalize a set of data files so that the maximum absolute value of any 
+data point in the set is unity::
+
+  SAC> READ FILE1 FILE2 FILE3 FILE4
+  SAC> SETBB A (MAX &1,DEPMAX &2,DEPMAX &3,DEPMAX &4,DEPMAX)
+  ==> SETBB A 1.87324
+  SAC> SETBB B (MIN &1,DEPMIN &2,DEPMIN &3,DEPMIN &4,DEPMIN)
+  ==> SETBB B -2.123371
+  SAC> DIV (MAX %A (ABS %B))
+  ==> DIV 2.123371
+
+This could have been done with a single command without using intermediate 
+blackboard variables by nesting the inline functions properly, but this way 
+is more readable. 
+
+In the next example, we need to calculate the tangent of an angle that has 
+already been stored in degrees::
+
+  SAC> GETBB ANGLE
+  ANGLE = 45
+  SAC> SETBB VALUE (TAN (PI * %ANGLE / 180. ))
+  ==> SETBB VALUE 1.00000
+
+Prior to v101.6, one needed %ANGLE ) or %ANGLE%). bit with the new parsing
+system the trailing spae or % is no longer needed.)
+
+Miscellaneous Arithmetic Functions
+----------------------------------
+GETTIME, the only miscellaneous arithmetic function, returns the time offset 
+(in seconds) relative to file begin time, for the first data point meeting 
+the selection criteria.::
+
+  GETTIME
+  ( GETTIME MAX|MIN [value])
+
+If no value is specified, MAX returns the time of the file's first data-point 
+having a value equal to DEPMAX and MIN returns the time of the file's first 
+data-point having the value l equal to DEPMIN. Specifying a value controlls the 
+value of the data-point being searched for.
+
+For example, to return the time in seconds of the first data-point equal to the 
+maximum amplitude for the file FILE1::
+
+  SAC> READ FILE1
+  SAC> SETBB MAXTIME ( GETTIME MAX )
+  ==> SETBB MAXTIME 41.87
+
+The file's maximum amplitude is located 41.87 seconds into the file.
+
+To locate the time of the first data-point less than or equal to the value 
+123.45::
+
+  SAC> SETBB VALUETIME ( GETTIME MIN 123.45 )
+  ==> SETBB VALUETIME 37.9
+
+The first data-point in the file having a value less than or equal to 123.45 
+occurs at 37.9 seconds into the file.
+
+Character strings
+-----------------
+Prior to v101.6, Blackboard_ number variables were stored as strings, now they
+are stored as double-precision variables.  In earlier versions, if a (..)
+appeared in a quoted string, escape character @ was needed to keep the inline
+parser from treating the expression as a math expression.  Although that
+coding continues to work in 101.6, adding the escape characters is no
+longer necessary::
+
+  SAC> fg seismo
+  SAC> echo on
+  SAC> xlabel "Time @(sec@)"
+  xlabel "Time @(sec@)"
+  ==>  xlabel "Time (sec)"
+  SAC> xlabel "Time (sec)"
+  xlabel "Time (sec)"
+  SAC> 
+  
+
+String Functions
+----------------
+There are currently seven string manipulation functions. Each of these 
+functions is described below. Some examples are given at the end of this 
+subsection.
+
+=========== ============================== ====================================
+Command     Syntax                         Purpose
+=========== ============================== ====================================
+CHANGE      ({CHA}NGE} s1 s2 s3)           Change one text string (s1) to 
+                                           another ( s2) in a third text 
+                                           string ( s3).
+SUBSTRING   ({SUBS}TRING n1 n2 s)          Return substring with characters 
+                                           n1 through n2 of text string (s).
+DELETE      ({DEL}ETE s1 s2)               Delete a text string (s1) within 
+                                           another text string (s2).
+CONCATENATE ({CONC}ATENATE s1 s2 ... sn})  Concatenate (i.e., place end to 
+                                           end) one or more text strings.
+BEFORE      ({BEF}ORE s1 s2)               Return the portion of a text 
+                                           string (s2) that occurs before 
+                                           another text string (s1).
+REPLY       ({REP}LY s1)                   Send a message to the terminal 
+                                           and get a reply.
+AFTER       ({AFT}ER s1 s2)                Return the portion of a text string
+                                           (s2) that occurs after another 
+                                           text string (s1).
+=========== ============================== ====================================
+
+
+Because of the changes in handling strings in v101.6, code that previously worked
+will no longr work.  For example, to use CONCATENATE to set the station and event
+names in the title of a plot prior ot v101.6m the following was used::
+
+  SAC> FUNCGEN SEISMOGRAM
+  SAC> ECNO ON
+  SAC> TITLE '(CONCATENATE 'Seismogram of ' &1,KEVNM ' ' &1,KSTNM )'
+  ==> TITLE 'Seismogram of K8108838 CDV'
+
+The best way to do that in v101.6 is much simpler::
+
+  SAC> title "Seismogram of &1,KEVNM &1,KSTNM"
+  title "Seismogram of &1,KEVNM &1,KSTNM"
+  ==>  title "Seismogram of K8108838 CDV"
+ 
+The next examples uses the SUBSTRING function.::
+
+  SAC> SETBB MONTH (SUBSTRING 1 3 &1,KZDATE)
+  SETBB MONTH (SUBSTRING 1 3 &1,KZDATE)
+  ==>  SETBB MONTH MAR
+  SAC> message (substring 1 5 &1,kevnm)
+  message (substring 1 5 &1,kevnm)
+  ==>  message K8108
+  K8108
+  setbb VAL "1234567890"
+  SAC> message (substring 1 5 %VAL)
+  message (substring 1 5 %VAL)
+  ==>  message 12345
+  12345
+
+The next example uses the REPLY function to control interactively the 
+processing of a set of data files::
+
+  DO FILE LIST ABC DEF XYZ
+     READ $FILE
+     DO J FROM 1 TO 10
+       MACRO PROCESSFILE
+       PLOT
+       SETBB RESPONSE (REPLY "Enter -1 to stop, 0 for next file, 1 for same file: ")
+       IF %RESPONSE LE 0
+         BREAK
+       ENDIF
+     ENDDO
+     IF %RESPONSE LT 0
+       BREAK
+     ENDIF
+  ENDDO
+
+The outer do loop reads in one file at a time from a list. The inner loop 
+calls a macro to process this file. The inner loop executes up to 10 times. 
+After each execution of the processing macro, the file is plotted, a message 
+is sent to the terminal, and the reply is saved in a blackboard variable. The 
+first IF tests this variable to see if the inner processing loop should be 
+terminated (by executing the BREAK statement) or continued. The second IF 
+tests this same variable to see if the loop on each data file should be 
+terminated or continued. If only one IF test were needed, the REPLY function 
+could be substituted directly into the IF test and a blackboard variable 
+would not be needed.
+
+The next example shows REPLY with a default value::
+
+  SAC> SETBB BBDAY (REPLY "Enter the day of the week: [Monday]") 
+
+When this function is executed, the quoted string will appear on the screen, 
+prompting the user for input. If the user types a string, SAC will put the 
+string that the user entered into the blackboard variable BBDAY. If the user 
+simply hits return, SAC will put the default value (in this case, the string 
+"Monday") into BBDAY.
+
+If one copies a set of SAC commands back into SAC, the copied commands will start
+with SAC>, which is not a part of the command.  The parser will remove a doubled
+SAC> SAC>, so lines like SAC> SAC> read a.sac will be translated into SAC> read a.sac

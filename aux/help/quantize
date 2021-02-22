@@ -1,0 +1,69 @@
+
+QUANTIZE
+++++++++
+
+SUMMARY
+-------
+Converts continuous data into its quantized equivalent.
+
+SYNTAX
+------
+
+  ``QUANTIZE [GAINS n ...],[LEVEL v],[MANTISSA n]``
+
+INPUT
+-----
+   :GAINS n ...:  Set list of allowed gains.  They must be monotonically
+       decreasing.  The maximum number of allowed gains is 8.
+    
+   :LEVEL v:  Set the quantization level of the lowest gain.  This is the
+       value of the least significant bit in volts.
+    
+   :MANTISSA n:  Set the number of bits in the mantissa.
+    
+DEFAULT VALUES
+--------------
+
+  ``QUANTIZE GAINS 128 32 8 1 LEVEL 0.00001 MANTISSA 14``
+
+DESCRIPTION
+-----------
+   This command exercises a quantization algorithm equivalent to the
+   "rounding" quantization described in Oppenheim and Schafer (1975, Fig. 9.1).
+   The number of bits used in this algorithm are partitioned into the bits used
+   to represent the characteristic (exponent), the sign bit, and the mantissa
+   bits.  The user can specify the number of bits used for the mantissa.
+   The quantization level (value of least significant bit or LSB) can also
+   be specified by the user.  The default quantization level is 10 microvolts.
+   The error of the signal represented by this quantized function is numerically
+   equal to one-half of this quantization level.  In the spectral domain, this
+   error or quantization noise is::
+
+     ERROR = 1/12 * (DELTA * LEVEL^2)
+
+   where DELTA is the sampling interval.  This quantization noise is measured
+   in units of counts*counts/Hz, as a power spectral density.  The 
+   rms-squared quantization noise is::
+      
+       (1/6)*LEVEL^2.  
+       
+   However, this is an accurate approximation to the noise due to 
+   quantization only if the rms level of the signal is much larger than the 
+   rms quantization noise.  In other words, if the signal is not resolved 
+   by several hundred counts, then there is a correlation between the 
+   quantization noise and the signal being quantized.  The fraction of 
+   correlation is approximately equal to the ratio of the LEVEL to the rms of
+   the signal being quantized (see Fig. 11.13, Oppenheim and Schaffer, 1975).
+   The gains can be specified by the user to simulate the gain steps in an
+   automatic gain-ranging system.  The default gains are those of the Regional
+   Seismic Test Network (RSTN.) Oppenheim, Alan V., and Ronald W. Schafer;
+   Digital Signal Processing; Prentice-Hall; 1975; 585pp.
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

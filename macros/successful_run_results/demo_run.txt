@@ -1,0 +1,295 @@
+   window 1 y .01 .55
+   xdiv power off ; xlabel 'Time (sec)'
+   echo on
+   macro read dir ../data/
+  
+ echo off
+ message ' '
+  
+ message 'Each SAC data file contains the data from a single seismic'
+ Each SAC data file contains the data from a single seismic
+ message 'component along with header information describing that data.'
+ component along with header information describing that data.
+ message 'The READ command reads data from disk, the CUT command can'
+ The READ command reads data from disk, the CUT command can
+ message 'be used to specify what part of the data to read, and the'
+ be used to specify what part of the data to read, and the
+ message 'PLOT command graphically displays the data currently in memory.'
+ PLOT command graphically displays the data currently in memory.
+ message ' '
+  
+ pause message "Press return to continue ..."
+ echo on
+  
+ read $dir$cdv_z
+ ==>  read ../data/cdv_z
+ title 'A sample seismogram from a local event'
+ xdiv power off ; xlabel 'Time (sec)'
+ window 1 y .01 .55
+ bw 1
+ plot
+ saveimg ../results/local_event.pdf
+ listhdr columns 2
+  
+  
+  FILE: ../data/cdv_z - 1
+ -------------------
+
+       NPTS = 9728                                B = -1.000000e+01
+          E = 6.599219e+01                   IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE                            DELTA = 7.812500e-03
+       IDEP = VELOCITY (VOLTS)               DEPMIN = -1.569280e+00
+     DEPMAX = 1.520640e+00                   DEPMEN = -9.370486e-02
+    AMARKER = 6.6172           (IPD0)       FMARKER = 12.328
+     KZDATE = MAR 29 (088), 1981             KZTIME = 10:38:14.000
+     IZTYPE = BEGIN TIME                      KSTNM = CDV
+      CMPAZ = 0.000000e+00                   CMPINC = 0.000000e+00
+      KEVNM = K8108838                       IEVTYP = AFTERSHOCK
+     LOVROK = TRUE                            NVHDR = 6
+      NORID = 0                               NEVID = 0
+     LPSPOL = TRUE                           LCALDA = TRUE
+     KCMPNM =
+ echo off; pause message "Press return to continue ..." ; echo on
+  
+ cut a f
+ read
+ title 'Same seismogram windowed around the event'
+ bw 2
+ plot
+ saveimg ../results/event_cut.pdf
+ listhdr
+  
+  
+  FILE: ../data/cdv_z - 1
+ -------------------
+
+       NPTS = 732                                 B = 6.617188e+00
+          E = 1.232812e+01                   IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE                            DELTA = 7.812500e-03
+       IDEP = VELOCITY (VOLTS)               DEPMIN = -1.569280e+00
+     DEPMAX = 1.520640e+00                   DEPMEN = -9.836765e-02
+    AMARKER = 6.6172           (IPD0)       FMARKER = 12.328
+     KZDATE = MAR 29 (088), 1981             KZTIME = 10:38:14.000
+     IZTYPE = BEGIN TIME                      KSTNM = CDV
+      CMPAZ = 0.000000e+00                   CMPINC = 0.000000e+00
+      KEVNM = K8108838                       IEVTYP = AFTERSHOCK
+     LOVROK = TRUE                            NVHDR = 6
+      NORID = 0                               NEVID = 0
+     LPSPOL = TRUE                           LCALDA = TRUE
+     KCMPNM =
+ echo off; pause message "Press return to continue ..." ; echo on
+  
+ cut a -0.2 2.0
+ read
+ title 'Same seismogram windowed around the arrival time'
+ bw 3
+ plot
+ saveimg ../results/arrival_cut.pdf
+ listhdr
+  
+  
+  FILE: ../data/cdv_z - 1
+ -------------------
+
+       NPTS = 283                                 B = 6.414062e+00
+          E = 8.617188e+00                   IFTYPE = TIME SERIES FILE
+      LEVEN = TRUE                            DELTA = 7.812500e-03
+       IDEP = VELOCITY (VOLTS)               DEPMIN = -1.569280e+00
+     DEPMAX = 1.520640e+00                   DEPMEN = -1.033769e-01
+    AMARKER = 6.6172           (IPD0)       FMARKER = 12.328
+     KZDATE = MAR 29 (088), 1981             KZTIME = 10:38:14.000
+     IZTYPE = BEGIN TIME                      KSTNM = CDV
+      CMPAZ = 0.000000e+00                   CMPINC = 0.000000e+00
+      KEVNM = K8108838                       IEVTYP = AFTERSHOCK
+     LOVROK = TRUE                            NVHDR = 6
+      NORID = 0                               NEVID = 0
+     LPSPOL = TRUE                           LCALDA = TRUE
+     KCMPNM =
+ echo off; pause message "Press return to continue ..." ; echo on
+  
+ cut off
+   echo on
+   macro plot dir ../data/
+  
+ echo off
+ message ''
+  
+ message 'The next set of commands reads in three files containing'
+ The next set of commands reads in three files containing
+ message 'amplitude responses from three stations and produces an'
+ amplitude responses from three stations and produces an
+ message 'overlay plot in LINLOG format.'
+ overlay plot in LINLOG format.
+ message ''
+  
+ pause message "Press return to continue ..."
+ echo on
+  
+ read $dir$mnv_z_am $dir$knb_z_am $dir$elk_z_am
+ ==>  read ../data/mnv_z_am ../data/knb_z_am ../data/elk_z_am
+ xlim .04 .16
+ ylim .0001 .006
+ linlog
+ title 'Rayleigh Wave Amplitude Spectra for NESSEL'
+ symbol 2 increment
+ window 2 x .01 .5 y .45 .9
+ bw 2
+ xlabel "Frequency (Hz)"
+ plot2
+ saveimg ../results/rayleigh_amp.pdf
+ echo off
+ pause message "Press return to continue ..."
+  
+ echo off
+ symbol off
+ title off
+ xlim off
+ ylim off
+ linlin
+ echo off
+ message ''
+  
+ message 'The next set of commands reads part of a signal around the'
+ The next set of commands reads part of a signal around the
+ message 'first arrival time, takes its FFT, and then plots the signal'
+ first arrival time, takes its FFT, and then plots the signal
+ message 'and its amplitude response in both LINLOG and LOGLOG format.'
+ and its amplitude response in both LINLOG and LOGLOG format.
+ message ''
+  
+ pause message "Press return to continue ..."
+  
+ echo on
+ cut a -0.1 n 512
+ read $dir$cdv_z
+ ==>  read ../data/cdv_z
+ taper
+ fft womean amph
+ DC level after DFT is 5.0117e-08
+ writesp $dir$temp
+ ==>  writesp ../data/temp
+  
+ read
+ title 'SEISMIC TRACE'
+ fileid off
+ window 3 x .04 .53 y .48 .93
+ bw 3
+ begfr
+ xvport .1 .9
+ yvport .7 .9
+ qdp off
+ linlin
+ xlabel 'Time (sec)'
+ plot
+ yvport .15 .55
+ xvport .1 .45
+ linlog
+ cut off
+ read $dir$temp.am
+ ==>  read ../data/temp.am
+ title 'Amplitude Response [linlog]'
+ ylim 1e-5 1
+ xlabel "Frequency (Hz)"
+ plot
+ xvport .55 .9
+ loglog
+ title 'Amplitude Response [loglog]'
+ xlim 1 60
+ plot
+ endframe
+ saveimg ../results/3-plots.pdf
+  
+ echo off
+ pause message "Press return to continue ..."
+ title off
+ xlim off
+ xlabel off
+ linlin
+ ylim off
+ qdp on
+ xvport .1 .9
+ yvport .15 .9
+   echo on
+   macro filter dir ../data/
+  
+ echo off
+ message ''
+  
+ message 'This example applies a bank of IIR filters to a signal and'
+ This example applies a bank of IIR filters to a signal and
+ message 'then plots the result using one of the SAC canned plot formats.'
+ then plots the result using one of the SAC canned plot formats.
+ message 'It creates a series of temporary data files in the process.'
+ It creates a series of temporary data files in the process.
+ message 'The temporary files are deleted at the end of the macro.'
+ The temporary files are deleted at the end of the macro.
+ message ''
+  
+ echo on
+  
+ read $dir$elk_z
+ ==>  read ../data/elk_z
+ chnhdr kevnm broadband
+ write $dir$temp0
+ ==>  write ../data/temp0
+  
+ lowpass npoles 3 corner .177 passes 2
+ decimate 6
+ chnhdr kevnm 'Band: .000 .177'
+ write $dir$temp1
+ ==>  write ../data/temp1
+  
+ read $dir$temp0
+ ==>  read ../data/temp0
+ bandpass npoles 3 corner .177 .354 passes 2
+ decimate 4
+ chnhdr kevnm 'Band: .177 .354'
+ write $dir$temp2
+ ==>  write ../data/temp2
+  
+ read
+ bandpass corner .354 .707
+ decimate 2
+ chnhdr kevnm 'Band: .354 .707'
+ write $dir$temp3
+ ==>  write ../data/temp3
+  
+ read
+ bandpass corner .707 1.41
+ chnhdr kevnm 'Band: .707 1.41'
+ write $dir$temp4
+ ==>  write ../data/temp4
+  
+ read
+ bandpass corner 1.41 2.83
+ chnhdr kevnm 'Band: 1.41 2.83'
+ write $dir$temp5
+ ==>  write ../data/temp5
+  
+ * Plot the results
+ read $dir$temp0 $dir$temp1 $dir$temp2 $dir$temp3 $dir$temp4 $dir$temp5
+ ==>  read ../data/temp0 ../data/temp1 ../data/temp2 ../data/temp3 ../data/temp4 ../data/temp5
+ xlabel 'Time (sec)'
+ title size medium 'Bandpass-Partitioned Signals'
+ ylim all
+ qdp off
+ xlim 50 200
+ fileid on type list kevnm
+ bw 4
+ plot1
+ saveimg ../results/bandpass_signals.pdf
+  
+ echo off
+ pause message "Press return to continue ..."
+ title off
+ xlabel off
+ xlim off
+ ylim off
+ fileid type default
+ qdp on
+ echo on
+ sc \rm $dir$temp*
+ ==>  sc \rm ../data/temp*
+   message 'macro demo is finished'
+ macro demo is finished
+ q

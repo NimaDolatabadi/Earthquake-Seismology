@@ -1,0 +1,79 @@
+
+SORT
+++++
+
+SUMMARY
+-------
+Sorts files in memory by header fields.
+
+SYNTAX
+------
+
+  ``SORT COMMIT|ROLLBACK|RECALLTRACE``
+
+  ``header {ASCEND|DESCEND} {header {ASCEND|DESCEND} ... }``
+
+INPUT
+-----
+   :COMMIT:  Commits headers and waveforms in SAC memory -- removing any
+       previous versions of headers or waveforms from RAM -- prior
+       to writing files.  COMMIT is the default.
+    
+   :ROLLBACK:  reverts to the last committed version of the header and
+       waveform before writing files.
+
+   :RECALLTRACE_: 
+
+     - reverts to the last committed version of the waveform,
+     - reverts to the last committed version of those header
+       variables closely linked to the waveform,
+     - commits those header variables which are loosely linked
+       to the waveform. (RECALLTRACE_ for a list of which 
+       header variables are committed, and which are rolled back.)
+
+   :HEADER:  header field upon which to sort the files.
+
+   :ASCEND:  Sort files on header in ascending order. This is the default.
+
+   :DESCEND: Sort files on header in descending order
+
+
+DESCRIPTION
+-----------
+   Sort the files in memory in order according to the header field given.
+   The earlier a header field appears on the command line, the higher priority
+   that field will receive in the sort, the first field receiving the highest
+   priority, and subsequent fields used to break ties.  No more than five
+   header fields may be entered.  Each may be followed by either ASCEND or
+   DESCEND to indicate the direction of the sort on that particular field.
+   If neither ASCEND nor DESCEND is specified, ASCEND will be used by default.
+   If Sort is called without specifying any header fields, it will sort on
+   the fields specified in the previous call to SORT_.  If the first call to
+   SORT_ is without any header fields, it will produce error 1379.
+
+
+DEFAULTS
+--------
+It is presumed that all sorts will be in ascending order unless DESCEND
+is specified on the command line.
+
+ERROR MESSAGES
+--------------
+- 301:  Out of memory.
+- 1379: No SORT_ parameters given
+- 1380: Too many SORT_ parameters:
+- 1381: Not a valid SORT_ parameter:
+- 1383: SORT_ failed
+
+WARNING MESSAGES
+----------------
+- 1384
+
+SEE COMMANDS
+------------
+   COMMIT_, ROLLBACK_, RECALLTRACE_
+
+LATEST REVISION
+---------------
+   October 27, 1998 (Version 0.58)
+

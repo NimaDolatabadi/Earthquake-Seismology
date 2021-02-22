@@ -1,0 +1,18 @@
+dash  = 13.50        # 13.636
+dot   =  1.75        # 1.7045
+short =  4.50        # 4.5454
+_     =  3.50        # 3.5090
+__    =  1.75        # 1.7045
+                               # 1 Solid Handled Internally
+short _                        # 2 Short Short
+dash _                         # 3 Dash Dash
+dash _ dot _                   # 4 Dash Dot
+dash _ short _                 # 5 Dash Short
+dash _ dot _ dot _             # 6 Dash Dot Dot
+dash _ short _ short _         # 7 Dash Short Short
+dot __                         # 8 Dot small-space Dot 
+dash _ dot _ dot _ dot _       # 9 Dash Dot Dot Dot
+dash _ short _ short _ short _ # 10 Dash Short Short Short
+
+# Dotted Line position must match the position here (FIX)
+#    Currently: 8

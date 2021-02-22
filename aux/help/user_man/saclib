@@ -1,0 +1,61 @@
+Using the SAC Library
++++++++++++++++++++++
+
+Overview
+--------
+In addition to being able to read and write SAC data files in one's own C or
+FORTRAN programs (see SAC_Reading_and_Writing_Routines_ ),   one can use many of 
+SAC's data-processing routines in stand-alone codes if one uses specific flags
+in the compiling stage and the SAC library in the linking stage.  This library 
+(along with the SAC I/O library) can be found in ${SACHOME}/lib.  The complete 
+listing of sample programs in both C and Fortran for filtering, envelope function, 
+correlation, and convolution are give below in the online version of this file at 
+<http://www.iris.edu/files/sac-manual/manual/saclib.html>.
+
+To ease the requirements for compilation and linking, a helper script is provided, 
+${SACHOME}/bin/sac-config, which should output the necessary flags and libraries.  
+Try the following::
+
+  gcc -o program source.c `sac-config --cflags --libs sac`
+
+  f77 -o program source.f `sac-config --cflags --libs sac`
+
+Filtering - Fortran
+-------------------
+.. include:: ../../../doc/examples/filterf.f
+   :literal:
+   
+Filtering - C
+-------------
+.. include:: ../../../doc/examples/filterc.c
+   :literal:
+   
+Envelope Function - Fortran
+---------------------------
+.. include:: ../../../doc/examples/envelopef.f
+   :literal:
+   
+Envelope Function - C
+---------------------
+.. include:: ../../../doc/examples/envelopec.c
+   :literal:
+
+Correlation - Fortran
+---------------------
+.. include:: ../../../doc/examples/correlatef.f
+   :literal:
+
+Correlation - C
+---------------
+.. include:: ../../../doc/examples/correlatec.c
+   :literal:
+
+Convolution - Fortran
+---------------------
+.. include:: ../../../doc/examples/convolvef.f
+   :literal:
+
+Convolution - C
+---------------
+.. include:: ../../../doc/examples/convolvec.c
+   :literal:

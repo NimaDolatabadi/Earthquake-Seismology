@@ -1,0 +1,103 @@
+
+WIENER
+++++++
+
+SUMMARY
+-------
+Designs and applies an adaptive Wiener filter.
+
+SYNTAX
+------
+
+  ``WIENER {[W]INDOW pdw} {[N]COEFF n} {MU OFF | ON | v} {[EPS]ILON OFF | ON | e}``
+
+INPUT
+-----
+   :WINDOW pdw:  Set filter design window to pdw.  A partial data window
+       which consists of a start time and stop time.  These times can be
+       absolute ones or ones relative to certain header fields.  See the
+       CUT_ command for details on pdw.
+    
+   :NCOEFF n:  Set the number of filter coefficients to n.
+    
+   :MU off | on | v:  Set the adaptation step size parameter.
+       Off sets mu to zero.
+       On sets mu = 1.95 / Rho(0).  Where Rho(0)
+       is the autocorrelation in pdw at zero lag.
+       v sets mu = v.
+    
+   :EPSILON e:  Set ridge regression parameter to epsilon.
+       Can help stabilize the wiener filter by
+       increasing the diagonal elements of the
+       autocorrelation matrix by epsilon.
+       When epsilon is ON, SAC will use the value
+       entered by the user (or zero if no value was
+       entered).
+       When epsilon is OFF, SAC will loop through
+       the following increasing values of epsilon
+       (0.0, 1e-5, 1e-4, 1e-3, 1e-2), until the
+       wiener filter is stable, or until the list
+       has been exhausted.  If epsilon == 0 does
+       not work, SAC will produce one or more warning
+       messages.  If none of the values work, SAC will
+       produce an error message.
+    
+    
+DEFAULT VALUES
+--------------
+
+  ``WIENER WINDOW B 0 10 NCOEFF 30 MU OFF EPSILON OFF``
+
+DESCRIPTION
+-----------
+  A prediction error filter is designed using the Yule-Walker Method from
+  an autocorrelation function estimated from the designated partial data window.
+  This window can be any portion of the file.  The filter is then applied to the
+  entire signal, i.e. the signal is replaced by the residual error sequence.
+  This filter may be used as a prewhitener or as a detection preprocessor
+  for transient signals.  The filter can be made adaptive in time by specifying
+  a non-zero value for MU.  Large values of MU may cause instability.
+
+EXAMPLES
+--------
+  The following command would apply a non-adaptive filter, with the first ten
+  seconds being the design window::
+
+      u: WIENER WINDOW B 0 10 MU 0.
+
+  The following command would apply a filter with 40 coefficients, with a
+  design window from the beginning of the file to 1 second before the first
+  arrival::
+
+      u: WIENER NCOEFF 40 WINDOW B A -1
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+- 1307: Illegal operation on spectral file
+- 1608: Bad Wiener filter noise window for file
+
+  - Filter design window does not lie within file window.  - Make sure header
+    fields used in window are defined.
+
+WARNING MESSAGES
+----------------
+- 1609: Numerical instability in Wiener filter for file
+- 1614: Numerical instability in Wiener; will retry with epsilon = e
+  where e denotes the next value of epsilon to be tried.
+
+  - The filtered data may or may not be incorrect.
+
+SEE COMMANDS
+------------
+  CUT_
+
+LATEST REVISION
+---------------
+  March 12, 1997 (Version 00.53)
+

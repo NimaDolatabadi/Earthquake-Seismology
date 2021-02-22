@@ -1,0 +1,45 @@
+SUMSTACK
+++++++++
+
+SUMMARY
+-------
+Sums the files in the stack file list.
+
+SYNTAX
+------
+
+   `` [S]UM[S]STACK  [[N]ORMALIZATION ON|OFF]``
+
+INPUT
+-----
+   :NORMALIZATION ON | OFF:  Turn normalization option on or off.
+      When this option is on the resulting summation is normalized by 
+      dividing each point by a factor that is the sum of each file's weight.
+
+DEFAULTS VALUES
+---------------
+
+  ``SUMSTACK NORMALIZATION ON``
+
+
+DESCRIPTION
+-----------
+  This command sums the files in the stack file list.  A stack time window 
+  (see  TIMEWINDOW) must have been defined before this command is executed. 
+  Each signal is shifted in accordance with its static and dynamic delays. 
+  Zeros are added to the sum for that part of each file that is not in the 
+  time window.  Each file is given the requested weighting and files with 
+  reversed polarity are inverted.
+
+  A plot of the summation is automatically produced.  The summation can 
+  be saved on disk using the WRITESTACK command.
+
+ERRORS MESSAGES
+---------------
+- 5103: No time window defined.
+
+SEE COMMANDS
+------------
+  TIMEWINDOW_, WRITESTACK_
+
+

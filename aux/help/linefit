@@ -1,0 +1,36 @@
+
+LINEFIT
++++++++
+
+SUMMARY
+-------
+Computes the best straight line fit to the data in memory and writes
+the results to header blackboard variables.
+
+SYNTAX
+------
+
+  ``LINEFIT``
+
+DESCRIPTION
+-----------
+   A least squares curve fit to a straight line is calculated.  The slope,
+   y intercept, standard deviation of the slope, standard deviation of the
+   y intercept, standard deviation of the data and correlation coefficient
+   between the data and the linear fit are written to blackboard variables
+   SLOPE, YINT, SDSLOPE, SDYINT, SDDATA and CORRCOEF respectively.  The
+   data does not have to be evenly spaced.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1307: Illegal operation on spectral file
+
+HEADER CHANGES
+--------------
+   none
+
+LATEST REVISION
+---------------
+   September 12, 1995 (Version 00.38)
+

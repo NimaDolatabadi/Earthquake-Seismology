@@ -1,0 +1,69 @@
+
+HISTORY
++++++++
+
+SUMMARY
+-------
+prints a list of the recently issued SAC commands
+
+SYNTAX
+------
+
+  ``HISTORY``
+
+INPUT
+-----
+       none
+    
+DEFAULT VALUES
+--------------
+
+  ``none``
+
+DESCRIPTION
+-----------
+   The history module provides a subset of the history capabilities
+   available in the unix C-shell. Issuing the comand "history" will
+   print a numbered list of the most recent commands (up to 100).
+   Several of the event designators from the C-shell are also
+   available. These are references to command lines in the history
+   list. Available designators are:
+
+   !    Start a history substitution, except when followed
+   by a space character, tab, newline, = or (.
+
+   !!   Repeat the previous command.
+   !n   Repeat command line n.
+   !-n  Repeat current command line minus n.
+   !str Repeat the most  recent  command  starting  with str
+
+EXAMPLES
+--------
+  To print the history list::
+
+      u:  history
+
+  To repeat command 1::
+
+      u:  !1
+
+  To repeat the last command::
+
+      u:  !!
+
+  To repeat the 2nd-to-last command::
+
+      u:  !-2
+
+  To repeat the command starting with ps::
+
+      u:  !ps
+
+ERROR MESSAGES
+--------------
+  none
+
+LATEST REVISION
+---------------
+  March 03, 1997
+

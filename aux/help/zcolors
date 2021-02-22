@@ -1,0 +1,46 @@
+
+ZCOLORS
++++++++
+
+SUMMARY
+-------
+Controls the color display of contour lines.
+
+SYNTAX
+------
+
+  ``ZCOLORS  {ON|OFF}  {options}``
+   where options is currently limited to:
+
+
+  ``LIST c1 c2 ... cn``
+
+
+  ``More options will be added in the future.``
+
+INPUT
+-----
+   :ON:  Turn color display of contour lines on.
+    
+   :OFF:  Turn color display of contour lines off.
+    
+   :LIST c1 c2 . cn:  Set the list of contour color names to use.  Each
+       entry in this list is used for the corresponding contour level.  If
+       the number of contour levels is larger than the length of this list,
+       the entire list is repeated.
+    
+   :cn:  The name of a color from SAC's current color table.
+    
+DEFAULT VALUES
+--------------
+
+  ``ZCOLORS OFF LIST RED GREEN BLUE``
+
+SEE COMMANDS
+------------
+   CONTOUR_, COLOR_
+
+LATEST REVISION
+---------------
+   April 30, 1990 (Version 10.5b)
+

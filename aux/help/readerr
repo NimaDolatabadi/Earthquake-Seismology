@@ -1,0 +1,69 @@
+
+READERR
++++++++
+
+SUMMARY
+-------
+Controls errors that occur during the READ_ command.
+
+SYNTAX
+------
+
+  ``READERR {BADFILE FATAL|WARNING|IGNORE},``
+
+  ``{NOFILES FATAL|WARNING|IGNORE}``
+
+  ``{MEMORY SAVE|DELETE}``
+
+INPUT
+-----
+   :BADFILE:  Errors that occur when the file could not be read or didn't
+       exist.
+    
+   :NOFILES:  None of the files in the read filelist could be read.
+    
+   :FATAL:  Make error condition fatal. Send error message and stop
+       processing the command.
+    
+   :WARNING:  Send warning message but continue processing the command.
+    
+   :IGNORE:  Ignore condition and continue processing the command.
+    
+   :MEMORY:  Action on files in memory if no files could be read.
+    
+   :DELETE:  This MEMORY option indicates that files previously in memory
+       are to be deleted.
+    
+   :SAVE:  This MEMORY option indicates that files previously in memory
+       are to remain in memory.
+    
+DEFAULT VALUES
+--------------
+
+  ``READERR BADFILE WARNING NOFILES FATAL MEMORY DELETE``
+
+DESCRIPTION
+-----------
+   Several errors can occur when you try to read a data file into memory
+   using the READ_ command.  The file may not exist or it may exist but can't be
+   read.  When SAC encounters one of these bad files, it normally sends a warning
+   message and then tries to read the rest of the files in the filelist.  If you
+   want SAC to stop reading in files whenever a bad file is encountered set the
+   BADFILE condition to FATAL.  If you don't even want to see the warning
+   message, set the BADFILE condition to IGNORE.
+   If none of the files in the filelist could be read, SAC normally sends
+   an error message and stops processing.  If you want SAC to send a warning
+   message or ignore this problem completely, set the NOFILES condition
+   accordingly.  Also, any files previously in memory can be deleted (removed
+   from) or remain in memory by using the MEMORY DELETE or MEMORY SAVE options.
+   The CUTERR_ command can be used to control certain errors that occur due
+   to bad cut parameters.
+
+SEE COMMANDS
+------------
+   READ_, CUTERR_
+
+LATEST REVISION
+---------------
+   March 20, 1992 (Version 10.6e)
+

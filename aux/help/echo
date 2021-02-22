@@ -1,0 +1,75 @@
+
+ECHO
+++++
+
+SUMMARY
+-------
+Controls echoing of input and output to the terminal.
+
+SYNTAX
+------
+
+  ``ECHO ON|OFF list``
+   where list is one or more of the following:
+
+
+  ``ERRORS``
+
+  ``WARNINGS``
+
+  ``OUTPUT``
+
+  ``COMMANDS``
+
+  ``MACROS``
+
+  ``PROCESSED``
+
+
+INPUT
+-----
+   :ON:  Turn on echoing of the items in the list that follows.
+    
+   :OFF:  Turn off echoing of the items in the list that follows.
+    
+   :ERRORS:  Error messages generated during the execution of a command.
+    
+    
+   :WARNINGS:  Warning messages generated during the execution of a
+       command.
+    
+   :OUTPUT:  Output messages generated during the execution of a command.
+    
+    
+   :COMMANDS:  Raw commands as they were typed at the terminal.
+    
+   :MACROS:  Raw commands as they appears in a macro file.
+    
+   :PROCESSED:  Processed commands originating from the terminal or a
+       macro file.  A processed command is one where all macro arguments,
+       blackboard variables, header variables, and inline functions have
+       been processed (evaluated) and substituted into the raw command.
+    
+DEFAULT VALUES
+--------------
+
+  ``ECHO ON ERRORS WARNINGS OUTPUT OFF COMMANDS MACROS PROCESSED``
+
+DESCRIPTION
+-----------
+   This commands lets you control which categories of the SAC input and output
+   stream is to be echoed to the terminal or screen.  There are three categories
+   of output: error messages, warning messages, and output messages.  There are
+   three categories of input: commands typed at the terminal, commands executed
+   from a macro, and "processed" commands.  A processed command is one in which
+   all macro arguments, blackboard variables, header variables, and inline
+   functions have been evaluated.  You can control the echoing of these
+   categories individually.  When you type a command at your terminal, the
+   operating system normally echos each character.  Thus the commands echoing
+   option is of limited use for interactive sessions.  The macro and processed
+   options are useful when debugging a macro.
+
+LATEST REVISION
+---------------
+   April 21, 1989 (Version 10.4c)
+

@@ -1,0 +1,62 @@
+PLOTSTACK
++++++++++
+
+SUMMARY
+-------
+Plots the files in the stack file list.
+
+SYNTAX
+------
+
+   ``[P]LOT[S]TACK [ options ]``
+
+   where options are one or more of the following:
+
+   ``[S]UM ON | OFF``
+   ``[P]ERPLOT ON | OFF | n``
+   ``[W]EIGHT ON | OFF``
+   ``[P]OLARITY ON | OFF``
+
+INPUT
+-----
+  :SUM ON | OFF:    When this option is on the summed file is plotted first 
+    followed by the files in the stack file list.  When this option is off,
+    the summed file is not plotted.
+
+  :PERPLOT ON | OFF:    Turn the per plot option on or off.  When this
+    option is on, a fixed number of files are plotted
+    in each frame.  When this option is off, all of
+    the files in the stack file list are plotted in
+    a single frame.
+
+  :PERPLOT n:    Turn the per plot option on  and set the number
+    of files per frame to n.
+
+  :WEIGHT ON | OFF:    Turn the file weighting option on or off.
+
+  :POLARITY ON | OFF:    Turn the file polarity option on or off.
+
+DEFAULTS VALUES
+---------------
+
+  ``PLOTSTACK SUM ON PERPLOT OFF WEIGHT ON POLARITY ON``
+
+
+DESCRIPTION
+-----------
+  This command plots the files in the stack file list.
+  The files are always plotted with their delays.
+  They may be plotted with or without their weighting factors and polarities.
+  They may also be plotted with or without the summed signal.
+  A selectable number of the files can be plotted on each frame.
+  The format of the plot is identical to that of the PLOT1_ command.
+  Each file is plotted in its own subplot region.
+  These subplot regions have a common x axis and separte y axes.
+  A legend consisting of the file name and any non-default properties is
+  placed in the upper left-hand corner of each subplot region.
+
+SEE COMMANDS
+------------
+  TIMEWINDOW_
+
+

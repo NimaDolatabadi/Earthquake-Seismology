@@ -1,0 +1,46 @@
+
+CONVERT
++++++++
+
+SUMMARY
+-------
+Converts data files from one format to another.
+
+SYNTAX
+------
+
+  ``CONVERT {FROM} {format} infile``
+
+  ``{TO {format} outfile}|{OVER {format}}``
+   where format is one of the following:
+
+  ``SAC|ALPHA``
+
+INPUT
+-----
+   :infile:  The name of the input data file.
+    
+   :outfile:  The name of the output data file.
+    
+   :OVER:  Overwrite the input data file.
+    
+   :SAC:  SAC formatted binary data file.
+    
+   :ALPHA:  Alphanumeric equivalent of SAC binary data file.
+    
+DEFAULT VALUES
+--------------
+
+  ``CONVERT FROM SAC infile OVER SAC``
+
+DESCRIPTION
+-----------
+   This command converts a single data file from one format to another. In the
+   previous version of this help file written in 1983, it was stated that convert
+   would be replaced in the future by improved capability in READ_ and WRITE_. In
+   2011, CONVERT is no longer needed, but for back-compatibility it is being kept.
+
+LATEST REVISION
+---------------
+   August 2011
+

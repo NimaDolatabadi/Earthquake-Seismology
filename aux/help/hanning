@@ -1,0 +1,36 @@
+
+HANNING
++++++++
+
+SUMMARY
+-------
+Applies a "hanning" window to each data file.
+
+SYNTAX
+------
+
+  ``HANNING``
+
+DESCRIPTION
+-----------
+  The "hanning" window is a recursive smoothing algorithm defined at each
+  interior data point, j, as::
+
+     Y(j) = 0.25*Y(j-1) + 0.50*Y(j) + 0.25*Y(j+1)
+
+  Each end point is set equal to its closest interior point.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN Blackman and Tukey, "The Measurement of Power 
+  Spectra", Dover Publications, New York, 1958.
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

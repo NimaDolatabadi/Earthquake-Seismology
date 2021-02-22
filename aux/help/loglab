@@ -1,0 +1,34 @@
+
+LOGLAB
+++++++
+
+SUMMARY
+-------
+Controls labels on logarithmically scaled axes.
+
+SYNTAX
+------
+
+  ``LOGLAB {ON|OFF}``
+
+INPUT
+-----
+   :{ON}:  Turn log labeling option on.
+    
+   :OFF:  Turn log labeling option off.
+    
+DEFAULT VALUES
+--------------
+
+  ``LOGLAB ON``
+
+DESCRIPTION
+-----------
+   Labels are normally put on each decade of logarithmically interpolated axes.
+   Secondary labels (ones between full decades) are placed on these axes if this
+   option is on and if there is enough room.
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

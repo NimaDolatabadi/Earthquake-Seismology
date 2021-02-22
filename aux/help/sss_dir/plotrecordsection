@@ -1,0 +1,131 @@
+PLOTRECORDSECTION
++++++++++++++++++
+
+SUMMARY
+-------
+Plots a record section of the files in the stack file list.
+
+SYNTAX
+------
+
+   ``[P]LOT[R]ECORD[S]ECTION [ options ]``
+
+   where options are one or more of the following:
+ 
+   ``[L]ABLES ON | OFF | headerfield``
+   ``[O]RIGIN [D]EFAULT | [R]EVERSED``
+   ``[R]EFERENCELINE ON | OFF``
+   ``[S]IZE v``
+   ``[W]EIGHT ON | OFF``
+   ``[P]OLARITY ON | OFF``
+   ``[C]URSOR ON | OFF``
+   ``[RED]UCED ON | OFF | [P]HASE phase_name | [V]ELOCITY velocity_value``
+   ``[A]SPECT ON | OFF ``
+   ``[ORIE]NT [P]ORTRAIT | [L]ANDSCAPE``
+   ``[T]TIME ON | OFF | [D]EFAULT | TEXT``
+   ``[X]LABEL ON | OFF | [D]EFAULT | TEXT``
+   ``[Y]LABEL ON | OFF | [D]EFAULT | TEXT`` 
+   ``PRINT {pname}``
+          
+
+
+INPUT
+-----
+    :LABELS ON | OFF:    Turn the file labeling option on or off.  When
+       this option is on, each file is labeled with header field.
+
+    :LABELS headerfield:    Turn the file labeling option on and set the
+       name of the header field.
+
+    :ORIGIN DEFAULT | REVERSED:  In portrait mode, distance is along the y 
+       axis and default puts the distance origin at the top left corner.  In 
+       landscape mode, distance is along the x axis and default puts the 
+       distance origin at the bottom left corner. 
+
+    :REFERENCELINE ON | OFF:    Turn reference line option on or off.  When 
+       this option is on, a vertical dotted line is drawn at the distance 
+       property value for each file.
+
+    :SIZE v:
+
+    :WEIGHT ON | OFF:     Turn the file weighting option on or off.
+
+    :POLARITY ON | OFF:   Turn the file polarity option on or off.
+
+    :CURSOR ON | OFF:     See below.
+
+    :REDUCED ON | OFF | VELOCITY number | PHASE name:  Reduced travel time 
+       curves can be computed relative to a specific velocity or a phase from 
+       the traveltime curves.  See SSSTRAVELTIME_.
+
+    :ORIENT portrait | landscape: In portrait mode, horizontal axis indicates 
+       time and the vertical axis indicates event to station distance.  In 
+       landscape mode, the horizontal axis indicates the event to station 
+       distance and time is along the vertical axis.  
+
+    :TTIME ON | OFF | DEFAULT | TEXT: Turn traveltime curves on.  Traveltime 
+       curves must have been computed with the traveltime command.  
+
+    :XLABEL ON | OFF | DEFAULT | TEXT: Turn xlabel on and/or set xlabel text.  
+
+    :YLABEL ON | OFF | DEFAULT | TEXT: Turn ylabel on and/or set ylabel text.  
+
+    :PRINT {pname}:  Print the resultant plot.  If pname is specified, print 
+       to named printer, else use default printer.
+
+DEFAULT VALUES
+--------------
+
+    ``PLOTRECORDSECTION LABELS filename ORIGIN default REFERENCELINE on ``
+    ``SIZE 0.1 WEIGHT on POLARITY on ORIENT portrait REDUCED off ``
+    ``CURSOR off TTIME off``
+
+
+DESCRIPTION
+-----------
+  This command plots the files in the stack file list in a record section 
+  format.  The effect of a particular velocity model can easily be seen with 
+  this plot.  In portrait mode, the x axis is time, the y axis is epicentral 
+  distance.  Landscape mode reverses these axes.  The zero amplitude of each 
+  file is plotted at its epicentral distance along the distance axis.  A 
+  distance must be defined for all files in the stack file list for this plot   
+  to be generated.  The distance can come from the header or it can be defined 
+  in the DISTANCE option of the  GLOBALSTACK,  ADDSTACK, or  CHANGESTACK 
+  command.  The  DISTANCEWINDOW and  TIMEWINDOW commands control how much data 
+  will be displayed.  The  DISTANCEAXIS and  TIMEAXIS commands control the 
+  size of each axis and thus the aspect ratio of the complete plot.  Dynamic 
+  delays are controlled by the use of the  VELOCITYMODEL command.  A line 
+  showing the effects of a second velocity model is also controlled by the  
+  VELOCITYMODEL command.  A velocity rosette showing the effects of other 
+  velocities can be placed on this plot. It is controlled by the  
+  VELOCITYROSET command.  Static delays if they have been defined are also 
+  applied to each of the signals.
+
+CURSOR ON MODE
+--------------
+  In cursor on mode two additional functionalities are available:  zooming and
+  apparent velocity determination. 
+  The zoom capability requires the user to specify where to crop the picture.
+  The user does this by moving the cursor to one corner of the desired display
+  area and typing c1 (no mouse click is needed) and moving the cursor to the 
+  opposite corner and typing c2.  When the user types c2, plotrecordsection 
+  replots the data including only those data files which lie within the distance
+  window, and cutting off all the data points which fall outside the time window. 
+ 
+  The user can type o (the letter 'o') to replot the original.  Zoomed plots can
+  be nested to five levels (ie, you can zoom a previously zoomed plot, 
+  entering o causes prs to unzoom one level and replot).  The cursor on option 
+  also allows the user to measure apparent velocity by moving the cursor and 
+  typing v1 and v2 to mark the points.  Once the v2 is selected, the apparent
+  velocity is printed on the output device and stored in a blackboard 
+  variable, vapp.  Multiple v2 values can be set but only the latest will be 
+  stored in the blackboard variable.  While the cursor is on, the available 
+  commands in the plot window are c1, c2, v1, v2, and q which quits cursor on 
+  (q returns control to the sss subprocess). 
+ 
+
+SEE COMMANDS
+------------
+ GLOBALSTACK_.  ADDSTACK_,  CHANGESTACK_
+ DISTANCEWINDOW_,  TIMEWINDOW_,  DISTANCEAXIS_,  TIMEAXIS_,
+ VELOCITYMODEL_,  VELOCITYROSET_, FILENUMBER_

@@ -1,0 +1,36 @@
+This directory contains various sac related programs that are written
+by Dr. Lupei Zhu and Zhigang Peng.
+
+Disclaimer: Permission to use, copy, modify, and distribute the package 
+and supporting documentation for any purpose without fee is hereby granted, 
+provided that the above copyright notice appear in all copies, that both 
+that copyright notice and this permission notice appear in supporting documentation.
+
+Please find the tutorial on how to use some programs online at
+http://geophysics.eas.gatech.edu/classes/SAC/
+
+Please feel free to contact me at zpeng@gatech.edu to report bugs, or have
+any questions. Thanks.
+
+Program		Author		Description
+col2sac		Lupei Zhu	Read 1-column data from stdin and write them as evenly spaced SAC data.
+distaz          Lupei Zhu       Compute the distance (deg) and azimuth between two points on the Earth
+distbaz         Zhigang Peng    Compute the distance (km) and back azimuth between two points on the Earth
+ndistbaz        Zhigang Peng    Compute the distance (km) and back azimuth between one point (station) and many points (eqs)
+gsact		Zhigang Peng	Calculate the SAC origin time based on kztime and input catalog time
+lsac0		Zhigang Peng	Find the maximum absolute amplitude for each seismogram
+lsac		Lupei Zhu	Show SAC data point at specified time
+lsac1		Zhigang Peng	Find the maximum amplitude within the specified time window for each seismogram
+lsac2		Zhigang Peng	Find the minimum amplitude within the specified time window for each seismogram
+lsac_minmax	Zhigang Peng	Find the maximum and minimum amplitudes within the specified time window for each seismogram
+sac2col		Lupei Zhu	Dump SAC binary files to stdout
+sac_ave		Zhigang Peng	Calculate SAC data average value within specified time window
+sacdump		Zhigang Peng	Dump SAC binary files to stdout
+sacdump_slice	Zhigang Peng	Dump SAC binary files to stdout within specified time window
+sac_e		Zhigang Peng	Calculate SAC data total energy (amplitude^2) withing specified time window
+saclst		Zhu/Peng	List the SAC header fields
+sac_me		Zhigang Peng	Calculate SAC data total energy (amplitude^2) withing specified time window and remove the mean
+sac_snr		Zhigang Peng	Calculate signal to noise ratio for SAC data within specified time window
+sacStack	Lupei Zhu	Stack sac traces aligned with a time mark
+
+Last updated by zpeng, Tue Aug  6 10:33:22 EDT 2013

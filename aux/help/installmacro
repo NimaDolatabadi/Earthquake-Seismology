@@ -1,0 +1,32 @@
+
+INSTALLMACRO
+++++++++++++
+
+SUMMARY
+-------
+Installs macro files in the global SAC macro directory.
+
+SYNTAX
+------
+
+  ``INSTALLMACRO name {name ...}``
+
+INPUT
+-----
+   :name:  The name of a SAC macro file.
+    
+DESCRIPTION
+-----------
+   This command lets you install your macro files into the global SAC macro
+   directory so they can be used by anyone on your system. The location of this
+   directory is defined by the SACAUX environmental variable, as SACAUX/macros.
+   See the section on Macros in the SAC Users Manual.
+
+SEE COMMANDS
+------------
+   MACRO_
+
+LATEST REVISION
+---------------
+   March 20, 1992, (version 10.6e)
+

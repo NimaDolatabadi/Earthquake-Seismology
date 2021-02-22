@@ -1,0 +1,122 @@
+
+GRAYSCALE
++++++++++
+
+SUMMARY
+-------
+Produces grayscale images of data in memory.
+
+SYNTAX
+------
+
+  ``GRAYSCALE {options}``
+
+   where options are one or more of the following:
+
+  ``VIDEOTYPE NORMAL|REVERSED``
+
+  ``SCALE v``
+
+  ``ZOOM n``
+
+  ``XCROP n1 n2|ON|OFF``
+
+  ``YCROP n1 n2|ON|OFF``
+
+
+  **SPECIAL NOTE** This command uses executables that are not distributed 
+  with SAC. To use this command you must first install the Utah Raster 
+  Toolkit.  The Utah Raster Toolkit can be obtained via anonymous FTP 
+  as follows::
+
+   ftp cs.utah.edu
+   cd pub
+   get urt-3.0.tar.Z
+
+  If ARPAnet is not available, or if you have questions about the Utah Raster
+  Toolkit, send mail to: toolkit-request\CS.UTAH.EDU (ARPA), OR
+  {ihnp4,decvax}!utah-cs!toolkit-request (UUCP).
+
+INPUT
+-----
+   :VIDEO NORMAL:  Set video type to normal. In normal mode, data with
+       near minimum values are black and data near maximum are white.
+    
+   :VIDEO REVERSED:  Set video type to reversed. In reversed mode, data
+       with near minimum values are white and data near maximum are black.
+    
+    
+   :SCALE v:  Change data scaling factor to v.  The data is scaled by
+       raising it to the vth power.  Values less than one will smooth the
+       image, reducing peaks and valleys. Values greater than one will
+       spread the data.
+    
+   :ZOOM n:  Image is increased to n times its normal size by pixel
+       replication.
+    
+   :XCROP n1 n2:  Turn x cropping option on and change cropping limits to
+       n1 and n2. The limits are in terms of the image size.
+    
+   :XCROP {ON}:  Turn x cropping option on and use previously specified
+       cropping limits.
+    
+   :XCROP OFF:  Turn x cropping option off.  All of the data in the x
+       direction is displayed.
+    
+   :YCROP n1 n2:  Turn y cropping option on and change cropping limits to
+       n1 and n2. The limits are in terms of the image size.
+    
+   :YCROP {ON}:  Turn y cropping option on and use previous specified
+       cropping limits.
+    
+   :YCROP OFF:  Turn y cropping option off.  All of the data in the y
+       direction is displayed.
+    
+DEFAULT VALUES
+--------------
+
+  ``GRAYSCALE VIDEOTYPE NORMAL SCALE 1.0 ZOOM 1 XCROP OFF YCROP OFF``
+
+DESCRIPTION
+-----------
+   This command can be used to produce a grayscale image of the output of the
+   SPECTROGRAM_ command or of any other two-dimensional array data.  The SAC 
+   data displayed by this command must of of file type "xyz".
+
+   ANOTHER SPECIAL NOTE: SAC starts a shell script which runs the image
+   manipulation and display programs and then displays the SAC prompt again.
+   There is a delay, significant for large images and/or slower machines, before
+   the image is actually displayed.
+
+
+LIMITATIONS
+----------- 
+ Images of 512 by 1000 are the maximum displayed.
+
+
+ACKNOWLEDGEMENTS
+----------------
+  This command was developed by Terri Quinn.  The grayscale
+  images are maninpulated and display using the University of Utah's Raster
+  Toolkit.  The Utah Raster Toolkit and accompanying documentation; John W.
+  Peterson, Rod G. Bogart, and Spencer W. Thomas.
+
+HEADER VARIABLES
+----------------
+  REQUIRED:  :  IFTYPE, NXSIZE, NYSIZE
+
+ERROR MESSAGES
+--------------
+- SAC> getsun: Command not found.  
+
+  - Several utility programs distributed with the Utah Raster Toolkit 
+    are required.
+
+SEE COMMANDS
+------------
+  SPECTROGRAM_
+
+LATEST REVISION
+---------------
+  March 22, 1990 (Version 10.5a)
+

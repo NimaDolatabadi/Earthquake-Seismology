@@ -1,0 +1,86 @@
+#!/bin/sh
+
+function set_paths {
+    prefix=$1
+    SAC_LIBS=${prefix}/lib
+    SAC_INCLUDES=${prefix}/include
+}
+
+function Usage {
+    echo "Usage: sac-config [-clvp] [--prefix[=DIR]] [--version] [--libs] [--cflags] libs " 1>&2
+    echo "       Display information regarding SAC, specifically used"
+    echo "         during the compilation of programs using the libraries"
+    echo "         of SAC: sacio and sac"
+    echo ""
+    echo "          --cflags       Output Compilation Flags"
+    echo "          -c "
+    echo "          --libs         Output Sac Libraries"
+    echo "          -l"
+    echo "          --prefix=path  Set alternative Prefix to path for SAC"
+    echo "          --prefix       Display Current SAC Prefix Path"
+    echo "          -p"
+    echo "          --version      Display SAC version information"
+    echo "          -v"
+    echo "       Examples: "
+    echo "         % sac-config -c"
+    echo "            -I/usr/local/sac/include "
+    echo "         % sac-config -c -l sacio"
+    echo "            -I/usr/local/sac/include  -L/usr/local/sac/lib  -lsacio "
+    echo "         % sac-config -c -l sacio sac"
+    echo "            -I/usr/local/sac/include  -L/usr/local/sac/lib  -lsacio -lsac"
+    echo ""
+    exit 1
+}
+
+set_paths "/usr/local/sac"
+version="__SAC_VERSION__"
+options=""
+libs=""
+
+
+
+if test $# -eq 0; then
+    Usage
+fi
+
+while test $# -gt 0; do
+    case "$1" in 
+	-*=* ) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'`
+	    ;;
+	*) optarg="" 
+	    ;;
+    esac
+    case $1 in
+	--prefix=* )
+	set_paths $optarg
+	;;
+	-p | --prefix )
+	    echo $prefix
+	    exit 0
+	    ;;
+	-v | --version )
+	    echo $version
+	    exit 0
+	    ;;
+	-c | --cflags)
+	    options="-I${SAC_INCLUDES} $options"
+	    ;;
+	-l | --libs)
+	    options="$options -L${SAC_LIBS}"
+	    ;;
+	sacio )
+	    libs="$libs -lsacio"
+	    ;;
+	sac )
+	    libs="$libs -lsac"
+	    ;;
+	*)
+	    Usage
+	    ;;
+    esac
+    shift
+done
+
+echo "$options $libs"
+
+exit 0

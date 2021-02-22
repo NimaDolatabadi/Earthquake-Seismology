@@ -1,0 +1,97 @@
+
+BEGINFRAME
+++++++++++
+
+SUMMARY
+-------
+Turns off automatic new frame actions between plots.
+
+SYNTAX
+------
+
+  ``BEGINFRAME {PRINT {pname} }``
+
+INPUT
+-----
+   :PRINT {pname}:  When PRINT_ is used with BEGINFRAME_, it signals the
+       assocated call to ENDFRAME_ to print the resulting plot to the
+       printer named in pname, or to the default printer if pname is
+       not used.  (This makes use of the SGF_ capability.)
+    
+    
+ALTERNATE FORMS
+---------------
+BEGFR is an obsolete but allowable form of this command.
+
+DESCRIPTION
+-----------
+   A "new frame action" is defined as the clearing of the current graphics
+   display surface.  Specifically it is:
+
+ - the erasing of the screen for a graphics terminal.
+
+ - the closing of the current file for the SGF_ device driver.
+
+ - the erasing of the current graphics window on a multi-window workstation.
+
+ - the advancing of the film one frame for a film device.
+
+ - the movement of the paper to a new area on a pen plotter.
+
+   Normally SAC does a new frame action before each new plot (PLOT, PLOT1_, etc.)
+   SAC stops doing this new frame action when the BEGINFRAME_ command is
+   executed.  It resumes automatic framing when the ENDFRAME_ command is executed.
+   Therefore, all plot commands executed between these two commands will have
+   their output placed on the same frame.  By changing the viewport (XVPORT,
+   YVPORT) between plot commands, by changing some of the various plot options,
+   and by reading in different sets of data files, fairly complicated plots with
+   multiple images can be easily generated.  See the example and figure below.
+   You MUST execute the ENDFRAME_ command to discontinue this mode and to resume
+   automatic framing between plots.
+
+EXAMPLES
+--------
+   The plot that follows was generated using the set of commands shown below.
+   Comments about the process are given in parenthesis::
+
+      u:  CUT A -0.2 N 512        (set up cut and read file)
+      u:  READ FILE1
+      u:  BEGINFRAME          (turn off automatic framing)
+      u:  XVPORT .1 .9        (define viewport and options)
+      u:  YVPORT .7 .9
+      u:  TITLE 'SEISMIC TRACE'
+      u:  FILEID OFF          (turn off fileid and qdp option)
+      u:  QDP OFF
+      u:  PLOT                (plot the trace)
+      u:  FFT WMEAN           (take transform of data)
+      u:  XVPORT .1 .45       (second viewport and options)
+      u:  YVPORT .15 .55
+      u:  TITLE 'Amplitude Response (linlog)'
+      u:  YLIM 1E-5 1
+      u:  PLOTSP AM LINLOG    (plot the amplitude)
+      u:  XVPORT .55 .9       (third viewport and options)
+      u:  TITLE 'Amplitude Response (loglog)'
+      u:  XLIM 1 60
+      u:  PLOTSP AM LOGLOG    (plot amplitude again)
+      u:  ENDFRAME            (resume automatic framing)
+      u:  CUT OFF             (reset parameters used to default values)
+      u:  FILEID ON
+      u:  XLIM OFF
+      u:  YLIM OFF
+
+   
+
+   The last four commands reset some of the parameters used in this operation to
+   their default values.  This is a good habit to get into, especially when
+   writing macros, as a way of avoiding the problem of one macro effecting the
+   operation of others that follow.
+
+SEE COMMANDS
+------------
+   ENDFRAME_, XVPORT_, YVPORT_
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+   Use of BEGINFRAME_ and ENDFRAME_ to Create a Special Plot
+

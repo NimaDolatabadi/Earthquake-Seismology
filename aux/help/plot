@@ -1,0 +1,49 @@
+
+PLOT
+++++
+
+SUMMARY
+-------
+Generates a single-trace single-window plot.
+
+SYNTAX
+------
+
+  ``PLOT {PRINT {pname} }``
+
+INPUT
+-----
+   :PRINT {pname}:  Prints the resulting plot to the printer named in
+       pname, or to the default printer if pname is not used.
+       (This makes use of the SGF_ capability.)
+    
+    
+DESCRIPTION
+-----------
+  Each data file is displayed in a separate plot.  The total size of the
+  plot is determined by the current viewport (see XVPORT_ and VPORT.) The y axis
+  limits for each plot can be scaled to the data file's extrema or they can
+  have fixed limits.  See the YLIM_ command for details.  The x axis limits are
+  controlled by the XLIM_ command.  A user controllable file identification (see
+  FILEID) is generated for each file in the plot.  Time picks can be displayed
+  (see PICKS).
+
+  If you are plotting to a graphics terminal or workstation, SAC will
+  pause between each plot to give you an opportunity to examine the plot.  It
+  will type "Waiting" in the text area and wait for your response.  You can type
+  a carriage-return to see the next plot, the keyword "go" (or "g") to plot the
+  remainder of the files without pausing, or the keyword "kill" (or "k") to not
+  plot the remainder of the files at all.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+
+SEE COMMANDS
+------------
+  XVPORT_, YVPORT_, XLIM_, YLIM_, FILEID_, PICKS_, FILENUMBER_
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

@@ -1,0 +1,57 @@
+INCREMENTSTACK
+++++++++++++++
+
+SUMMARY
+-------
+Increments properties for files in the stack file list.
+
+SYNTAX
+------
+
+   ``[I]NCREMENT[S]TACK``
+
+DEFAULTS VALUES
+---------------
+    All property INCREMENT values are initially 0.
+
+DESCRIPTION
+-----------
+  The properties that can be incremented are the static time delay,
+  the apparent velocity, and the velocity model intercept time.
+  Property increment values of 0. obviously leave those properties unchanged.
+  The apparent velocity or the velocity model intercept time can be incremented,
+  and the other one calculated in order to maintain a zero delay at a
+  specified point.
+
+EXAMPLES
+--------
+  An example of the use of this command to INCREMENT static time delays is
+  shown in the ADDSTACK command.  An example of the use of this command
+  to increment dynamic delays is given below:::
+
+     u: ADDSTACK FILEA
+     u: ADDSTACK FILEB
+     u: ADDSTACK FILEC
+     u: ADDSTACK FILED
+     u: VELOCITYMODEL 1 REFR VAPP 7.9 VAPPI 0.1 T0VM CALC DIST 320. TVM 45.
+     u: SUMSTACK
+     u: WRITESTACK STACK1
+     u: INCREMENTSTACK
+     u: SUMSTACK
+     u: WRITESTACK STACK2
+     u: INCREMENTSTACK
+     u: SUMSTACK
+     u: WRITESTACK STACK3
+
+  The above commands will produce three summations, the results being
+  stored in SAC files STACK1, STACK2, and STACK3.
+  The refracted wave velocity model is used and the apparent velocities, VAPP
+  are 7.9, 8.0 and 8.1 respectively.
+  The velocity model intercept time, T0VM, is calculated in each case
+  to maintain a zero delay at the point 320. km and 45. seconds.
+
+SEE COMMANDS
+------------
+  VELOCITYMODEL_
+
+

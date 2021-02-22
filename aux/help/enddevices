@@ -1,0 +1,42 @@
+
+ENDDEVICES
+++++++++++
+
+SUMMARY
+-------
+Terminates one or more graphics devices.
+
+SYNTAX
+------
+
+  ``ENDDEVICES devices``
+
+   where devices is one or more of the following:
+
+
+  ``SGF, XWINDOWS``
+
+ALTERNATE FORMS
+---------------
+ENDG or EG are obsolete but acceptable names for this command.
+
+INPUT
+-----
+   :SGF:  The SAC Graphics File device driver.
+    
+   :XWINDOWS:  The X-windows window display system.
+    
+DESCRIPTION
+-----------
+   This command terminates one or more graphics devices.  Devices are activated
+   using the BEGINDEVICES_ command.  The command help graphics has a description of
+   each of these graphics devices.
+
+SEE COMMANDS
+------------
+   BEGINDEVICES_
+
+LATEST REVISION
+---------------
+   March 24, 2009 (101.3)
+

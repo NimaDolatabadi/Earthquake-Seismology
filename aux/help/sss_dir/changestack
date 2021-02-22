@@ -1,0 +1,68 @@
+CHANGESTACK
++++++++++++
+
+SUMMARY
+-------
+Change properties of files currently in the stack file list.
+
+SYNTAX
+------
+
+   ``[C]HANGE[S]TACK filename|filenumber property {property}``
+  
+   where property is one or more of the following:
+ 
+   ``[W]EIGHT v``
+   ``[DI]STANCE v``
+   ``[BE]GINTIME v``
+   ``[END]TIME v``
+   ``[DE]LAY v {S]ECONDS]|[P]OINTS}``
+   ``[I]NCREMENT v {[S]ECONDS|[P]OINTS}``
+   ``[N]ORMAL``
+   ``[R]EVERSED``
+
+INPUT
+-----
+    :filename:     The name of the file in the stack file list.
+
+    :filenumber:   The number of the file in the stack hfile list.
+
+    :[W]EIGHT  v: Weighting factor for this file in the range zero to one.  
+      Each data point is multiplied by this value when the stack is summed.
+
+    :[DI]STANCE v: Station to epicenter distance in kilometers for this file.  
+       This is used to calculate dynamic time delays.
+
+    :[BE]GINTIME v: Time of the begining of the event.
+
+    :[END]TIME v: Time of the end of the event.
+
+    :[DE]LAY v {[S]ECONDS|[P]OINTS}: Static time delay to apply to file.
+       This delay is in either seconds or number of data points.
+
+    :[I]NCREMENT v {[S]ECONDS|[P]OINTS}: Static time delay increment for this 
+       file. This increment is in either seconds or number of data points.  
+       The static time delay is incremented by this ammount each time the  
+       INCREMENTSTACK command is executed.
+
+    :[N]ORMAL:  File has normal polarity.
+
+    :[R]EVERSED:  File has reversed polarity.  (Each data point in the signal 
+       is multiplied by -1.0  when the stack is summed.)
+    
+DESCRIPTION
+-----------
+  This command allows you to change any of the properties associated with
+  files in the stack file list.  These properties are discussed in more detail 
+  in the  ADDSTACK command and an example of the use of this command is given 
+  there. This command leaves all other properties for all other files unchanged.
+    
+ERROR MESSAGES
+--------------
+- 5106: File name not in stack file lists:
+    
+SEE COMMNADS
+------------
+  ADDSTACK
+    
+

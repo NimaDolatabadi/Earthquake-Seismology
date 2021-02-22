@@ -1,0 +1,93 @@
+
+PDS
++++
+
+SUMMARY
+-------
+Calculates the spectral estimate using the Power Density Spectra Method.
+
+SYNTAX
+------
+
+  `` PDS {[S]ECONDS v|[L]AGS n}, {[N]UMBER n}, {[T]YPE type}``
+  
+   where type is one of the following:
+
+   ``[HAM]MING | [HAN]NING | [C]OSINE | [R]ECTANGLE | [T]RIANGLE``
+
+INPUT
+-----
+     :SECONDS v:   Set the window length in seconds to v.
+     :LAGS n:      Set the window length in lags to n.
+     :NUMBER n:    Set the number of points to be used in the spectral estimate.
+     :TYPE type:   Set type of window to be used.  The advantages of
+       each type is discussed in the writeup of the COR command.
+    
+DEFAULT VALUES
+--------------
+
+ `` PDS TYPE HAMMING ``
+    
+DESCRIPTION
+-----------
+  This command implements the "conventional" spectral estimator.  It is
+  the simplest  the sample correlation function is first windowed with
+  a correlation window, and the resulting function is transformed with
+  an FFT_ to obtain the spectral estimate.  As mentioned in the documentation
+  on the COR_ command, there is a tradeoff between the bias of the estimate,
+  primarily expressed in loss of resolution, and the variance of the
+  estimate.  As the window is made longer, the bias is reduced, since
+  frequency-domain resolution is increased.  However, the variance of
+  the spectral estimate is increased, since the variance of the
+  sample correlation function values is larger at larger lags.  This occurs
+  because fewer data points are used to estimate the values at larger lags.
+    
+  The choice of correlation window type has a different effect than
+  that of the choice of data window described in the COR_ documentation.
+  It is a choice between two types of bias.
+    
+  The spectral estimate approaches the convolution of the true spectrum
+  with the Fourier transform of the correlation window.  The window
+  transform is characterized by a central lobe, which controls resolution,
+  and sidelobes, which cause out-of-band power leakage.
+  Typically one wants a narrow main lobe and small sidelobes.
+  Large sidelobes tend to put an artificial, high regular "floor" on
+  the spectral estimate, that can mask the rolloff of a spectrum with
+  high dynamic range.
+  The choice of window type trades off main lobe resolution against
+  power-leakage through the sidelobes.
+    
+  The rectangular window has the narrowest main lobe, and, therefore,
+  the best resolution.  However, it has the largest sidelobes.  The
+  cosine taper window reduces the sidelobes slightly without affecting
+  the main lobe width much.  These two windows were primarily included for
+  estimating the spectra of transients, which requires little time-domain
+  distortion.  The Hamming and Hanning windows are popular windows
+  which have small sidelobes and rather wide main lobes.  They
+  are useful when the user has a lot of data, and can control
+  resolution by increasing the window size.  Both are raised cosine
+  windows, but the Hamming window is optimized to minimize the size
+  of the largest sidelobe.  It is generally to be prefered, and is the
+  default window in this command.  The triangular window also has rather good
+  sidelobe structure, but has the especially desirable property that
+  it guarantees that the spectral estimate will always be positive
+  or zero.
+    
+  Generally, PDS is to be prefered over the two parametric methods,
+  MLM_ and MEM_, when the user has a large data set available.  This is
+  because resolution is not constrained in that situation, and much
+  more is known about this estimator than is known about the others.
+  For example, the theory is available which allows us to estimate
+  confidence limits, and the resolution of the method.  Both of these
+  diagnostics are included in SPE_.  The parametric methods generally exhibit
+  better resolution than PDS, especially when estimating line spectra,
+  and are more useful when a limited amount of data is available.
+    
+ERROR MESSAGES
+--------------
+ - 5003: No correlatin function calculated.
+    
+SEE COMMANDS
+------------
+  COR_, WRITESPE_, PLOTSPE_
+

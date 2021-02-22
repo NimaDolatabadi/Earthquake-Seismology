@@ -1,0 +1,53 @@
+
+ADD
++++
+
+SUMMARY
+-------
+Adds a constant to each data point.
+
+SYNTAX
+------
+
+  ``ADD {v1 {v2 ... vn} }``
+
+INPUT
+-----
+   :v1:  Constant to add to first file.
+    
+   :v2:  Constant to add to second file.
+    
+   :vn:  Constant to add to nth file.
+    
+DEFAULT VALUES
+--------------
+
+  ``ADD 0.0``
+
+DESCRIPTION
+-----------
+  This command will add a constant to each element of each data file in memory.
+  The constant may be the same or different for each data file.  If there are
+  more data files in memory than constants, then the last constant entered is
+  used for the remainder of the data files.
+
+EXAMPLES
+--------
+  To add 5.1 to each element of F1 and 6.2 to each element of F2 and F3::
+
+      u:  READ F1 F2 F3
+      u:  ADD 5.1 6.2
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1307: Illegal operation on spectral file
+
+HEADER CHANGES
+--------------
+   DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

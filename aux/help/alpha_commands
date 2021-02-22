@@ -1,0 +1,260 @@
+
+Alphabetical Comamnd Listing
+++++++++++++++++++++++++++++
+
+:3c_:            Launch a Matlab GUI for manipulating 3-component data.
+:about_:         Displays version and copywrite information.
+:absolutevalue_: Takes the absolute value of each data point.
+:add_:           Adds a constant to each data point.
+:addf_:          Adds a set of data files to data in memory.
+:apk_:           Applies an automatic event picking algorithm.
+:arraymap_:      Produces a map of the array or "coarray" using all files 
+                 in SAC memory.
+:axes_:          Controls the location of annotated axes.
+:bandpass_:      Applies an IIR bandpass filter.
+:bandrej_:       Applies an IIR bandreject filter.
+:bbfk_:          Computes the broadband frequency-wavenumber (FK) spectral 
+                 estimate, using allfiles in SAC memory.
+:beam_:          Computes the beam using all data files in SAC memory.
+:begindevices_:  Begins plotting to one or two of the two possible 
+                 graphics devices.
+:beginframe_:    Turns off automatic new frame actions between plots.
+:beginwindow_:   Begins plotting to a new graphics window.
+:benioff_:       Applies a Benioff filter to the data.
+:binoperr_:      Controls errors that can occur during binary file operations.
+:border_:        Controls the plotting of a border around plots.
+:capf_:          Closes the currently open alphanumeric pick file.
+:cd:             Change the working directory within SAC.
+:chnhdr_:        Changes the values of selected header fields.
+:commit_:        Commits (dopies) SAC data to the I/O buffers
+:chpf_:          Closes the currently open HYPO pick file.
+:color_:         Controls color selection for color graphics devices.
+:comcor_:        Controls SAC's command correction option.
+:contour_:       Produces contour plots of data in memory.
+:convert_:       Converts data files from one format to another.
+:convolve_:      Compute the convolution of a master signal with itself 
+                 and one or more other signals.
+:copyhdr_:       Copies header variables from one file in memory to all others.
+:correlate_:     Computes the auto- and cross- correlation functions.
+:crr_:           Commit, Rollback, Recalltrace
+:cut_:           Defines how much of a data file is to be read.
+:cuterr_:        Controls errors due to bad cut parameters.
+:cutim_:         Cuts files in memory.  Can cut multiple segments from 
+                 each file.
+:datagen_:       Generates sample data files and stores them in memory.
+:decimate_:      Decimates (downsamples) data, including an optional 
+                 anti-aliasing FIR_ filter.
+:deletechannel_: Deletes one or more files from the file list.
+:depmec_:        Launch a Matlab GUI for estimating source depth and mechanism.
+:dif_:           Differentiates data in memory.
+:div_:           Divides each data point by a constant.
+:divf_:          Divides data in memory by a set of data files.
+:divomega_:      Performs integration in the frequency domain.
+:echo_:          Controls echoing of input and output to the terminal.
+:enddevices_:    Terminates one or more graphics devices.
+:endframe_:      Resumes automatic new frame actions between plots.
+:envelope_:      Computes the envelope function using a Hilbert transform.
+:erase_:         Erases the graphics display area.
+:evaluate_:      Evaluates simple arithmetic expressions.
+:exp_:           Computes the exponential of each data point.
+:exp10_:         Computes the base 10 exponential (10.**y) of each data point.
+:fft_:           Performs a discrete Fourier transform.
+:fileid_:        Controls the file id display found on most SAC plots.
+:filenumber_:    Controls the file number display found on most SAC plots.
+:filterdesign_:  Produces a graphic display of a filter's digital vs. analog 
+                 characteristics
+:fir_:           Applies a finite-impulse-response filter.
+:floor_:         Puts a minimum value on logarithmically scaled data.
+:funcgen_:       Generates a function and stores it in memory.
+:getbb_:         Gets (prints) values of blackboard variables.
+:grayscale_:     Produces grayscale images of data in memory.
+:grid_:          Controls the plotting of grid lines in plots.
+:gtext_:         Controls the quality and font of text used in plots.
+:hanning_:       Applies a "hanning" window to each data file.
+:help_:          Displays information about SAC commands and features on 
+                 the screen.
+:highpass_:      Applies an IIR highpass filter.
+:hilbert_:       Applies a Hilbert transform.
+:history_:       prints a list of the recently issued SAC commands
+:ifft_:          Performs an inverse discrete Fourier transform.
+:image_:         Produces color sampled image plots of data in memory.
+:inicm_:         Reinitializes all of SAC's common blocks.
+:installmacro_:  Installs macro files in the global SAC macro directory.
+:int_:           Performs integration using the trapezoidal or rectangular rule.
+:interpolate_:   Interpolates evenly or unevenly spaced data to a new 
+                 sampling rate.
+:keepam_:        Keep amplitude component of spectral files 
+                 (of either the AMPH or RLIMformat) in SAC memory.
+:khronhite_:     Applies a Khronhite filter to the data.
+:line_:          Controls the linestyle selection in plots.
+:linefit_:       Computes the best straight line fit to the data in memory 
+                 and writesthe results to header blackboard variables.
+:linlin_:        Turns on linear scaling for the x and y axes.
+:linlog_:        Turns on linear scaling for x axis and logarithmic for y axis.
+:listhdr_:       Lists the values of selected header fields.
+:load_:          Load an external command.
+:loadctable_:    Allows the user to select a new color table for use in 
+                 image plots.
+:log_:           Takes the natural logarithm of each data point.
+:log10_:         Takes the base 10 logarithm of each data point.
+:loglab_:        Controls labels on logarithmically scaled axes.
+:loglin_:        Turns on logarithmic scaling for x axis and linear for y axis.
+:loglog_:        Turns on logarithmic scaling for  the x and y axes.
+:lowpass_:       Applies an IIR lowpass filter.
+:macro_:         Executes a SAC macro file.
+:map_:           Generate a GMT (Generic Mapping Tools) map which can 
+                 include station/eventsymbols topography and station 
+                 names using all the files in SAC memory
+:markptp_:       Measures and marks the maximum peak to peak amplitude of 
+                 each signal withinthe measurement time window.
+:marktimes_:     Marks files with travel times from a velocity set.
+:markvalue_:     Searches for and marks values in a data file.
+:mat_:           Copy SAC workspace into Matlab and either execute a 
+                 user-specifiedm-file or else get a Matlab prompt for 
+                 interactive manipulation.
+:mathop_:        provides options for sequncing in inline expressions
+:merge_:         Merges (concantenates) a set of files to data in memory.
+:message_:       Sends a message to the user's terminal.
+:mtw_:           Determines the measurement time window for use in 
+                 subsequent measurementcommands.
+:mul_:           Multiplies each data point by a constant.
+:mulf_:          Multiplies a set of files by the data in memory.
+:mulomega_:      Performs differentiation in the frequency domain.
+:nplotc_:        Annotates SAC plots and creates figures using cursor.
+:null_:          Controls the plotting of null values.
+:oapf_:          Opens a alphanumeric pick file.
+:ohpf_:          Opens a HYPO formatted pick file.
+:pause_:         Sends a message to the terminal and pauses.
+:pickauthor_:    Tell sac to read author list (and possibly phase pick 
+                 information) froma user-defined preferences file, or 
+                 interactively enter author list on
+:pickphase_:     Tell sac to read phase pick information (and possibly 
+                 the author list) froma user-defined preferences file, or 
+                 interactively enter phase pick information
+:pickprefs_:     Control the way that SAC manages and or loadspicks from a 
+                 variety of input data formats (e.g., CSS, GSE, SUDS etc...) 
+:picks_:         Controls the display of time picks on most SAC plots.
+:plabel_:        Defines general plot labels and their attributes.
+:plot_:          Generates a single-trace single-window plot.
+:plot1_:         Generates a multi-trace multi-window plot.
+:plot2_:         Generates a multi-trace single-window (overlay) plot.
+:plotalpha_:     Reads alphanumeric data files on disk into memory and plots 
+                 the data to thecurrent output device.  
+:plotc_:         Annotates SAC plots and creates figures using cursor.
+:plotctable_: 
+:plotdy_:        Creates a plot with error bars.
+:plotpk_:        Produces a plot for the picking of arrival times.
+:plotpktable_: 
+:plotpm_:        Generates a "particle-motion" plot of pairs of data files.
+:plotsp_:        Plots spectral data in several different formats.
+:plotxy_:        Plots one or more data files versus another data file.
+:print_:         Prints the most recent SGF_ file. 
+:printhelp_:     Prints hardcopies of information about SAC commands and 
+                 features.
+:production_:    Controls the production mode option.
+:qdp_:           Controls the "quick and dirty plot" option.
+:quantize_:      Converts continuous data into its quantized equivalent.
+:quit_:          Terminates SAC.
+:quitsub_:       Terminates the currently active subprocess.
+:read_:          Reads data from SAC data files on disk into memory.
+:readbbf_:       Reads a blackboard variable file into memory.
+:readcss_:       Read data files in CSS external format from disk into memory.
+:readdb_:        Reads data from Oracle database into memory. NOT SUPPORTED
+:readerr_:       Controls errors that occur during the READ_ command.
+:readgse_:       Read data files in GSE 2.0 format from disk into memory.
+:readhdr_:       Reads headers from SAC data files into memory.
+:readsdd_:       Reads data from SDD data files on disk into memory.
+:readsp_:        Reads spectral files written by WRITESP_ and WRITESPE.
+:readsuds_:      Read data files in PC-SUDS format from disk into memory.
+:readtable_:     Reads alphanumeric data files in collumn format on disk 
+                 into memory.
+:recalltrace_:   rolls back the laste committed waveform and most header fields
+:report_:        Informs the user about the current state of SAC.
+:reverse_:       Reverse the order of data points.
+:rglitches_:     Removes glitches and timing marks.
+:rmean_:         Removes the mean.
+:rms_:           Computes the root mean square of the data within the 
+                 measurement time window.
+:rollback_:      reverts SAC to last committed version in I/O buffers
+:rotate_:        Rotates a pair of data components through an angle.
+:rq_:            Removes the seismic Q factor from spectral data.
+:rtrend_:        Removes the linear trend.
+:saveimg_:       Sves displayed graphics windows in several formats
+:scallop_:       Calculate a spectrogram equal to the difference between 
+                 two smoothed versionsof the same spectrogram.
+:setbb_:         Sets (defines) values of blackboard variables.
+:setdevice_:     Defines a default graphics device to use in subsequent plots.
+:setmacro_:      Defines a set of directories to search when executing a 
+                 SAC macro file.
+:sgf_:           Controls the SAC Graphics File (SGF) device options.
+:smooth_:        Applies an arithmetic smoothing algorithm to the data.
+:sonogram_:      Calculate a spectrogram equal to the difference between 
+                 two smoothed versionsof the same spectrogram.
+:sort_:          Sorts files in memory by header fields.
+:spe_: 
+:spectrogram_:   Calculate a spectrogram using all of the data in memory.
+:sqr_:           Squares each data point.
+:sqrt_:          Takes the square root of each data point.
+:sss_: 
+:stretch_:       Stretches (upsamples) data, including an optional 
+                 interpolating FIR_ filter.
+:sub_:           Subtracts a constant from each data point.
+:subf_:          Subtracts a set of data files from data in memory.
+:symbol_:        Controls the symbol plotting attributes.
+:synchronize_:   Synchronizes the reference times of all files in memory.
+:syntax_:        Prints basic information about SAC commands.
+:systemcommand_: Executes system commands from SAC.
+:taper_:         Applies a symmetric taper to each end of data.
+:ticks_:         Controls the location of tick marks on plots.
+:title_:         Defines the plot title and attributes.
+:trace_:         Controls the tracing of blackboard and header variables.
+:transcript_:    Controls output to the transcript files.
+:transfer_:      Performs deconvolution to remove an instrument response 
+                 and convolution to apply another instrument response.
+:transfertable_: Details on older instrument tpes called in transfer
+:traveltime_:    Computes traveltime curves for pre-defined models
+:tsize_:         Controls the text size attributes.
+:unsetbb_:       Unsets (deletes) blackboard variables.
+:unwrap_:        Computes amplitude and unwrapped phase.
+:vspace_:        Changes the maximum size and shape of plots.
+:wait_:          Tells SAC whether or not to pause between plots.
+:whiten_:        Flattens the spectrum of the input time series.
+:whpf_:          Writes auxiliary cards into the HYPO pick file.
+:width_:         Controls line-width selection for graphics devices.
+:wiener_:        Designs and applies an adaptive Wiener filter.
+:wild_:          Sets wildcard characters used in read commands to 
+                 expand filelists.
+:window_:        Sets the location and shape of graphics windows.
+:write_:         Writes data in memory to disk.
+:writebbf_:      Writes a blackboard variable file to disk.
+:writecss_:      Writes data in memory to disk in CSS 3.0 format.
+:writegse_:      Write data files in GSE 2.0 format from memory to disk.
+:writehdr_:      Overwrites the headers on disk with those in memory.
+:writesdd_:      Writes data in memory to disk in SDD format.
+:writesp_:       Writes spectral files to disk as "normal" data files.
+:xdiv_:          Controls the x axis division spacing.
+:xfudge_:        Changes the x axis "fudge factor."
+:xfull_:         Controls plotting of x axis full logarithmic decades.
+:xgrid_:         Controls plotting of grid lines in the x direction.
+:xlabel_:        Defines the x axis label and attributes.
+:xlim_:          Determines the plot limits for the x axis.
+:xlin_:          Turns on linear scaling for the x axis.
+:xlog_:          Turns on logarithimic scaling for the x axis.
+:xvport_:        Defines the viewport for the x axis.
+:ydiv_:          Controls the y axis division spacing.
+:yfudge_:        Changes the y axis "fudge factor."
+:yfull_:         Controls plotting of y axis full logarithmic decades.
+:ygrid_:         Controls plotting of grid lines in the y direction.
+:ylabel_:        Defines the y axis label and attributes.
+:ylim_:          Determines the plot limits for the y axis.
+:ylin_:          Turns on linear scaling for the y axis.
+:ylog_:          Turns on logarithimic scaling for the y axis.
+:yvport_:        Defines the viewport for the y axis.
+:zcolors_:       Controls the color display of contour lines.
+:zlabels_:       Controls the labeling of contour lines with contour level 
+                 values.
+:zlevels_:       Controls the contour line spacing in subsequent contour plots.
+:zlines_:        Controls the contour linestyles in subsequent contour plots.
+:zticks_:        Controls the labeling of contour lines with directional 
+                 tick marks.
+

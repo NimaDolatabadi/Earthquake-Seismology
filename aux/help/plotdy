@@ -1,0 +1,47 @@
+
+PLOTDY
+++++++
+
+SUMMARY
+-------
+Creates a plot with error bars.
+
+SYNTAX
+------
+
+  ``PLOTDY {ASPECT ON|OFF} {PRINT pname} name|number  name|number  { name|number }``
+
+INPUT
+-----
+   :ASPECT:  ON maintains a 3/4 aspect ratio.  OFF allows the aspect
+       ratio to vary with the dimensions of the window.
+    
+   :PRINT {pname}:  Print the resultant plot.  If a printer name is given,
+       print to that printer, else use default printer.
+    
+   :name:  The name of a data file in the data file list.
+    
+   :number:  The number of a data file in the data file list.
+    
+DESCRIPTION
+-----------
+  This command allows you to plot a data set with error bars.  The first
+  data file you select (either by name or number) is plotted along the y axis.
+  The second data file is the dy value.  If a third data file is selected it is
+  the positive dy value.
+
+  Assume you have an evenly spaced ascii file that contains two columns
+  of numbers. The first is the y-value. The second column is the dy-value.  You
+  wish to read these into SAC and plot the data with error bars.::
+
+      u: READALPHA CONTENT YY MYFILE
+      u: PLOTDY 1 2
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+
+LATEST REVISION
+---------------
+  July 22, 1992 (Version 10.6f)
+

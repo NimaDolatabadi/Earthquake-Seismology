@@ -1,0 +1,41 @@
+
+MESSAGE
++++++++
+
+SUMMARY
+-------
+Sends a message to the user's terminal.
+
+SYNTAX
+------
+
+  ``MESSAGE text``
+
+INPUT
+-----
+   :text:  Text of message to be sent.  If there are blanks in the message
+       it must be enclosed within single quotes.
+    
+DESCRIPTION
+-----------
+  This command is useful within macro files to send status or informational
+  messages to the user while the macro file is executing.  It is not
+  particularly useful in the interactive mode (unless you like to talk to
+  yourself.)
+
+EXAMPLES
+--------
+  To send a message without any blanks::
+
+      u: MESSAGE FINISHED
+      s: FINISHED
+
+  To send a message with blanks, you must use single or double quotes::
+
+      u: MESSAGE 'Job has finished.'
+      s: Job has finished.
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

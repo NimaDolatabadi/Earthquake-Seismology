@@ -1,0 +1,53 @@
+
+DELETECHANNEL
++++++++++++++
+
+SUMMARY
+-------
+Deletes one or more files from the file list.
+
+SYNTAX
+------
+
+  ``[D]ELETE[C]HANNEL ALL``
+
+  ``[D]ELETE[C]HANNEL filename|filenumber|range {filename|filenumber|range ... }``
+
+INPUT
+-----
+   :ALL:         Deletes all files from memory.  The user need not specify
+       filenames or filenumbers
+    
+   :filename:    Name of a file in the file list.
+    
+   :filenumber:  Number of a specific file in the file list.  The first
+       file in the list is 1, the second is 2, etc.
+       (The command FILENUMBER_ ON tells SAC to display
+       the file numbers in most of the plots.)
+    
+   :range:       Two file numbers separated by a dash: eg. 11-20.
+    
+    
+   :TYPE:             Action-taking
+    
+
+EXAMPLES
+--------
+::
+
+       dc 3 5		             * deletes 3rd and 5th file.
+       dc SO01.sz SO02.sz            * deletes named files.
+       dc 11-20                      * deletes all the files from
+       	  		       	     * the 11th through the 20th,
+       			       	     * inclusive.
+       dc 3 5 11-20 SO01.sz SO02.sz  * deletes all of the above.
+    
+ERROR MESSAGES
+--------------
+- 5106: File name not in file list
+- 5107: File number not in file list
+
+SEE COMMANDS
+------------
+  DELETESTACK, FILENUMBER_
+    

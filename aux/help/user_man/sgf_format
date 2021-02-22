@@ -1,0 +1,151 @@
+SAC Graphics Format (SGF)
++++++++++++++++++++++++++
+
+Overview
+--------
+Each SAC Graphics File (SGF) contains all the information needed to describe 
+a single picture, called a frame.  Prior to the mid90s when  the C-based
+SAC2000 replaced the Fortran-based SAC, several utilities programs, external to 
+SAC, were written to perform various function on an SGF file: a program to merge
+up to several SGF files,  a program that directly displayed the SGF plots on the
+console, a program that listed the commands encoded in an SGF file, ond  sgftops,
+which converted an SGF file to a postscript file.  Most of these programs were
+never converted to C, and currently, sgftops is the  only program that is 
+maintained.  A description of program sgftops is given at the end of this section.
+
+SGF Format
+----------
+
+Overview 
+--------
+Each SGF contains all the information needed to describe a single picture 
+(called a frame.) The filenames are normally of the form "f nnn.sgf" where 
+nnn is the three digit frame number. A translation program must be written to 
+convert these files to the format needed for any specific graphics device.
+
+Physical Format
+---------------
+A SGF  contains variable length records with a maximum record size of 2500 
+32-bit words. The first 32-bit word of each record contains the length of that 
+record, including this word count. They are written in binary format for 
+faster i/o. To keep them small and portable between different computer 
+systems, all commands and data are stored in 16-bit integer format, 2 bytes.
+
+Command
+-------
+The draw command (draw a line from the previous location to the new location) 
+is the most common command. This command is simply a pair of integers giving 
+the new x and y locations. These integers are in the range 0 to 32000 in the x 
+direction and 0 to 24000 in the y direction. (This produces an aspect ratio of 
+3:4 which maps well to most output devices.)
+
+Other Commands 
+--------------
+The rest of the commands (with one exception) consist of a command 
+identification number, a data count, and zero or more data words. The 
+identification number is a negative integer and tells the translation program 
+what operation is to be performed. The use of negative integers makes it easy 
+to distinguish these commands from the draw commands. The data count is the 
+number of 16-bit data words, 2 bytes, contained in this command. This format 
+allows for the future addition of new commands. Also it allows each 
+translation program to quickly skip over commands that it cannot process. The 
+one exception to this format is the null or no-op command. This has an 
+identification number of -1 and contains no data count and no data words. It 
+is used to fill out a record to an even number of 32-bit words. The table on 
+the next page summarizes the current commands. A plot produced from a simple 
+SGF  is also included, along with a table describing the contents of that 
+simple SGF.
+
+SGF Commands Table
+------------------
+
+=== ===== ===================== ================================================
+ID  Count Command               Description
+=== ===== ===================== ================================================
+-1  0     No-op                 No Operation 
+-2  0     End                   End of picture. 
+-3  2     Move                  Move to the location contained in the two (x,y) 
+                                data words.
+-4  1     Color                 Change color to value contained in data word. 
+-5  *     Text                  Write hardware text at current location. 
+                                Data count contains number of 16-bit words of 
+                                text plus one. First data word is the number of 
+                                characters in the text. Rest of data words 
+                                contain the text, two characters per word. 
+                                Last byte of last word is not significant 
+                                if character count is odd. 
+-6  2     Text Size             Change hardware text size. Data words contain 
+                                the text width and height as integer fractions 
+                                of the maximum coordinate system size (32000). 
+                                For example a value of 320 would set text size 
+                                to 0.01 or one percent of the full plot size.
+-7  1     Line Style            Change linestyle to value contained in 
+                                data word. 
+-8  1     Plot Size             Change the physical size of the plot. Data 
+                                word is the desired length in the x direction 
+                                in 0.001 inch increments. Default value is 
+                                10000 which is equivalent to 10.0 inches. None 
+                                of the SGF conversion programs currently make 
+                                use of this option. 
+-9  1     Line Width            Change the linewidth to value contained in 
+                                data word.  
+-10 3     Polygon Fill          Fill a polygon with a gray value in the 
+                                first data word by moving to data words 2 and
+                                3. 
+-11 5     Plot Filled Rectangle Fill a rectangle defined at data word 1 and 
+                                2 (x, y) with a width and height data words 
+                                3 and 4 and a color at data word 5. 
+-12 1     Text Angle            Set the Angle of the Text
+-13 4     Color Image           Plot a color image of width data word 1 and 
+                                height data word 2 at data word 3 and 4 (x, y).
+-14 1     color Fill flag       Fill polygon with current color.  Can be used
+                                to fill positive and negative parts of waveform
+                                with different colors
+=== ===== ===================== ================================================
+
+PROGRAM SGFTOPS
+----------------
+Plots from SAC can be saved to a file as a Sac Graphics Format (SGF) 
+file.  Program sgfops converts a binary .sgf file to a postscript file.
+As of version 101.4, sgftops can handle .sgf files with eithr endian.    
+
+The source code can be found in sac/utils/sgftops.c, and it is built and 
+put in sac/bin at the time SAC is built and installed.
+
+Entering sgftops with no arguments produces:
+
+Usage: sgftops sgf_file ps_file [line_width scale_id]
+ 
+  where: 
+  
+         line_width = 1, 1.5, 2, 3, etc.
+         
+         scale_id = i  (landscape mode plus id);
+         scale_id = s  (shift,rotate & scale);
+         scale_id = si (s plus id).
+         
+time/date in id is file creation date for the .sgf file.
+ 
+  Example: sgftops foo.sgf foo.ps 2 si
+ 
+Produces a plot with line thick=2 and ID at the bottom.
+Prompts further for translation, rotation and scale.
+ 
+The origin of plot is lower left corner of portrait mode and angle is 
+Counter Clockwise (CCW)
+
+The reason that sgftops default is landscape is that when it was first
+written (20+ years ago), the major use of a postscript file was to be
+ported to a postscript printr.
+
+PLOT-CONVERSION SCRIPTS
+-----------------------
+There are two scripts in sac/bin that call sgftops and produce a screen
+display (sgftox.csh) or an EPS file (sgftoeps.csh).  Enter the script 
+names with no arguments to get further information.  Both, as written,
+require that the program "gs" is in your path. Script sgftox.csh uses gs 
+to display the image on the screen, but it is easily modified to use other 
+available postscript file viewers, such as gv, ggv, or evince. 
+Script sgftoeps.csh can be modified to produce a PDF file if script 
+epstopdf is on the system and in the path.  Note that the output file 
+for both sgftoeps.csh and sgftox.csh is in portrait format.

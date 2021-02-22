@@ -1,0 +1,200 @@
+
+PLOTC
++++++
+
+SUMMARY
+-------
+Annotates SAC plots and creates figures using cursor.
+
+SYNTAX
+------
+
+  ``PLOTC {REPLAY|CREATE} {FILE|MACRO filename},``
+
+  ``{BORDER {ON|OFF}}``
+
+INPUT
+-----
+   :REPLAY:  Replay or replot an existing file or macro.  The difference
+       between a file and a macro is described below.
+    
+   :CREATE:  Create a new file or macro.
+    
+   :FILE {filename}:  Replay or create a file.  The previous file is used
+       if filename is omitted.
+    
+   :MACRO {filename}:  Replay or create a macro.
+    
+   :BORDER {ON}:  Turn border around plot on.
+    
+   :BORDER OFF:  Turn border around plot off.
+    
+DEFAULT VALUES
+--------------
+
+  ``PLOTC CREATE FILE OUT BORDER ON``
+
+DESCRIPTION
+-----------
+   This command lets you annotate SAC plots and create figures for
+   meetings and reports.  A device with cursor capability is required.  You
+   "build" a figure by placing objects and text on the terminal screen.  The
+   cursor position determines where an object will be drawn and the character
+   typed determines what object is to be drawn.  Objects include circles,
+   rectangles, n-sided polygons, lines, arrows, and arcs.  Several ways of
+   placing text are included.
+
+   This command creates two different type of output files, simple files
+   and macro files.  Both are alphanumeric files that can be changed using an
+   editor.  They contain the history of the cursor responses and locations from
+   a single execution of the PLOTC_ command.  A macro file, once created, can be
+   used in more than one plot or figure.  It can be scaled in size and can also
+   be rotated.  A simple PLOTC_ filename is the name you request with a ".PCF"
+   appended to it.  A macro file has a ".PCM" appended to its' name.  This
+   provides a check for SAC when you request a particular file and also lets you
+   distinguish these files in your directories.
+
+   When you create a new file or macro, SAC draws a rectangle on the
+   screen showing you the allowable area for the figure.  It then turns the
+   cursor on in the middle of this area.  You move the cursor to the desired
+   location and type a character representing the object you want drawn or the
+   action you want to occur.
+
+   There are two types of cursor options, action and parameter-setting.
+   The action options do something (draw a polygon, place text, etc.) How they
+   do that action is based in part upon the current values of the
+   parameter-setting options (how many sides on the polygon, what size text to
+   draw, etc.) This distinction is similiar to the idea of action and
+   parameter-setting commands in SAC itself.  The tables on the following pages
+   list the action and parameter-setting options.
+
+   When you replay a file or macro, the figure is redrawn on the terminal
+   screen and then the cursor is turned on.  You may then add to the file or
+   macro as if you were creating it for the first time.  When you have created a
+   figure that you want to send to a different graphics device, use the
+   BEGINDEVICES_ command to temporarily turn off the terminal and turn on the
+   other device.  Then simply replay the file.
+
+   To annotate a SAC plot, execute the VSPACE_ command to set up the correct
+   aspect ratio (see below), execute the BEGINFRAME_ command to turn off
+   automatic framing, execute the desired SAC plot command, execute the PLOTC_
+   command (in create or replay mode), and then execute the ENDFRAME_ command to
+   resume automatic framing.
+
+EXAMPLES
+--------
+  An example of the use of PLOTC_ to add annotation to a standard SAC plot
+  is the figure in the BANDPASS_ command description of this manual.  The
+  commands used to create that figure are given below with comments given in
+  parentheses::
+
+      u:  FG IMPULSE NPTS 1024      \ \ (generate filter response)
+      u:  LOWPASS C2 NPOLES 7 CORNER 0.2 TRANBW 0.25 A 10
+      u:  FFT
+      u:  AXES ONLY LEFT BOTTOM     \ \ (set up desired plot options)
+      u:  TICKS ONLY LEFT BOTTOM
+      u:  BORDER OFF
+      u:  FILEID OFF
+      u:  QDP OFF
+      u:  VSPACE 0.75              \ \ (see discussion below)
+      u:  BEGINFRAME               \ \ (turn off automatic framing)
+      u:  PLOTSP AM LINLIN         \ \ (plot filter response)
+      u:  PLOTC CREATE FILE BANDPASS      \ \ (create annotation)
+      u:  ENDFRAME                 \ \ (turn automatic framing back on)
+
+  PLOTSP_ was used to produce the curve of the filter response and the two axes.
+  PLOTC_ was used interactively to produce the annotation (i.e., the lines,
+  arrows, and labels.) The viewspace command constrains the plot be the largest
+  enclosed area of the graphics screen that has an \ \ (y:x) aspect ratio of
+  3:4.  This is necessary so that when the output is later sent to the 
+  SGF_ device which also has a 3:4 aspect ratio, everything will be 
+  plotted correctly.  At this point you would have a file called 
+  "BANDPASS.PCF" containing the annotations for this plot.  To write this 
+  annotated plot to the SAC graphics file::
+
+      u:  BEGINDEVICES SGF   \ \ (select the SGF device)
+      u:  BEGINFRAME         \ \ (turn off automatic framing)
+      u:  PLOTSP             \ \ (plot filter response again)
+      u:  PLOTC REPLAY       \ \ (replay the annotation)
+      u:  ENDFRAME           \ \ (turn automatic framing back on)
+
+  A SAC graphics file will be created containing the annotated plot.
+  Two examples (one somewhat frivolous) of the use of PLOTC_ to create
+  figures and viewgraphs are given on the following pages.  The replay files are
+  also shown.  (It is an exercise left to the reader to determine which of the
+  examples is frivolous.)
+
+    1. The circle and sector opcodes only produce correct output when you have
+       set the viewspace to a square one (VSPACE 1.0).
+       Otherwise, they produce an ellipse with the ratio of the minor to major
+       axis equal to the aspect ratio of the viewspace.
+
+    2. All all of the opcodes except text are scaled to fit in the graphics
+       window.
+
+  The text sizes aren't currently scaled.  This creates a problem when you
+  create a figure and want to enclose some text in a rectangle or a circle.
+  In this case the graphics window must be the same size as the output page
+  in order to avoid misalignment.
+
+  This can be achieved by using the WINDOW_ command to set the horizontal (x)
+  size of the window to be 0.75 and the vertical (y) size to be 0.69.
+  For example:  WINDOW_ 1 X 0.05 0.80 Y 0.05 0.74
+  This command must be executed before the window is created (i.e. before the
+  BEGINWINDOW_ or BEGINDEVICES_ command.)
+
+    3. The text feature of this command works only in SunView graphics windows.
+
+SEE COMMANDS
+------------
+  VSPACE_, BEGINDEVICES_, BEGINFRAME_, ENDFRAME_
+
+LATEST REVISION
+---------------
+  March 20, 1992 (Version 10.6e)
+
+  TABLE: Action Options::
+
+    char  meaning
+    A     Draw an arrow from ORIGIN to CURSOR.
+    B     Draw border tick marks around plot region.
+    C     Draw a circle centered at ORIGIN through CURSOR.
+    D     Delete last action option from replay file.
+    G     Set ORIGIN and make it global.
+    L     Draw a line from ORIGIN to CURSOR.
+    M     Invoke a macro at CURSOR.
+    Enter name of macro, scale factor, and rotation angle.
+    Previous values are used if omitted.
+    Defaults are OUT, 1., and 0.
+    O     Set ORIGIN at CURSOR.
+    N     Draw an n-sided polygon centered at ORIGIN
+    with one vertex at CURSOR.
+    Q     Quit PLOTC_.
+    R     Draw a rectangle with opposing corners
+    at ORIGIN and CURSOR.
+    S     Draw a sector of a circle centered at ORIGIN through
+    CURSOR  Move CURSOR to define the sector angle.
+    Type an S to get the sector whose angle is less than
+    180 degrees or C to get its' complement.
+    T     Place a single line of text at cursor.
+    Text is ended by a carriage-return.
+    U     Place multiple lines of text at cursor.
+    Text is ended by a blank line.
+
+  Notes:
+
+   - CURSOR is the current cursor location
+   - ORIGIN is normally the last cursor location
+   - The G option forces ORIGIN to remain fixed
+   - The O option allows ORIGIN to move again
+   - The Q option is not automatically copied to the file
+     but may be added to it with a text editor.
+
+  If SAC does not see a Q in the file during replay mode,
+  it goes back into cursor mode after displaying the contents
+  of the file.  This lets you append more options to the end
+  of a file.  If SAC does see a Q in the file, it displays the
+  contents and ends PLOTC_.
+
+   - A line beginning with an asterisk is treated as a comment line.
+

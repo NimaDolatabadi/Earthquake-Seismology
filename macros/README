@@ -1,0 +1,58 @@
+Introduction
+------------
+
+This directory contains a set of macros and data called by those macros.
+The set of macros interactively demonstrates some of SAC's features.
+
+Running
+-------
+
+To run the set of macros, change to the demo directory, start SAC, and call the
+macro:
+
+sac/macros: cd demo
+sac/macros/demo: sac
+ SEISMIC ANALYSIS CODE [05/02/2013 (Version 101.6)]
+ Copyright 1995 Regents of the University of California
+
+SAC> m demo
+
+Macro demo sequentially calls three other macros: read, plot, and filter.
+Commands will be displayed on the SAC> screen as they are executed.  At several
+points, "pause" is displayed, and the user must hit a carriage return in the
+SAC> window to proceed.  After the second "pause" a plot image will be 
+displayed on the screen -- probably overlapping the SAC> window.  Because you
+will be producing several plots during this run, an efficient way to progress
+through the operations is to move the windows on your screen so they do not
+overlap.. Clicking on the border of the window with the SAC> prompts makes it
+the active window (which is necessary for the program to proceed).
+After finishing with macro read, macros plot and filter are called.
+
+Subdirectory results/ should be empty before the demo macro is run.  PDF copies
+of the six plots created by the macros are created and put in results/ using
+the SAC command saveimg.  Also put into results/ is a command-line history file
+named demo_run.txt, which is created by command transcript.  (The syntax of the
+calls to these commands can be seen by looking at the macros, and further
+information about them can be gotten from the help files saveimg and
+transcript.) Copies of the PDF files and transcript output file are in 
+directory successful_run_results as a reference.
+
+History
+-------
+
+The original version of the macros were written in the early 90s when Sun
+Solaris was the most used platform, sunwindows was the default screen display,
+and SGF files were the only way to get hard copies of SAC-created plots.  
+For v101.6, the macros have been updated and are included because they remain 
+a potentially useful that for both showing off some of SAC's capabilities and 
+providing some sample coding in macros.
+
+The original version included a second set of macros that demonstrated some of
+SAC's features.  They are not included here because there are now other suites 
+of macros and programs that serve this purpose.  These include:
+
+  1. Seismic Analysis Code Example Program (sac/doc/examples/README)
+  2. https://seiscode.iris.washington.edu/projects/sac/wiki/Examples
+  3. sac/t/testsuite/README.check (currently available only with the source 
+     distribution)
+

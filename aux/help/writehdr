@@ -1,0 +1,65 @@
+
+WRITEHDR
+++++++++
+
+SUMMARY
+-------
+Overwrites the headers on disk with those in memory.
+
+SYNTAX
+------
+
+  ``WRITEHDR {COMMIT|ROLLBACK|RECALLTRACE}``
+
+INPUT
+-----
+   :COMMIT:  Commits headers and waveforms in SAC memory -- removing any
+       previous versions of headers or waveforms from RAM -- prior
+       to writing files.  COMMIT is the default.
+    
+   :ROLLBACK:  reverts to the last committed version of the header and
+       waveform before writing files.
+    
+   :RECALLTRACE:
+
+       - reverts to the last committed version of the waveform,
+       - reverts to the last committed version of those header
+       	 variables closely linked to the waveform,
+       - commits those header variables which are loosely linked
+         to the waveform.  (use HELP_ RECALLTRACE for a list of 
+	 which header variables are committed, and which are rolled back.)
+
+DEFAULT VALUES
+--------------
+
+  ``WRITEHDR COMMIT``
+
+DESCRIPTION
+-----------
+  The data on disk is NOT overwritten by this command.  Use the WRITE_ OVER
+  command to overwrite headers and data.  The WRITEHDR_ command should NEVER be
+  used if the CUT_ option is on.  The header in memory is modified to reflect 
+  the effects of the CUT_, but the data on disk is not modified.  
+  Use of the WRITEHDR_ command on cut data files will have the effect 
+  of apparently shifting and truncating the data on disk in time.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+
+HEADER CHANGES
+--------------
+  Updates headers on disk.
+
+LIMITATIONS
+-----------
+  See description above about use of CUT_ and WRITEHDR_.
+
+SEE COMMANDS
+------------
+  CUT_, WRITE_, COMMIT_, ROLLBACK_, RECALLTRACE_
+
+LATEST REVISION
+---------------
+   Oct. 27, 1998 (Version 0.58)
+

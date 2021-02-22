@@ -1,0 +1,47 @@
+
+XFUDGE
+++++++
+
+SUMMARY
+-------
+Changes the x axis "fudge factor."
+
+SYNTAX
+------
+
+  ``XFUDGE {ON|OFF|v}``
+
+INPUT
+-----
+   :{ON}:  Turn fudge option on but don't change fudge factor.
+    
+   :OFF:  Turn fudge option off.
+    
+   :v:  Turn fudge option on and change fudge factor to v.
+    
+DEFAULT VALUES
+--------------
+
+  ``XFUDGE 0.03``
+
+DESCRIPTION
+-----------
+  When this option is on, the actual axis limits are changed by a "fudge
+  factor".  The algorithm for a linearly interpolated axis is::
+
+    XDIFF=XFUDGE*(XMAX-XMIN)
+    XMIN=XMIN-XDIFF
+    XMAX=XMAX+XDIFF
+
+  where XMIN and XMAX are the data extrema and XFUDGE_ is the fudge factor.  The
+  algorithm is similiar for logarithmically interpolated axes.  The fudge option
+  only applies when the axis limits are scaled to the data extrema (see XLIM.)
+
+SEE COMMANDS
+------------
+  XLIM_
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

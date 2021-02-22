@@ -1,0 +1,102 @@
+
+INTERPOLATE
++++++++++++
+
+SUMMARY
+-------
+Interpolates evenly-spaced data to a new sampling rate.  Interpolate can also be 
+used with unevenly-spaced data.
+
+SYNTAX
+------
+::
+
+    INTERPOLATE {DELTA v} {NPTS n} {BEGIN v}
+
+INPUT
+-----
+   :DELTA v:  Set new sampling rate to v.
+       The time range (E-B) is not changed, so NPTS is changed.
+       However, E will be changed so that it is a multiple of DELTA from b.
+       Both DELTA and NPTS cannot be used in the same call.
+    
+   :NPTS n:  Force the number of points in interpolated file to be n.  
+       The time range (E-B) is not changed, so DELTA is changed.
+       Both DELTA and NPTS cannot be used in the same call.
+
+   :BEGIN v:  Start interpolation at v.  This value becomes the begin time
+       of the interpolated file.  BEGIN can be used with either DELTA or 
+       NPTS.
+    
+DEFAULT VALUES
+--------------
+
+  The time series is unchanged.
+
+DESCRIPTION
+-----------
+   This command uses the Wiggins' weighted average-slopes interpolation method 
+   (1976, BSSA, 66, p. 2077) to convert unevenly-spaced data to evenly-spaced data 
+   but which works quite well at resampling evenly-spaced data to a different 
+   sampling rate.  Unlike cubic-spline interpolation, there is no extrema between 
+   input sample points.  If the sample rate is decreased, there is no antialiasing, 
+   so for downsampling, DECIMATE_ may be a better option.  An alternative to using 
+   BEGIN is to CUT_ the time series to the desired B and E before calling 
+   INTERPOLATE.  If DELTA and NPTS are in the same call to INTERPOLATE, the last 
+   one in the command sequence will be used.
+   
+   Wiggins' subroutine included EPSILON, which gives a lower limit for local slopes.
+   In earlier versions of INTERPOLATE, one could modify EPSILON.  As of the version
+   accompanying SAC v101.5, the code has been rewritten so that there is no
+   reason to consider modifying EPSILON.  Hence, that option has been removed.
+
+EXAMPLES
+--------
+   Assume that FILEA is an evenly-spaced data file with a sampling interval of
+   0.025.  To convert it to a sampling rate of 0.02 seconds::
+
+      SAC>  READ FILEA
+      SAC>  INTERPOLATE DELTA 0.02
+
+   Because the new delta is less than the data delta, a warning message will be
+   printed because of the potential for aliasing.
+   
+   Assume that FILEB has NPTS=3101 and one wants to have it sample the same time
+   range but with NPS=4096 points (a power of 2)::
+   
+      SAC> READ FILEB
+      SAC> INTERPOLATE NPTS 4096
+      
+   If one tries to change DELTA and NPTS in the same call,  only the second call
+   will be used.  Hence if the previous call were replaced by::
+   
+      SAC> READ FILEB
+      SAC> INTERPOLATE NPTS 4096 DELTA 0.02
+      
+   DELTA would be changed to 0.02 and NPTS would be calculated from the new DELTA
+   and the input B and E.  If the order were reversed::
+   
+      SAC> READ FILEB
+      SAC> INTERPOLATE DELTA 0.02 NPTS 4096
+      
+   the output file would have NPTS=4096 and DELTA would be calculated.
+   
+   Assume that FILEC is an unevenly spaced data file.  To convert it to an evenly
+   spaced file with a sampling interval of 0.01 seconds::
+
+      SAC>  READ FILEC
+      SAC>  INTERPOLATE DELTA 0.01
+
+
+WARNING MESSAGES
+----------------
+- 2008: Requested begin time is less than data begin time. Output truncated.
+- 2125: Requested begin time is greater than data end time.  No action taken.
+
+HEADER CHANGES
+--------------
+   DELTA, NPTS, E, B (if FIRST invoked), LEVEN (if initially unevenly spaced.)
+
+LATEST REVISION
+---------------
+   August 2011 (Version 101.5)

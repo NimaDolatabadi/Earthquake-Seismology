@@ -1,0 +1,435 @@
+0000 SAC OUTPUT MESSAGES    Last modified on 100991
+0000 STRING/NUMERIC MANIPULATION and CONVERSION ERORS
+0002 Converting ascii to float - possible bad format.
+0000 FILE I/O SERVICE LEVEL
+0100 Operating system error
+0101 opening file
+0102 creating file
+0103 for new file
+0104 closing file
+0105 destroying file
+0106 Formatting error encountered while reading file
+0107 File unit is in use:
+0108 File does not exist:
+0109 File already exists:
+0110 Illegal file unit number:
+0111 File unit is not in use:
+0112 truncating file
+0113 Illegal file type for file
+0114 reading file
+0115 writing file
+0116 No available file units.
+0117 Illegal hardcopy device:
+0118 Can't send to
+0119 checking existence of file
+0120 No wfdisc file specified
+0121 Error encoding XDR output file
+0122 Partial updates not allowed for XDR file.
+0123 Error decoding XDR input file
+0124 Can't change to that directory.  Check your permissions.
+0125 csspickprefs not formatted properly.
+0126 .wfdisc filenames require an explicit '.' on the command line:
+0127 No data file specified.
+0128 CSS file not version 3.0:
+0129 Cannot form a path to that file
+0130 XDR and ALPHA options are incompatible
+0131 sac/datagen data directory not found.  
+0200 GRAPHICS SERVICE LEVEL
+0201 Illegal graphics device
+0202 Current graphics device does not have cursor capability.
+0203 Can't create X window. Check DISPLAY environmental.
+0300 ARRAY MANAGER FUNCTION
+0301 Out of memory.
+0302 Memory manager links clobbered for block starting at:
+0400 ENLARGE DECOMPRESSION
+0401 Enlarge: input record too small
+0402 Enlarge: input record too large
+0403 Enlarge: record has too many samples
+0404 Enlarge: nmap
+0405 Enlarge: ndiffs
+0406 Enlarge: unexpected end-of-file
+0407 Enlarge: nx, nrecl disagree
+0408 Enlarge: too few samples found
+0409 Enlarge: Number given in record header:
+0410 Enlarge: Number of samples decompressed:
+0411 Enlarge: inconsistent last values
+0412 Enlarge: Last value of original data:
+0413 Enlarge: Last value from decompression:
+0800 USER SERVICE LEVEL
+0801 File is not evenly spaced:
+0802 File is not unevenly spaced:
+0803 Data truncated to fit in user space for file
+0000 GENERAL SERVICE LEVEL
+0901 SAC programming logic error
+0902 Can't take logarithm of a non-positive number.
+0903 Please answer with a YES or NO.
+0904 DISTAZ calcuation failed internal check for entry
+0905 Time field must be at least 12 characters long.
+0906 Date field must be at least 18 characters long.
+0907 Bad time field entry detected:
+0908 Bad date field entry detected:
+0909 Bad julian date field entry detected:
+0910 Maximum array that can be sorted is
+0912 (A,I6,I4,I3,I3,I3,I4)
+0913 Interrupt received.
+0914 Illegal base name:
+0915 Illegal base numbers:
+0916 File name too long:
+0917 Size of passed array(s) too small.
+0918 Can't read or write into the global variable file.
+0919 SAC data array is too small to execute this command.
+0920 Character list delimiter found in character entry:
+0921 Not enough room in character list for character entry:
+0922 Text would exceed the maximum available space:
+0923 Expected to find option in range t0 - t9; none found.
+1000 COMMAND MODULE
+1001 Bad command syntax at symbol
+1002 Bad value for
+1003 Value out of allowed range at symbol
+1004 Illegal command.
+1005 Illegal subprocess command.
+1006 Length of string variable exceeded at symbol
+1007 Not enough room for command file
+1008 No command file name given.
+1009 Too many command file arguments at
+1010 Wrong number of command file arguments
+1011 Bad command file syntax.
+1012 Following option is not currently available:
+1013 Obsolete command.  Please use
+1014 Undefined variable in command: 
+1015 Too many levels of nesting to execute macro
+1016 Terminating execution of macro
+1017 Illegal macro command: 
+1018 Exceeded maximum number of nested inline functions:
+1019 Incorrect nesting of inline functions:
+1020 Invalid inline function name:
+1021 Correct number of arguments for this inline function call is
+1022 Illegal arithmetic operation in inline function:
+1023 All arguments to this inline function must be numeric.
+1024 This argument in inline function should be an operator:
+1025 This argument in inline function should be numeric:
+1026 Maximum number of arguments for this inline function call is
+1027 Exceed maximum number of external commands = 
+1028 External command does not exist:
+1029 Command line too long.
+1030 There is no year 0,
+1100 EXECUTIVE MODULE
+1101 Will terminate production run.
+1102 Remainder of command file not executed.
+1103 No help package is available.
+1104 No help information is available for
+1105 Error reading help information for
+1106 Not a valid SAC command.
+1107 Invalid entry in sitechan file
+1108 PLOTTING FUNCTION
+1109 UNUSED
+1110 No news is good news.
+1111 Error executing system command, insufficient memory.
+1112 Error finding program
+1113 Error starting program
+1114 Error ending program
+1115 This option is not currently implemented:
+1116 This function is not available on the
+1117 Can't evaluate expression because of bad operand value:
+1118 Maximum number of open transcript files is
+1119 Maximum number of active traceable variables is
+1200 VARS FUNCTION
+1201 Could not find VARS variable
+1202 Maximum number of vars sections exceeded:
+1203 Could not find VARS section
+1204 Incorrect data type for VARS variable
+1205 Could not delete VARS variable
+1206 VARS option not currently implemented:
+1207 Bad data block flag for VARS variable
+1208 Disk file is not in VARS format:
+1209 No current vars section has been defined.
+1210 Bad input to subroutine
+1211 VARS list already exists:
+1234 RMS Noise greater than RMS Signal, setting to 0.0
+1300 DATA FILE MODULE
+1301 No data files read in.
+1302 Maximum memory size exceeded.
+1303 Overwrite flag is not on for file
+1304 Illegal operation on data file
+1305 Illegal operation on time series file
+1306 Illegal operation on unevenly spaced file
+1307 Illegal operation on spectral file
+1308 Maximum smoothing half width is
+1309 Maximum special header list length is
+1310 Illegal data file list number
+1311 No list of filenames to write.
+1312 Bad number of files in write file list:
+1313 Illegal relative time pick
+1314 Data file list can't begin with a number.
+1315 Maximum number of files in data file list is
+1316 Can't smooth an unevenly spaced data file.
+1317 The following file is not a SAC data file:
+1318 Header in disk file is out of date:
+1319 Bad data found in card image data file header.
+1320 Available memory too small to read file
+1321 Can't cut spectral file
+1322 Undefined starting cut for file
+1323 Undefined stop cut for file
+1324 Start cut less than file begin for file
+1325 Stop cut greater than file end for file
+1326 Start cut greater than file end for file
+1327 Stop cut less than file begin for file
+1328 Start cut greater than stop cut for file
+1329 Corrected by filling with zeros.
+1330 Corrected by using file begin.
+1331 Corrected by using file end.
+1332 Fatal error condition.
+1333 Unable to read some files
+1334 Can't read or write DS2 formatted data files
+1335 Illegal operation---only data file headers in memory.
+1336 Undefined header field value.
+1337 Illegal header field name.
+1338 Too many data points to perform operation for file
+1339 Too few data points to perform operation for file
+1340 data points outside allowed range contained in file
+1341 Can't write headers because CUT is ON.
+1342 Illegal number of files in data file list:
+1343 Formatting error while reading file
+1344 Problem writing GSE file 
+1350 Could not find requested header entry
+1351 Not enough room in header for new header entry
+1352 Can not delete header entry
+1353 Output variable too short for header entry
+1354 No end-of-header found.
+1355 Incorrect data type for header entry
+1356 Can't cut unevenly spaced data file
+1357 Decoding formatted alphanumeric data card.
+1358 Maximum number of free format entries exceeded:
+1359 Maximum number of alphanumeric data channels exceeded:
+1360 Illegal character in alphanumeric content descriptor:
+1361 Can only have one X channel per file.
+1362 Must have at least one Y channel per file.
+1363 Illegal data file list name:
+1364 No data file list specifier (name or number) given.
+1365 Illegal enumerated header field value:
+1366 This command requires that data in memory be of type XYZ:
+1377 Unable to adjust the time in the SDD header
+1378 Illegal operation on XYZ data
+1379 No SORT parameters given
+1380 Too many SORT parameters:
+1381 Not a valid SORT parameter: 
+1382 ALL and COMMIT options both set, ignoring COMMIT option.
+1383 SORT failed
+1384 ASCEND and DESCEND options go after the related header in the command line
+1385 No worksets in memory.
+1386 Could not get Workset name.
+1387 No file name specified.
+1388 Reference time not equal to zero:  KZDATE and KZTIME may be adjusted by subsequent commands so that the reference time is zero.  Reference time is 
+1389 NVHDR, NPTS, NWFID, NORID, and NEVID cannot be changed with CHNHDR
+1390 KSTNM and KCMPNM cannot be undefined
+1391 Cannot CUTIM:  would result in too many files in memory.
+1392 Cannot CUTIM:  would exceed length of filename list (use shorter filenames)
+1393 Cannot Write Table of file:
+1394 Unexpected option on PICKPREFS; expecting ON, OFF, or blank.
+1400 SEISMGR SAC INTERFACE
+1401 Data may be corrupt.  Proceed with caution.
+1402 Data may have been removed.  Proceed with caution.
+1403 Cannot CUTIM:  would result in too many files in memory.
+1404 Cannot CUTIM:  would exceed length of filename list (use shorter filenames)
+1405 Cannot CUTIM:  illegal cut point information
+1406 Data has been corrupted, re-read or regenerate new data.
+1500 GRAPHICS ACTION MODULE
+1501 Floor used
+1502 Bad cursor position.  Please retry.
+1503 Invalid character.  Please retry.
+1504 Probable discrepancy in reference date fields in headers.
+1505 Must specify at least two data file list names or numbers.
+1600 SPECTRAL ANALYSIS MODULE
+1601 File and filter sampling intervals not equal for
+1602 Inadequate memory to perform FIR filter using DFT.
+1603 Inadequate memory to perform FIR filter.
+1604 Following file now in amplitude-phase format:
+1605 Following file now in real-imaginary format:
+1606 Maximum allowable DFT is
+1607 DC level after DFT is
+1608 Bad Wiener filter noise window for file
+1609 Numerical instability in Wiener filter for file
+1610 Unwrap failed at data point for file
+1611 Corner frequency greater than Nyquist for file
+1612 Window length exceeds maximum:
+1613 Minimum size of data file for Hilbert transform is
+1614 Numerical instability in Wiener; will retry with epsilon = 
+1615 Noise window outside of data window
+1616 Noise window larger than data window
+1617 Noise window partially outside of data window
+1618 Order = 0 in HQR
+1619 HQR failed, too many iterations
+1620 Gain out of range, Filterdesign failed for Whitening coefficients for file:
+1700 UNARY OPERATIONS MODUDE
+1701 Can't divide by zero.
+1702 Non-positive values found in file
+1800 BINARY OPERATIONS MODULE
+1801 Header field mismatch:
+1802 Time overlap:
+1803 No binary data files read in.
+1804 Illegal binary data file list number:
+1805 Time gap (zeros added):
+1900 EVENT ANALYSIS MODULE
+1901 Can't open HYPO pick file
+1902 Can't open card image pick file
+1903 Can't close previous card image pick file.
+1904 All global card image pick files are in use.
+1905 Need an integer.  Retry.
+1906 Need an integer in the range 0 to 4.  Retry.
+1907 HYPO line already written.
+1908 HYPO pick file not open.
+1909 Can't compute waveform.
+1910 No valid pick found for the following file(s):
+1911 Can't estimate back azimuth because of
+2000 SIGNAL CORRECTION MODULE
+2001 Command requires an even number of data files.
+2002 Following files are not an orthogonal pair:
+2003 Following files are not both horizontals:
+2004 Insufficient header information for rotation:
+2005 Points outside file's time window set to zero =
+2006 Gains must be monotonically decreasing.
+2007 Data clipped for file
+2008 Requested begin time is less than files begin time. Output truncated.
+2009 Requested end time is greater than files end time. Output truncated.
+2010 Number of points in pair of files are not equal:
+2011 Cannot read filter coefficient file:
+2100 INSTRUMENT CORRECTION MODULE
+2101 Need free period and magnification for ELMAG.
+2102 Need number of zeros for EYEOMG.
+2103 Need number of zeros, free period, scale and damping factors for GENL.
+2104 Need an instrument sub-type for
+2105 Unknown instrument sub-type for
+2106 Need free period and damping factor for LLL sub-type BB.
+2107 Need free period, damping factor, and corner frequency for PORT.
+2108 Maximum number of poles exceeded in POLEZERO file:
+2109 Maximum number of zeros exceeded in POLEZERO file:
+2110 Illegal option in POLEZERO file:
+2111 Taper frequency limits are invalid.  No taper applied.
+2112 Incorrect value for free period or magnification for ELMAG.
+2113 Need free period, damping, corner, gain, and highpass for REFTEK.
+2114 No response information for this channel in response file.
+2115 No response file found in database
+2116 Not a recognized response file type.
+2117 SUBTYPE and FNAME options not compatible with DBASE, filenames ignored.
+2118 No transfer function applied.
+2119 The SCALE option is not required if the TRANSFER command is to be used on data.
+2120 Interpolation Failed: adjacent frequencies indistinguishable.  Freq:
+2121 NDC transfer had an OS error.
+2122 NDC transfer had an application error.
+2123 NDC transfer had a SQL error.
+2124 NDC transfer had an unknown error.
+2125 Interpolate begin value too large:
+2126 Bad pole value in file
+2127 Bad zero value in file
+2200 GRAPHICS DEVICE MODULE
+2201 First three elements in color table entry must be numeric:
+2202 Size of passed color table arrays are too large.
+2203 Bad values in color table arrays found and corrected:
+2204 opening font file:
+2205 reading font file:
+2300 GRAPHICS DEVICE 1
+2301 No TERM environmental variable set.
+2400 GRAPHICS DEVICE 2
+2401 Can't find an unused SAC Graphics File.
+2402 Can't PRINT on ENDFRAME if SGF device is not on.
+2403 Ignoring PRINT option in the middle of a frame.
+2404 SPECTROGRAM, SONOGRAM, and IMAGE only PRINT if SGF is the only graphics device running
+2405 Cannot PRINT:  no SGF files produced.
+2500 GRAPHICS DEVICE 3
+2600 GRAPHICS DEVICE 4
+2700 CONDITIONAL EXECUTION MODULE
+2701 Syntax error in DO statement
+2702 Do loop list exceeds maximum number of characters =
+2703 Can't evaluate logical expression:
+2704 Reading macro file
+2705 Searching macro file for
+2800 NEURAL NETWORK MODULE
+2801 All data files must have the same number of data points.
+2900 XYZ (3-D) DATA PROCESSING MODULE
+2901 No xyz data in memory.
+2902 Zoomed input too large to display. Maximum dimension is 
+3000 CONTOURING MODULE
+3001 Exceeded maximum number of contouring levels:
+3501 Plot Label number exceeds total number of current labels: 
+4000 NUMBER CONVERSION MODULE
+4002 Number out of range
+4003 Number too small, near -inf
+4004 Number too large, near inf
+4005 Number string contains non-numeric characters
+4006 Number string contains extra non-numeric characters 
+4007 Number string not converted
+4008 Number below resolution, number too small, near 0.0
+5000 SPECTRAL ESTIMATION SUBPROCESS.
+5001 Spectral Estimation Subprocess.
+5002 Only one file can be processed by SPE at a time.
+5003 No correlation function calculated.
+5004 No spectral estimate calculated.
+5005 Error within Dave Harris's subroutine package.
+5006 A single evenly spaced data file is not in memory.
+5007 Confidence limits option not currently implemented.
+5000 SIGNAL STACKING SUBPROCESS.
+5101 Signal Stacking Subprocess.
+5102 No files in stack file list.
+5103 No time window defined.
+5104 No distance defined for file(s)
+5105 Time window mismatch:
+5106 File name not in file list:
+5107 File number not in file list:
+5108 Maximum length of stack file list exceeded:
+5109 Sampling intervals are not equal.
+5110 Illegal velocity model number:
+5111 Error in calculating velocity model values.
+5112 Insufficient input for velocity model calculation.
+5113 No valid stack sum exists.
+5120 Cannot use both model and file.  Continuing with model. 
+5121 Data file expected, none found.
+5122 Distance out of range of data; blackboard variable not set:
+5123 No blackboard variable name given, no variable set.
+5124 TAUP and MODEL options are incompatable in TRAVELTIME. Input file required
+5125 No phases found
+5200 FIR FILTER DESIGN SUBPROCESS
+5300 FK module
+5301 Station and event latitudes and longitudes must be set for this command.
+5302 Unable to determine offsets, type HELP BEAM
+5303 OFFSET set to REF, but no reference data, use REFERENCE option
+5304 OFFSET set to USER, but some files missing USER7 or USER8
+5305 OFFSET set to STATION, but some files missing STLA or STLO
+5306 OFFSET set to EVENT, but some files missing EVLA or EVLO
+5307 Illeagle setting for OFFSET option
+5308 Number of files must be between 3 and MXLENS 
+6000 DATA SET MODULE
+6001 Can't find file in data-set file index.
+6002 No more data-sets available.
+6003 Max number of files in data-set memory. No more room.
+6004 Invalid data set name. Must be a character string.
+6005 Another data-set already exists by this name
+6006 Maximum allowed number of current data-set exceeded.
+6008 Bad syntax in command.
+7000 MAP PROGRAM
+7001 Invalid map projection number
+7002 Invalid map window number
+7003 Invalid map pole
+7004 Invalid map viewport
+7005 Map projection and window type are inconsistent
+7006 Illegal window size
+7007 Location could not be transformed
+7008 Exceeded maximum size of a data array:
+7009 Illegal option found on card:
+7010 Unable to open ZONESDATA file.
+7011 Unable to open gctp messages file tmp.????
+7100 CYLINDRICAL PROJECTION: PARALLELS selects only latitude of true scale.
+7101 EQUIDISTANT CYLINDRICAL PROJECTION: PPOLE command parameters ignored.
+7102 TRANSVERSE MERCATOR: PARALLELS command ignored in this projection.
+7103 ILLEGAL VALUE: Scale at meridian greater than 1.0
+7104 CONIC PROJECTION: PPOLE command parameters ignored.
+7105 OBLIQUE MERCATOR: Illegal projection pole.
+7200 Invalid latitude for center of UTM map. Can't get ZONE.
+8001 SETMAT takes only one parameter.
+8002 Cannot link to MATLAB shared object:  
+8003 Cannot link to a MATLAB function:  
+8004 Cannot start MATLAB
+8100 ORACLE DATABASE CONNECTION
+8101 command or option not operational; requires Oracle database version of SAC2000
+8201 No data points found for gettime
+9000 MERGE
+9005 Amplitude mismatch

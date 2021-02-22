@@ -1,0 +1,81 @@
+
+FILEID
+++++++
+
+SUMMARY
+-------
+Controls the file id display found on most SAC plots.
+
+SYNTAX
+------
+
+  ``FILEID {ON|OFF} {TYPE DEFAULT|NAME|LIST hdrlist},``
+
+  ``LOCATION UR|UL|LR|LL},``
+
+  ``{FORMAT EQUALS|COLONS|NONAMES}``
+
+INPUT
+-----
+   :FILEID {ON}:  Turn on file id option.  Does not change file id type or
+       location.
+    
+   :FILEID OFF:  Turn off file id option.
+    
+   :TYPE DEFAULT:  Change to the default file id.
+    
+   :TYPE NAME:  Use the name of the file as the file id.
+    
+   :TYPE LIST hdrlist:  Define a list of header fields to display in the
+       fileid.
+    
+   :LOCATION UR:  Place file id in upper right hand corner.
+    
+   :LOCATION UL:  Place file id in upper left hand corner.
+    
+   :LOCATION LR:  Place file id in lower right hand corner.
+    
+   :LOCATION LL:  Place file id in lower left hand corner.
+    
+   :FORMAT EQUALS:  Format consists of header field name, an equals sign,
+       and the header field value.
+    
+   :FORMAT COLON:  Format consists of header field name, a colon, and the
+       value.
+    
+   :FORMAT NONAMES:  Format consists of header field value only.
+    
+DEFAULT VALUES
+--------------
+
+  ``FILEID ON TYPE DEFAULT LOCATION UR FORMAT NONAMES``
+
+DESCRIPTION
+-----------
+  This command controls the file id that is displayed on most SAC plot formats.
+  The file id identifies the content of the plot.  The default file id consists
+  of the event name, the station name and component, and the zero date and time.
+  The name of the file can be substituted for the default id if desired.  A
+  special file id can be defined and displayed.  This special file id can
+  consist of up to 10 SAC header fields.  The location and format of the fileid
+  can also be changed.
+
+EXAMPLES
+--------
+  To put the filename in the upper left corner::
+
+      u:  FILEID LOCATION UL TYPE NAME
+
+  To define a special file id consisting of the station component, latitude,
+  and longitude::
+
+      u:  FILEID TYPE LIST KSTCMP STLA STLO
+
+  To include the name of the header field followed by a colon::
+
+      u:  FILEID FORMAT COLON
+
+LATEST REVISION
+---------------
+   October 11, 1984 (Version 9.1)
+

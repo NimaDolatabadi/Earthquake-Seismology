@@ -1,0 +1,144 @@
+
+OAPF
+++++
+
+SUMMARY
+-------
+Opens a alphanumeric pick file.
+
+SYNTAX
+------
+
+  ``OAPF {STANDARD|NAME},{file}``
+
+INPUT
+-----
+   :STANDARD:  Use the standard file id when writing picks.  The standard
+       id consists of the event name, the station name, and the component
+       azimuth and incident angles from the SAC header.
+    
+   :NAME:  Use the name of the SAC data file instead of the standard id.
+    
+   :file:  The name of the alphanumeric pick file to open.  If a file by
+       that name already exists, it is opened and new picks are added at
+       the bottom.
+    
+DEFAULT VALUES
+--------------
+
+  ``OAPF STANDARD APF``
+
+DESCRIPTION
+-----------
+  The alphanumeric pick file can be used like a simple data base for picks
+  produced by the automatic picker (APK) and manual pick plot (PLOTPK) command.
+  One line is written for each pick.  Each normal line in one of these files
+  consists of the file id, the pick id, the time of the pick, the amplitude of
+  the pick, and some formatting information.  These lines are 80 characters 
+  long. The file id is the standard one consisting of selected fields from the
+  header as mentioned above or the name of file.  The time of the pick is either
+  the GMT time or the offset time.  This depends upon the options specified in
+  the commands generating the pick, such as APK_ or PLOTPK_.  This leads to four
+  distinct formats, designated by a different character in column 79.  Some
+  lines, such as those from waveform and peak-to-peak picks, contain additional
+  fields after column 80.  The maximum length of a line is 200 characters.  The
+  specific formats of these various lines are shown in the tables on the
+  following pages.
+
+ERROR MESSAGES
+--------------
+- 1903: Can't close previous card image pick file.
+- 1902: Can't open card image pick file
+
+  - Probably an illegal character in filename.
+
+SEE COMMANDS
+------------
+  PLOTPK_, APK_, CAPF_
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+
+FILE FORMAT
+-----------
+  Standard file id and GMT time options::
+
+    column  format  contents
+    01      a16     event name
+    17      a8      station name
+    25      f7.2    component azimuth
+    32      f7.2    component incident angle
+    39      a4      pick id
+    43      i5      year of pick
+    48      i3      julian day
+    51      i3      hours
+    54      i3      minutes
+    57      f6.2    seconds
+    63      g10.4   amplitude of pick
+    74      a1      source of pick
+    = "A" if an automatic pick (APK)
+    = "M" if a manual pick (PLOTPK)
+    79      a1      "B"
+
+
+  File name and GMT time options::
+
+    column  format  contents
+    01      a32     file name
+    39      a4      pick id
+    43      i5      year of pick
+    48      i3      julian day
+    51      i3      hours
+    54      i3      minutes
+    57      f6.2    seconds
+    63      g10.4   amplitude of pick
+    74      a1      source of pick
+    79      a1      "C"
+
+
+  Standard file id and offset time options::
+
+    column  format  contents
+    01      a16     event name
+    17      a8      station name
+    25      f7.2    component azimuth
+    32      f7.2    component incident angle
+    39      a4      pick id
+     53      g10.4   offset time of pick
+    63      g10.4   amplitude of pick
+    74      a1      source of pick
+    79      a1      "D"
+
+
+  File name and offset time options::
+
+    column  format  contents
+    01      a32     file name
+    39      a4      pick id
+    53      g10.4   offset time of pick
+    63      g10.4   amplitude of pick
+    74      a1      source of pick
+    79      a1      "E"
+
+
+  For waveform picks, the pick time and amplitude is
+  that of the first zero crossing. Additional waveform pick fields are::
+
+    column  format  contents
+    080     f6.3    incremental time of first peak
+    086     f6.3    incremental time of second crossing
+    092     f6.3    incremental time of second peak
+    098     f6.3    incremental time of third crossing
+    105     g10.4   amplitude of first peak
+    116     g10.4   amplitude of second peak
+
+
+  For peak-to-peak picks, the pick time and amplitude is that of the first
+  peak. Additional peak-to-peak pick fields are::
+
+    column  format  contents
+    80      f6.3    incremental time of second peak
+    87      g10.5   amplitude of second peak
+
+

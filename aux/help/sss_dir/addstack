@@ -1,0 +1,176 @@
+
+ADDSTACK
+++++++++
+
+SUMMARY
+-------
+Add a new file to the stack file list.
+
+SYNTAX
+------
+
+   ``[A]DD[S]TACK filename [property ...]``
+
+    where property is one or more of the following:
+ 
+    :TRUST ON|OFF:
+    :[W]EIGHT v:
+    :[DI]STANCE v:
+    :[BE]GINTIME v:
+    :[END]TIME v:
+    :[DE]LAY v [[S]ECONDS|[P]OINTS]:
+    :[I]NCREMENT v [[S]ECONDS|[P]OINTS]:
+    :[N]ORMAL:
+    :[R]EVERSE:
+
+INPUT
+-----
+       :filename:      Name of the file to be added to the stack file list.
+
+       :TRUST ON|OFF:  This option is used to resolve an ambiguity
+         in converting files from SAC to CSS format. When converting the 
+         data, matching event IDs could mean the files have identical event
+         information, or they could be an artifact of the merging of these 
+         two very different formats.  
+         
+         When TRUST is ON, SAC is more likely to accept matching event IDs
+         as  identical event information than when TRUST is OFF, depending 
+         on the history of READ_ commands associated with the current data
+         files in memory.
+
+       :[W]EIGHT v:  Weighting factor for this file in the range zero to one.
+         Each data point is multiplied by this value when the stack is summed.
+
+       :[DI]STANCE v:  Station to epicenter distance in kilometers for this 
+          file.  This is used to calculate dynamic time delays.
+
+       :[BE]GINTIME v:  Time of the begining of the event.
+
+       :[END]TIME v:  Time of the end of the event.
+
+       :[DE]LAY v [[S]ECONDS|[P]OINTS]: Static time delay to apply to file.
+          This delay is in either seconds or number of data points.
+
+       :[I]NCREMENT v [[S]ECONDS|[P]OINTS]: Static time delay increment for 
+           this file. This increment is in either seconds or number of data 
+           points.  The static time delay is incremented by this ammount each 
+           time the incrementstack command is executed.
+
+       :[N]ORMAL: File has normal polarity.
+
+       :[R]EVERSED: File has reversed polarity. (Each data point in the 
+           signal is multiplied   by -1.0 when the stack is summed.)
+    
+DEFAULTS VALUES
+---------------
+   Each file is given the global property value if no local
+   one is entered.  The default units for the DELAY and
+   INCREMENT options is SECONDS.
+    
+DESCRIPTION
+-----------
+ There are seven properties associated with each stack list file.  They are
+
+   - the weighting factor.
+   - the station to epicenter distance.
+   - the begin time of the event.
+   - the end time of the event.
+   - the static time delay in either seconds or number of data points.
+   - the static time delay increment in either seconds or number of data points
+   - the polarity of the file, either normal or reversed.
+    
+   There is a global value associated with each of these properties.
+   They are defined by the globalstack command.
+   When a file is added to the stack file list, that file's properties
+   will be set to the global value if no local value is given.
+   The changestack command can be used to change a file's
+   properties after it has been added to the stack file list.
+    
+   All commands which load data into memory have are now monitored to maintain
+   a level of confidence in the event information when moved from the SAC data
+   buffer to the CSS data buffer.  For ADDSTACK, when the confidence is HIGH 
+   that all the data files are cosistent in the numbering of event IDs, matching
+   event IDs are treated as having identical event information.  When the
+   confidence is LOW in ADDSTACK, matching event IDs are understood as an 
+   artifact, and new event IDs are generated for the incoming file.
+   For more details use HELP_ READ_.
+    
+    
+EXAMPLES
+--------
+ The following examples illustrate several of the features of the
+ Signal Stacking Module.  Suppose you entered the following set of commands::
+    
+      u:  GLOBALSTACK DELAY 1.0 INCREMENT 0.03
+      :u:  ADDSTACK FILEA DELAY 2.0
+      :u:  ADDSTACK FILEB DELAY 3.0 INCREMENT 0.01 REVERSED
+      :u:  ADDSTACK FILEC
+      :u:  ADDSTACK FILED WEIGHT 0.5
+
+  The first command changes the global property values for time delay and
+  time delay increment.
+  The other global properties have their default values.
+  FILEA's properties would be the global ones except for the time delay.
+  FILEB's properties would be the global ones except for the time delay,
+  the time delay increment, and the signal polarity.
+  FILEC's properties would be the same as the global ones.
+  FILED's properties would be the global ones except for the weighting factor.
+  Now you enter::
+    
+      u:  SUMSTACK
+
+  The summation is done on the four files in the stack file list::
+
+     FILEA, FILEB, FILEC, and FILED.
+
+  The time delays are  2.0, 3.0, 1.0, and 1.0 respectively.
+  The polarity of FILEC is reversed.
+  FILED's weighting in the summation is half that of the other files.
+  Now you enter::
+    
+      u:  INCREMENTSTACK
+      u:  CHANGESTACK FILEC NORMAL
+      u:  SUMSTACK
+
+  This stack is performed with the following delays::
+
+       2.03, 3.01, 1.03, and 1.03.  The polarity of FILEC is now normal.
+
+  Now you enter::
+    
+      u:  DELETESTACK FILED
+      u:  INCREMENTSTACK
+      u:  SUMSTACK
+
+  This third stack is performed on the three files::
+
+     FILEA, FILEB, and FILEC.  The delays are 2.06, 3.02, and 1.06 respectively.
+    
+ERRORS MESSAGES
+---------------
+- 5108: Maximum length of stack file list exceeded.
+- 1306: Illegal operation on unevenly spaced file
+
+  - stacking module requires evenly spaced data files.
+
+- 1307: Illegal operation on spectral file
+- 5109: Sampling intervals are not equal.
+
+  - the sampling rates for all files in the stack file list must agree
+     to within a given tolerance.
+
+- the SRCHECK command can turn this check off or change the tolerance.
+- the default check is for agreement within machine roundoff error.
+
+
+LIMITATIONS
+-----------
+  The maximum number of files in the stack file list is limited
+  to the maximum number of data files allowed by SAC.
+
+SEE COMMANDS
+------------
+ GLOBALSTACK_, SUMSTACK_, CHANGESTACK_, INCREMENTSTACK_, DELETESTACK_
+
+
+

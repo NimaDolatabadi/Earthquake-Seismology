@@ -1,0 +1,37 @@
+WRITESTACK
+++++++++++
+
+SUMMARY
+-------
+Writes the stack summation to disk.
+
+SYNTAX
+------
+
+  ``[W]RITE[S]TACK {COMMIT|ROLLBACK|RECALLTRACE} [filename]``
+
+INPUT
+-----
+   :COMMIT:  Commits headers and waveforms in SAC memory -- removing any
+       previous versions of headers or waveforms from RAM -- prior
+       to writing files.  COMMIT is the default.
+    
+   :ROLLBACK:  reverts to the last committed version of the header and
+       waveform before writing files.
+    
+   :RECALLTRACE:  
+
+     - reverts to the last committed version of the waveform
+     - reverts to the last committed version of those header variables 
+       closely linked to the waveform,
+     - commits those header variables which are loosely linked to the 
+       waveform. (use HELP_ RECALLTRACE for a list of which header 
+       variables are committed, and which are rolled back.)
+
+   :filename:  The name of the disk file into which the summation is to 
+       be written.
+
+DEFAULT VALUES
+--------------
+  WRITESTACK SUM COMMIT
+

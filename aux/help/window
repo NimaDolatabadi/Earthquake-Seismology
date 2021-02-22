@@ -1,0 +1,108 @@
+
+WINDOW
+++++++
+
+SUMMARY
+-------
+Sets the location and aspect ratio of graphics windows.
+
+SYNTAX
+------
+
+  ``WINDOW n {XSIZE xwmin xwmax} {YSIZE ywmin ywmax} {ASPECT [ value | ON | OFF ]}``
+
+INPUT
+-----
+   :n:  The graphics window number of interest.  There are a total of five
+       possible graphics windows.
+    
+   :X xwmin xwmax:  Set the x (horizontal) location of graphics window n
+       on the screen.  xwmin is the location of the left edge of the window
+       and xwmax is the location of the right edge.  The range of these
+       screen coordinates is 0.0 to 1.0.
+    
+   :Y ywmin ywmax:  Set the y (vertical) location of graphics window n on
+       the screen.  ywmin is the location of the bottom edge of the window
+       and ywmax is the location of the top edge.  The range of these
+       screen coordinates is 0.0 to 1.0.
+    
+   :ASPECT value:  If ASPECT is ON (the default), xwmax is not used and the xsize 
+       is set so that the aspect ratio (xsize/ysize) on the screen for the 
+       window is value if given or the default if no value is explicitly 
+       included.  If a xsize is not followed by ASPECT on the command line, 
+       ASPECT is effectively OFF and xwmax is used.  xwmin is always used.
+    
+Default settings::
+
+       n  xwmin  xwmax  ywmin  ywmax
+       1  0.05   0.65   0.45   0.95
+       2  0.07   0.67   0.43   0.93
+       3  0.09   0.69   0.41   0.91
+       4  0.11   0.71   0.39   0.89
+       5  0.13   0.73   0.37   0.87
+       
+       ASPECT is ON and set to 11.0/8.5 = 1.294, so xwmax is not used.
+
+DESCRIPTION
+-----------
+  Most graphics terminals and workstations support multiple "windows."  
+  Different jobs or activities can run in each window and display their 
+  results on the screen at the same time.  "X-windows" is the (X11) window system
+  supported by SAC.
+
+  The BEGINWINDOW_ command lets you select the window in which to display 
+  subsequent plots.  BEGINWINDOW will create the requested window -- erasing its
+  contents, if it already existed.  If one wants to change a setting from the
+  default setting, the WINDOW command must be called BEFORE a call to BEGINWINDOW.
+  On most systems the user can also move and resize these windows  dynamically 
+  using the mouse and pop-up menus.  Generally but not always (you should check for 
+  yourself), the moving of a window will result in the current plot being redrawn
+  automatically, whereas the resizing of a window results in the current plot being 
+  redrawn but not rescaled.  The next plot in a resized window  will be scaled correctly.
+  
+  Window choice n=1 is the default window.  Its left side is near the left of the display 
+  and is towards the top of the display.  If your window from which you are running SAC 
+  is towards the bottom of the display, on many systems you can be typing commands while 
+  looking at the plot.  Default windows 2 through 5 are moved down and to the right
+  by 0.02 screen units for as n is incremented.  Depending on your platform and display,
+  having these options for windows being displayed at the same time makes it efficient
+  to compare the displays for windows with different values of n. All five of the above
+  windows have the same aspect ratio.
+  
+  If ASPECT is OFF, the aspect ratio of the displayed window depends on the aspect ratio of 
+  the screen.  Older terminals typically had an x:y aspect ratio of 4:3; newer ones are more
+  varied, but many have an aspect ratio of 16:10.  On a 4:3 screen, the default window has an
+  aspect ratio of 1.6:1, and on a 16:10 screen the aspect ratio is 1,9:1.  SGF_ files have
+  a fixed aspect ratio of 4:3.
+
+EXAMPLES
+--------
+  To change from the default (n=1) to n=2 giving more space at the left of the screen::
+
+      SAC> window 1 x 0.25 0.85
+      SAC> beginwindow 1
+      
+  The y limits will be unchanged.  If the xsize are explicitly stated, ASPECT is set to OFF.
+  Note that the order matters::
+  
+      SAC> window 1 ASPECT 1.33 x 0.25 0.85
+      SAC> beginwindow 1
+  
+  will give the same answer as the previous command sequence because later items on the
+  command line take precedence.  However, ::
+  
+      SAC> window 1 x 0.25 0.85 ASPECT (4.0 / 3.0)
+      SAC> beginwindow 1
+  
+  will ignore xwmax and fix the aspect ratio to 4/3 = 1.33.
+  
+  To get the n=3 window from previous versions of SAC, enter the following::
+  
+      SAC> window 3 x 0.05 0.85 y 0.05 0.60
+      SAC> beginwindow 3 
+  
+
+LATEST REVISION
+---------------
+  August 2011 (v 101.5)
+

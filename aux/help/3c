@@ -1,0 +1,52 @@
+3C
+++
+
+SUMMARY
+-------
+Launch a Matlab GUI for manipulating 3-component data.
+
+SYNTAX
+------
+
+  ``3C options``
+   where options are one or more of
+
+
+  ``{AUTO}``
+
+  ``{A,T0,T1,T2,T3,T4,T5,T6,T7,T8,T9}``
+
+  ``{WINLEN value}``
+
+
+DESCRIPTION
+-----------
+   3c identifies all 3-component channel sets in the files currently
+   in memory. These channel sets are copied into a Matlab workspace and a GUI
+   is launched. Within this GUI the user may obtain estimates of back azimuth,
+   incidence angle, and polarization, rotate traces, make 3-D particle motion
+   plots, pick phase arrivals, and do polarization analysis using maximum
+   likelihood estimators. Back azimuth, incidence angle, and polarization
+   estimates are returned in the SAC header variables USER0 (KUSER0), USER1
+   (KUSER1), and USER2 (KUSER2). Picks are returned in T0 - T9 (KT0 - KT9).
+   Instructions for using the GUI are available through a built-in help system
+   in the GUI.
+
+   When the AUTO option is specified, 3c does the polarization analysis
+   without intervention using a window starting at the specified time marker
+   {A,T0,T1,T2,T3,T4,T5,T6,T7,T8,T9}, and a window length of WINLEN.
+
+HEADER CHANGES
+--------------
+   USER0, KUSER0, USER1, KUSER1, USER2, KUSER2, T0 - T9, KT0 - KT9
+
+ERROR MESSAGES
+--------------
+   No 3-component sets found.
+
+
+LATEST REVISION
+---------------
+   June 5, 1997 (Version 00.53a)
+
+

@@ -1,0 +1,126 @@
+
+LISTHDR
++++++++
+
+SUMMARY
+-------
+Lists the values of selected header fields.
+
+SYNTAX
+------
+
+  ``LISTHDR {listops} {hdrlist}``
+   where listops are one or more of the following:
+
+
+  ``DEFAULT|PICKS|SPECIAL``
+
+  ``FILES ALL|NONE|list``
+
+  ``COLUMNS 1|2``
+
+  ``INCLUSIVE ON|OFF``
+
+
+INPUT
+-----
+   :DEFAULT:  Use the default list, which includes all defined header
+       fields.
+    
+   :PICKS:  Use the picks list, which includes those header fields used to
+       define time picks.
+    
+   :SPECIAL:  Use the special user defined list.
+    
+   :FILES ALL:  List headers from all files in data file list.
+    
+   :FILES NONE:  Don't list headers, set defaults for future commands.
+    
+   :FILES list:  List headers from a subset of the files in the data file
+       list.  The subset is defined as a list of file numbers.
+    
+   :COLUMNS 1:  Format output into a single column of entries.
+    
+   :COLUMNS 2:  Format output into two columns.
+    
+   :INCLUSIVE:  ON includes header variables which are undefined.
+       OFF excludes them.
+    
+   :hdrlist:  List of header fields to be included in the special list.
+    
+DEFAULT VALUES
+--------------
+
+  ``LISTHDR DEFAULT FILES ALL COLUMNS 1 INCLUSIVE OFF``
+
+DESCRIPTION
+-----------
+   The user can define which items to list or can use either of two
+   standard lists.  The first list (DEFAULT) contains all of the header
+   fields.  The second list (PICKS) contains those header fields which are
+   directly or indirectly used to define time picks.  This list contains the
+   following fields: B, E, O, A, Tn, KZTIME, KZDATE.  More standard lists can be
+   added if needed.  A special list can be defined by the user at any time and
+   can then be requested again by using the SPECIAL option.
+   The full listing for a header field consists of its name, an equals
+   sign, and its current value.  Some of the fields for some files will be
+   undefined.  SAC stores a special value in those fields to flag them as
+   undefined.  The listing excludes these undefined fields unless the INCLUSIVE
+   option is ON.  For integers and floats the undefined value is -12345; for
+   character strings and those integers which are used to indicate character
+   strings, the undefined value it "UNDEFINED".
+   
+   If one reads in a waveform file and transforms to the frequency domain, the data
+   extremes (MAXDEP, MINDEP) will return values in LH for the time domain, not the
+   frequency domain.
+
+   A description of each of the SAC header fields is contained in the manual secion:
+   sac_format_.
+
+ERROR MESSAGES
+--------------
+   1301: No data files read in.
+
+
+EXAMPLES
+--------
+   To get a two column listing of the time picks only:
+
+      u:  LISTHDR PICKS COLUMNS 2
+
+   
+
+   To get a default listing of the third and fourth files in the data file list:
+
+      u:  LISTHDR FILES 3 4
+
+   
+
+   To list the values of the begin and end time only:
+
+      u:  LISTHDR B E
+
+   
+
+   To define a special list of the station parameters:
+
+      u:  LISTHDR KSTNM STLA STLO STEL STDP
+
+   
+
+   To reuse this special list later during the same execution:
+
+      u:  LISTHDR SPECIAL
+
+   
+
+   To set default two column output:
+
+      u:  LISTHDR COLUMNS 2 FILES NONE
+
+   
+
+LATEST REVISION
+---------------
+   August 30, 2008 (Version 101.2)
+

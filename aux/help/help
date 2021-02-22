@@ -1,0 +1,80 @@
+
+HELP
+++++
+
+SUMMARY
+-------
+Displays information about SAC commands and features on the screen.
+
+SYNTAX
+------
+
+  ``HELP {item ...}``
+
+INPUT
+-----
+   :item:  The (full or abbreviated) name of a command, module,
+       subprocess, feature, etc.
+    
+DEFAULT VALUES
+--------------
+
+  ``If no item is requested, an introductory help package is displayed.``
+
+DESCRIPTION
+-----------
+  Each requested item in the help package is displayed in the order they
+  are requested.  A short message is displayed if no information is available for
+  an item.  After a full page of output, the user is prompted to see if he or
+  she wishes to see more information on that item.  A response of "NO" or "N"
+  will terminate the display of that item and will begin the display of the
+  next item if any.  A response of "QUIT" or "Q" will terminate the display of
+  all items.  The help package for each command consists of the entry in the SAC
+  Command Reference Manual.  The help package for non-commands may be paragraphs
+  from the SAC Users Manual or other information.
+
+EXAMPLES
+--------
+  To get the introductory help package type::
+
+      u:  HELP
+
+  Now lets say you want information on several commands::
+
+      u:  HELP READ CUT BEGINDEVICE PLOT
+
+  SAC begins displaying the READ_ help package.  After a full page, it asks if
+  you've seen enough::
+
+      s:  MORE?
+      u:  YES
+   
+  SAC displays the rest of the help package on READ_, and then begins 
+  displaying the help package on the CUT_ command::
+
+      s:  MORE?
+      u:  NO
+
+  SAC stops displaying the CUT_ help package and begins displaying the 
+  BEGINDEVICE help package::
+
+      s:  MORE?
+      u:  QUIT
+
+  You're getting impatient so you type QUIT_.  SAC terminates the HELP_ 
+  command so you can try some of the features discussed.
+
+ERROR MESSAGES
+--------------
+- 1103: No help package is available.
+
+  - SAC can't find the help package.  Check your SACAUX environment.
+
+SEE COMMANDS
+------------
+  PRINTHELP_
+
+LATEST REVISION
+---------------
+  November 13, 1998 (Version 0.58)
+

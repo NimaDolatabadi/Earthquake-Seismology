@@ -1,0 +1,567 @@
+SAC Data Format
++++++++++++++++
+
+Overview
+--------
+This section discusses the contents of the SAC data file, describes the binary 
+and alphanumeric formats of this file, and documents the SAC header in detail.
+
+Since version 100.0, SAC can handle binary data files in either endian (byte
+order), so big-endian systems (Sun Solaris, Mac PPC) can read SAC data files 
+written on little-endian systems (Linux, MAC i686, Cygwin) and vice versa.
+
+Each signal is stored on disk in a separate SAC data file. These files contain 
+a fixed length header section followed by one or two data sections. The header 
+contains floating point, integer, logical, and character fields. Evenly spaced 
+data files have only one data section which contains the dependent variable. 
+Unevenly spaced data and spectral data files contain two data sections. For 
+unevenly spaced data, the first data section contains the dependent variable 
+and the second contains the independent variable. For spectral files the first 
+component is either the amplitude or the real component and the second 
+component is either the phase or imaginary component.
+
+SAC Binary Format
+-----------------
+This is the format that you will use most often. It is used in SAC itself(READ 
+and WRITE commands) and in the subroutine library (RSAC1, RSAC2, WSAC1, WSAC2, 
+WSAC0.) These are binary (unformatted) files so that they can be quickly read 
+from disk into memory. The header is 158 32-bit words in length, followed by 
+the data section(s). In order to rapidly read only a small section of a data 
+file (see the CUT command), these files also have a physical record length of 
+512 bytes (128 32-bit words) and are opened for direct-access. There is no 
+physical record structure. This format is shown schematically in the following 
+figure.
+
+
+Structure of SAC Binary Data File
+---------------------------------
+
+================== ===================== =======================================
+Header Section     First Data Section    Second Data Section (if present)
+================== ===================== =======================================
+start word: 0      start word: 158       start word: 158+NPTS
+word length: 158   word length: NPTS     word length: NPTS
+see table     	    - dependent variable  - independent variable unevenly spaced
+	            - amplitude           - phase
+	            - real component      - imaginary component 
+================== ===================== =======================================
+
+SAC Binary Header
+-----------------
+The following table shows the contents and layout of the SAC binary data file 
+header. The W and T columns give the beginning word and header data type for 
+the header variables named on that line. These header variables and data types 
+are described later in this section. If the name is INTERNAL then that 
+variable is internal to SAC and not normally of interest to the user. If the 
+name is UNUSED then that variable is not currently being used. For any given 
+file, some of these variables will not have meaningful values. These are 
+refered to as "undefined variables" for that file. For each data type, a 
+special value signifies this undefined state. They are listed in a table at 
+the end of this section.
+
+
+Header Data Types
+-----------------
+This table lists the header types and their definitions. The third
+column lists the special value used to signify that a particular
+header variable is undefined in a particular file.
+
+======= ============ =========== =============================================
+Type    Definition   Undefined   Description
+======= ============ =========== =============================================
+F       Floating     -12345.0    Single precision.
+N       Integer      -12345      Name begins with an "N".
+I       Enumerated   -12345      Name begins with an "I". Has a limited set 
+                                 of integer values. Each value is given a 
+                                 specific name. Each value represents a 
+                                 specific condition. Subroutines use the 
+                                 equivalent alphanumeric name.
+L       Logical      FALSE       Name begins with an "L". Value is either 
+                                 TRUE or FALSE.
+K       Alphanumeric "-12345.."  Name begins with a "K".  Either 8 or 16 
+                                 characters long.
+A       Auxilary                 Not really in the header.  
+                                 Derived from other header fields.
+======= ============ =========== =============================================
+
+
+Header Variables
+----------------
+
+======= ======= ======== ======== ======== ======= ========
+Word    Type    NAMES    o        o        o       o
+======= ======= ======== ======== ======== ======= ========
+0     	F     	DELTA  	 DEPMIN   DEPMAX   SCALE   ODELTA
+5     	F     	B     	 E     	  O    	   A       INTERNAL
+10     	F     	T0     	 T1       T2       T3      T4
+15     	F     	T5     	 T6       T7       T8      T9
+20     	F     	F     	 RESP0    RESP1    RESP2   RESP3
+25     	F     	RESP4    RESP5    RESP6    RESP7   RESP8
+30     	F     	RESP9    STLA     STLO     STEL    STDP
+35     	F     	EVLA     EVLO     EVEL     EVDP    MAG
+40     	F     	USER0    USER1    USER2    USER3   USER4
+45     	F     	USER5    USER6    USER7    USER8   USER9
+50     	F     	DIST     AZ       BAZ      GCARC   INTERNAL
+55     	F     	INTERNAL DEPMEN   CMPAZ    CMPINC  XMINIMUM
+60     	F     	XMAXIMUM YMINIMUM YMAXIMUM UNUSED  UNUSED
+65     	F     	UNUSED   UNUSED   UNUSED   UNUSED  UNUSED
+70     	I     	NZYEAR   NZJDAY   NZHOUR   NZMIN   NZSEC
+75     	I     	NZMSEC   NVHDR    NORID    NEVID   NPTS
+80     	I     	INTERNAL NWFID    NXSIZE   NYSIZE  UNUSED
+85     	I     	IFTYPE   IDEP     IZTYPE   UNUSED  IINST
+90     	I     	ISTREG   IEVREG   IEVTYP   IQUAL   ISYNTH
+95     	I     	IMAGTYP  IMAGSRC  UNUSED   UNUSED  UNUSED
+100     I     	UNUSED   UNUSED   UNUSED   UNUSED  UNUSED
+105     L     	LEVEN    LPSPOL   LOVROK   LCALDA  UNUSED
+110     K     	KSTNM    KEVNM*
+116     K     	KHOLE    KO       KA
+122     K     	KT0      KT1      KT2
+128     K     	KT3      KT4      KT5
+134     K     	KT6      KT7      KT8
+140     K     	KT9      KF       KUSER0
+146     K     	KUSER1   KUSER2   KCMPNM
+152     K     	KNETWK   KDATRD   KINST
+======= ======= ======== ======== ======== ======= ========
+
+
+KEVNM is 16 characters (4 words) long.
+
+All other K fields are 8 characters (2 words) long.
+
+SAC Alphanumeric Format
+-----------------------
+This file is essentially the alphanumeric equivalent of the SAC binary data 
+file. The header section is stored on the first 30 cards. This is followed by 
+one or two data sections. The data is in 5G15.7 format. The following table 
+shows the card number, formats and names of the variables on the header 
+section cards.
+
+======= ======== ======== ======== ======== ====== =========
+CN      FORMAT   NAMES    o        o        o      o
+======= ======== ======== ======== ======== ====== =========
+01      (5G15.7) DELTA    DEPMIN   DEPMAX   SCALE  ODELTA
+02      (5G15.7) B        E        O        A      INTERNAL
+03      (5G15.7) T0       T1       T2       T3     T4
+04      (5G15.7) T5       T6       T7       T8     T9
+05      (5G15.7) F        RESP0    RESP1    RESP2  RESP3
+06      (5G15.7) RESP4    RESP5    RESP6    RESP7  RESP8
+07      (5G15.7) RESP9    STLA 	   STLO     STEL   STDP
+08      (5G15.7) EVLA     EVLO     EVEL     EVDP   MAG
+09      (5G15.7) USER0    USER1    USER2    USER3  USER4
+10      (5G15.7) USER5    USER6    USER7    USER8  USER9
+11      (5G15.7) DIST     AZ       BAZ      GCARC  INTERNAL
+12      (5G15.7) INTERNAL DEPMEN   CMPAZ    CMPINC XMINIMUM
+13      (5G15.7) XMAXIMUM YMINIMUM YMAXIMUM ADJTM  UNUSED
+14      (5G15.7) UNUSED   UNUSED   UNUSED   UNUSED UNUSED
+15      (5I10)   NZYEAR   NZJDAY   NZHOUR   NZMIN  NZSEC
+16      (5I10)   NZMSEC   NVHDR    NORID    NEVID  NPTS
+17      (5I10)   NSPTS 	  NWFID    NXSIZE   NYSIZE UNUSED
+18      (5I10)   IFTYPE   IDEP 	   IZTYPE   UNUSED IINST
+19      (5I10)   ISTREG   IEVREG   IEVTYP   IQUAL  ISYNTH
+20      (5I10)   IMAGTYP  IMAGSRC  UNUSED   UNUSED UNUSED
+21      (5I10)   UNUSED   UNUSED   UNUSED   UNUSED UNUSED
+22      (5I10)   LEVEN    LPSPOL   LOVROK   LCALDA UNUSED
+23      (A8,A16) KSTNM    KEVNM 			
+24      (3A8)    KHOLE    KO 	   KA 		
+25      (3A8)    KT0      KT1      KT2 		
+26      (3A8)    KT3      KT4      KT5 		
+27      (3A8)    KT6      KT7      KT8 		
+28      (3A8)    KT9 	  KF       KUSER0 		
+29      (3A8)    KUSER1   KUSER2   KCMPNM 		
+30      (3A8)    KNETWK   KDATRD   KINST 		
+======= ======== ======== ======== ======== ====== =========
+
+
+SAC Alphanumeric Data File Example
+----------------------------------
+The header section and first five lines of the data section of a sample SAC 
+alphanumeric data file is shown below. You can reproduce this file (with the 
+entire data section) on your system by executing the following commands::
+
+  SAC> FUNCGEN SEISMOGRAM
+  SAC> LH
+  SAC> WRITE ALPHA TEMP1
+
+You can then convert this alphanumeric file to a binary one and read it into 
+SAC with the following commands::
+
+  SAC> CONVERT FROM ALPHA TEMP1 TO SAC TEMP2
+  SAC> READ TEMP2
+  SAC> LH
+  
+Alternatively, you can accomplish this without using CONVERT_, but just using
+READ_ and WRITE_::
+
+  SAC> READ ALPHA TEMP1
+  SAC> WRITE SAC TEMP2
+  SAC> READ TEMP2
+  SAC> LH
+
+This little test shows the equivalence of the alphanumeric and binary file 
+formats.  Listed next are the first lines of TEMP1 -- header plus first 8
+lines of data.::
+
+
+     0.01000000      -1.569280       1.520640      -12345.00      -12345.00
+       9.459999       19.45000      -41.43000       10.46400      -12345.00
+      -12345.00      -12345.00      -12345.00      -12345.00      -12345.00
+      -12345.00      -12345.00      -12345.00      -12345.00      -12345.00
+      -12345.00      -12345.00      -12345.00      -12345.00      -12345.00
+      -12345.00      -12345.00      -12345.00      -12345.00      -12345.00
+      -12345.00       48.00000      -120.0000      -12345.00      -12345.00
+       48.00000      -125.0000      -12345.00       15.00000      -12345.00
+      -12345.00      -12345.00      -12345.00      -12345.00      -12345.00
+      -12345.00      -12345.00      -12345.00      -12345.00      -12345.00
+       373.0627       88.14721       271.8528       3.357465      -12345.00
+      -12345.00    -0.09854718       0.000000       0.000000      -12345.00
+      -12345.00      -12345.00      -12345.00      -12345.00      -12345.00
+      -12345.00      -12345.00      -12345.00      -12345.00      -12345.00
+      1981        88        10        38        14
+         0         6         0         0      1000
+    -12345    -12345    -12345    -12345    -12345
+         1        50         9    -12345    -12345
+    -12345    -12345        42    -12345    -12345
+    -12345    -12345    -12345    -12345    -12345
+    -12345    -12345    -12345    -12345    -12345
+         1         1         1         1         0
+ CDV     K8108838        
+ -12345  -12345  -12345  
+ -12345  -12345  -12345  
+ -12345  -12345  -12345  
+ -12345  -12345  -12345  
+ -12345  -12345  -12345  
+ -12345  -12345  -12345  
+ -12345  -12345  -12345  
+    -0.09728001    -0.09728001    -0.09856002    -0.09856002    -0.09728001
+    -0.09600000    -0.09472002    -0.09344001    -0.09344001    -0.09344001
+    -0.09344001    -0.09344001    -0.09472002    -0.09472002    -0.09344001
+    -0.09344001    -0.09216000    -0.09216000    -0.09216000    -0.09216000
+    -0.09088002    -0.09088002    -0.09216000    -0.09344001    -0.09472002
+    -0.09472002    -0.09472002    -0.09472002    -0.09472002    -0.09472002
+    -0.09344001    -0.09344001    -0.09216000    -0.09088002    -0.09088002
+    -0.09216000    -0.09216000    -0.09216000    -0.09344001    -0.09472002
+      ....
+
+SAC Header Variables
+--------------------
+This table lists the header variables, their types, and descriptions. They are 
+grouped by category: required fields, time fields, phase picks, instrument 
+parameters, station parameters, event parameters, misc. The header types are 
+defined in the second table.
+
+========= ===== =============================================================
+Name      Type  Description
+========= ===== =============================================================
+NPTS      N     Number of points per data component. [required] 
+NVHDR     N     Header version number. Current value is the integer 6. 
+                Older version data (NVHDR < 6) are automatically updated 
+                when read into sac. [required] 
+B         F     Beginning value of the independent variable. [required] 
+E         F     Ending value of the independent variable. [required] 
+IFTYPE    I     Type of file [required]:
+                 - ITIME {Time series file}
+                 - IRLIM {Spectral file---real and imaginary}
+                 - IAMPH {Spectral file---amplitude and phase}
+                 - IXY {General x versus y data}
+                 - IXYZ {General XYZ (3-D) file}
+LEVEN     L     TRUE if data is evenly spaced. [required] 
+DELTA     F     Increment between evenly spaced samples 
+                (nominal value). [required] 
+ODELTA    F     Observed increment if different from nominal value. 
+IDEP      I     Type of dependent variable: 
+                 - IUNKN (Unknown)
+                 - IDISP (Displacement in nm)
+                 - IVEL (Velocity in nm/sec)
+                 - IVOLTS (Velocity in volts)
+                 - IACC (Acceleration in nm/sec/sec)
+SCALE     F     Multiplying scale factor for dependent variable 
+                [not currently used] 
+DEPMIN    F     Minimum value of dependent variable. 
+DEPMAX    F     Maximum value of dependent variable. 
+DEPMEN    F     Mean value of dependent variable. 
+NZYEAR    N     GMT year corresponding to reference (zero) time in file. 
+NZJDAY    N     GMT julian day. 
+NZHOUR    N     GMT hour. 
+NZMIN     N     GMT minute. 
+NZSEC     N     GMT second. 
+NZMSEC    N     GMT millisecond. 
+NZDTTM    N     GMT date-time array. Six element array equivalenced to 
+                NZYEAR, NZJDAY,  NZHOUR, NZMIN, NZSEC, and NZMSEC. 
+KZDATE    A     Alphanumeric form of GMT reference date. Derived from 
+                NZYEAR and NZJDAY. 
+KZTIME    A     Alphanumeric form of GMT reference time. Derived from 
+                NZHOUR, NZMIN, NZSEC, and NZMSEC. 
+IZTYPE    I     Reference time equivalence:
+                 - IUNKN (Unknown)
+                 - IB (Begin time)
+                 - IDAY (Midnight of refernece GMT day)
+                 - IO (Event origin time)
+                 - IA (First arrival time)
+                 - ITn (User defined time pick n, n=0,9)
+O         F     Event origin time (seconds relative to reference time.) 
+KO        A     Event origin time identification. 
+========= ===== =============================================================
+
+Phase Picks
+-----------
+
+===== ===== =================================================================
+Name  Type  Description
+===== ===== =================================================================
+A     F     First arrival time (seconds relative to reference time.)
+KA    K     First arrival time identification.
+F     F     Fini or end of event time (seconds relative to reference time.)
+KF    A     Fini identification.
+Tn    F     User defined time picks or markers,  n = 0 - 9 
+            (seconds relative to reference time).
+KT{n} K     A User defined time pick identifications, n = 0 - 9.
+===== ===== =================================================================
+
+Instrument Fields
+-----------------
+
+===== ===== =================================================================
+Name  Type  Description
+===== ===== =================================================================
+KINST K     Generic name of recording instrument.
+IINST I     Type of recording instrument. [not currently used]
+RESPn F     Instrument response parameters, n=0,9. [not currently used]
+===== ===== =================================================================
+
+Station Fields
+--------------
+
+======= ===== ===============================================================
+Name    Type  Description
+======= ===== ===============================================================
+KNETWK  K     Name of seismic network.
+KSTNM   K     Station name.
+ISTREG  I     Station geographic region. [not currently used]
+STLA    F     Station latitude (degrees, north positive)
+STLO    F     Station longitude (degrees, east positive).
+STEL    F     Station elevation above sea level (meters). [not currently used] 
+STDP    F     Station depth below surface (meters). [not currently used]
+CMPAZ   F     Component azimuth (degrees clockwise from north).
+CMPINC  F     Component incident angle (degrees from vertical).
+KCMPNM  K     Channel name.  SEED volumes use three character names, and
+              the third is the component/orientation.  For horizontals,
+              the current trend is to use 1 and 2 instead of N and E.
+KSTCMP  A     Station component. Derived from KSTNM, CMPAZ, and CMPINC.
+LPSPOL  L     TRUE if station components have a positive polarity 
+              (left-hand rule).
+======= ===== ===============================================================
+
+Event Fields
+------------
+
+========= ===== =============================================================
+Name      Type  Description
+========= ===== =============================================================
+KEVNM     K     Event name.
+IEVREG    I     Event geographic region. [not currently used]
+EVLA      F     Event latitude (degrees, north positive).
+EVLO      F     Event longitude (degrees, east positive).
+EVEL      F     Event elevation (meters). [not currently used]
+EVDP      F     Event depth below surface (kilommeters -- previously meters)
+MAG       F     Event magnitude.
+IMAGTYP   I     Magnitude type:
+                 - IMB (Bodywave Magnitude)
+                 - IMS (Surfacewave Magnitude)
+                 - IML (Local Magnitude)
+                 - IMW (Moment Magnitude)
+                 - IMD (Duration Magnitude)
+                 - IMX (User Defined Magnitude)
+IMAGSRC   I     Source of magnitude information:
+                 - INEIC (National Earthquake Information Center)
+                 - IPDE (Preliminary Determination of Epicenter)
+                 - IISC (Internation Seismological Centre)
+                 - IREB (Reviewed Event Bulletin)
+                 - IUSGS (US Geological Survey)
+                 - IBRK (UC Berkeley)
+                 - ICALTECH (California Institute of Technology)
+                 - ILLNL (Lawrence Livermore National Laboratory)
+                 - IEVLOC (Event Location (computer program) )
+                 - IJSOP (Joint Seismic Observation Program)
+                 - IUSER (The individual using SAC2000)
+                 - IUNKNOWN (unknown)
+IEVTYP    I     Type of event: 
+                 - IUNKN (Unknown)
+                 - INUCL (Nuclear event)
+                 - IPREN (Nuclear pre-shot event)
+                 - IPOSTN (Nuclear post-shot event)
+                 - IQUAKE (Earthquake)
+                 - IPREQ (Foreshock)
+                 - IPOSTQ (Aftershock)
+                 - ICHEM (Chemical explosion)
+                 - IQB (Quarry or mine blast confirmed by quarry)
+                 - IQB1 (Quarry/mine blast with designed shot 
+                   info-ripple fired)
+                 - IQB2 (Quarry/mine blast with observed shot 
+                   info-ripple fired)
+                 - IQBX (Quarry or mine blast - single shot)
+                 - IQMT (Quarry/mining-induced events: tremors 
+                   and rockbursts)
+                 - IEQ (Earthquake)
+                 - IEQ1 (Earthquakes in a swarm or aftershock sequence)
+                 - IEQ2 (Felt earthquake)
+                 - IME (Marine explosion)
+                 - IEX (Other explosion)
+                 - INU (Nuclear explosion)
+                 - INC (Nuclear cavity collapse)
+                 - IO (Other source of known origin)
+                 - IL (Local event of unknown origin)
+                 - IR (Regional event of unknown origin)
+                 - IT (Teleseismic event of unknown origin)
+                 - IU (Undetermined or conflicting information)
+                 - IOTHER (Other)
+NEVID     N     Event ID (CSS 3.0)
+NORID     N     Origin ID (CSS 3.0)
+NWFID     N     Waveform ID (CSS 3.0)
+KHOLE     K     Nuclear: hole identifier; Other: location identifier.
+DIST      F     Station to event distance (km).
+AZ        F     Event to station azimuth (degrees).
+BAZ       F     Station to event azimuth (degrees).
+GCARC     F     Station to event great circle arc length (degrees).
+========= ===== =============================================================
+
+Miscellaneous Fields
+--------------------
+
+========= ===== =============================================================
+Name      Type  Description
+========= ===== =============================================================
+LCALDA    L     TRUE if DIST, AZ, BAZ, and GCARC are to be 
+                calculated from station and event coordinates. 
+IQUAL     I     Quality of data [not currently used]: 
+                 - IGOOD (Good data)
+                 - IGLCH (Glitches)
+                 - IDROP (Dropouts)
+                 - ILOWSN (Low signal to noise ratio)
+                 - IOTHER (Other)
+ISYNTH    I     Synthetic data flag [not currently used]:
+                 - IRLDTA (Real data)
+                 - ????? (Flags for various synthetic seismogram codes)
+KDATRD    K     Date data was read onto computer.
+USER{n}   F     User defined variable storage area, n = 0,9.
+KUSER{n}  K     User defined variable storage area,  n = 0,2.
+LOVROK    L     TRUE if it is okay to overwrite this file on disk.
+NXSIZE    N     Spectral Length (Spectral files only)
+NYSIZE    N     Spectral Width (Spectral files only)
+XMINIMUM  F     Minimum value of X (Spectral files only)
+XMAXIMUM  F     Maximum value of X (Spectral files only)
+YMINIMUM  F     Minimum value of Y (Spectral files only)
+YMAXIMUM  F     Maximum value of Y (Spectral files only)
+========= ===== =============================================================
+
+
+Enumerated Header Field Values
+------------------------------
+
+The enumerated header field values are stored in the header as
+integers. Their names and values are given in the table below.
+
+======== =====
+Name     ID
+======== =====
+itime    01      
+irlim    02      
+iamph	 03      
+ixy      04
+iunkn	 05	
+idisp	 06	
+ivel	 07	
+iacc	 08
+ib	 09	
+iday	 10	
+io	 11	
+ia	 12
+it0	 13	
+it1	 14	
+it2	 15	
+it3	 16
+it4	 17	
+it5	 18	
+it6	 19	
+it7	 20
+it8	 21	
+it9	 22	
+iradnv	 23	
+itannv	 24
+iradev	 25	
+itanev	 26	
+inorth	 27	
+ieast	 28
+ihorza	 29	
+idown	 30	
+iup	 31	
+illlbb	 32
+iwwsn1	 33	
+iwwsn2	 34	
+ihglp	 35	
+isro	 36
+inucl	 37	
+ipren	 38	
+ipostn	 39	
+iquake	 40
+ipreq	 41	
+ipostq	 42	
+ichem	 43
+iother	 44
+igood	 45
+iglch	 46
+idrop	 47
+ilowsn	 48
+irldta	 49
+ivolts	 50	
+imb	 52
+ims	 53
+iml	 54
+imw	 55
+imd	 56
+imx	 57
+ineic	 58
+ipdeq	 59
+ipdew    60
+ipde     61
+iisc	 62
+ireb	 63
+iusgs	 64
+ibrk	 65
+icaltech 66
+illnl	 67
+ievloc	 68
+ijsop	 69	
+iuser	 70
+iunknown 71	
+iqb	 72	
+iqb1	 73	
+iqb2	 74
+iqbx	 75	
+iqmt	 76	
+ieq	 77	
+ieq1	 78
+ieq2	 79	
+ime	 80	
+iex	 81	
+inu	 82
+inc	 83	
+io\_	 84	
+il	 85	
+ir	 86
+it	 87	
+iu	 88
+ieq3     89
+ieq0     90
+iex0     91
+iqc      92
+iqb0     93
+igey     94
+ilit     95
+imet     96
+iodor    97
+ios      103
+======== =====
+
+LATEST REVISION
+---------------
+   January 2012 (Version 101.6)

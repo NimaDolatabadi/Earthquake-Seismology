@@ -1,0 +1,49 @@
+
+HILBERT
++++++++
+
+SUMMARY
+-------
+Applies a Hilbert transform.
+
+SYNTAX
+------
+
+  ``HILBERT``
+
+DESCRIPTION
+-----------
+  Each data file, y(n), in the data file list is replaced by its Hilbert
+  transform, x(n). The transform is found by convolving y(n) (in the time
+  domain) with a 201 point FIR_ filter: The filter impulse response is obtained
+  by windowing an ideal Hilbert transformer impulse response with a Hamming
+  window: In the frequency domain, this filter approximates the transfer
+  function: The phase criterion is met exactly (90 degree phase shift at each
+  frequency), and the magnitude response is (ideally) unity. 
+
+  Note that the operation is inexact in small regions about DC and the
+  folding frequency.  If transforms are to be taken of very low frequency data,
+  such as long period surface waves, the signals should first be decimated.
+  Since the transformation is performed in the time domain, computations
+  are done in-place using the overlap-save algorithm.  There are no restrictions
+  on the length of data file.
+  
+  (Added in 2013)  Hilbert transforms can be used to calculate the minimum-delay 
+  phase from (the log of) the spectral amplitude.  Such amplitudes are effectively
+  low-pass filters, which are not band-limited, and the procedure used here does
+  not work very well for such functions.
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+ACKNOWLEDGEMENT
+---------------
+ The subroutines used to perform the Hilbert transform were
+ designed and developed by Dave Harris.
+
+LATEST REVISION OF CODE
+-----------------------
+  April 21, 1989 (Version 10.4c)
+  Amplitude Response of Hilbert Transform.
+

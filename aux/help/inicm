@@ -1,0 +1,25 @@
+
+INICM
++++++
+
+SUMMARY
+-------
+Reinitializes all of SAC's common blocks.
+
+SYNTAX
+------
+
+  ``INICM``
+
+DESCRIPTION
+-----------
+   This command can be used at any time to put SAC back into its initial state.
+   SAC-related environmental variables are honored, but an initializing macro is not.
+   All active graphics devices are terminated and the graphics library ended.
+   All common blocks are reinitialized to their original values.  All data in
+   memory is lost.
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

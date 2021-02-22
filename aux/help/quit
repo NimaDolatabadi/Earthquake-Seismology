@@ -1,0 +1,28 @@
+
+QUIT
+++++
+
+SUMMARY
+-------
+Terminates SAC.
+
+SYNTAX
+------
+
+  ``QUIT``
+
+ALTERNATE FORMS
+---------------
+END, EXIT, and DONE are also allowed.
+
+DESCRIPTION
+-----------
+   This command terminates SAC gracefully.  (There are a number of ways to
+   terminate it ungracefully!) Before terminating, SAC ends all active graphics
+   devices, closes all output files, and destroys any temporary files it has
+   created.
+
+LATEST REVISION
+---------------
+   October 11, 1984 (Version 9.1)
+

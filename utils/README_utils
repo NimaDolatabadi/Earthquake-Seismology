@@ -1,0 +1,150 @@
+
+Roadmap of programs and macros in sac/utils:
+
+Contents:
+ * bbfswap - Byte swap a Blackboard Variable File
+ * saclst  - List SAC Header variables
+ * sacswap - Byte swap a SAC file
+ * sgftops - Convert a SAC Graphics Format (SGF) to Postscript (PS)
+ * sgfswap - Byte swap a .sgf (SAC Graphics Format) file
+ * unvis (.sac_history)  - Conversion of .sac_history to a readable format
+ * MATLAB macros - Routines for reading and writing SAC file in MATLAB
+
+Program bbfswap:
+------------------------------------------------------------------------
+  Blackboard variable files are binary files, so if they are written on a 
+  machine with big-endian byte order, they cannot be read directly on a
+  machine with little-endian byte order (and vice versa).  The program 
+  changes the byte order in a blackboard variable file.  Entering bbfswap
+  with no arguments produces a "help" message:
+
+  Usage: bbfswap [-vo] [-x extension] input files
+      Convert Blackboard variable files (BBF) between byte orders
+      -v Verbose Mode
+      -x extension Added to the end of the files
+         Default .swp
+      -o Overwrite the original file
+
+Program saclst:
+------------------------------------------------------------------------
+  This stand-alone program allows one to parse the header of one or more
+  sac files.  One can simply display them on the screen, print them, or
+  port them into an application.  Entering saclst with no arguments gives:
+
+  Usage: saclst header_lists f file_lists
+     ex. saclst delta npts kstnm f sacfile1 sacfile2
+         saclst help - outputs a list of possible values
+       
+Program sacswap:
+------------------------------------------------------------------------
+  SAC data files are binary and will have the byte order on the system that
+  created them.   Although SAC can read data files of either byte order, it
+  may be desirable to change the byte order of an existing SAC data file.
+  Program sacswap does that.  Entering sacswap with no argument produces:
+
+  Usage: sacswap sacfile(s)
+          convert sacfiles between byte orders
+          output files are appended with .swap
+          will read either byte order
+
+Program sgftops
+------------------------------------------------------------------------
+  Plots from SAC can be saved to a file as a Sac Graphics Format (SGF) 
+  file.  Program sgfops converts a binary .sgf file to a postscript file.
+  As of version 101.4, sgftops can handle .sgf files with eithr endian.    
+  Entering sgftops with no arguments produces:
+
+  Usage: sgftops sgf_file ps_file [line_width scale_id]
+ 
+  where: line_width = 1, 1.5, 2, 3, etc.
+         scale_id = i  (landscape mode plus id)
+         scale_id = s  (shift,rotate & scale)
+         scale_id = si (s plus id)
+        time/date in id is file creation date for the .sgf file.
+ 
+  Example: sgftops foo.sgf foo.ps 2 si
+ 
+     Produces a plot with line thick=2 and ID at the bottom.
+     Prompts further for translation, rotation and scale.
+ 
+  * origin of plot is lower left corner of portrait mode and angle is 
+    Counter Clockwise (CCW)
+
+  The reason that sgftops default is landscape is that when it was first
+  written (20+ years ago), the major use of a postscript file was to be
+  ported to a postscript printr. 
+  
+  There are two scripts in sac/bin that call sgftops and produce a screen
+  display (sgftox.csh) or an EPS file (sgftoeps.csh).  Enter the script 
+  names with no arguments to get further information.  Both, as written,
+  require that the program "gs" is in your path. Script sgftox.csh uses gs 
+  to display the image on the screen, but it is easily modified to use other 
+  available postscript file viewers, such as gv, ggv, evince, or preview. 
+  Script sgftoeps.csh can be modified to produce a PDF file if script 
+  epstopdf is on the system and in the path.  Note that the output file 
+  for both sgftoeps.csh and sgftox.csh is in portrait format (as is the
+  output from SAC command saveimg).
+  
+  In SAC v101.5, SAC command saveimg was created that produces PS or PDF
+  plots with PostScript fonts.  (sgftops produces simple vector-based
+  fonts.)  The default linewidth produced by sgftops is much thinner than
+  those produced by saveimg for PDF or PS, so for v101.6, base_width was
+  changd from 15 to 40 to produce a bettr match.  The linewidth option in
+  sgftoeps.csh had been 2.0, so it is now 1.0.
+
+Program sgfswap
+------------------------------------------------------------------------
+Usage: sgfswap XXX, where XXX.sgf is a SAC Graphics Format file.
+Program swiches the endian.  Output is XXX_swap.sgf
+As of version 101.4, program sgftops can handle .sgf files with either
+endian, so this program (like sacswap) is no longer necessary when working
+with files created on a system with a different byte order.
+
+Command-line history files and program unvis:
+------------------------------------------------------------------------
+  As of version 101.2,  the command-line history of sessions running SAC is
+  saved to a file ~/.sac-history. This file is created when SAC is started
+  and appended to on succeeding sessions of SAC.  Program SAC can access
+  this file, so the command-line history from previous sessions can be
+  accessed by using the up arrow.  For users who might use SAC in different
+  windows simultaneoulsy, a single global command-line history file can cause
+  problems.  Entering 
+  
+  transcript history file ./.sachist
+  
+  in an initializing macro (see ../README for an example of an initializing
+  macro), would create a command-line history file .sachist that gets
+  appended to only for runs of SAC in that directory.
+
+  The primary purpose of a command-line history file is for accessing
+  previous sessions within SAC, but the user may want to look at the
+  contents.  The history file is in a format that saves non-visible
+  characters (newline, spaces, and tabs) as visible characters for safe input
+  and output. For example, every blank in .sac-history is  represented as a
+  \40.  Program unvis will undo this conversion and is  provided on many
+  systems but not all. The source is in utils, and after installation the
+  executable program is in bin.  If one  enters
+  
+             unvis .sac-history
+  
+  the (corrected) output is displayed on the screen.  The output can be 
+  ported to another_file using > another_file or printed using | lpr.
+  
+  A better way to produce a file that records commands -- and actions of
+  commands -- is to use the transcript command.  Within SAC, enter 
+  
+             help transcript 
+	    
+  for details.
+
+MATLAB Routines:
+  * readsac.m
+  * writesac.m
+  * getsacdata.m
+  * padcat.m
+------------------------------------------------------------------------
+  These have been provided by a user as a potentially useful interface
+  between SAC and MATLAB.  Comments or concern regarding these MATLAB
+  routines should be sent to <sac-help@iris.washington.edu>.
+
+

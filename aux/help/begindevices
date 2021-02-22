@@ -1,0 +1,49 @@
+
+BEGINDEVICES
+++++++++++++
+
+SUMMARY
+-------
+Begins plotting to one or two of the two possible graphics devices.
+
+SYNTAX
+------
+
+  ``BEGINDEVICES devices``
+
+   where devices is one or more of the following:
+
+
+  ``SGF, XWINDOWS``
+
+
+ALTERNATE FORMS
+---------------
+BEGG and BG are obsolete but acceptable names for this command.
+
+INPUT
+-----
+   :SGF:  The SAC Graphics File device driver.
+    
+   :XWINDOWS:  The X-windows window display system.
+    
+DESCRIPTION
+-----------
+   The arguments to this command consists of the list of one or two  graphics
+   devices.  Subsequent plots are sent to open devices.  This remains
+   in effect until the next execution of a BEGINDEVICES_ or ENDDEVICES_ command or
+   until SAC is terminated.  Details about each graphics device are given below.
+   There are two graphics "devices" currently being supported.  The first
+   one, SAC Graphics File (SGF), opens and sends plot commands to a binary file.
+   The second, XWINDOWS, displays plots on an X-windows-capable sreen.
+   workstations. SGF_ and XWINDOWS are described in detail in the graphics help
+   command.
+
+SEE COMMANDS
+------------
+   ENDDEVICES_, SGF_
+
+LATEST REVISION
+---------------
+   Mar. 24, 2009 (Version 101.3)
+

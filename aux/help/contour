@@ -1,0 +1,116 @@
+
+CONTOUR
++++++++
+
+SUMMARY
+-------
+Produces contour plots of data in memory.
+
+SYNTAX
+------
+
+  ``CONTOUR {ASPECT ON|OFF}``
+
+INPUT
+-----
+   :ASPECT {ON}:  Turn aspect ratio option on.  When this option is on,
+       the viewport of the contour plot will be adjusted to maintain the y
+       to x aspect ratio of the data.
+    
+   :ASPECT OFF:  Turn aspect ratio option off.  When off, the full
+       viewport is used.
+    
+DEFAULT VALUES
+--------------
+
+  ``CONTOUR  ASPECT  OFF``
+
+DESCRIPTION
+-----------
+   This command can be used to produce a contour plot of the of any other
+   two-dimensional array data, including the output of the SPECTROGRAM_ command.
+   The SAC data plotted by this command must of of file type "XYZ" (SAC header
+   variable IFTYPE set to "IXYZ").  Several commands control how the data is
+   displayed: ZLEVELS_ for the spacing and number of contour levels, ZLINES_ for
+   linestyles, ZLABELS_ for contour labeling, ZTICKS_ for directional tick marks,
+   and ZCOLORS_ for line colors.  Depending upon the contouring options selected,
+   two different contouring algorithms are used.  A fast scan method is used if
+   no only solid linestyles are selected and no tick marks or labels are
+   requested.  Otherwise, a slower method, where entire line segments are first
+   assembled before they are drawn, is used.  You may want to use the fast scan
+   method for a quick look at your data and then select other options for a
+   final version.
+
+EXAMPLES
+--------
+   In the first example (shown below) a file is read and contoured using
+   default values.
+
+
+   EXAMPLES (cont.): In this example, the same file is read and the header is
+   listed to determine the range of the z data (DEPMIN and DEPMAX.) Only
+   selected portions of the output from LISTHDR_ are shown.  A range of contour
+   levels between 700 km and 1150 km and an increment of 25 km is selected.  A
+   list of four linestyles is selected, starting with a solid line.  The list
+   will be repeated for every four contour levels.  A title is defined and the
+   contour plot was generated::
+
+      u: READ MYDATA
+      u: LISTHDR
+      s: FILE: MYDATA
+      s:      NPTS = 10000
+      s:    IFTYPE = GENERAL XYZ (3-D) FILE
+      s:    DEPMIN = 697.71
+      s:    DEPMAX = 1154.4
+      s:    NXSIZE = 100
+      s:  XMINIMUM = 82574.
+      s:  XMAXIMUM = 86992.
+      s:    NYSIZE = 100
+      s:  YMINIMUM = 0.47439E+06
+      s:  YMAXIMUM = 0.47720E+06
+      u: ZLEVELS RANGE 700 1150 INCREMENT 25
+      u: ZLINES LIST 1 2 3 4
+      u: TITLE 'Katmai topography from survey data [inc = 25 km]'
+      u: CONTOUR
+
+   
+
+   The result of this example is shown in the figure below.
+
+
+   EXAMPLES (cont.): In the final example, the same data is used but different
+   display options are selected.  Integer labels are selected for every fourth
+   contour level and "down" tick marks are selected for the contour levels in
+   between.  Solid linestyles are used for all contour levels::
+
+      u: READ MYDATA
+      u: ZLEVELS RANGE 700 1150 INCREMENT 25
+      u: ZLABELS ON LIST INT OFF OFF OFF
+      u: ZTICKS ON LIST 0 -1 -1 -1
+      u: ZLINES LIST 1
+      u: TITLE 'Katmai topography from survey data [labels and ticks]'
+      u: CONTOUR
+
+   
+
+   The result of this example is shown in the figure below.
+
+
+HEADER VARIABLES
+----------------
+  :REQUIRED:  IFTYPE (set to "IXYZ"), NXSIZE, NYSIZE
+  :USED:       XMINIMUM, XMAXIMUM, YMINIMUM, YMAXIMUM
+
+SEE COMMANDS
+------------
+   ZCOLORS_, ZLABELS_, ZLEVELS_, ZLINES_, ZTICKS_, SPECTROGRAM_ and the SAC 
+   User's Manual section on Writing SAC Data Files.
+
+ACKNOWLEDGEMENTS
+----------------
+  The fast scan contouring subroutine was developed by Dave Harris (DBH).
+
+LATEST REVISION
+---------------
+   JULY 22, 1991 (Version 10.6d)
+

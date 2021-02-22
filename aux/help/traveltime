@@ -1,0 +1,133 @@
+TRAVELTIME
+++++++++++
+
+SUMMARY
+-------
+Computes traveltime of selected phases for pre-defined velocity models.
+This version of TRAVELTIME is not within SSS_,  To get the SSS version, go to SSSTRAVELTIME_.   
+
+
+SYNTAX
+------
+::
+
+   [T]RAVEL[TIME] {MODEL string} {PICKS number} {PHASE phase list}  {VERBOSE | QUIET} {M |KM}
+    
+INPUT
+-----
+
+   :MODEL: iasp91 [default], ak135
+
+   :Picks: There are a total of 10 time picks in the SAC header: t0 to t9.  If the number is 
+      n (0<=n<=9), the first phase will be at Tn. If PICKS is not included among the 
+      command-line options, VERBOSE will be turned on and the phase arrival times will be 
+      displayed but will not be put in the header.
+
+   :PHASE: List of phases for which times are picked and displayed. If PICKS n is among the
+      options, the phase arrivala times and their labels will be added to the header starting
+      at Tn.  If n is 0, one can have up to 10 phases, if n is 8, one can have no more than 2.
+      
+   :VERBOSE | QUIET:  If VERBOSE is among the options in the TRAVELTIME command line, phase
+       arrival times are displayed relative to both the origin time (O) and to the
+       first-point time (B).  If QUIET is among the options in the TRAVELTIME command line,
+       VERBOSE is turned off (if it was on) and nothing is displayed on the screen.  If
+       neither has been displayed, the depth used by TRAVELTIME is displayed.
+
+   :M | KM:  If M is among the options in the command line, SAC interprets EVDP as being in 
+       meters.  If KM is displayed, EVDP is interpreted as being in kilometers.
+   
+   :DEFAULT VALUES: MODEL iasp91 KM PHASE P S Pn Pg Sn Sg
+
+DESCRIPTION
+-----------
+   All waeforms in memory must have event and station locations defined as well as
+   the origin time.
+   
+   This command calculates traveltimes using the iaspei-tau procedures developed
+   for models iasp91 or ak135. For more information on this package, go to the iaspei-tau 
+   link at URL <https://seiscode.iris.washington.edu/projects/iaspei-tau/>.
+   The phase picks are stored in the SAC header for all files in memory in header
+   variables Tn, where n is in the range 0 to 9. The times are calculated relative to 
+   the origin time (O) but the Tn times are relative to the first-point time (B). 
+   
+   The traveltime tables used to calculate the stored degree-distance measure (GCARC).
+   (GCARC is calculated from the event and station latitude and longitudes using
+   spherical-triangle geometry after converting geographic latitudes to geocentric.)
+   
+   For historical reason, the units for EVDP were meters, and SAC waveforms proudced by 
+   RDSEED have EVDP in meters.  In v101.5, the default for EVDP is kilometers, but as 
+   many waveforms have EVDP in meters, we introduced the command option M which if 
+   set to ON means the input EVDP for all files in memory have EVDP inmeters.
+   In the final example, the SAC files had been extracted from a SEED vlume using RDSEED
+   for a version prior to v5.2, so EVDEP is in meters,  (Starting with v5.2, the depth in 
+   RDSEED is in kilometers.)
+   
+   In SAC2000 (the most recent releae in which TRAVELTIME was functional) , TRAVELTIME was 
+   in the Signal Stacking Subprocess (SSS_).  The current version (V101.5) does not have all
+   the capabilities of the SAC2000 version and can run without going into SSS.  
+   See SSSTRAVELTIME_ for the syntax in SSS.
+   
+EXAMPLES
+--------
+  
+  A regional event using the default phases::
+   
+     SAC> fg seismo
+     SAC>  traveltime 
+     traveltime: depth: 15.000000
+     traveltime: error finding phase P       
+     traveltime: error finding phase S       
+     traveltime: setting phase Pn       at 10.464321 s [ t = 51.894321 s ]
+     traveltime: setting phase Pg       at 22.904724 s [ t = 64.334724 s ]
+     traveltime: setting phase Sn       at 50.047722 s [ t = 91.477722 s ]
+     traveltime: setting phase Sg       at 66.414337 s [ t = 107.844337 s ]
+     SAC> 
+
+  For regional events the first arrivals are Pn or Pg, so by the convention used here
+  there is no "P" arival.  For the above example, no picks are added to the header.:: 
+  
+     SAC> fg seismo
+     SAC>  traveltime picks 0 phase Pn Pg Sn Sg
+     traveltime: depth: 15.000000
+     SAC> lh AMARKER T0MARKER T1MARKER T2MARKER T3MARKER
+     AMARKER = 10.464                        T0MARKER = 10.464           (Pn)
+     T1MARKER = 22.905           (Pg)        T2MARKER = 50.048           (Sn)
+     T3MARKER = 66.414           (Sg)
+     SAC> write seismo-picks.z
+     SAC>
+  
+  We see that the already defined A is at Pn.  The file written to seismo-picks.z will
+  have T0 through T3 in the header, and a call to PLOT1_ will show labeled vertical lines 
+  at the calculated times.
+  
+  Note that even though VERBOSE was not turned on, the depth (in km) used is printed out.
+  This is a safeguard to assure that one has made the correct assumption about the EVDP 
+  units.  The printing of traveltime depth can be suppressed by entering QUIET on the 
+  command line.
+  
+  The header for the waveform in the following example was produced by RDSEED (V5.0) and
+  EVDP is in meters::
+  
+     SAC> r 2008.052.14.16.03.0000.XC.OR075.00.LHZ.M.SAC
+     SAC> lh evdp
+     evdp = 6.700000e+03
+     SAC> traveltime M picks 0
+     traveltime: depth: 6.700000 km
+     SAC> lh t0marker t1marker t2marker t3marker
+     t0marker = 61.48            (Pn)        t1marker = 76.413           (Pg)
+     t2marker = 109.66           (Sn)        t3marker = 132.11           (Sg)
+     SAC> ch evdp (0.001 * &1,evdp&)
+     SAC> setbb station &1,KSTNM&
+     SAC> write %station%.z
+     SAC>
+     
+The saved file, OR075.z, will have evdp in kilometers and annotated picks at the times 
+for Pn, Pg, Sn, and Sg.  (One could have done the chnhdr command before calling TRAVELTME 
+and then not entered M on the command line.)  
+   
+Phase names are case sensitive.  See the iaspei-tau documentation.
+
+LATEST REVISION
+---------------
+August, 2011 (Version 101.5)
+

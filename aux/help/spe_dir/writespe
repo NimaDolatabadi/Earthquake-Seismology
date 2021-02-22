@@ -1,0 +1,38 @@
+WRITESPE
+++++++++
+
+SUMMARY
+-------
+Writes a SAC file containing the spectral estimate.
+
+SYNTAX
+
+  `` [W]RITE[SPE] {file}``
+
+INPUT
+-----
+
+   :file:     The name of the SAC file to write.
+
+DEFAULT VALUES
+--------------
+
+  `` WRITESPE SPE_ ``
+
+
+DESCRIPTION
+-----------
+  The spectral estimate file contains the spectral estimate from
+  zero up to the folding frequency.
+  The spectral estimate is calculated with an FFT_.
+  The number of points in this file is half the length of the FFT_ used
+  plus one.
+
+  This format was chosen so that multiple spectra computed with SPE_ could
+  be compared using the P2 plotting function, without any need to cut the
+  files prior to plotting.
+
+ERROR MESSAGES
+--------------
+ -  5004: No spectral estimate calculated.
+

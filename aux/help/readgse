@@ -1,0 +1,123 @@
+
+READGSE
++++++++
+
+SUMMARY
+-------
+  Read data files in GSE 2.0 format from disk into memory.
+
+  Note:  GSE data enters SAC via SAC's CSS data buffers.  To understand how
+  arrivals are handled, use HELP_ READCSS_ and HELP_ PICKPREFS_.
+
+
+SYNTAX
+------
+
+  ``READGSE {MAXMEM v} {MORE} {VERBOSE ON|OFF} {SHIFT ON|OFF}``
+
+  ``{SCALE ON|OFF} {COMMIT|ROLLBACK|RECALLTRACE} {DIR name} filelist``
+
+
+
+INPUT
+-----
+   :MAXMEM: Specify the maximum fraction of physical memory to use when
+       reading large data sets. When this limit is reached, no more
+       waveforms will be read, although other tables may still be read.
+       The default value for MAXMEM is 0.3.
+    
+   :MORE:  See the READ_ command.
+    
+   :VERBOSE ON|OFF: If VERBOSE is ON, SAC displays extended information
+       about the waveforms being read, and prints a summary of the CSS
+       tables that were filled. SAC also displays a progress indicator
+       for the conversion to SAC internal format.
+    
+   :Note:  the SHIFT option is moot at this point.  For the time being,
+       origin information is not read because it cannot be
+       associated with a waveform.  The release of GSE 2.1 format
+       should allow us to make the association, then we will be
+       able to read origin, and the SHIFT option will have meaning. 
+   :SHIFT ON|OFF:  If SHIFT is on, the origin time is set to zero, and
+       other time related header variables are shifted back to be
+       consistent with the origin time.  Some of the distance related
+       header variables are also affected.  SHIFT ON is the default.
+    
+   :SCALE ON|OFF:  The SCALE option is OFF by default.
+       When SCALE is OFF, SAC reads the counts from the GSE file.  When
+       SCALE is ON, SAC multiplies counts by a SCALE factor given as
+       CALIB in the GSE file.  This scale option changes with the
+       SCALE options of READ_ SEGY, READCSS_, and READSUDS_.
+       If SCALE is OFF, the CALIB value from the file will be stored
+       in SAC's SCALE header variable.  If SCALE is on, SAC's SCALE
+       header field is set to 1.0.
+       SCALE is a crude method of accounting for the instrument
+       response.  The prefered method is with the TRANSFER_ command.
+       It is recommended to leave SCALE off for the READ_ and use
+       the TRANSFER_ command.  SCALE should really only be used
+       if the response information necessary for the TRANSFER_ command
+       is not available.
+    
+   :COMMIT:  If the MORE option is specified, the COMMIT option commits
+       headers and waveforms in SAC memory -- removing any previous
+       versions of headers or waveforms from RAM -- prior to
+       reading more files.  COMMIT is the default.
+    
+   :ROLLBACK:  If the MORE option is specified, the ROLLBACK option reverts
+       to the last committed version of the header and waveform
+       before reading more files.
+    
+   :RECALLTRACE:  If the MORE option is specified, the RECALLTRACE option:
+
+       - reverts to the last committed version of the waveform,
+       - reverts to the last committed version of those header
+       	 variables closely linked to the waveform,
+       - commits those header variables which are loosely linked
+       	 to the waveform. (use HELP_ RECALLTRACE for a list of which 
+	 header variables are committed, and which are rolled back.)
+    
+   :Note:  if the MORE option is not specified, the COMMIT, ROLLBACK,
+       and RECALLTRACE options have no effect.
+    
+   :DIR name:  The directory to be searched for gsefile(s).
+    
+   :filelist:  The name(s) of one or more gse files.
+    
+DEFAULT VALUES
+--------------
+
+  ``READGSE * MAXMEM 0.3 VERBOSE OFF COMMIT``
+
+DESCRIPTION
+-----------
+   See the READ_ command.  October 27, 1998 (Version 00.58)
+
+   Any command which loads data into memory is monitored to maintain a
+   level of confidence in the event infomation when transfered from the SAC
+   data buffer to the CSS data buffer.  When READGSE_ is used, the confidence
+   is set to LOW, indicating that SAC should consider any matching event IDs
+   as artifacts and reassign the event ID of the incoming file.  For more
+   details, use HELP_ READ_.
+
+
+NOTES
+-----
+
+  The following GSE Data messages can be read:
+
+  - WAVEFORM
+  - STATION
+  - CHANNEL
+  - ARRIVAL
+
+  Waveform formats of INT, CM6, and CM8 can be read.
+
+  Arrivals, although read, will not appear in SAC since the DETECTIONS message
+  is not yet read, and without a DETECTION ID, arrivals cannot be associated
+  with channels.
+
+
+LATEST REVISION
+---------------
+   April 22, 1999 (Version 00.58)
+

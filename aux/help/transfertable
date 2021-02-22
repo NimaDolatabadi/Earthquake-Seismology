@@ -1,0 +1,70 @@
+
+INSTRUMENT DETAILS IN TRANSFER
+++++++++++++++++++++++++++++++
+
+INSTRUMENT TYPES AND THEIR DEFINITIONS
+
+Type      Definition
+ACC       Acceleration
+DSS       LLNL Digital Seismic System
+DWWSSN    Digital World Wide Standard Seismograph Station
+ELMAG     Electromagnetic
+GENERAL   General seismometer
+GSREF     USGS Refraction
+IW        EYEOMG-spectral differentiation
+S750      S750 Seismometer
+LLL       LLL broadband analog seismometer
+LLSN      LLSN L-4 seismometer
+LNN       Livermore NTS Network instrument
+NORESS    NORESS (NRSA)
+NORESSHF  NORESS high frequency element
+POLEZERO  Instrument specification in terms of poles and zeros
+PORTABLE  Portable seismometer with PDR2
+RSTN      Regional Seismic Test Network
+REFTEK    Reftek 97-01 portable instrument
+SANDIA    Sandia system 23 instrument
+SANDIA3   Sandia new system with SL-210
+SRO       Sesimic Research Observatory
+VEL       Velocity Spectal Operator
+WA        Wood-Anderson
+WIECH     Wiechert seismometer
+WWSP      WWSSN short period
+NONE      No instrument
+
+References to the Blacknest specifications for various instrument types were
+removed from the documentation in version 10.6e and are no longer supported,
+although these instruments still remain in the SAC program.
+
+INSTRUMENTS WHICH REQUIRE SUBTYPES
+
+LLL       LV, LR, LT, MV, MR, MT, EV, ER, ET, KV, KR, KT, BB
+(station and component abbreviation, or broadband)
+LNN       BB, HF
+(broadband or high frequency)
+NORESS    LP, IP, SP
+(long-, intermediate- or short-period)
+POLEZERO  file
+(file describing poles and zeroes)
+RSTN      [CP, ON, NT, NY, SD][KL, KM, KS, 7S][Z, N, E]
+(station; KS36000 long-, medium- or short-period,
+or S750 short-period; component)
+SANDIA    [N, O][T, L, B, D, N, E][V, R, T]
+(new or old acquisition system; station abbreviation; component)
+SRO       BB, SP, LP
+(broadband, short or long period)
+
+
+INSTRUMENTS WHICH REQUIRE OTHER OPTIONS
+
+ELMAG           FREEPERIOD v   where v = one of 15.0,30.0
+MAGNIFICATION n   where n = one of 375,750,1500,3000,6000
+GENERAL         FREEPERIOD v
+DAMPING v
+LLL SUBTYPE BB  DAMPING v
+FREEPERIOD v
+REFTEK          FREEPERIOD v
+DAMPING v
+CORNER v
+HIGHPASS_ v
+
+

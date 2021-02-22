@@ -1,0 +1,94 @@
+
+PLOT1
++++++
+
+SUMMARY
+-------
+Generates a multi-trace multi-window plot.
+
+SYNTAX
+------
+
+  ``[P]LOT[1] {ABSOLUTE|RELATIVE},{PERPLOT {ON|OFF|n}} {PRINT {pname} }``
+
+INPUT
+-----
+   :ABSOLUTE:  Plot files treating time as an absolute.  Files with
+       different begin times will be shifted relative to each other.
+    
+   :RELATIVE:  Plot all files relative to their begin time.
+    
+   :PERPLOT {ON}:  Plot n files per frame.  Use old value for n.
+    
+   :PERPLOT OFF:  Plot all files on one frame.
+    
+   :PERPLOT n:  Plot n files per frame.
+    
+   :PRINT {pname}:  Prints the resulting plot to the printer named in
+       pname, or to the default printer if pname is not used.  (This
+       makes use of the SGF_ capability.)
+    
+    
+ALTERNATE FORMS
+---------------
+PERPLOT ALL has the same meaning as PERPLOT OFF.
+
+DEFAULT VALUES
+--------------
+
+  ``PLOT1 ABSOLUTE PERPLOT OFF``
+
+DESCRIPTION
+-----------
+   Each data file shares a common axis in the x direction, but each has a
+   separate subplot region in the y direction.  The total size of the plot is
+   determined by the current viewport (see XVPORT_ and YVPORT_.) The size of each
+   subplot is determined by this viewport and the number of files plotted on
+   each frame.  The y axis limits for each subplot can be scaled to that data
+   file's extrema or they can have fixed limits.  See the YLIM_ command for
+   details.  The x axis limits can also be fixed (see XLIM_) or scaled to the data.
+   There are two types of x axis scaling for this type of plot: relative and
+   absolute.  In absolute scaling the x axis limits become the smallest minimum
+   and the largest maximum for the active memory files. Time differences
+   measured between points on different subplots will be correct.  In relative
+   scaling mode, the x axis will run from zero to the maximum time differential
+   (i.e., the maximum difference between end time and begin time) for the active
+   memory files.  Each file will be plotted from the left edge of the plot,
+   corresponding to zero on the x axis.  The actual value corresponding to this
+   zero for each file will be given below the name of the file.  This type of
+   scaling is useful if you are cutting the files relative to some time pick,
+   say the first arrival time.  It is then easy to see the similarities or
+   differences between the wave forms of each file.  A user
+   controllable file identification (see FILEID_) is generated for each file in
+   the plot.  Time picks can be displayed (see PICKS_).
+
+EXAMPLES
+--------
+   The zero time (KZDATE and KZTIME) has been set to the event origin time::
+
+      SAC> READ *V
+      ELK.V KNB.V LAC.V MNV.V
+      SAC> CUT -5 200
+      SAC> READ *V
+      ELK.V KNB.V LAC.V MNV.V
+      SAC> FILEID LOCATION UL TYPE LIST KSTCMP
+      SAC> TITLE 'Regional earthquake:  &1,KZTIME&  &1,KZDATE&'
+      SAC> QDP 2000
+      SAC> P1
+
+   Note the use of a UNIX wildcard character in the READ_ command, the 
+   echoing of the filelist by SAC, the specification of a special file id, 
+   and the evaluation of several header variables to create the title.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+
+SEE COMMANDS
+------------
+   XLIM_, YLIM_, FILEID_, PICKS_, FILENUMBER_
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)  Text altered in August 2011.
+

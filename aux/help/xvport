@@ -1,0 +1,59 @@
+
+XVPORT
+++++++
+
+SUMMARY
+-------
+Defines the viewport for the x axis.
+
+SYNTAX
+------
+
+  ``XVPORT xvmin xvmax``
+
+INPUT
+-----
+   :xvmin:  X axis viewport minimum value.  Must be in the range 0.0 to
+       xvmax.
+    
+   :xvmax:  X axis viewport maximum.  Must be in the range xvmin to 1.0.
+    
+DEFAULT VALUES
+--------------
+
+  ``XVPORT 0.1 0.9``
+
+DESCRIPTION
+-----------
+   The viewport is the portion of the viewspace (see VSPACE_ command) in
+   which the actual plot is drawn.  The coordinate system used to define the
+   viewspace and viewport is called a virtual coordinate system.  A virtual
+   coordinate system does not depend upon the size, shape, or resolution of a
+   particular physical device's display surface.  SAC's coordinate system runs
+   from 0.0 to 1.0 in both the x and y directions.  The lower left hand corner of
+   the viewspace is the point (0.0, 0.0) and the upper right hand corner of the
+   viewspace is the point (1.0, 1.0).  (See the figure on the next page.) The
+   use of this coordinate system lets you position a plot without worrying about
+   a specific output device.
+   The XVPORT_ and YVPORT_ commands control where in the viewspace a
+   specific plot is to be drawn.  The default values use most of the viewspace
+   for the plot while leaving some room on each side for axes, labels, and a title.
+   You can place a particular plot anywhere you want using these commands.  When
+   used in conjunction with the BEGINFRAME_ and ENDFRAME_ commands, these commands
+   let you create your own special layout by putting several different plots on
+   the same frame.
+
+EXAMPLES
+--------
+   See the example in the BEGINFRAME_ documentation.
+
+SEE COMMANDS
+------------
+   VSPACE_, BEGINFRAME_ Principles of Interactive Computer Graphics, Second
+   Edition; William M. Newman and Robert F. Sproull; 1979; McGraw-Hill.
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+   Viewspace and Viewport Coordinates
+

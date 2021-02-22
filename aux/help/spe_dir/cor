@@ -1,0 +1,123 @@
+
+COR
++++
+
+SUMMARY
+-------
+Computes the correlation function.
+
+SYNTAX
+------ 
+  
+  ``COR  {[N]UMBER n|ON|OFF}, {[L}ENGTH v}, {[T]YPE type}``
+  ``{[P]REWHITEN ON|OFF|n}, {[S]TOCASTIC|[TR]ANSIENT}``
+
+   where type is one of the following:
+
+   ``[HAM]MING``
+   ``[HAN]NING``
+   ``[C]OSINE``
+   ``[R]ECTANGLE``
+   ``[T]RIANGLE``
+        
+INPUTS
+------
+
+  :NUMBER n:       Fix number of windows to n.
+  :NUMBER {ON}:    Fix number of windows to previous value.
+  :NUMBER OFF:     Compute number of windows based upon data
+     length and window length.  There will be no
+     data overlap when using this option.
+  :LENGTH v:       Set window length to v seconds.
+  :TYPE type:      Set window type. The advantages of each
+     is discussed below.
+  :PREWHITEN {ON}: Turn prewhitening of data on.
+  :PREWHITEN OFF:  Turn prewhitening of data off.
+  :PREWHITEN n:    Turn prewhitening of data on and change
+     number of coefficients to n.
+  :STOCHASTIC:     Set correlation scaling assuming that the
+     data is stochastic (random.)
+  :TRANSIENT:      Set correlation scaling assuming that the
+     data is transient (signal.)
+
+DEFAULT VALUES
+--------------
+
+   ``COR NUMBER OFF TYPE HAMMING PREWHITEN OFF``
+
+  note that if PREWHITEN is turned on without specifying
+  the order, it will default to 6 unless it has been
+  previously set by the WHITEN_ command in SPE_.
+
+DESCRIPTION
+-----------
+  This correlation command assumes that the data is stationary.  Under that 
+  assumption the data is segmented into many windows, and a sample correlation 
+  function  is calculated for each window.  These sample correlation 
+  functions  are averaged to produce a more stable estimate of the underlying  
+  correlation function of the random process.  The number of windows, the  
+  window length, and the window type (called a data window, to distinguish  it 
+  from a window used in the PDS_ command) are under user control.  If the  
+  window length times the number of windows exceeds the total data length,  
+  the program overlaps the windows.  The amount of overlap is not under user 
+  control.
+
+  For a fixed data size, there is obviously a tradeoff between the number of 
+  windows to be used and the window size.  This tradeoff ultimately results in 
+  a tradeoff between the bias and variance of the spectral estimates made 
+  using the correlation function.
+
+  The frequency-domain resolution of a spectral estimator depends on the 
+  length of the  available correlation and, therefore, indirectly on the size 
+  of the data window. The larger the correlation window, the smaller the bias 
+  in the spectral estimate resulting from frequency-domain smoothing.
+
+  However, as the data window size is increased, fewer windows can be used in 
+  the averaging process.  Consequently, the variance of the correlation 
+  function estimate increases, and with it, the variance  of the spectral 
+  estimate.
+
+  The choice of data window type can be used to fine-tune the tradeoff between 
+  bias and variance.  The smoother windows tend to taper the data off near the 
+  window edges, effectively reducing window length.  Thus, the windows can be 
+  overlapped more, and more can be used.  This choice decreases variance at 
+  the expense of increasing bias.
+
+  There is another important source of bias when the dynamic range of
+  the spectrum is quite large.  This is the effect of window leakage, that
+  shows up most clearly when the PDS_ estimator is used.  Power leakage through
+  the sidelobes of the Fourier Transform of the correlation window
+  puts a floor on the estimated spectrum.  In typical seismic data, this
+  floor is quite regular and appears at high frequencies, where the
+  spectrum is typically quite small.  The correlation function estimator
+  has an optional prewhitening capability that mitigates the sidelobe-leakage
+  problem.  A low-order prediction error filter is used to flatten the
+  spectrum of the data prior to the calculation of the correlation function.
+  The effect of the filter is compensated for in the calculation of the
+  spectrum.
+
+  Prewhitening of the data is done in place and thus corrupts the original
+  signal.  If you use prewhitening, quit the subprocess, and wish to use
+  the original signal in some other operation, you MUST reread it into SAC.
+
+
+  This correlation function is used in the calculation of the spectral
+  estimate.
+
+  COR must therefore be executed before PDS_, MLM_, or MEM_.
+
+  You may plot the correlation function using the PLOTCOR_ command and save
+  it as a SAC data file using the WRITECOR_ command.  Such a file can then
+  be read in using READCOR_.
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMIN
+
+LIMINTATIONS
+------------
+  Prior to 1998, maximum window length was 2048 samples.  No restriction now.
+
+SEE COMMANDS
+------------
+  PLOTCOR_, WRITECOR_, WHITEN_, READCOR_

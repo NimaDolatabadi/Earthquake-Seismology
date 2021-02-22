@@ -1,0 +1,60 @@
+
+RQ
+++
+
+SUMMARY
+-------
+Removes the seismic Q factor from spectral data.
+
+SYNTAX
+------
+
+  ``RQ [Q v],[R v],[C v]``
+
+INPUT
+-----
+   :Q v:  Set quality factor to v.
+    
+   :R v:  Set distance in km. to v.
+    
+   :C v:  Set group velocity in km/sec to v
+    
+DEFAULT VALUES
+--------------
+
+  ``RQ Q 1. R 0. C 1.``
+
+DESCRIPTION
+-----------
+  The equation used to correct the amplitude is given below::
+
+    AMP_corrected(F) = AMP_uncorrected(F) * Exp( (pi*R*F) / (Q*C) )
+
+  where:
+  F is the frequency in Hz.  R is the distance in km.  C is the group velocity
+  in km/sec.  Q is the the nondimensional quality factor.
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1305: Illegal operation on time series file
+
+WARNING MESSAGES
+----------------
+- 1604: Following file now in amplitude-phase format:
+
+  - file was in real-imaginary format.
+
+LIMITATIONS
+-----------
+  Can only handle constants for the various parameters.  Modifications to allow
+  these parameters to vary with frequency may be added at a later date.
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

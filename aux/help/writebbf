@@ -1,0 +1,40 @@
+
+WRITEBBF
+++++++++
+
+SUMMARY
+-------
+Writes a blackboard variable file to disk.
+
+SYNTAX
+------
+
+  ``WRITEBBF {file}``
+
+INPUT
+-----
+   :file:  The name of a blackboard variable file.  It may be a simple
+       filename or a relative or absolute pathname.
+    
+DEFAULT VALUES
+--------------
+
+  ``WRITEBBF BBF``
+
+DESCRIPTION
+-----------
+   This command lets you write a blackboard variable file to disk.  It can later
+   be read into SAC using the READBBF_ command.  This feature lets you save
+   information from one execution of SAC to another.  You can also add coding to
+   your own programs to access the information in these blackboard variable
+   files.  This lets you transfer information between your own programs and SAC.
+   See the SAC Subroutines Reference Manual for details.
+
+SEE COMMANDS
+------------
+   READBBF_, SETBB_, GETBB_
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

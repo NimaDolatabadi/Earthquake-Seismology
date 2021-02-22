@@ -1,0 +1,17 @@
+* macro wrxyz -- write new x,y,z offsets to a SAC file
+* syntax:  macro wrxyz  filename xnew ynew znew
+* note: (1) xnew, ynew, znew are expected to be in kilometers,
+*             by commands in the fks module;
+*       (2) filename is relative to current dir.
+
+readhdr $1
+message 'file $1 has these values in header for XYZ offsets:'
+listhdr user7 user8 user9
+evaluate to x $2
+evaluate to y $3
+evaluate to z $4
+chnhdr user7 %x user8 %y user9 %z
+message ''
+message 'These new XYZ offsets were installed, are now written to disk:'
+listhdr user7 user8 user9
+writehdr $1

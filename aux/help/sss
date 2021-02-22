@@ -1,0 +1,107 @@
+
+Signal Stacking Subprocess
+++++++++++++++++++++++++++
+
+Introduction
+------------
+  SSS is primarily a package for doing signal stacking (i.e. summation or
+  beamforming).
+
+  Each signal (i.e. SAC file) has properties such as a static delay, epicentral
+  distance, weighting factor, and polarity associated with it.
+  The dynamic delays can be calculated using a normal moveout or refracted
+  wave velocity model.
+
+  Certain delay properties can be automatically incremented between summations.
+  Files are easily added to or removed from the stack file list.
+  The time window for the stack is easily adjusted.
+  Files which do not contain data throughout the stack time window are filled
+  with zeros.
+
+  The stack file list can be plotted with or without the summation.
+  Each summation can be saved on disk for later use.
+  A record section plot is also included in this subprocess.
+
+SAC Subprocess
+--------------
+  A subprocess is like a small program within the main SAC program.
+  You start a subprocess by typing its name (SSS in this case.)
+  You can terminate it and return to the main program using the quitsub
+  command.  You can also terminate SAC from within a subprocess using
+  the QUIT_ command.
+
+  While within a subprocess, you can execute any command belonging to
+  that subprocess plus a limited number of main SAC commands.
+  A list of the allowed main SAC commands is included in this document.
+
+SAC Signal Stacking Subprocess Manual
+-------------------------------------
+
+Overview
+--------
+  The remainder of this manual contains the documentation on each of the SSS_ 
+  commands. They are in alphabetical order and are also summarized below .
+  The format and notation is the same as the SAC Command Reference Manual.
+  A list of the allowed main SAC commands is also shown below.
+  You can also use all of the SAC macro features in this subprocess.
+
+SSS Commands
+-------------
+
+
+:ADDSTACK_:          Add a new file to the stack file list.
+:CHANGESTACK_:       Change properties of files currently in the stack file list.
+:DELETESTACK_:       Deletes one or more files from the stack file list.
+:DELTACHECK_:       Change the sampling rate checking option.
+:DISTANCEAXIS_:      Define the record section plot distance axis parameters.
+:DISTANCEWINDOW_:    Controls distance window properties on subsequent record
+                    section plots.
+:GLOBALSTACK_:       Sets global stack properties.
+:INCREMENTSTACK_:    Increments properties for files in the stack file list.
+:LISTSTACK_:         Lists the  properties of the files in the stack file list.
+:PLOTRECORDSECTION_: Plots a record section of the files in the stack file list.
+:PLOTSTACK_:         Plots the files in the stack file list.
+:QUITSUB_:           Terminates the Signal Stacking Subprocess.
+:SUMSTACK_:          Sums the files in the stack file list.
+:TIMEAXIS_:          Controls the time axis properties on subsequent record
+                    section plots.
+:TIMEWINDOW_:        Sets the time window limits for subsequent stack summation.
+:SSSTRAVELTIME_:     Function traveltime  called from within SSS.Computes traveltime 
+                    curves for pre-defined models 
+:VELOCITYMODEL_:     Sets stack velocity model parameters for computing
+                    dynamic delays.
+:VELOCITYROSET_:     Controls placement of a velocity roset on subsequent
+                    record section plots.
+:WRITESTACK_:        Writes a stack summation to disk.
+:ZEROSTACK_:         Zeros or reinitializes the signal stack.
+
+Main SAC Commands
+-----------------
+  This is a list of the allowed main SAC commands.
+  Their abbreviated names are also allowed. ::
+
+   AXES             BEGINDEVICES     BEGINFRAME 
+   BEGINWINDOW      BORDER           COLOR 
+   COMCOR           COPYHDR          DATAGEN 
+   ECHO             ENDDEVICES       ENDFRAME 
+   ERASE            EVALUATE         FLOOR 
+   GETBB            GRID             GTEXT 
+   HELP             INSTALLMACRO     LISTHDR 
+   LINE             LINLIN           LINLOG 
+   LOGLAB           LOGLIN           LOGLOG 
+   MACRO            MESSAGE          PAUSE 
+   PLABEL           PLOTC            QDP 
+   QUIT             READBBF          REPORT 
+   SETBB            SETDATADIR       SETDEVICE 
+   SETMACRO         SGF              SYMBOL 
+   SYNTAX           SYSTEMCOMMAND    TICKS 
+   TITLE            TSIZE            VSPACE 
+   WAIT             WINDOW           WRITEBBF 
+   XDIV             XFUDGE           XFULL 
+   XGRID            XLABEL           XLIM 
+   XLIN             XLOG             XVPORT 
+   YDIV             YFUDGE           YFULL 
+   YGRID            YLABEL           YLIM 
+   YLIN             YLOG             YVPORT 
+
+

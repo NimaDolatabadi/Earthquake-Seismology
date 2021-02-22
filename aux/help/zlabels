@@ -1,0 +1,84 @@
+
+ZLABELS
++++++++
+
+SUMMARY
+-------
+Controls the labeling of contour lines with contour level values.
+
+SYNTAX
+------
+
+  ``ZLABELS  {ON|OFF}  {options}``
+
+   where options are one or more of the following:
+
+  ``SPACING v1 {v2 {v3} }``
+
+  ``SIZE v``
+
+  ``ANGLE v``
+
+  ``LIST c1 c2 ... cn``
+
+  **SPECIAL NOTE** The LIST option must appear last in this command.
+
+INPUT
+-----
+   :ON:  Turn labeling of contour lines on.
+    
+   :OFF:  Turn labeling of contour lines off.
+    
+   :SPACING v1 {v2 {v3} }:  Set the minimum, optimum, and maximum spacing
+       between adjacent labels (in viewport coordinates) to v1, v2, and v3
+       respectively.  If the second or third values are omitted, the
+       previous values are used.
+    
+   :SIZE v:  Set the size (height) of the labels (in viewport
+       coordinates) to v.
+    
+   :ANGLE v:  Set the desired maximum text angle the labels (in degrees
+       from horizontal) to v.
+    
+   :LIST c1 c2 . cn:  Set the list of contour labels to use.  Each entry
+       in this list is used for the corresponding contour level.  If the
+       number of contour levels is larger than the length of this list,
+       the entire list is repeated.
+    
+   :cn:  ON|OFF|INT|FLOATn|EXPn|text
+    
+   :ON:  Place a label on corresponding contour line. Use Fortran's free
+       format capabilities to format the label from the contour level
+       value.
+    
+   :OFF:  Do not place a label on corresponding contour line.
+    
+   :INT:  Place an integer label on corresponding contour line.
+    
+   :FLOATn:  Place a floating point label on corresponding contour line
+       with n values to the right of the decimal point. If n is omitted,
+       the previous value for n is used.
+    
+   :EXPn:  Place an exponentially formatted label on corresponding
+       contour line with n values to the right of the decimal point. If n
+       is omitted, the previous value for n is used.
+    
+   :text:  Use text to label the corresponding contour line.
+    
+DEFAULT VALUES
+--------------
+
+  ``ZLABELS  OFF  SPACING 0.1 0.2 0.3  SIZE  0.0075 ANGLE 45.0  LIST ON``
+
+EXAMPLES
+--------
+  See CONTOUR for examples of the use of ZLABELS.
+
+SEE COMMANDS
+------------
+  CONTOUR_
+
+LATEST REVISION
+---------------
+  April 30, 1990 (Version 10.5b)
+

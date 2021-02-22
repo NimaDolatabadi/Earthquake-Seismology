@@ -1,0 +1,113 @@
+
+FILTERDESIGN
+++++++++++++
+
+SUMMARY
+-------
+Produces a graphic display of a filter's digital vs. analog characteristics
+for: amplitude, phase, and impulse response curves, and the group delay.
+
+SYNTAX
+------
+
+  ``FILTERDESIGN [PRINT [pname] ] [FILE [prefix] ][filteroptions] [delta]``
+
+   where filteroptions are the same as those used in the various
+   filter commands in SAC, including the filter type.
+   delta is the sampling interval of the data
+
+   **Note** Order of options is important.  If the PRINT option is
+   used, it must be the first option.  If the FILE option is used, it
+   must precede the filter options.``
+
+INPUT
+-----
+
+  :PRINT {pname}  :  Prints the resulting plot to the printer named in
+     pname, or to the default printer if pname is not used.``
+     **Note** this must be the first option given on the command line.
+     (This makes use of the SGF capability.)
+
+  :FILE {prefix}  :  Writes three SAC files to disk.  Theses files
+     contain the digital responses determined in
+     the FILTERDESIGN:
+
+  :[prefix].spec: is of type IAMPH, and contains both the amplitude
+     and phase information from the FILTERDESIGN.
+
+  :[prefix].gd: is of type ITIME, and contains the group delay
+     information from the FILTERDESIGN.
+     **Note** that in spite of the fact that the file is of
+     type ITIME, group delay is a function of frequency.
+     It is incumbent upon the user to remember that
+     even though the plots will have seconds for
+     units, the actual units are hertz.
+
+  :[prefix].imp: is of type ITIME, and contains the impulse
+     response.
+
+  In each of these SAC files, the user header fields are set
+  as follows:
+
+  :user0:  pass code
+
+    :1: low pass
+    :2: high pass
+    :3: band pass
+    :4: band reject
+
+  :user1:  type code
+
+    :1: Butterworth
+    :2: Bessel
+    :3: C1
+    :4: C2
+
+  :user2:  number of poles
+  :user3:  number of passes
+  :user4:  tranbw
+  :user5:  attenuation
+  :user6:  delta
+  :user7:  first corner
+  :user8:  second corner if present, or -12345 if not
+
+  :kuser0: pass (lowpass, highpass, bandpass, or bandrej)
+  :kuser1: type (Butter, Bessel, C1, or C2 )
+
+
+DEFAULT VALUES
+--------------
+
+  Only the delta parameter has a default (0.025 seconds). Options for filter
+  type and related parameters must be supplied.
+
+DESCRIPTION
+-----------
+  The FILTERDESIGN_ command is implemented through XAPiir, a basic
+  recursive digital filtering package (see REFERENCES). XAPiir implements the
+  standard recursive digital filter design through bilinear transformation of
+  prototype analog filters.  These prototype filters, specified in terms of
+  poles and zeros, are then transformed to highpass, bandpass and band reject
+  filters using analog spectral transformations.  FILTERDESIGN_ displays digital
+  filter responses as solid lines and analog responses as dashed lines.  On
+  color monitors, digital curves are blue while analog curves are amber.
+
+EXAMPLES
+--------
+  The following example shows how the FILTERDESIGN_ command is used to
+  produce the digital and analog response curves for a highpass, 2 Hz., six
+  pole, two pass filter on data with a sampling rate of .025 seconds.::
+
+    u1: fd hp c 2 n 6 p 2 delta .025
+
+SEE COMMANDS
+------------
+  HIGHPASS_, LOWPASS_, BANDPASS_, BANDREJECT UCRL-ID-106005. XAPiir: A Recursive
+  Digital Filtering Package. David Harris. September 21, 1990 In Xwindows, a
+  linestyle problem may cause both analog and digital traces to plot as solid 
+  lines.
+
+LATEST REVISION
+---------------
+  July 22, 1991 (Version 0.58)
+

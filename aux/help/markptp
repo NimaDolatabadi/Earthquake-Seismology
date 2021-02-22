@@ -1,0 +1,66 @@
+
+MARKPTP
++++++++
+
+SUMMARY
+-------
+Measures and marks the maximum peak to peak amplitude of each signal within
+the measurement time window.
+
+SYNTAX
+------
+
+  ``MARKPTP {LENGTH v},{TO marker}``
+
+INPUT
+-----
+   :LENGTH v:  Change the length of the sliding window to v seconds.
+    
+   :TO marker:  Define the first time marker in the header to store
+       results.  The time of the minimum is stored in this marker.  The
+       time of the maximum is stored in the next marker.
+    
+   :marker:  T0|T1|T2|T3|T4|T5|T6|T7|T8|T9
+    
+DEFAULT VALUES
+--------------
+
+  ``MARKPTP LENGTH 5.0 TO T0``
+
+DESCRIPTION
+-----------
+   This command measures the times and the amplitude of the maximum peak-to-peak
+   excursion of the data within the current measurement time window (see MTW.)
+   The results are written into the header.  The time of the minimum value
+   (valley) is written into the requested marker.  The time of the maximum value
+   (peak) is written into the next marker.  The peak-to-peak amplitude is written
+   into USER0.  The results are also written into the alphanumeric pick file if
+   it is open (see OAFP.)
+
+EXAMPLES
+--------
+  To set the measurement time window to be between the two header fields, T4
+  and T5, and the default sliding window length and marker::
+
+      u:  MTW T4 T5
+      u:  MARKPTP
+
+  To set the measurement time window to be the 30 seconds immediately after the
+  first arrival, and the sliding window length to to 3 seconds, and the
+  starting marker to T7::
+
+      u:  MTW A 0 30
+      u:  MARKP L 3. TO T7
+
+HEADER CHANGES
+--------------
+  Tn, USER0, KTn, KUSER0
+
+SEE COMMANDS
+------------
+  MTW_, OAPF_
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

@@ -1,0 +1,38 @@
+
+FLOOR
++++++
+
+SUMMARY
+-------
+Puts a minimum value on logarithmically scaled data.
+
+SYNTAX
+------
+
+  ``FLOOR {ON|OFF|v}``
+
+INPUT
+-----
+   :{ON}:  Turn floor option on but don't change value of floor.
+    
+   :OFF:  Turn floor option off.
+    
+   :v:  Turn floor option on and change value of floor.
+    
+DEFAULT VALUES
+--------------
+
+  ``FLOOR 1.0E-10``
+
+DESCRIPTION
+-----------
+   The floor option applies only when logarithmic scaling is being used.  It
+   applies to both the x and y axes.  When this option is on, any data values
+   less than the floor are set to the floor before plotting.  By using a small
+   positive value for the floor, errors in taking logarithms of non-positive
+   numbers are avoided.
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

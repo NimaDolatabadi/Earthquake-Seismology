@@ -1,0 +1,163 @@
+SAC Command Reference Manual                         EXTERNAL COMMAND INTERFACE
+
+SUMMARY:
+Description of interface for external commands callable by SAC.
+
+DESCRIPTION:
+
+C language interface
+
+The following definitions and structures will be used to pass data into and out
+of external functions specified by the user.  These external commands will be
+loaded by SAC at run time by executing the LOAD command (See LOAD help page
+for further details).
+
+The application programming interface for external functions (commands) is:
+
+long ext_func(argc, argv, call_data, update)
+int argc;
+char **argv;
+sac_files *call_data;
+long *update;
+
+This function should return a long to be used as an error status flag.  By
+convention, if this function returns a non-zero value, SAC will indicate that
+an error occurred within this function.  By default, SAC will print out the
+error number returned.  If the user wants to add a customized error message,
+this can be done by editing the messages file in the SAC aux directory.  Care
+must be taken not to use an error number that has already been used in another
+context.
+
+Where argc and argv contain the command line arguments, defined the same as
+the command line arguments for a C program.  argc is set to the number of
+arguments, and argv contains the tokenized command line.  argc is always
+greater than or equal to one, since argv[0] contains the command name.
+
+sac_files is a pointer to a call_data struct which is used to package the
+sac headers and data for efficient communication with the external function.
+This data structure is defined in the file extfunc.h, which must be included
+in the external function.
+
+update is a flag which tells SAC how to handle the data returned from the
+external function.  It should be set to one of the enumerated values:
+APPEND, REPLACE, or IGNORE.  If this flag is set to APPEND, the data
+returned from the external function will be appended to the existing
+data file list (files in memory).  If set to REPLACE, the returned data
+will replace the data in memory (which is the way that most SAC commands
+work).  If set to IGNORE, it will be disregarded.
+
+Several support routines are provided to facilitate header access.  They
+include:
+
+sac_header *makehdr( sac_header *header_in )
+  Allocate a new header struct.  If header_in is not NULL, copy its values.
+  If header_in is NULL, initialize the new header to default values.
+
+long getehdr(sac_header *header, char *fieldname, long *error)
+  Return the value of the enumerated header field pointed to by fieldname
+  from the header struct pointed to by header.
+
+void setehdr(sac_header *header, char *fieldname, long value, long *error)
+  Set the enumerated field specified in fieldname to value in the header
+  specified in header.
+
+float getfhdr(sac_header *header, char *fieldname, long *error)
+  Return the value of the floating point header field fieldname from the
+  header specified in header.
+
+void setfhdr(sac_header *header, char *fieldname, float value, long *error)
+  Set the floating point field fieldname to value in header pointed to by
+  header.
+
+long getnhdr(sac_header *header, char *fieldname, long *error)
+  Return the value of the long field specified in fieldname from the header
+  specified by header.
+
+void setnhdr(sac_header *header, char *fieldname, long value, long *error)
+  Set the long header field fieldname to value in the header specified by
+  header.
+
+long getlhdr(sac_header *header, char *fieldname, long *error)
+  Return the value of the logical header field fieldname from the header
+  specified by header.
+
+void setlhdr(sac_header *header, char *fieldname, long value, long *error)
+  Set the logical header field fieldname to  value in the header header.
+
+char *getahdr(sac_header *header, char *fieldname, long *error)
+  Return a pointer to the value of the character header field fieldname
+  from the header specified by header.  This function returns a pointer
+  to the actual header field.  You should not modify this and also should
+  not free this returned address.
+
+void setahdr(sac_header *header, char *fieldname, char *value, long *error)
+  Set the character header field fieldname to the value pointed to by value
+  in the header specified by header.
+
+All header access routines return zero in the error variable if no error
+occurred, otherwise they return non-zero.
+
+The file extfunc.h contains tables of the names of the various header fields which
+can be returned or set by the above functions.  It also contains definitions
+of all the enumerated values known to SAC.
+
+
+FORTRAN language interface
+
+The FORTRAN language interface to external commands consists of a C language function
+which maps data into and out of a FORTRAN routine having the following interface:
+
+subroutine fmycommand(fargs, fyinput, fxinput, numfiles, nptsmax, ferror)
+
+include 'fext_params'
+
+character*(*) fargs
+real*4 fyinput(nptsmax,numfiles)
+real*4 fxinput(nptsmax,numfiles)
+integer*4 numfiles, nptsmax, ferror
+
+Where fargs is the command line, blank delimited.  fyinput contains the input 
+y data.  fyinput is zero filled for data consisting of less than nptsmax points.
+fxinput contains the x data for unevenly spaced files.  In the case of evenly
+spaced data, fxinput is all zeroes.  numfiles is the number of input files,
+nptsmax is the maximum number of points of all the input files and ferror is
+an error return flag.
+
+The include file "fext_params" contains parameters defining the valid enumerated
+header values.
+
+The C language function referred to above is fextern.c.template.  
+
+Several support routines are provided to facilitate header access.  They 
+include:
+
+fgetahdr(integer*4 hdr_index, character fieldname, character value, integer*4 error)
+ Returns value of character header field fieldname in value.  Value returned is from
+ header(hdr_index), where  hdr_index ranges from 1 to numfiles.
+
+fsetahdr(integer*4 hdr_index, character fieldname, character value, integer*4 error)
+ Set the value of character header field fieldname to value.
+
+fgetehdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error)
+ Returns the value of enumerated header field fieldname in value.
+
+fsetehdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error)
+ Set the value of enumerated header field fieldname to value.
+
+fgetfhdr(integer*4 hdr_index, character fieldname, real*4 value, integer*4 error)
+ Returns the value of real header field fieldname in value.
+
+fsetfhdr(integer*4 hdr_index, character fieldname, real*4 value, integer*4 error)
+ Set the value of real header field fieldname to value.
+
+fgetlhdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error)
+ Returns the value of logical header field fieldname in value.
+
+fsetlhdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error)
+ Set the value of logical header field fieldname to value.
+
+fgetnhdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error)
+ Returns the value of integer header field fieldname in value.
+
+fsetnhdr(integer*4 hdr_index, character fieldname, integer*4 value, integer*4 error)
+ Set the value of integer header field fieldname to value.

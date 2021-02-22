@@ -1,0 +1,66 @@
+
+MATHOP
+++++++
+
+SUMMARY
+-------
+Controls Math Operator Precedence
+
+SYNTAX
+------
+
+  ``MATHOP NORMAL|MATH|FORTRAN|NONE|OLD``
+
+INPUT
+-----
+
+   :NORMAL:  Use Normal Math Operator Precedence
+   :MATH:    Same as Normal
+   :FORTRAN: Same as Normal
+
+   :NONE:    Use No Operator Precedence
+   :OLD:     Same as None
+
+
+DEFAULT VALUES
+--------------
+
+  ``MATHOP NORMAL``
+
+DESCRIPTION
+-----------
+  This command controls math operator prededence.  Normally, multiplication
+  and division have a higher predecence than addition and subtraction.
+  Exponentiation has the highest precedence.
+
+  Older version of SAC (pre-101.6) used a math evaluation without operator
+  precedence.  Terms were evaluated in order where the earlier in the
+  expression operators had higher precedence.
+  
+  If matop is not called, the effect is the same as mathop normal.  The
+  function mathop has been introduced to deal with scripts and macros that
+  were written using the mathop old precedence.  Rather than change the
+  coding, one simply enters mathop old before the lines with inline expressions.
+
+EXAMPLES
+--------
+  With Operator Precedence::
+
+     SAC> mathop normal
+     SAC> evaluate 1+2*3
+     ===> 7
+     SAC> evaluate 1+(2*3)
+     ===> 7
+
+  Without Operator Precedence (as was true without mathop prior to v101.6)::
+
+     SAC> mathop old
+     SAC> evaluate 1+2*3
+     ===> 9
+     SAC> evaluate 1+(2*3)
+     ===> 7
+
+LATEST REVISION
+---------------
+  Version 101.6 (new)
+

@@ -1,0 +1,40 @@
+
+MACRO
++++++
+
+SUMMARY
+-------
+Executes a SAC macro file and the startup/init commands when invoking SAC.
+
+SYNTAX
+------
+
+  ``MACRO name {arguments}``
+
+INPUT
+-----
+   :name:  The name of the SAC macro to execute.
+    
+   :arguments:  The arguments (if any) of the macro.
+
+COMMAND ABBREVIATION
+--------------------
+   :M:
+
+DESCRIPTION
+-----------
+   A SAC macro is a file that contains a set of SAC commands that you want to
+   execute as a group.  You can pass arguments to the macro, define default
+   values for these arguments, evaluate blackboard and header variables within
+   the body of a macro, etc.  The macro file can be in the current directory, in
+   a predefined directory you specify using the SETMACRO_ command, or in the
+   global SAC macro directory.  See the section on Macros in the SAC Users Manual.
+
+SEE COMMANDS
+------------
+   SETMACRO_, INSTALLMACRO_
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

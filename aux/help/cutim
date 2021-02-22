@@ -1,0 +1,144 @@
+
+CUTIM
++++++
+
+SUMMARY
+-------
+Cuts files in memory.  Can cut multiple segments from each file.
+
+SYNTAX
+------
+
+  ``CUTIM pdw [pwd ... ]``
+
+INPUT
+-----
+   :pdw:  Partial Data Window.  It consists of a starting and a stopping
+       value of the independent variable, usually time, which defines which
+       part of a file you wish to read.  The most general form of this pdw
+   :is:  ref offset ref offset
+    
+   :ref:  A reference value, one of the following:
+       Z|B|E|O|A|F|Tn, where n=0,1...9.
+       The meanings of these names are given below.
+    
+   :offset:  A positive or negative number which is added to the
+       reference value.
+    
+    
+DEFAULT VALUES
+--------------
+
+If the start or stop offset is omitted it is assumed to be
+zero.  If the start reference value is omitted it is assumed to be Z.  If the
+stop reference value is omitted it is assumed to be the same as the start
+reference value.
+
+DESCRIPTION
+-----------
+  Where the CUT_ command simply sets cut points and waits for the next READ_,
+  CUTIM_ actually carries out the cut at the time the command is given.  
+  The user can READ_ a file, and type CUTIM_ with the desired cutpoints, and 
+  SAC will cut the file to those specified cutpoints without further 
+  disc-access.  CUTIM_ also allow multiple pairs of cutpoints.  The user can 
+  READ_ three files into SAC, and use CUTIM_ with four sets of cutpoints; the 
+  result will be 12 files in memory.
+
+  The start and stop values are given in terms of the independent variable 
+  in the data file, normally time.  See the section on "Data File Structure" 
+  in the Users Manual for a discussion of dependent and independent variables.  
+  The following mnemonics are used to represent certain values of the 
+  independent variable:
+
+   :B: Disk file beginning value.
+   :E: Disk file ending value.
+   :Z: Zero.
+
+  **Note**  the N option is not available for CUTIM_.
+
+  The following mnemonics refer to reference values stored in the SAC
+  header and are used primarily to cut time files:
+
+    :O: Event origin time.
+    :A: First arrival time.
+    :F: Signal ending time.
+    :Tn: User defined time picks, n = 0,1...9
+
+  The above mnemonics plus an optional positive or negative offset define
+  either a starting or stopping value.  O, A, F, and Tn can be defined for a
+  given data file using the CHNHDR_ command.  A and F can also be defined using
+  the automatic picker (APK) or manual pick plot (PLOTPK) commands.
+  If you want to select the same time window from a group of data files
+  that have different reference times, you must use the SYNCHRONIZE_ command
+  before executing the CUTIM_ command.  SYNCHRONIZE_ modifies the headers
+  so that each file has the same reference time.  It also adjusts all of the
+  relative times, including B and E.  Then when the files are cut, they will
+  have the same time window.
+
+EXAMPLES
+--------
+  In these examples we assume time is the independent variable and seconds are
+  the units.::
+
+   B E: begin to end---same as not cutting.
+   B 0 30: First 30 secs of the file.
+   A -10 30: From 10 secs before to 30 secs after first arrival.
+   30.2 48: From 30.2 to 48 secs relative to disk file zero.
+
+  If a stop time is on a pick, and the next start time is an offset from zero,
+  avoid ambiguity by giving the stop time an offset of zero::
+
+   T1 T2 0 1000 1500
+
+  otherwize, the 1000 will be taken as the offset of the T2, and SAC will
+  complain that the second start time (1500) is missing a stop time.
+
+ERROR MESSAGES
+--------------
+- 1322: Undefined starting cut for file
+
+  - undefined reference value in the header record.  
+  - this error can be controlled by use of CUTERR_ command.  
+  - when this error is off, the disk begin value is used.
+
+- 1323: Undefined stop cut for file
+
+  - undefined reference value in the header record.  
+  - this error can be controlled by use of CUTERR_ command.  
+  - when this error is off, the disk end value is used.
+
+- 1324: Start cut less than file begin for file
+
+  - bad CUT_ parameters.  
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk begin value is used or zeros are inserted
+    at the beginning of the data.
+
+- 1325: Stop cut greater than file end for file
+  
+  - bad CUT_ parameters.  
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk end value is used or zeros are inserted at
+    the end of the data.
+
+- 1326: Start cut greater than file end for file
+
+  - bad CUT_ parameters.  
+  - this error cannot be turned off.
+
+**SPECIAL NOTE**  Also, some of the above errors can be converted to warnings
+by the use of the CUTERR_ command.
+
+LIMITATIONS
+-----------
+  There is currently no provision for cutting unevenly-spaced files or spectral
+  files.
+
+SEE COMMANDS
+------------
+   CUT_, READ_, APK_, PLOTPK_, SYNCHRONIZE_, CUTERR_
+
+LATEST REVISION
+---------------
+   June 18, 1999 (Version 0.58)
+

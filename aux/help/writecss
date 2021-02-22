@@ -1,0 +1,95 @@
+
+WRITECSS
+++++++++
+
+SUMMARY
+-------
+Writes data in memory to disk in CSS 3.0 format.
+
+SYNTAX
+------
+
+  ``WRITE {BINARY|ASCII} {COMMIT|ROLLBACK|RECALLTRACE}``
+
+  ``{DIR ON|OFF|CURRENT|name} name``
+
+INPUT
+-----
+   :ASCII:  (Default) Write standard ASCII flatfiles.
+    
+   :BINARY: Write output as a single CSS 3.0 binary file.
+    
+   :COMMIT:  The COMMIT option commits headers and waveforms in SAC
+       memory prior to writing the traces. COMMIT is the default.
+    
+   :ROLLBACK:  The ROLLBACK option reverts to the last committed version
+       of the header and waveform before writing the traces.
+    
+   :RECALLTRACE:  The RECALLTRACE option:
+
+       - reverts to the last committed version of the waveform,
+       - reverts to the last committed version of those header
+       	 variables closely linked to the waveform,
+       - commits those header variables which are loosely linked
+         to the waveform before writing the traces.
+       	 (use HELP_ RECALLTRACE for a list of which header variables are
+       	 committed, and which are rolled back.)
+    
+   :DIR ON:  Turn directory option on but don't change name of write
+       directory.
+    
+   :DIR OFF:  Turn directory option off.  When off, writes to current
+       directory.
+    
+   :DIR CURRENT:  Turn directory option on and set name of write
+       directory to the "current directory" (e.g. the directory from which
+       you started SAC.)
+    
+   :DIR name:  Turn directory option on and set name of write directory
+       to name.  Write all files to the directory called name.  This
+       may be a relative or absolute directory name.
+    
+   :name:  Write filelist in set to name.  There should be only
+       one name specified.  It may not contain wildcards. For ASCII
+       output, name will be prepended to the table name for each
+       flatfile. (i.e. name.wfdisc, name.origin, ...). In BINARY
+       mode, name is the output file name.
+    
+DEFAULT VALUES
+--------------
+
+  ``WRITECSS ASCII COMMIT DIR OFF``
+
+DESCRIPTION
+-----------
+
+   This command allows you, at any point in the processing of data, to
+   save the results to disk in CSS 3.0 format.  In ASCII mode (default) one
+   or more ASCII flatfiles are written. The exact files written will depend
+   upon the source of the data but can be any of:
+
+   wfdisc, wftag, origin, arrival, assoc, sitechan, site, affiliation,
+   origerr, origin, event, sensor, instrument, gregion, stassoc, remark
+   sacdata.
+
+   In Binary mode a single file will be written containing the same set
+   of tables as would be written in ASCII mode, but with all tables in
+   binary format and with the waveform data embedded in the file.
+
+   For more information on the CSS format see the "Center for Seismic Studies
+   Version 3 Database:  Schema Reference Manual".
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1311: No list of filenames to write.
+- 1312: Bad number of files in write file list
+
+SEE COMMANDS
+------------
+   READ_, READCSS_, WRITE_, COMMIT_, ROLLBACK_, RECALLTRACE_
+
+LATEST REVISION
+---------------
+   October 27, 1998 (Version 00.58)
+

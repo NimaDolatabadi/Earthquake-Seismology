@@ -1,0 +1,108 @@
+VELOCITYMODEL
++++++++++++++
+
+SUMMARY
+-------
+Sets stack velocity model parameters for computing dynamic delays.
+
+SYNTAX
+------
+    ``[V]ELOCITY[M]ODEL n options``
+
+    where options are one or more of the following:
+
+    ``ON|OFF``
+    ``REFRACTEDWAVE|NORMALMOVEOUT``
+    ``FLIP``
+    ``VAPP v|CALCULATE``
+    ``T0VM v|CALCULATE``
+    ``DVM v1 [v2]``
+    ``TVM v1 [v2]``
+    ``VAPPI v``
+    ``T0VMI v``
+
+INPUT
+-----
+   :n:   Set velocity model number.  This is either "1" or "2".
+      The use of each velocity model is described below.
+
+   :ON|OFF:   Turn velocity model option on or off.  When this
+       option is on the model is applied. When off it is ignored.
+
+   :REFRACTEDWAVE:   Turn velocity model option on and change to 
+       the "refracted wave" model.
+
+   :NORMALMOVEOUT:   Turn velocity model option on and change to 
+       the "normal moveout" model.
+
+   :FLIP:   Interchange the properties of the two velocity models.
+
+   :VAPP v:   Set the apparent velocity to v.
+
+   :VAPP CALCULATE:  Have SAC calculate the apparent velocity.
+
+   :T0VM v:  Set the time axis intercept to v.
+
+   :T0VM CALCULATE:  Have SAC calculate the time axis intercept.
+
+   :DVM v1 [v2]:  Define one or two reference distances.
+
+   :TVM v1 [v2]:  Define one or two reference times.
+
+   :VAPPI v:  Set the apparent velocity increment to v.  The apparent
+       velocity is incremented by this ammount each time the
+       INCREMENTSTACK command is executed.
+
+   :T0VMI v:  Set the time axis intercept increment to v.  The time
+       axis intercept is incremented by this ammount each time the
+       INCREMENTSTACK command is executed.
+
+DEFAULT VALUES
+--------------
+     
+   `` VELOCITYMODEL 1 OFF``
+   `` VELOCITYMODEL 2 OFF``
+
+DESCRIPTION
+-----------
+  The first velocity model is used in calculating dynamic station delays
+  for a particular phase.
+
+  It is applied when doing a stack summation ( SUMSTACK),
+  a stack plot ( PLOTSTACK), or a record section plot ( PLOTRECORDSECTION.)
+  The second velocity model is used in the record section plot to
+  show delays associated with a second phase.
+  The parameters associated with the two velocity models can be easily flipped.
+
+  There are two different types of velocity models ("refracted wave" and
+  "normal moveout") that can be applied.
+  They are defined by the following equations::
+
+      TDELAY = TVM(1) - ( T0VM + DIST / VAPP )
+      TDELAY = TVM(1) - SQRT ( T0VM**2 + ( DIST / VAPP )**2 )
+
+   There are several ways in which these velocity model delays can be 
+   calculated:
+
+   Enter values for VAPP, T0VM, and TVM(1) directly.
+
+   Enter values for DVM(1), TVM(1), and either VAPP or T0VM.
+   SAC will calculate the missing variable such that TDELAY will be zero
+   at the distance given by DVM(1).
+
+   Enter values for DVM(1), TVM(1), DVM(2), and TVM(2).
+   SAC will calculate both VAPP and T0VM such that TDELAY will be zero
+   at the distance given by DVM(1).
+
+EXAMPLES
+--------
+  To set the first stack velocity model the refracted wave model with an
+  apparent velocity of 6.5 km/sec and to have SAC calculate T0VM such that the
+  delay at 200 km will be zero::
+
+    u: VELOCITYMODEL 1 REFRACTEDWAVE VAPP 6.5 T0VM CALCULATE DVM 200 TVM 35
+
+SEE COMMANDS
+------------
+  SUMSTACK_, PLOTSTACK_, PLOTRECORDSECTION_
+

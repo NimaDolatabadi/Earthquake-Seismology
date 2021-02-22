@@ -1,0 +1,26 @@
+
+CHPF
+++++
+
+SUMMARY
+-------
+Closes the currently open HYPO pick file.
+
+SYNTAX
+------
+
+  ``CHPF``
+
+DESCRIPTION
+-----------
+   Automatically appends the instruction card "10" to the end of the file being
+   closed.
+
+SEE COMMANDS
+------------
+   OHPF_, WHPF_
+
+LATEST REVISION
+---------------
+   March 20, 1992 (Version 10.6e)
+

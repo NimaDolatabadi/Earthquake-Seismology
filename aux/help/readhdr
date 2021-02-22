@@ -1,0 +1,129 @@
+
+READHDR
++++++++
+
+SUMMARY
+-------
+Reads headers from SAC data files into memory.
+
+SYNTAX
+------
+
+  ``READHDR [options] [filelist]``
+
+   where options is one or more of the following:
+
+  ``MORE``
+
+  ``TRUST ON|OFF``
+
+  ``COMMIT|ROLLBACK|RECALLTRACE``
+
+  ``DIR CURRENT|name``
+
+  ALL options MUST preceed any element in the filelist.
+
+INPUT
+-----
+   :MORE:  Place the new data file headers in memory AFTER the old ones.
+       If this option is omitted, the new data file headers REPLACE the
+       old ones.
+    
+   :Note:  if the MORE option is not specified, the COMMIT, ROLLBACK,
+       and RECALLTRACE options have no effect.
+    
+   :TRUST ON|OFF: This option is used to resolve an ambiguity in converting
+       files from SAC to CSS format.  When converting the data,
+       matching event IDs could mean the files have identical
+       event information, or they could be an artifact of the
+       merging of these two very different formats.  When TRUST
+       is ON, SAC is more likely to accept matching event IDs as
+       identical event information than when TRUST is OFF,
+       depending on the history of READ_ commands associated with
+       the current data files in memory.
+    
+   :COMMIT:  If the MORE option is specified, the COMMIT option commits
+       headers and waveforms in SAC memory -- removing any previous
+       versions of headers or waveforms from RAM -- prior to
+       reading more files.  COMMIT is the default.
+    
+   :ROLLBACK:  If the MORE option is specified, the ROLLBACK option reverts
+       to the last committed version of the header and waveform
+       before reading more files.
+    
+   :RECALLTRACE:  If the MORE option is specified, the RECALLTRACE option:
+
+       - reverts to the last committed version of the waveform,
+       - reverts to the last committed version of those header
+       	 variables closely linked to the waveform,
+       - commits those header variables which are loosely linked
+       	 to the waveform. (use HELP_ RECALLTRACE for a list of which 
+	 header variables are committed, and which are rolled back.)
+    
+   :DIR CURRENT:  Read all simple filenames (with or without wildcards)
+       from the current directory.  This is the directory from which you
+       started SAC.
+    
+   :DIR name:  Read all simple filenames (with or without wildcards) from
+       the directory called name.  This may be a relative or absolute
+       directory name.
+    
+   :filelist:  file | wild .
+    
+   :file:  A legal filename.  This may be a simple filename or a pathname.
+       The pathname can be a relative or absolute one.  See the
+       DESCRIPTION and EXAMPLES sections of the READ_ command for more details.
+    
+   :wild:  A wildcard laden token that expands to a list of filenames.
+       See the DESCRIPTION and EXAMPLES sections of the READ_ command and
+       the WILD_ command for more details.
+    
+DESCRIPTION
+-----------
+   This command reads the headers from a set of SAC files into memory.  You can
+   then list the header contents (LISTHDR), change header values (CHNHDR), and
+   then write the headers back to disk (WRITEHDR).  This is much faster than
+   reading entire files into memory, when only the headers are needed.
+
+   All commands which load data into memory have are now monitored to maintain
+   a level of confidence in the event information when moved from the SAC data
+   buffer to the CSS data buffer.  For READHDR_, when the confidence is HIGH 
+   that  all the data files are cosistent in the numbering of event IDs, 
+   matching  event IDs are treated as having identical event information.  
+   When the confidence is LOW in READHDR_, matching event IDs are understood 
+   as an artifact, and new event IDs are generated for the incoming file. 
+   For more details use HELP_ READ_.
+
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+
+  - haven't given a list of files to read.  
+  - none of the files in the list could be read.
+
+- 1314: Data file list can't begin with a number.
+- 1315: Maximum number of files in data file list is
+- 1335: Illegal operation---only data file headers in memory.
+
+  - only LISTHDR_, CHNHDR_, and WRITEHDR_ operations.  can be performed after a
+    READHDR_.
+
+WARNING MESSAGES
+----------------
+- 0101: opening file
+- 0108: File does not exist:
+- 0114: reading file
+
+  - Normally when SAC encounters one of these errors it skips that file and
+    reads the remainder.  These errors can be made to be fatal using 
+    the READERR_ command.
+
+SEE COMMANDS
+------------
+   READ_, LISTHDR_, CHNHDR_, WRITEHDR_, READERR_, COMMIT, ROLLBACK, RECALLTRACE
+
+LATEST REVISION
+---------------
+   Oct. 27, 1998 (Version 0.58)
+

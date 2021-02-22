@@ -1,0 +1,91 @@
+
+UNWRAP
+++++++
+
+SUMMARY
+-------
+Computes amplitude and unwrapped phase.
+
+SYNTAX
+------
+
+  ``UNWRAP {FILL {ON|OFF|n}},{INTTHR v},{PVTHR v}``
+
+INPUT
+-----
+   :FILL {ON}:  Turn zero fill option on.
+    
+   :FILL OFF:  Turn zero fill option off.
+    
+   :FILL n:  Turn zero fill option on and change fill value to n.
+    
+   :INTTHR v:  Change the integration threshold constant to v.
+    
+   :PVTHR v:  Change the principal value threshold constant to v.
+    
+DEFAULT VALUES
+--------------
+
+  ``UNWRAP FILL OFF INTTHR 1.5 PVTHR 0.5``
+
+DESCRIPTION
+-----------
+  This command transforms time-series data in memory to spectral data
+  containing amplitude and "unwrapped" phase components.  This procedure works
+  for data with a "smoothly varying phase." The data is filled with zeros to
+  the next power of two before being transformed.  You may specify a larger
+  number of zeros by using the FILL option.
+
+  This is an implementation of the algorithm due to Tribolet.  Two methods
+  are used to estimate the unwrapped phase at each frequency.  One is to
+  numerically integrate the phase derivative through the use of the fast
+  Fourier transform.  The step size used in this trapezoidal integration is
+  halved at each frequency if necessary to obtain a consistent estimate.  You
+  can control the threshold value on this check using the INTTHR option.  This
+  value is in radians.  Decreasing INTTHR will improve the phase estimate.  Too
+  small a value, however, will not allow the solution to converge.
+
+  The second method used in this algorithm is to first compute the
+  principle value of the phase using the inverse tangent function.  The
+  unwrapped phase is estimated by adding multiples of 2*PI to the principal
+  value until the discontinuities are reduced to values less than a threshold
+  value.  You control the threshold value on this check using the PVTHR option.
+  Again, decreasing this threshold value will improved the phase estimate, but
+  will also increase the chance that no solution may be found.
+  Initial trial values for these two thresholds are usually such that::
+
+    PI/4 < PVTHR < INTTHR < 2*PI
+
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+- 1606: Maximum allowable DFT is
+
+  - Too many data points in file.
+
+WARNING MESSAGES
+----------------
+- 1610: Unwrap failed at data point for file
+
+  - Adjust threshold constants and retry.
+
+HEADER CHANGES
+--------------
+  B, E, and DELTA are changed to the beginning, ending and sampling frequencies
+  of the transform respectively.  The original values of B, E, and DELTA are
+  saved as SB, SE, and SDELTA and are restored when an inverse transform is
+  performed.
+
+LIMITATIONS
+-----------
+  The maximum length of data that can currently be transformed is 4096.
+  Tribolet, Jose M.; "A New Phase Unwrapping Algorithm"; IEEE Transactions on
+  Acoustics, Speech, and Signal Processing; Vol. ASSP-25, No 2, April 1977;
+  page 170.
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

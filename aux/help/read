@@ -1,0 +1,369 @@
+
+READ
+++++
+
+SUMMARY
+-------
+Reads data from SAC data files on disk into memory.
+
+SYNTAX
+------
+
+  ``READ [options] [filelist]``
+
+   where options is one or more of the following:
+
+  ``MORE``
+
+  ``TRUST ON|OFF``
+
+  ``COMMIT|ROLLBACK|RECALLTRACE``
+
+  ``DIR CURRENT|name``
+
+  ``XDR``
+
+  ``ALPHA``
+
+  ``SEGY``
+
+  ``SCALE [ON|OFF]``
+
+
+  ALL options MUST preceed any element in the filelist.
+
+INPUT
+-----
+   :MORE:  Place the new data files in memory AFTER the old ones.  If this
+       option is omitted, the new data files REPLACE the old ones.
+    
+   :Note:  if the MORE option is not specified, the COMMIT, ROLLBACK,
+       and RECALLTRACE options have no effect.
+    
+   :TRUST ON|OFF:   This option is used to resolve an ambiguity in
+       converting files from SAC to CSS format.  When converting
+       data, matching event IDs could mean the files have identical
+       event information, or they could be an artifact of the
+       merging of these two very different formats.  When TRUST
+       is ON, SAC is more likely to accept matching event IDs as
+       identical event information than when TRUST is OFF,
+       depending on the history of READ_ commands associated with
+       the current data files in memory.
+    
+   :COMMIT_:  If the MORE option is specified, the COMMIT option commits
+       headers and waveforms in SAC memory -- removing any previous
+       versions of headers or waveforms from RAM -- prior to
+       reading more files.  COMMIT is the default.
+    
+   :ROLLBACK_:  If the MORE option is specified, the ROLLBACK option reverts
+       to the last committed version of the header and waveform
+       before reading more files.
+    
+   :RECALLTRACE_:  If the MORE option is specified, the RECALLTRACE option:
+    
+            - reverts to the last committed version of the waveform,
+            - reverts to the last committed version of those header
+	      variables closely linked to the waveform,
+            - commits those header variables which are loosely linked
+	      to the waveform.
+       	      (use HELP_ RECALLTRACE for a list of header variables 
+	      which are committed, and which are rolled back.)
+    
+   :DIR CURRENT:  Read all simple filenames (with or without wildcards)
+       from the current directory.  This is the directory from which you
+       started SAC.
+    
+   :DIR name:  Read all simple filenames (with or without wildcards) from
+       the directory called name.  This may be a relative or absolute
+       directory name.
+    
+   :XDR:  The input files are in XDR format.  This format is used for
+       moving binary data files to/from a different architecture, such as
+       a pc running LINUX.
+    
+   :ALPHA:  The input files are SAC formatted alphanumeric (ascii) files.
+       the ALPHA option is incompatible with the XDR option.
+    
+   :SEGY:  Read file formatted according to the IRIS/PASSCAL form of
+       the SEGY format.  This format allows one waveform per file.
+    
+   :SCALE:  Used only in conjunction with the SEGY option, the SCALE option
+       is OFF by default.  When SCALE is OFF, SAC reads the counts
+       from the SEGY files.  When SCALE is ON, SAC multiplies
+       counts by a SCALE factor given in the file.  This scale option
+       changes with the SCALE options of READCSS_, READGSE_, and READSUDS_.
+       If SCALE is OFF, the SCALE value from the file will be stored
+       in SAC's SCALE header variable.  If SCALE is on, SAC's SCALE
+       header field is set to 1.0.
+       SCALE is a crude method of accounting for the instrument
+       response.  The prefered method is with the TRANSFER_ command.
+       It is recommended to leave SCALE off for the READ_ and use
+       the TRANSFER_ command.  SCALE should really only be used
+       if the response information necessary for the TRANSFER_ command
+       is not available.
+    
+   :filelist:  file | wild .
+    
+   :file:  A legal filename.  This may be a simple filename or a pathname.
+       The pathname can be a relative or absolute one.  See the
+       DESCRIPTION and EXAMPLES sections below for more details.
+    
+   :wild:  A wildcard laden token that expands to a list of filenames.
+       See the DESCRIPTION and EXAMPLES sections below and the WILD_ command for
+       more details.
+    
+DEFAULT VALUES
+--------------
+
+  ``READ COMMIT DIR CURRENT``
+
+DESCRIPTION
+-----------
+   All commands in SAC work on the data that is currently in memory.  This
+   data in memory is analogous to the temporary or working files used by a text
+   editor.  The READ_ command transfers data from one or more disk files into
+   memory.  The default is to read all of the data from each disk file.  
+
+   The CUT_ command can be used to specify that only a portion of each disk 
+   file be read.  SAC files produced in or after the year 2000 are presumed 
+   to have a four  digit value for the year.  Files with two digit year 
+   values will be assumed to be in the twentieth century, and will be 
+   incremented by 1900. Normally all data in memory prior to the execution 
+   of another READ_ command is lost.  The new data replaces the old data.  
+
+   If the keyword MORE is the second symbol in the command, the new data is 
+   placed in memory after the old data.  The data file list becomes the 
+   concatenation of the old file list and the new file list.
+   There are three cases where the MORE option may be useful:
+
+     1. The filelist is too long to be typed on one line.
+
+     2. A name was misspelled in a long filelist.
+
+     3. A file is read, some analysis performed, and a comparison with
+     	 the original is desired.
+
+   Examples of each of these cases are given below.
+   The filenames may be simple filenames in the current directory or they
+   may be absolute or relative pathnames pointing to other directories on your
+   system.  Examples of absolute pathnames are::
+
+     UNIX: /dir/subdir/file
+     VMS: disk:[dir.subdir]file
+     PRIMOS: <disk>dir>subdir>file
+
+   Examples of relative pathnames are::
+
+     UNIX: subdir/file
+     PRIMOS: *>subdir>file
+
+   In the above examples "disk" is the name of a physical disk partition, "dir"
+   is the name of a top level directory, "subdir" is a subdirectory of that
+   partition, and "file" is a file in that subdirectory.  In general there is no
+   limit on the nesting of subdirectories.
+   Filenames may also contain wild-card characters.  You can use them match
+   a single character, to match zero or more characters, and to form groupings
+   of characters.  Some examples are given below.  See the WILD_ command for 
+   more examples and a complete explanation of all the wildcarding options.
+
+
+   *** Important ***
+   SAC has two data buffers; this is what allows SAC to provide the COMMIT,
+   ROLLBACK and RECALLTRACE commands.  One data buffer stores the header
+   information in SAC format, and the second stores headers in CSS 3.0 format.
+   This CSS 3.0 data buffer allows seamless consistency with CSS 3.0 in READCSS_
+   and WRITECSS; it also allows direct access to the CSS 3.0 formatted Oracle
+   database.
+
+   In CSS (a relational format), it is important to maintain consistency
+   with the event IDs (evid, or nevid in SAC).  In SAC format (a very flat
+   format), such consistency is not as important, and in some cases, it is
+   lost.  Anytime data is loaded into SAC, it is stored in both buffers.
+   When transfering data from SAC to CSS data buffers, there is a potential
+   ambiguity in handling event information.  If matching evids are found, it
+   could be that the two files have identical event information, or it could
+   be that the match is an artifact of the merge of these two different data
+   formats within SAC.
+
+   Two peices of information are involved in resolving this ambiguity, one is
+   the history of data loaded into SAC memory, and the other is the confidence
+   the user sets with the TRUST ON|OFF option on the command line of most Read
+   commands and ADDSTACK.  It is expected that the user will have some idea if
+   the data files are consistent, if they share event information, etc.
+   The history of data loaded into SAC memory begins when data is
+   loaded into memory without the MORE option, and ends the next time data is
+   loaded into memory without the MORE option.  Any time in between that data is
+   loaded into memory with the MORE option, it becomes part of the existing
+   history.
+
+   All commands which load data into memory are now monitored to maintain
+   a level of confidence in the event information when moved from the SAC data
+   buffer to the CSS data buffer.  The READDB_ command was the most reliable way
+   to load data into SAC but ORACLE isis no longer supported.  Still, for this
+   reason, the levels of confidence (in ascending order) are LOW, HIGH, and RDB.
+   TRUST is an option set on the commandline of most commands that load SAC 
+   data.  TRUST can be ON or OFF.  Each time a command loads data into SAC,	
+   it responds to both the confidence level and the TRUST to determine how 
+   to treat matching event IDs.
+
+   When requisite levels of TRUST and confidence are present, matching event IDs
+   are treated as an indicator that the two files share identical event
+   information.  This being the case, the event IDs are left unchanged.  When
+   requisite levels of TRUST and confidence are not met, matching event IDs are
+   are treated as artifacts of the merging of two different data formats:
+   SAC and CSS.
+
+   READDB_, being the only truely reliable way to load data, will always treat
+   the data as reliable as long as READDB_ is the only method used to load data
+   into SAC.  In this case, the TRUST will not be used, and the confidence lever
+   will always be set to RDB.  If any other data loading method is used, then
+   the confidence will be reduced to HIGH, or LOW, and RDB will respond 
+   similarly to the next set of commands. The following commands are 
+   considered HIGH confidence:  READ_, READCSS_, READHDR_, and ADDSTACK.  
+   These commands will consider both the confidence level and the TRUST in 
+   determining how to handle event ID matches.  If the confidence
+   is HIGH (or RDB) and the TRUST is ON, then confidence is set to HIGH, and the
+   event IDs are treated as reliable.  However if the TRUST is OFF or if the
+   confidence level is LOW, then the confidence is set to LOW and the matching
+   event IDs are treated as artifacts, and new IDs are generated for the 
+   incoming data file.
+
+   The following commands are considered LOW confidence because event ID
+   information is not available:  READTABLE_, READGSE_, READSUDS_, FUNCGEN_, 
+   DATAGEN_, READSP_, READSDD_, and READ_ with the SEGY option and 
+   READCSS_ when the input files are in the CSS 2.8 data format.  
+   These commands will always generate event IDs and set the confidence 
+   level to LOW.
+
+   Commands written by the user and added to SAC via the external command
+   interface (the LOAD_ command) are a special case, since the user writes the
+   code.  In these cases, the confidence is based entirely on the TRUST that the
+   user sets.  Hence, it is incumbent upon the user to set the TRUST either on
+   the commandline or within the code.  For more information use HELP_ EXTERNAL.
+   Within a given history, if data is loaded into SAC by any means other than
+   READDB_, the data is probably not consistent with the database, and should
+   probably not be loaded back into the database, unless the user takes
+   responsibility to insure consistency among events.
+
+
+
+EXAMPLES
+--------
+   In the following examples is it assummed that the following SAC data
+   files are in your current disk directory: F01, F02, F03, and G03.  In these
+   examples, the UNIX wildcard characters (e.g., "?" matches any single
+   character and "*" matches zero or more characters) are used.  See the WILD_
+   command for more information on how to use wildcards.  To read the first 
+   three files::
+
+      u:  READ F01 F02 F03
+
+   The following command produces the same result using the wildcard operator::
+
+      u:  READ F*
+
+   This command also produces the same result by using the concatenation
+   operator::
+
+      u:  READ F0[1,2,3]
+
+   To read the second, third, and fourth files::
+
+      u:  R F02 ?03
+
+   The following examples show the use of the MORE option::
+
+      u: R F03 G03
+
+   files F03 and G03 are in memory::
+
+      u: R F01 F02
+
+   files F01 and F02 are in memory::
+
+      u: R MORE F03 G03
+
+   files F01, F02, F03, and G03 are in memory
+
+   This example uses the MORE option when a filename was misspelled::
+
+      u: R F01 G02 F03
+      s: WARNING: File does not exist: G02
+      s: Will read the remainder of the data files.
+
+   files F01 and F03 are in memory::
+
+      u: R MORE F02
+
+   files F01, F03, and F02 are now in memory:
+
+   note the order of the files in this case.
+
+   If you wanted to apply a highpass filter to a data file and then graphically
+   compare the results to the original::
+
+      u: READ F01
+      u: HIGHPASS CORNER 1.3 NPOLES 6
+      u: READ MORE F01
+      u: PLOT1
+
+   plot shows filtered and original data
+
+   Now assume you were in the directory "/me/data" when you started up SAC and
+   that you wanted to work with the data files in the subdirectories "event1"
+   and "event2"::
+
+      u: READ DIR EVENT1 F01 F02
+
+   files in directory /me/data/event1 are read:
+
+      u: READ F03 G03
+
+   files in same directory are read::
+
+      u: READ DIR EVENT2 *
+
+   all files in /me/data/event2 are read:
+
+      u: READ DIR CURRENT F03 G03
+
+   files in directory /me/data are read.
+
+   Note:  For examples of the differing behavior between the COMMIT, ROLLBACK,
+   RECALLTRACE options, see the commands of the same names.
+
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+
+  - haven't given a list of files to read.  
+  - none of the files in the list could be read.
+
+- 1320: Available memory too small to read file
+- 1314: Data file list can't begin with a number.
+- 1315: Maximum number of files in data file list is
+- 6002: No more data-sets available.
+
+WARNING MESSAGES
+----------------
+- 0101: opening file
+- 0108: File does not exist:
+- 0114: reading file
+
+  - Normally when SAC encounters one of these errors it skips that file and
+    reads the remainder.  These errors can be made to be fatal using the 
+    READERR_ command.
+
+HEADER CHANGES
+--------------
+   E, DEPMIN, DEPMAX, DEPMEN, B if cut option is on.
+
+SEE COMMANDS
+------------
+   CUT_, READERR_, WILD_, COMMIT_, ROLLBACK_, RECALLTRACE_
+
+LATEST REVISION
+---------------
+   June. 18, 1999 (Version 0.58)
+

@@ -1,0 +1,46 @@
+
+SETMACRO
+++++++++
+
+SUMMARY
+-------
+Defines a set of directories to search when executing a SAC macro file.
+
+SYNTAX
+------
+
+  ``SETMACRO {MORE} directory {directory ...}``
+
+INPUT
+-----
+   :directory:  The name of a directory in which SAC macro files are stored.
+                This may be either a relative or absolute directory name.
+                On some operating systems, the directory path may be case
+                sensitive.
+    
+DESCRIPTION
+-----------
+   This command lets you define a set of directories to search when executing
+   SAC macro files using the MACRO_ command.  You can define up to 100 such
+   directories.
+
+   MORE:	When the MORE option is used with setmacro, the specified
+   directories are added to the existing list.  When MORE is not used
+   with setmacros, the existing list is replaced with the new list.
+
+   When the MACRO_ command is run, SAC searches for the macro in the current
+   directory; if no file is found with the given name, SAC searches the
+   directories listed in SETMACRO in the order that they are listed.  If
+   there are still no files found with the given name, SAC searches the global
+   macro directory.
+
+   See the section on Macros in the SAC Users Manual.
+
+SEE COMMANDS
+------------
+   MACRO_
+
+LATEST REVISION
+---------------
+   December 5, 1996 (Version 52a)
+

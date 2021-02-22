@@ -1,0 +1,301 @@
+
+READSUDS
+++++++++
+
+SUMMARY
+-------
+Read data files in PC-SUDS format from disk into memory.
+
+**Note**  SUDS data enters SAC via SAC's CSS data buffers.  To understand how
+arrivals are handled, use HELP_ READCSS_ and HELP_ PICKPREFS_.
+
+SYNTAX
+------
+
+  ``READSUDS {MAXMEM v} {MORE} {VERBOSE ON|OFF} {SHIFT ON|OFF}``
+
+  ``{COMMIT|ROLLBACK|RECALLTRACE} {DIR name}  filelist``
+
+INPUT
+-----
+   :MAXMEM: Specify the maximum fraction of physical memory to use when
+       reading large data sets. When this limit is reached, no more
+       waveforms will be read, although other tables may still be read.
+       The default value for MAXMEM is 0.3.
+    
+   :MORE:  See the READ_ command.
+    
+   :VERBOSE ON|OFF: If VERBOSE is ON, SAC displays extended information
+       about the waveforms being read, and prints a summary of the CSS
+       tables that were filled. SAC also displays a progress indicator
+       for the conversion to SAC internal format.
+    
+   :SHIFT ON|OFF:  If SHIFT is on, the origin time is set to zero, and
+       other time related header variables are shifted back to be
+       consistent with the origin time.  Some of the distance related
+       header variables are also affected.  SHIFT ON is the default.
+    
+   :COMMIT:  If the MORE option is specified, the COMMIT option commits
+       headers and waveforms in SAC memory -- removing any previous
+       versions of headers or waveforms from RAM -- prior to
+       reading more files.  COMMIT is the default.
+    
+   :ROLLBACK:  If the MORE option is specified, the ROLLBACK option reverts
+       to the last committed version of the header and waveform
+       before reading more files.
+    
+   :RECALLTRACE:  If the MORE option is specified, the RECALLTRACE option:
+
+      - reverts to the last committed version of the waveform,
+      - reverts to the last committed version of those header
+       	variables closely linked to the waveform,
+      - commits those header variables which are loosely linked
+        to the waveform.
+        (use HELP_ RECALLTRACE for a list of which header variables are
+        committed, and which are rolled back.)
+    
+      **Note**  if the MORE option is not specified, the COMMIT, ROLLBACK,
+      and RECALLTRACE options have no effect.
+    
+    
+   :DIR name:  The directory to be searched for sudsfile(s).
+    
+   :filelist:  The name(s) of one or more suds files.
+    
+DEFAULT VALUES
+--------------
+
+  ``READSUDS * MAXMEM 0.3 VERBOSE OFF COMMIT``
+
+DESCRIPTION
+-----------
+   See the READ_ command.  Oct. 27, 1998 (Version 00.58)
+
+   Any command which loads data into memory is monitored to maintain a
+   level of confidence in the event infomation when transfered from the SAC
+   data buffer to the CSS data buffer.  When READSUDS_ is used, the confidence
+   is set to LOW, indicating that SAC should consider any matching event IDs
+   as artifacts and reassign the event ID of the incoming file.  For more
+   details, use HELP_ READ_.
+
+
+NOTES
+-----
+
+  READSUDS_ assumes that the data are still in PC byte-order, and swaps bytes
+  as necessary while reading the files.
+
+  The following SUDS headers should be populated:
+
+  - DESCRIPTRACE
+  - STATIONCOMP
+  - FEATURE
+  - EVENT
+  - ORIGIN
+
+  Statident structs for a given channel must have all fields set identically
+  to allow joining: i.e. dt->dt_name = fe->fe_name = sc->sc_name.
+
+  There should be only 1 origin and 1 event in the SUDS file since PC-SUDS has
+  no way to associate origins with features or descriptraces.
+
+  ev->number must equal or->number to associate the event with the origin.
+
+  SUDS Magnitude, Authority, Program, Instrument, and Phase codes must be 
+  from the following code lists in order to translate to CSS.
+
+Suds Magnitude Codes
+--------------------
+  or->mag_type in origin (type char):
+   :S: "ms"
+   :b: "mb"
+   :c: "md"
+   :l: "ml"
+   :m: "mw"
+   :s: "ms"
+   :w: "mw"
+
+
+
+Suds Authority codes
+--------------------
+or->authority in origin (type short):
+ev->authority in event
+
+
+   :1000: "USGS-Menlo-Park"
+   :1002: "CALNET"
+   :1050: "RTP-USGS-Menlo-Park"
+   :2000: "Geophysical-Institute-U-of-Alaska"
+   :3000: "University-of-Washington"
+   :4000: "Lamont-Doherty-Geological-Observatory"
+   :5000: "IRIS"
+   :5100: "GSN"
+   :5200: "ASRO"
+   :5300: "PASSCAL"
+   :6000: "LLNL"
+   :7000: "LBL"
+   :8000: "LANL"
+
+Suds program codes
+------------------
+or->program in origin (type char):
+
+   :'7': "Hypo-71"
+   :'h': "HypoInverse"
+   :'l': "HypoLayer"
+   :'c': "Centroid"
+   :'v': "Velest"
+
+Suds event codes
+----------------
+ev->ev_type in event (type char):
+
+   :'e': "ke"  known earthquake 
+   :'E': "qb"  quarry blast 
+   :'n': "kn"  known nuclear explosion 
+   :'i': "iq"  icequake
+   :'r': "rq"  regional earthquake
+   :'t': "tq"  teleseismic earthquake
+   :'K': "kr"  known rockburst
+   :'k': "sr"  suspected rockburst
+   :'m': "sm"  suspected mine explosion
+   :'M': "km"  known mine explosion
+   :'s': "se"  suspected earthquake
+   :'S': "sn"  suspected nuclear explosion
+   :'l': "ls"  landslide
+   :'d': "si"  suspected induced event
+   :'D': "ki"  known induced event
+   :'x': "sx"  suspected experimental explosion
+   :'X': "kx"  known experimental explosion
+
+
+Suds instrument codes
+---------------------
+suds_statident->inst_type (type short):
+
+
+   :0: "Unk"
+   :1: "sp-usgs"
+   :2: "sp-wwssn"
+   :3: "lp-wwssn"
+   :4: "sp-dwwssn"
+   :5: "lp-dwwssn"
+   :6: "hglp-lamont"
+   :7: "lp-hglp-lamont"
+   :8: "sp-sro"
+   :9: "lp-sro"
+   :10: "sp-asro"
+   :11: "lp-asro"
+   :12: "sp-rstn"
+   :13: "lp-rstn"
+   :14: "sp-uofa-U-of-Alaska"
+   :15: "STS-1/UVBB"
+   :16: "STS-1/VBB"
+   :17: "STS-2"
+   :18: "FBA-23"
+   :19: "Wilcoxin"
+   :50: "USGS-cassette"
+   :51: "GEOS"
+   :52: "EDA"
+   :53: "Sprengnether-refraction"
+   :54: "Teledyne-refraction"
+   :55: "Kinemetrics-refraction"
+   :300: "amplifier"
+   :301: "amp/vco"
+   :302: "filter"
+   :303: "summing-amp"
+   :304: "transmitter"
+   :305: "receiver"
+   :306: "antenna"
+   :307: "battery"
+   :308: "solar-cell"
+   :309: "discriminator"
+   :310: "discr-rack"
+   :311: "paper-recorder"
+   :312: "film recorder"
+   :313: "smoked glass recorder"
+   :314: "atod convertor"
+   :315: "computer"
+   :316: "clock"
+   :317: "time receiver"
+   :318: "magnetic tape"
+   :319: "magntic disk"
+   :320: "optical disk"
+
+SUDS Phases
+-----------
+suds phases in fe->feature (type short)
+
+   :0: "none"
+   :1: "window"
+   :2: "f finis"
+   :3: "MaxAmp"
+   :50: "P-first"
+   :51: "P"
+   :52: "P*"
+   :53: "PP"
+   :54: "PPP"
+   :55: "PPPP"
+   :56: "PPS"
+   :57: "Pg"
+   :58: "Pn"
+   :59: "Pdiff"
+   :60: "PcP"
+   :61: "PcPPKP"
+   :62: "PcS"
+   :63: "pP"
+   :64: "pPP"
+   :65: "PKP"
+   :66: "PKPPKP"
+   :67: "PKPPKS"
+   :68: "PKPSKS"
+   :69: "PKS"
+   :70: "pPKS"
+   :71: "PKKP"
+   :72: "PKKS"
+   :73: "PcPPKP"
+   :74: "PcSPKP"
+   :100: "S-first"
+   :101: "S"
+   :102: "S*"
+   :103: "SS"
+   :104: "SSS"
+   :105: "SSSS"
+   :106: "Sg"
+   :107: "Sn"
+   :108: "ScS"
+   :109: "SPcS"
+   :110: "sS"
+   :111: "sSS"
+   :112: "sSSS"
+   :113: "SScS"
+   :114: "ScSPKP"
+   :115: "ScP"
+   :116: "SKS"
+   :117: "SKKS"
+   :118: "SKKKS"
+   :119: "SKSSKS"
+   :120: "SKP"
+   :121: "SKKP"
+   :122: "SKKKP"
+   :201: "Lg"
+   :202: "Lr"
+   :203: "Lr2"
+   :204: "Lr3"
+   :205: "Lr4"
+   :206: "Lq"
+   :207: "Lq2"
+   :208: "Lq3"
+   :209: "Lq4"
+   :301:  "t"
+
+
+SEE COMMANDS
+------------
+   READ_, PICKAUTHOR_, PICKPHASE_, COMMIT, ROLLBACK, RECALLTRACE
+
+LATEST REVISION
+---------------
+   October 27, 1998 (Version 00.58)
+

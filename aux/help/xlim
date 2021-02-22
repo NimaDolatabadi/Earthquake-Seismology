@@ -1,0 +1,58 @@
+
+XLIM
+++++
+
+SUMMARY
+-------
+Determines the plot limits for the x axis.
+
+SYNTAX
+------
+
+  ``XLIM {ON|OFF|pdw|SIGNAL}``
+
+INPUT
+-----
+   :{ON}:  Turn x limits on but don't change limits.
+    
+   :OFF:  Turn x limits off.
+    
+   :pdw:  Turn x limits on and set limits to a new "partial data window."
+       A pdw consists of a starting and a stopping value of the
+       independent variable, usually time, which defines the desired
+       window of data that you wish to plot.  See the CUT_ command for a
+       complete explanation of how to define and use a pdw.  Some examples
+       are given below.
+    
+   :SIGNAL:  Equivalent to typing:  A -1 F +1.
+    
+DEFAULT VALUES
+--------------
+
+  ``XLIM OFF``
+
+DESCRIPTION
+-----------
+  When this option is on, fixed plot limits are used for the x axis.  When this
+  option is off, the limits are scaled to the data.  Fixed x limits can be used
+  to "blowup" part of the data currently in memory.
+
+EXAMPLES
+--------
+  In these examples we assume time is the independent variable and seconds are
+  the units.::
+
+    B 0 30: First 30 secs of the file.
+    A -10 30: From 10 secs before to 30 secs after first arrival.
+    T3 -1 T7: From 1 sec before T3 time pick to T7 time pick.
+    B N 2048: First 2048 points of file.
+    30.2 48: 30.2 to 48 secs relative to file zero.
+
+SEE COMMANDS
+------------
+  CUT_
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

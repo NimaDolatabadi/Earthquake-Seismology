@@ -1,0 +1,26 @@
+
+MULOMEGA
+++++++++
+
+SUMMARY
+-------
+Performs differentiation in the frequency domain.
+
+DESCRIPTION
+-----------
+  This command multiplies each point of a spectral file by its frequency given
+  by::
+
+    OMEGA = 2.0 * PI * FREQ
+
+  This is analogous to differentiating the equivalent time series file.  The
+  spectral file can in either amplitude-phase or real-imaginary format.
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

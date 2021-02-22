@@ -1,0 +1,71 @@
+
+SETBB
++++++
+
+SUMMARY
+-------
+Sets (defines) values of blackboard variables.
+
+SYNTAX
+------
+
+  ``SETBB variable {APPEND} value {variable {APPEND} value ...}``
+
+INPUT
+-----
+   :variable:  The name of a blackboard variable.  It may be a new
+       variable or one that already has a value. The variable name can be
+       up to 32 characters in length.
+    
+   :value:  The new value of that blackboard variable.  It must be
+       enclosed in single or double quotes if it contains any spaces.
+    
+   :APPEND:  Append value to the old value of variable.  If this option is
+       omitted then the new value replaces the old value.
+    
+DESCRIPTION
+-----------
+   The blackboard is a place to temporarily store information.  This
+   information can later be accessed by the GETBB_ command or used directly in a
+   command by preceeding the name of the variable with a percent sign ("%".) If
+   you want to concantenate some other text string on the end of a blackboard
+   variable you need to put a second percent sign at the end of the name.  You
+   can also use the EVALUATE_ command to perform basic arithmetic operations on
+   blackboard variables and store the results in new blackboard variables.  You
+   can unset (delete) blackboard variables using the UNSETBB_ command.
+
+EXAMPLES
+--------
+  To set several blackboard variables at once::
+
+      u:  SETBB C1 2.45 C2 4.94
+
+  To later use these variables in a command::
+
+      u:  BANDPASS CORNERS %C1 %C2
+
+  To set a blackboard variable that contains spaces::
+
+      u:  SETBB MYTITLE 'Sample filter response'
+
+  To check and make sure the value is correct::
+
+      u:  GETBB MYTITLE
+      s:  MYTITLE = Sample filter response
+
+  To later use this variable in the title command it must be enclosed in quotes
+  and have a percent sign on both ends of the name::
+
+      u:  TITLE '%MYTITLE%'
+
+  See the section on Macros in the SAC Users Manual for more examples of the
+  use of blackboard variables in macros.
+
+SEE COMMANDS
+------------
+  GETBB_, EVALUATE_, UNSETBB_
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

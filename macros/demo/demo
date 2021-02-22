@@ -1,0 +1,18 @@
+*
+* PURPOSE:  To provide a short introductory demo to SAC.
+*
+
+  echo off
+  message ' '
+  message 'See sac/macros/README for an overview'
+  message ' '
+  transcript create file ../results/demo_run.txt contents all
+  window 1 y .01 .55
+  xdiv power off ; xlabel 'Time (sec)'
+  echo on
+  macro read dir ../data/
+  echo on
+  macro plot dir ../data/
+  echo on
+  macro filter dir ../data/
+  message 'macro demo is finished'

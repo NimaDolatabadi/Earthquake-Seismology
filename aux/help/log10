@@ -1,0 +1,29 @@
+
+LOG10
++++++
+
+SUMMARY
+-------
+Takes the base 10 logarithm of each data point.
+
+SYNTAX
+------
+
+  ``LOG10``
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1307: Illegal operation on spectral file
+- 1340: data points outside allowed range contained in file
+
+  - All data points must be positive.
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+  January 15, 1985 (Version 9.10)
+

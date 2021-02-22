@@ -1,0 +1,110 @@
+PICKPREFS
++++++++++
+
+SUMMARY
+-------
+The PICKPREFS_ command is used to control the way that SAC manages and or loads
+picks from a variety of input data formats (e.g., CSS, GSE, SUDS etc...) into
+the time marker variables T0 to T9 (aka. Tn).  When this option is OFF (the
+default), the picks loaded into the time markers correspond to the first picks
+that SAC finds in the input data.  If this options is ON, SAC will use the
+preferences file described in the READCSS_ command.
+
+Note:   Because of the structured nature of the preferences file (which aligns
+specific phases with specific marker variables), and the free flowing
+nature of the interactions without the preferences, a change in the
+PICKPREFS_ in the middle of processing can change the picks in the
+datafiles.  See the descrition below for details.
+
+SYNTAX
+------
+
+  ``PICKPREFS ON``
+
+  ``PICKPREFS OFF``
+
+  ``PICKPREFS``
+
+INPUT
+-----
+   :ON:     instructs SAC to pass arrivals from the CSS buffer through
+       the preferences file on its way to the SAC buffer.  This
+       is useful in macros that require specific arrivals to be
+       in specific Tn header variables.
+    
+   :OFF:    instructs SAC to bypass the preferences file and load the
+       first 10 picks it encounters for a given file.  This is the
+       default.  It allows the user to be aware of picks s/he may
+       not be aware of with the PICKPREFS_ ON.
+    
+       If now option is provided on the commandline, PICKPREFS_
+       will toggle the use of preferences file ON or OFF.
+    
+DEFAULT VALUES
+--------------
+
+  ``PICKPREFS OFF``
+
+
+DESCRIPTION
+-----------
+   Since version 0.58, sac2000 has had two different header buffers: one 
+   formatted according to the SAC file format, and one formatted according to 
+   the relational CSS 3.0 file format.  Adding the CSS data buffer has made it 
+   easier to read relational formats such as CSS, GSE, and SUDS.  Having two 
+   buffers has allowed the process management commands:  COMMIT_, ROLLBACK_, and 
+   RECALLTRACE_.
+
+   One drawback of having these two buffers is the complexity of moving arrivals
+   from the dynamic CSS arrival table to the rather ridged T0 - T9 picks in the
+   SAC format.  This problem was solved in version 0.58 by setting in place a
+   preferences file called csspickprefs.  This file is in the aux directory and
+   can be overridden by writing one of your own.  For more information about how
+   to use the csspickprefs file, use HELP_ READCSS_.  For details on how to 
+   override the default preferences file, use HELP_ PICKAUTHOR_ or 
+   HELP_ PICKPHASE_.
+
+   The drawback of using the preferences file was that it would only accept 
+   phase names and/or author names listed in the preferences file or those 
+   entered at the command line with PICKPHASE_ or PICKAUTHOR_.  In other words,
+   if a CSS data file from either a flat-file, or the Oracle database has a 
+   pP arrival, and pP is not specified in the preferences file, the user would 
+   never know that the pP is there.  The pP pick will be read into the CSS 
+   data buffer in SAC, but it will not be transfered to the SAC data buffer, 
+   and will not participate in any of the SAC commands.  It may be written 
+   out by the WRITECSS_ command, or it may get flushed out during a COMMIT 
+   command, and be lost entirely.
+
+   The solution we have worked out is to allow the user to bypass the 
+   preferences file.  In version 0.59, the default is to read the first 10 
+   available picks from the CSS buffer directly into the SAC buffer whenever 
+   data is transferred from the one to the other.  By use of this new command, 
+   PICKPREFS_, the user can tell SAC to use the preferences file.  This is 
+   useful if the user has a macro which expects to find a specific phase in 
+   a specific Tn header variable.
+
+   Data is transfered from the CSS buffer to the SAC buffer on any READCSS_, 
+   READGSE_, or READSUDS_ command, as well as COMMIT_, ROLLBACK_, and RECALLTRACE_.  
+   COMMIT, ROLLBACK, or RECALLTRACE get called by default by any of the following 
+   commands:
+
+    - any command that writes data (WRITE, WRITECSS_, WRITEGSE_, etc.)
+    - any command that reads data with the MORE option specified
+    - the SORT_ command.
+
+   If the user alters PICKPREFS_ and or the preference settings while data is
+   in the data buffers, the picks in the SAC buffer may be modified.
+   Eg. if PICKPREFS_ is OFF (the default) when some SAC files are read
+   with the READ_ command they may have some pP picks or some PKiKP picks which
+   would be present in the Tn markers.  If PICKPREFS_ is later turned OFF, for
+   a READCSS_, if pP and/or PKiKP aren't listed in the 
+   preferences file, then pP and PKiKP arrivals will not be read from the 
+   CSS files, and the pP and PKiKP picks in the existing data will be 
+   removed from the Tn markers.
+
+
+SEE COMMANDS
+------------
+   READCSS_, READDB_, PICKAUTHOR_, PICKPHASE_, COMMIT, ROLLBACK, RECALLTRACE
+
+

@@ -1,0 +1,137 @@
+
+SGF
++++
+
+SUMMARY
+-------
+Controls the SAC Graphics File (SGF) device options.
+
+SYNTAX
+------
+
+  ``SGF {options}``
+
+   where options are one or more of the following:
+
+  ``PREFIX text``
+
+  ``NUMBER n``
+
+  ``DIRECTORY CURRENT|pathname``
+
+  ``SIZE NORMAL|FIXED v|SCALED v``
+
+  ``OVERWRITE ON|OFF``
+
+INPUT
+-----
+   :PREFIX text:  Set the frame prefix to text (up to 24 characters long.)
+    
+   :NUMBER n:  Set next frame number to n.  If n is zero, then SAC
+       searches the directory for SGFs and sets the frame number to the
+       next value in the sequence.
+    
+   :DIRECTORY CURRENT:  Put the SGFs in the current directory.
+    
+   :DIRECTORY pathname:  Put the SGFs in the directory specified by
+       pathname.
+    
+   :SIZE NORMAL:  Produce a "normal" sized plot.  A normal plot has a
+       viewspace (the maximum plotting area) of 10 by 7.5 inches.  Using
+       default values, the viewport (the portion of the viewspace where
+       the plot is drawn excluding axes and labels) itself is approximately 8 by 5 inches.
+    
+   :SIZE FIXED v:  Produce a plot where the x viewport is v inches in
+       length.
+    
+   :SIZE SCALED v:  Produce a plot where the x viewport in inches is
+       determined by multiplying v by the x world coordinate limits.
+    
+   :OVERWRITE ON|OFF:  When it is turned on, the file numbers are not
+       incremented.  Each new file erases the previous file.
+       This is especially useful with the PRINT_ option on
+       most plot commands.
+    
+DEFAULT VALUES
+--------------
+
+  ``SGF PREFIX F NUMBER 1 DIRECTORY CURRENT SIZE NORMAL``
+
+  ``ALTERNATE NAMES: ID for PREFIX and FRAME for NUMBER.``
+
+DESCRIPTION
+-----------
+  This command controls the frame naming conventions and final plot size
+  for subsequent SAC Graphics Files.  Each frame is stored in a separate file on
+  disk.  Each frame name is made up of four parts. In order they are:
+
+  pathname The optional directory path name.
+
+  prefix The frame prefix.
+
+  number The three digit frame number.
+
+  .sgf The suffix used to denote a SAC Graphics File.
+
+  By default the frame prefix is simply the letter "f", the frame number
+  1 and the files are put in the current directory (i.e. the first name is
+  "f001.sgf".) You might want to changed the prefix to identify a set of files
+  you wish to save.  You can also specify a directory in which to store the
+  files.  This is very useful when you are changing directories while running
+  SAC and want all the frame files in one place.  The frame number is
+  incremented each time a new frame is created.  You can force the frame number
+  to start at any given value.  Starting at a number other than 1 might be
+  useful if you are generating figures for a report over several days and wish
+  to keep them in sequential order.
+
+  The folowing paragraph was writen more thaan 20 years ago, and so far as we can
+  see the size options in the current SGFTOPS program provides a much cleaner
+  way to change the overall size of the plot in an SGF file.  Based on sample
+  runs using the examples given below, the output SGF files all have the same
+  physical size, and the aspect ratio of the plots are all the same.  Hence, 
+  SGF SIZE simply introduces a scaling factor for the plots.  We are leaving in
+  the paragraph and examples because they seem to work, and there may be a
+  feature we are missing.
+  
+  There are several options that can be used to control the size of the
+  plot.  A normal plot has viewspace limits of 10 by 7.5 inches.  Using the
+  default viewport limits, this results in an approximately 8 by 5 inch plot.
+  You can force the x viewport to a fixed length or you can have the x viewport
+  be scaled to the world coordinate limits of your data.  This size information
+  is written to the SGF_.  It is the responsibility of program that converts a
+  SGF_ to a specific output device to generate the coding to produce a correctly
+  sized plot.  SGFTOPS performs this conversion correctly although plots larger
+  than a single page have to post-processed correctly. 
+  
+EXAMPLES
+--------
+  To define a directory other than where you are attached and to reset to frame
+  number to the next value in a sequence::
+
+      u:   SGF DIRECTORY /MYDIR/SGFSTORE FRAME 0
+
+  To set the x viewport plot size to 3 inches (i.e., wallet size)::
+
+      u:   SGF SIZE FIXED 3.0
+
+  For create a poster size plot to put on your wall::
+
+      u:   SGF SIZE FIXED 30.0
+
+  To set the x viewport plot size to be 1 inch long for every 10 seconds of
+  seismic data::
+
+      u:   SGF SIZE SCALED 0.1
+
+  In this last example, a plot where the data was 60 seconds in duration would
+  be 6 inches long whereas a plot where the data was 600 seconds in duration
+  would be 60 inches long and would require special post processing to produce.
+
+SEE COMMANDS
+------------
+  BEGINDEVICES_
+
+LATEST REVISION
+---------------
+  May 6, 2010 (Version 101.4)
+

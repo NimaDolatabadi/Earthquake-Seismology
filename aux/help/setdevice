@@ -1,0 +1,34 @@
+
+SETDEVICE
++++++++++
+
+SUMMARY
+-------
+Defines a default graphics device to use in subsequent plots.
+
+SYNTAX
+------
+
+  ``SETDEVICE name``
+
+INPUT
+-----
+   :name:  The name of a graphics device.
+    
+DESCRIPTION
+-----------
+   This command lets you define the name of a default graphics device to use in
+   subsequent plots.  This command is only useful before you do any plotting.  It
+   should be placed in your default macro file.  You can override the name
+   specified in this command by using the BEGINDEVICES_ command.  See the section
+   on Graphics Devices in the SAC Users Manual.  Also see the section on Macros
+   for information on specifying and using a default macro file.
+
+SEE COMMANDS
+------------
+   BEGINDEVICES_
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

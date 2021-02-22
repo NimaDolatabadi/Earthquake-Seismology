@@ -1,0 +1,117 @@
+
+APK
++++
+
+SUMMARY
+-------
+Applies an automatic event picking algorithm.
+
+SYNTAX
+------
+
+  ``APK {param v {param v} ... },{VALIDATION ON|OFF}``
+
+INPUT
+-----
+   :param v:  Define a new value for one of the pick parameters.
+    
+   :param:  C1|C2|C3|C4|C5|C6|C7|C8|D5|D8|D9|I3|I4|I6.  ,BREAK These
+       parameters are defined below.
+    
+   :VALIDATION ON:  Turn validation phase on.
+    
+   :VALIDATION OFF:  Turn validation phase off.
+    
+DEFAULT VALUES
+--------------
+
+  ``APK C1 0.985 C2 3.0 C3 0.6 C4 0.03 C5 5.0 C6 0.0039 C7 100. C8 -0.1 D5 2. D8``
+
+  ``3. D9 1. I3 3 I4 40 I6 3 VALIDATION ON``
+
+DESCRIPTION
+-----------
+   The algorithm used in this automatic picker was originally obtained
+   from the USGS in Menlo Park and is based upon work by Rex Allen (see
+   reference below.) The detection of a pick is based upon abrupt changes in the
+   ratio of a short term and long term running average of the signal.  Once
+   detected, the pick is subjected to an optional validation phase which
+   attempts to distinguish a true event from cultural noise.  Once validated, the
+   pick is further evaluated to determine other characteristics of the event.
+   Currently this is limited to its duration.  Other features such as maximum
+   amplitude, period, and decay rate may be added as required.
+   Most of the parameters in this command need never be changed.  They are
+   available if the user wishes to fine tune the algorithm.  Most of these
+   parameters have the same meaning here as they do in the referenced article.
+
+   1.  C1 is the constant used in the recursive high pass filter that is
+   applied to remove any D.C. bias.
+
+   2.  C2 is the constant used to vary the weight assigned to the
+   amplitude and first difference in the characteristic function.
+
+   3.  C3 is the timing constant, used to compute the short term average
+   of the characteristic function.
+
+   4.  C4 is the timing costant used to compute the long term average
+   of the characteristic function.
+
+   5.  C5 is the constant used to compute the threshold reference level.
+   A potential event is declared when the short term average becomes larger
+   than C5 times the long term average.
+
+
+   6.  C6 is the timing constant used to compute the running mean absolute
+   value of the filtered data.
+
+   7.  A station is assumed to be dead when the absolute value of the
+   characteristic function is greater than C7.
+
+   8.  C8 is used to determine the signal termination level.
+   The signal is terminated when its absolute value falls below this
+   level for D8 seconds.
+   There are currently two different algorithms in use so C8 has two
+   different interpretations.
+   If C8 is positive, then the termination level is C8 times the
+   running mean absolute value of the signal just before the event was
+   declared.
+   This method is useful if the background level at a station is large.
+   If C8 is negative, then the termination level is the absolute value
+   of C8.
+   This will give more consistent terminations from station to station
+   if the noise level is well below this termination level.
+
+   9.  D5 is the minimum duration in seconds for an event
+   to be declared valid.
+
+   10.  D9 is the duration in seconds used to initialize the long term
+   average of the characteristic function.
+
+   11.  I3, I4, and I6 are integer constants used during the
+   validation phase and should not be changed.
+
+
+HEADER CHANGES
+--------------
+  The time of the pick is stored into A; the quality and sense of motion is
+  stored into KA; the end of the event is stored into F.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+- 1307: Illegal operation on spectral file
+
+WARNING MESSAGES
+----------------
+- 1910: No valid pick found for the following file(s):
+
+SEE COMMANDS
+------------
+  OHPF_, OAPF_ Rex V. Allen, Automatic Earthquake Recognition and Timing from
+  Single Traces, BSSA, Vol. 68, No. 5, Oct. 1978.
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

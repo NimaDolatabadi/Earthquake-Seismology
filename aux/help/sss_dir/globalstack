@@ -1,0 +1,53 @@
+GLOBALSTACK
++++++++++++
+
+SUMMARY
+-------
+Sets global stack properties.
+
+SYNTAX
+------
+
+   ``[G]LOBAL[S]TACK property [property ...]``
+
+    where property is one or more of the following:
+  
+    ``[W]EIGHT v``
+    ``[DI]STANCE v``
+    ``[DE]LAY v [[S]ECONDS|[P]OINTS]``
+    ``[I]NCREMENT v [[s]ECONDS|[P]OINTS]``
+    ``[N]ORMAL``
+    ``[R]EVERSED``
+
+INPUT
+-----
+    :[W]EIGHT v:     Global weighting factor in the range
+       zero to one.
+
+    :[DI]STANCE v:   Global station to epicenter distance
+       in kilometers.
+
+    :[DE]LAY v [[S]ECONDS|[P]OINTA]:   Global static time delay.  This delay is
+       in either seconds or number of data points.
+
+    :[I]NCREMENT v [[S]ECONDS|[P]OINTS]:  Global static time delay increment.  
+        This increment is in either seconds or number of data points.
+
+    :[N]ORMAL:       Normal global polarity property.
+
+    :[R]EVERSED:     Reversed global polarity property.
+    
+    
+DESCRIPTION
+-----------
+   This command allows you to define global stack properties.  These global 
+   properties are associated with each file as it is added to the stack file 
+   list (see ADDSTACK) unless local values are given for that file.  These 
+   properties are discussed in more detail in the  ADDSTACK command and an 
+   example of the use of this command is given there.
+    
+SEE COMMANDS
+------------
+  ADDSTACK_
+    
+

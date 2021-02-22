@@ -1,0 +1,168 @@
+
+CUT
++++
+
+SUMMARY
+-------
+Defines how much of a data file is to be read.
+
+SYNTAX
+------
+
+  ``CUT {ON|OFF|pdw|SIGNAL}``
+
+INPUT
+-----
+   :ON:  Turn cut option on but don't change pdw.
+    
+   :OFF:  Turn cut option off.
+    
+   :pdw:  Turn cut option on and change pdw.  A pdw is a partial data
+       window.  It consists of a starting and a stopping value of the
+       independent variable, usually time, which defines which part of a
+   :file you wish to read.  The most general form of this pdw is:
+       ref offset ref offset
+    
+   :ref:  A reference value, one of the following:
+       Z|B|E|O|A|F|N|Tn, where n=0,1...9.
+       The meanings of these names are given below.
+    
+   :offset:  A positive or negative number which is added to the
+       reference value.
+    
+   :SIGNAL:  Equivalent to typing:  A -1 F +1.
+    
+DEFAULT VALUES
+--------------
+
+  ``OFF``
+
+
+DESCRIPTION
+-----------
+   Cut option is off.  If the start or stop offset is omitted it is assumed to be
+   zero.  If the start reference value is omitted it is assumed to be Z.  If the
+   stop reference value is omitted it is assumed to be the same as the start
+   reference value.
+
+   With the cut option off, the entire file is read.  With it on, only that
+   portion of the file between the starting and stopping cut values is read.
+   These are values in terms of the independent variable in the data file,
+   normally time.  See the section on "Data File Structure" in the Users Manual
+   for a discussion of dependent and independent variables.  The following
+   mnemonics are used to represent certain values of the independent variable:
+
+   :B: Disk file beginning value.
+
+   :E: Disk file ending value.
+
+   :Z: Zero.
+
+   :N: Interpret offset in terms of number of data points not independent variable. 
+       Only used for stop values.
+
+   The following mnemonics refer to reference values stored in the SAC
+   header and are used primarily to cut time files:
+
+   :O: Event origin time.
+
+   :A: First arrival time.
+
+   :F: Signal ending time.
+
+   :Tn: User defined time picks, n = 0,1...9
+
+   The above mnemonics plus an optional positive or negative offset define
+   either a starting or stopping value.  O, A, F, and Tn can be defined for a
+   given data file using the CHNHDR_ command.  A and F can also be defined using
+   the automatic picker (APK) or manual pick plot (PLOTPK) commands.
+   If you want to select the same time window from a group of data files
+   that have different reference times, you must use the SYNCHRONIZE_ command
+   before executing the CUT_ and READ_ commands.  SYNCHRONIZE_ modifies the headers
+   so that each file has the same reference time.  It also adjusts all of the
+   relative times, including B and E.  Then when the files are cut, they will
+   have the same time window.  Since CUT_ is applied to the headers on disk, you
+   must use the WRITEHDR_ command after the SYNCHRONIZE_ command and before the
+   READ_ command to get the correct results.
+   
+EXAMPLES
+--------
+   In these examples we assume time is the independent variable and seconds are
+   the units::
+
+      u: B E -- Disk begin to disk end---same as turning cut off.
+      u: B 0 30 -- First 30 secs of the disk file.
+      u: A -10 30 -- From 10 secs before to 30 secs after first arrival.
+      u: B N 2048 --  First 2048 points of disk file.
+      u: 30.2 48 -- From 30.2 to 48 secs relative to disk file zero.
+
+   You can also pad the beginning or end of a file with zeros by turning
+   on the FILLZ option in the CUTERR_ command, defining a cut that extends
+   beyond the current limits of the file, and then reading the file into memory 
+   using the READ_ command.
+   
+     SAC> r N11A.lhz
+     SAC> lh npts
+  
+       FILE: N11A.lhz - 1
+       npts = 3101
+
+     SAC> cuterr fillz; cut b n 4096
+     SAC> r
+     SAC> lh npts
+  
+       FILE: N11A.lhz - 1
+       npts = 4096
+
+     SAC> 
+
+ERROR MESSAGES
+--------------
+- 1322: Undefined starting cut for file
+
+  - undefined reference value in the header record.
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk begin value is used.
+
+- 1323: Undefined stop cut for file
+
+  - undefined reference value in the header record.
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk end value is used.
+
+- 1324: Start cut less than file begin for file
+
+  - bad CUT_ parameters.
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk begin value is used or zeros are 
+    insertedat the beginning of the data.
+
+- 1325: Stop cut greater than file end for file
+
+  - bad CUT_ parameters.
+  - this error can be controlled by use of CUTERR_ command.
+  - when this error is off, the disk end value is used or zeros are inserted 
+    at the end of the data.
+
+- 1326: Start cut greater than file end for file
+
+  - bad CUT_ parameters.
+  - this error cannot be turned off.
+
+
+   SPECIAL NOTE: Since this is a parameter-setting command, the above errors
+   will not appear until the READ_ command is executed.  Also, some of the above
+   errors can be converted to warnings by the use of the CUTERR_ command.
+
+LIMITATIONS
+-----------
+There is currently no provision for cutting unevenly-spaced files or spectral
+files.
+
+SEE COMMANDS
+------------
+   READ_, APK_, PLOTPK_, SYNCHRONIZE_, CUTERR_
+
+LATEST REVISION
+---------------
+   April 21, 2010 (Version 101.4)

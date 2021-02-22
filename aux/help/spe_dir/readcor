@@ -1,0 +1,37 @@
+READCOR
++++++++
+
+SUMMARY
+-------
+Reads data from a SAC data file into memory.
+
+SYNTAX
+------
+
+   ``READCOR file``
+
+INPUT
+-----
+
+  :file:   A legal filename.
+
+DESCRIPTION
+-----------
+  This command works just like the READ_ command in the main SAC program
+  with two exceptions.
+
+  First, only ONE file may be read in while in SPE_.
+  Second, executing this command deletes any correlation function or
+  spectral estimate that may already have been computed.
+  Parameters within SPE_, such as the number of prewhitening coefficients
+  or the window type and length, are not changed when this command
+  is executed.
+
+  To reinitialize all SPE_ parameters, terminate the subprocess using
+  the QUITSUB_ command and then start it over again.
+
+SEE COMMANDS
+------------
+  QUITSUB
+
+

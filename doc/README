@@ -1,0 +1,19 @@
+Seismic Analysis Code Documentation
+
+Contents:
+  * examples (libsac and libsacio)
+     - Examples on how to use the libsac and libsacio libraries
+     - Assumes you have sac and sac-config within you path
+     - make - Creates all of the examples programs and tests them
+     - make test - Tests all of the example programs
+     - make io - Only make example programs using the I/O Library libsacio
+     - make lib - Only make example program using the SAC Library libsac
+     - make clean - Return to original state, by removing program and data
+
+     - If you experience problems at any stage please report the issue to
+       sac-help@iris.washington.edu
+     - For more documentation see the examples directory
+
+       
+  
+

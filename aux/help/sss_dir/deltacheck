@@ -1,0 +1,47 @@
+DELTACHECK
+++++++++++
+
+SUMMARY
+-------
+Change the sampling rate checking option.
+
+SYNTAX
+------
+
+  ``DELTACHECK ON|OFF|[R]OUNDOFF|v``
+
+INPUT
+-----
+     :ON;       Turn sampling rate checking option on.
+
+     :OFF:      Turn sampling rate checking option off.
+
+     :ROUNDOFF: Turn sampling rate checking option on and
+         force sampling rates to agree within machine roundoff factor.
+
+     :v:        Turn sampling rate checking option on and
+         force sampling rates to agree within a tolerance of $v$.
+    
+DEFAULTS VALUES
+---------------
+
+  `` DELTACHECK ROUNDOFF``
+    
+DESCRIPTION
+-----------
+  This command changes the sampling rate checking option.
+  When this option is off, no check is made to see if the sampling rates
+  for each of the files in the stack file list agree.
+  When this option is on, then the sampling rates must agree within a given
+  tolerance or it is considered an error.
+  The tolerance can be set to a factor near the roundoff error for a particular
+  machine or it can be set to a specific value.
+  The absolute value of the difference between all sampling rates must be
+  less than or equal to this tolerance in order to be allowed.
+  
+ERROR MESSAGES
+--------------
+   The check is done and the error is reported as files are added to the
+   stack file list (see  ADDSTACK).
+
+

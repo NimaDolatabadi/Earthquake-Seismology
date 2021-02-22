@@ -1,0 +1,122 @@
+
+FUNCGEN
++++++++
+
+SUMMARY
+-------
+Generates a function and stores it in memory.
+
+SYNTAX
+------
+
+  ``FUNCGEN {type},{DELTA v},{NPTS n},{BEGIN v}``
+
+   where type is one of the following:
+
+  ``IMPULSE``
+
+  ``STEP``
+
+  ``BOXCAR``
+
+  ``TRIANGLE``
+
+  ``SINE {v1 v2}``
+
+  ``LINE {v1 v2}``
+
+  ``QUADRATIC {v1 v2 v3}``
+
+  ``CUBIC {v1 v2 v3 v4}``
+
+  ``SEISMOGRAM``
+
+  ``RANDOM {v1 v2}``
+
+  ``IMPSTRIN  {n1 n2 ... nN}``
+
+INPUT
+-----
+   :IMPULSE:  Impulse at central data point.
+    
+   :IMPSTRIN:  A series of impulses at the specified sample points.
+    
+   :STEP:  Step function.  Zero in first half.  One in second half.
+    
+   :BOXCAR:  Boxcar function.  Zero in first and last thirds.  One in
+       middle third.
+    
+   :TRIANGLE:  Triangle function.  Zero in first and last quarters.
+       Linearly increasing from zero to one in second quarter and
+       decreasing from one to zero in third quarter.
+    
+   :SINE {v1 v2}:  Sine wave with frequency in Hz given by v1 and phase
+       angle in degrees given by v2.  Amplitude is one.
+   :Note that there is a factor of 2*pi in the phase argument:
+       function = 1.0 * sin (2 * Pi * f * t)
+    
+   :LINE {v1 v2}:  Linear function with slope given by v1 and intercept
+       by v2.
+    
+   :QUADRATIC {v1 v2 v3}:  Quadratic function of the form: ,BREAK ,TEX
+       v1*t^{2} + v2*t + v3
+    
+   :CUBIC {v1 v2 v3 v4}:  Cubic function of the form: ,BREAK ,TEX
+       v1*t^{3} + v2*t^{2} + v3*t + v4
+    
+   :SEISMOGRAM:  Sample seismogram.  This is an obsolete option that has
+       been replaced by the DATAGEN_ command.  The DELTA, NPTS, and BEGIN
+       options are ignored for this function.  There are 1000 points in the
+       sample seismogram.
+    
+   :RANDOM {v1 v2}:  Random sequence (Gausian white noise) generator.  v1
+       is the number of random sequence files to generate and v2 is the
+       "seed" used to generate the first random number.  This seed value is
+       stored in USER0 so that you can regenerate the same random sequence
+       at a later time if desired.
+    
+   :DELTA v:  Set increment between samples to v.  Stored in header as
+       DELTA.
+    
+   :NPTS n:  Set number of data points in function to n.  Stored in header
+       as NPTS.
+    
+   :BEGIN v:  Set begin time to v.  Stored in header as BEGIN.
+    
+DEFAULT VALUES
+--------------
+
+  ``FUNCGEN IMPULSE NPTS 100 DELTA 1.0 BEGIN 0.``
+ 
+  Frequency and phase angle for SINE function are 0.05 and 0.  
+  Coefficients for LINE, QUADRATIC, and CUBIC are all 1.  Number of 
+  random sequences is 1 and seed is 12357.
+
+DESCRIPTION
+-----------
+   Executing this command is equivalent to reading a single file (except for the
+   RANDOM option in which more than one file can be generated) into memory whose
+   name is the name of the function generated.  Any data previously in memory is
+   destroyed.  Other functions will be added as needed.
+
+   Any command which loads data into memory is monitored to maintain a
+   level of confidence in the event infomation when transfered from the SAC
+   data buffer to the CSS data buffer.  When FUNCGEN_ is used, the confidence
+   is set to LOW, indicating that SAC should consider any matching event IDs
+   as artifacts and reassign the event ID of the incoming file.  For more
+   details, use HELP_ READ_.
+
+
+HEADER CHANGES
+--------------
+   A header is set up in memory which accurately describes the function
+   generated.
+
+SEE COMMANDS
+------------
+   DATAGEN_
+
+LATEST REVISION
+---------------
+   October 11, 1984 (Version 9.1)
+

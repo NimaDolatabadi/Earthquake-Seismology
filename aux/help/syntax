@@ -1,0 +1,41 @@
+
+SYNTAX
+++++++
+
+SUMMARY
+-------
+Prints basic information about SAC commands.
+
+SYNTAX
+------
+
+  ``SYNTAX {item ...}``
+
+INPUT
+-----
+   :item:  The (full or abbreviated) name of a command.
+    
+DESCRIPTION
+-----------
+   This is like the HELP_ command with two exceptions:
+
+   (1) Only the SUMMARY and SYNTAX_ sections are printed.
+
+   (2) Only commands are printed.
+
+
+ERROR MESSAGES
+--------------
+- 1103: No help package is available.
+
+  - SAC can't find the help package.  Contact the programmer.
+  
+- 1105: Error reading help information for
+
+  - Usually a transient system glitch has occurred.  Contact the programmer if
+    this error persists.
+
+SEE COMMANDS
+------------
+  HELP_ January 8, 1983 (Version 8.0)
+

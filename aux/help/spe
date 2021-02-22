@@ -1,0 +1,254 @@
+
+Spectral Estimation (SPE) 
++++++++++++++++++++++++++
+
+Introduction
+------------
+
+SPE is a spectrum estimation package intended primarily for use
+with stationary random processes. It contains three different spectral
+estimation techniques:
+
+ - Power Density Spectra (PDS_), 
+ - Maximum Likelihood Method (MLM_), and 
+ - Maximum Entropy Method (MEM_).
+
+These are all indirect methods, because they use a sample
+correlation function, rather than the data itself, to estimate the
+spectral content.
+
+SAC Subprocess
+--------------
+A subprocess is effectively a small program within the main SAC program.
+You start a subprocess by typing its name (SPE in this case.)
+You can terminate it and return to the main program using the QUITSUB_
+command.  You can also terminate SAC from within a subprocess using
+the QUIT_ command.
+
+While within a subprocess, you can execute any command belonging to
+that subprocess plus a limited number of main SAC commands.
+
+SPE Commands
+
+:COR_:       Computes the correlation function.
+
+:MEM_:       Calculates the spectral estimate using Maximum Entropy Method.
+
+:MLM_:       Calculates the spectral estimate using Maximum Likelihood Method.
+
+:PDS_:       Calculates the spectral estimate using Power Density Spectra Method.
+
+:PLOTCOR_:   Plots the correlation function.
+
+:PLOTPE_:    Plots the RMS_ prediction error function.
+
+:PLOTSPE_:   Plots the spectral estimate.
+
+:QUITSUB_:  Terminates a SAC subprocess.
+
+:READ:     Almost the same as the normal READ_.  See below.
+
+:WRITECOR_:  Writes a SAC file containing the correlation function.
+
+:WRITESPE_:  Writes a SAC file containing the spectral estimate.
+
+Their abbreviated names are also allowed.
+
+Main SAC Commands executable from within the SPE subprocess::
+
+ AXES_            BEGINDEVICES_    BEGINFRAME_
+ BEGINWINDOW_     BORDER_          COLOR_
+ COMCOR_          COPYHDR_         DATAGEN_
+ ECHO_            ENDDEVICES_      ENDFRAME_
+ ERASE_           EVALUATE_        FLOOR_
+ GETBB_           GRID_            GTEXT_
+ HELP_            INSTALLMACRO_    LINE_
+ LINLIN_          LINLOG_          LOGLAB_
+ LOGLIN_          LOGLOG_          MACRO_
+ MESSAGE_         PAUSE_           PLABEL_
+ PLOTC_           QDP_             QUIT_
+ READALPHA_       READBBF_         REPORT_
+ SETBB_           SETDATADIR_      SETDEVICE_
+ SETMACRO_        SGF_             SYMBOL_
+ SYNTAX_          SYSTEMCOMMAND_   TICKS_
+ TITLE_           TSIZE_           VSPACE_
+ WAIT_            WINDOW_          WRITEBBF_
+ XDIV_            XFUDGE_          XFULL_
+ XGRID_           XLABEL_          XLIM_
+ XLIN_            XLOG_            XVPORT_
+ YDIV_            YFUDGE_          YFULL_
+ YGRID_           YLABEL_          YLIM_
+ YLIN_            YLOG_            YVPORT_
+
+
+The Theory
+----------
+
+Overview
+--------
+
+SPE is a spectrum estimation package intended primarily for use
+with stationary random processes.  It implements three different
+indirect spectral estimators.  They are called indirect, because
+they do not estimate the spectrum directly from the data, but from a
+sample correlation function that is computed from the data.
+The choice of indirect methods is a matter of taste,
+since direct spectral estimation techniques are also available.
+The correlation function itself is a useful quantity.
+You may wish to examine it in the course of performing spectral estimation
+tasks.
+
+The choice of indirect techniques is supported by "Spectral Analysis and Its
+Application," by Jenkins and Watts, a respected reference on the
+subject of spectrum estimation.
+
+The type of spectrum estimated by SPE is properly described as
+the power density spectrum, with the spectrum defined in the frequency
+domain.  Thus, the estimated power delivered by the random process in
+some band of frequencies is the integral of the spectral power density
+estimate over that band of frequencies.
+
+
+User Control
+------------
+SPE affords the user some control over the details of estimation process.
+For some, with experience in estimating spectra, this is highly desirable.
+Defaults are provided for those who do not wish to become involved in the
+details of the theory.
+
+The user has a choice of data window type, size, and the number of
+windows used when estimating the correlation function.   Generally
+these parameters control the resolution of the estimate, and the
+amount of reduction of variance desired in the final estimate.
+In addition, prewhitening of the data may be specified as part
+of the process of estimating the correlation function.  Prewhitening
+often has the effect of mitigating a severe "window bias" that can
+occur in spectral estimates having a high dynamic range.  The
+warping of the spectrum that occurs with prewhitening is compensated
+for in the final result.  In this implementation, low-order prediction
+error filters are used for prewhitening.
+
+
+The Estimators
+--------------
+The user has a choice of three spectral estimators:
+Power Density Spectra ( PDS_), Maximum Likelihood Method ( MLM_), and
+Maximum Entropy Method ( MEM_).  Command COR_ must be run before 
+running any of these.
+
+
+PDS_
+----
+The  PDS estimator is quite simple:  the sample correlation function
+is multiplied by a correlation window, then the result is transformed
+with an  FFT_ to obtain the spectral estimate.  The user again has a choice of
+the window type and the size of the window.
+The above mentioned book by Jenkins and Watts could be considered as
+the detailed documentation for the  PDS technique.
+
+
+MLM_
+----
+The MLM estimator generates a spectral estimate which is the
+power output of a bank of narrow band-pass filters which have been
+optimized to reject out-of-band power.  The result is a smoothed, parametric
+estimate of the power density spectrum.  The user can choose the
+number of parameters.  Documentation for this method can be found in
+the paper by Richard Lacoss in the IEEE book "Modern Spectrum Analysis"
+by Donald Childers.
+
+
+MEM_
+----
+The MEM estimator is another parametric method, which uses a prediction
+error filter to whiten the data.  The resulting spectral estimate
+is proportional to the inverse of the filter's power frequency
+response.  The user is free to choose the order of the prediction error
+filter.  Documentation for this method can be found in the review paper
+on linear prediction by John Makhoul in "Modern Spectrum Analysis."
+The formal name of the actual method implemented is the Yule-Walker
+method.
+
+
+Diagnostics
+-----------
+In addition to the spectrum, several diagnostic functions can be
+calculated and plotted.  The prediction error can be plotted as a
+function of order.  This plot can be used to select a good size for
+the prediction error filter used in the MEM method.  Since much is known
+about the performance of the PDS estimator, more diagnostic information
+is available for this method in SPE.  The 90`` confidence limits can
+be estimated theoretically, as can the frequency resolution of the
+estimate.  Both of these quantities can be indicated on a PDS spectral
+plot.
+
+
+The Program
+-----------
+Differences
+-----------
+There are two primary differences between SPE and the main SAC program.
+Only one data file can be processed by SPE at a time.
+This is because SPE produces and stores a number of auxiliary
+functions (the correlation function, the prediction error function,
+and the spectral estimate itself) as it proceeds.
+This restriction to a single data file may be removed in the future.
+The second difference is that, unlike SAC itself, there is a specific
+order or progression in which the commands are generally executed.
+
+Initialization
+--------------
+This progression begins when the SPE command is executed.  A data file
+must be in memory when SPE is initiated.  While in SPE, command READ_
+can be used to read in an additional file at any time.  Space for the 
+above mentioned auxiliary functions is created for each new file.
+
+READ
+----
+This command within SPE works just like the READ_ command in the main 
+SAC program with two exceptions.
+
+First, only ONE file may be read in while in SPE.
+Second, executing this command deletes any correlation function or
+spectral estimate that may already have been computed.
+Parameters within SPE, such as the number of prewhitening coefficients
+or the window type and length, are not changed when this command
+is executed.
+
+To reinitialize all SPE parameters, terminate the subprocess using
+the QUITSUB_ command and then start it over again.
+
+Correlation
+-----------
+The correlation function is then computed, using the COR_ command.
+COR must be run prior to running a spectral estimator.
+The correlation function may be saved as a SAC data file using the 
+WRITECOR_ command and later read back in using the READCOR_ command.
+This is more efficient than recomputing the correlation each time,
+especially if the data file is very long.
+At this point, you may wish to examine the correlation function
+using the PLOTCOR_ command.
+You may also wish to examine the prediction error function using
+the PLOTPE_ command if you are going to use the MEM_ method.
+
+Estimation
+----------
+Now you are ready to select one of the three spectral estimation
+techniques using the PDS, MLM, or MEM commands.  If the data file
+has a non-zero mean, MLM and MEM may not work correctly.  Running
+command RMEAN_ before entering SPE should solve this problem.
+Each technique has its own options.
+You may now examine the resulting spectrum using the PLOTSPE_ command.
+There are several different scaling options available.
+You can also save the spectral estimate as a SAC data file using the
+WRITESPE_ command.
+
+Termination
+-----------
+At this point you have several options:  you can select a different
+spectral estimate technique, read in a different correlation
+function, read in a different data file, terminate the subprocess using
+the QUITSUB_ command, or terminate SAC using the QUIT_ command.
+
+
+

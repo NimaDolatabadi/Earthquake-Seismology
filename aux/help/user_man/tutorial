@@ -1,0 +1,359 @@
+SAC Tutorial Guide for New Users
+++++++++++++++++++++++++++++++++
+ 
+Overview
+--------
+SAC was designed as an aid to research seismologists in the study of seismic 
+events. As such, it is used for quick preliminary analyses, for routine 
+processing, for testing new techniques, for detailed research, and for 
+creating publication quality graphics. It is used by both computer novices and 
+experts. In order to make SAC quick to learn and easy to use, default values 
+for all operational parameters were carefully chosen. At the same time, almost 
+all of these parameters are under direct user control. This design combines 
+ease of use with significant flexibility.
+
+
+README 
+------
+The first step is to study the README file that is in the top directory of
+the distribution: sac.  It gives detailed instructions about setting up the
+environmental variables necessary to run SAC and other pieces of useful
+information.
+
+User Interface
+--------------
+SAC is an interactive command-driven program. Commands may be typed at the 
+terminal or placed in a macro file. SAC commands fall into three main 
+categories: parameter-setting, action-producing and data-set manipulation. The 
+parameter-setting commands change values of internal SAC parameters. 
+Action-producing commands perform some operation on the signals currently in 
+selected memory based upon the values of these parameters. Data-set commands 
+determine which files are in active (selected) memory and therefore will be 
+acted upon (data-set commands are not currently operational). The effect of a 
+parameter-setting command remains in effect until it is reset. The effect of 
+an action-producing command is immediate and transitory. Action-producing 
+commands also have options which normally remain in effect until reset. These 
+options, however, apply only to that particular command. The underlying 
+assumption is that you are more likely than not to want to use the same values 
+the next time you execute the same command. When you start up SAC, default 
+values are defined for all of these parameters. SAC can be reinitialized to 
+this default state at any time by executing the INICM_ command.
+
+Mode of Operation
+-----------------
+Each signal is stored in a separate data file. Each data file contains a 
+header that describes the contents of that file. See the section on Data File 
+Format for details. Signals are read from disk into memory using the READ_ 
+command. CSS 3.0 formated flat files can be read using the READCSS_ command. 
+SAC can process up to 200 signals of arbitrary size at a time. Once data is in 
+memory other commands are typed at the terminal (or read from a macro file) to 
+perform operations on these signals. All operations work concurrently on all 
+signals in memory. You can look at the results at any time using the plot 
+commands. There are several plot formats to choose from. You have control over 
+titles and labels, plot limits, file identifications, axes and tick mark 
+locations, etc. You can also save the results of these operations at any time 
+using the WRITE_ command.
+
+How SAC Handles Time
+--------------------
+The SAC header contains a reference or zero time, stored as six integers 
+(NZYEAR, NZJDAY, NZHOUR, NZMIN, NZSEC, NZMSEC), but normally printed in an 
+equivalent alphanumeric format (KZDATE and KZTIME). This can be set to any 
+reference time you wish. It is often the time of the first data point, but can 
+also be the origin time of the event, midnight, your birthday, etc. It does 
+not even have to be a time encompassed by the data itself. All other times are 
+offsets in seconds from this reference time and are stored as floating point 
+values in the header:
+
+B  Begin time of the file. 
+E  End time of the file. 
+O  Event origin time. 
+A  First arrival time. 
+F  Fini (end of signal.) 
+Tn Time markers, where n is an integer from 0 to 9. 
+
+Getting Started
+---------------
+
+SAC will then print a short headline including the number and date of the 
+version you have on your system. It may also print a bulletin giving some 
+current information. SAC will then ask you for input by sending the 
+prompt "SAC>".::
+
+  % sac
+   SEISMIC ANALYSIS CODE [08/15/2006 (Version 100.1)]
+   Copyright 1995 Regents of the University of California
+  
+  SAC> 
+
+Interaction
+-----------
+SAC is an interactive command driven program.  This means that you must
+type a command to get SAC to do something. It does not prompt you for input.
+Commands may be typed at the terminal or placed in a command file.
+Symbols within a command are separated by spaces and commands within a
+given line may be separated by a semicolon.
+
+We'll start by creating a simple function::
+
+  SAC> FUNCGEN impluse 
+
+This generates an impulse function and stores it in SAC's memory. To see what 
+this function looks like on your screen type::
+
+  SAC> PLOT 
+
+Abbreviations
+-------------
+There are abbreviations for the most used SAC commands. For
+example,  fg and  p are the abbreviations for FUNCGEN_ and PLOT_ respectively.
+
+More functions
+--------------
+The FUNCGEN_ command can generate a number of different functions.
+To see them, use the HELP_ command::
+
+  SAC> help fg
+
+Using fg can be very useful when first learning how to use SAC because you
+can see how the other SAC operations work on these functions.
+For example, type::
+
+  SAC> fg seismogram
+
+This generates a sample seismic signal in SAC's memory. It also deletes the 
+impulse generated earlier. Use the PLOT_ command to see this seismogram on your 
+screen. Now for another function::
+
+  SAC> fg sine 2 npts 200 delta 0.01 
+
+This is an example of a more complicated SAC command.  This example generates 
+a 2 Hz sine wave in SAC's memory.  The function will contain 200 data points 
+and have a sampling interval of 0.01 seconds. You may want to use the PLOT_ 
+command to plot this function also.
+
+SAC Commands
+------------
+There are several general points to be made at this point about SAC commands.
+All input is space delimited.  The decimal point is optional wherever numeric 
+input is needed.  When you specify a value for a particular option, this value 
+becomes the new current value.  This means you don't have to keep entering 
+values for options that you don't want to change.  For example, you can now 
+generate this same 2 Hz sine wave using the same sampling interval but with 
+400 data points by simply typing::
+
+  SAC> fg npts 400
+
+SAC commands fall into two main categories: parameter-setting and 
+action-producing.  The parameter-setting commands basically change values of 
+internal SAC parameters.  Action-producing commands perform some operation on 
+the data files currently in memory based upon the values of these same 
+parameters. The effect of a parameter-setting command remains in effect until 
+it is reset. The effect of an action-producing command, however, is immediate 
+and transitory. For example, the parameter-setting command, YLOG_, tells SAC to 
+use logarithmic interpolation for the y axis in subsequent plots. The 
+action-producing command, PLOT_, does the actual plotting. Options to 
+action-producing commands also remain in effect until reset just like 
+parameter-setting commands. The underlying assumption is that you are more 
+likely than not to want to use the same values the next time you execute the 
+same command.
+
+Default Values
+--------------
+All commands have "nice" default values for most options.  The use of 
+current and default values for command options can save you a lot of typing.  
+For example, let's look at the  BANDPASS_ command. This command applies a 
+bandpass filter to the data currently in memory::
+
+  SAC> fg impulse npts 100 delta 0.01 
+  SAC> bandpass bessel corner 0.1 0.3 npole 4 
+
+These two commands generate an impulse function and then apply a bandpass 
+filter to that impulse.  The filter is a four-pole Bessel filter with corner 
+freqencies at 0.1 and 0.3 Hz.  (To see the default values for BANDPASS, 
+enter HELP BANDPASS.)  You can see the result in the time domain by 
+typing PLOT_ or you can see the amplitude reponse by taking the Fourier 
+transform and using the PLOTSP_ command::
+
+  SAC> fft
+  SAC> plotsp am 
+
+You can now try a different set of corner frequencies very easily::
+
+  SAC> fg
+  SAC> bandpass corner 0.2 0.5 
+
+SAC generates the same impulse function and applies the same Bessel filter 
+except for the new corner frequencies.
+
+SAC Data Files
+--------------
+SAC is a program to examine, analyze, and plot data. This data is stored on 
+disk as SAC data files.  Each data file contains a single data set. For 
+seismic data this means a single data component recorded at a single seismic 
+station.  SAC does not currently work on multiplexed data.  The data will 
+generally be evenly spaced time series data.  SAC can also handle unevenly 
+spaced data and spectral data.  The spectral data can be in either 
+real-imaginary or amplitude-phase format.  Use help bandpass to see the defaults.
+
+SAC Header
+----------
+Each data file also contains a header record which describes the contents of 
+that file.  Certain header entries are always present (e.g., the number of 
+data points, the file type.)  Others are always present for certain file 
+types (e.g., sampling interval, begin time, etc. for evenly spaced time series 
+files.)  Other header variables provide information needed by a particular 
+operation  (e.g., seismic component orientation used by the ROTATE_ command.)  
+Still others are not used by SAC at all. They are simply informational. File
+sac_format_ lists and discusses all header values.  The LISTHDR_  command 
+displays the contents of the headers for the data files currently in memory. 
+You may wish to examine the header from the sample seismogram mentioned earlier::
+
+  SAC> FG seismogram
+  SAC> LH
+
+If a particular header variable does not have a value for a particular file, 
+then that variable is said to be "undefined" for that file.  The LISTHDR_ 
+command does not list undefined header variables, usless it is invoked with 
+the INC or INCLUSIVE option (which includes undefined header variables).
+(Entr help lh to see the options.)
+
+A few important header variables are listed below:
+
+NPTS    Number of points in data set.
+B       Beginning value of the independent variable.
+E       Ending value of the independent variable.
+IFTYPE  Type of file.
+LEVEN   TRUE if data set is evenly spaced.
+DELTA   Increment between evenly spaced samples.
+IDEP    Type of dependent variable.
+KZDATE  Alphanumeric form of GMT reference date.
+KZTIME  Alphanumeric form of GMT reference time.
+A       First arrival time (seconds relative to reference time.)
+T n     User defined time picks or markers,  n=0,9.
+
+Reading Data Files
+------------------
+SAC commands work on data already in SAC's working memory, not data on disk.  
+The READ_ command is used to transfer data from disk to memory.  Up to 100 data 
+files can be in memory at the same time, and this limitation should be removed 
+in upcoming versions.  These can be of any size up the maximum size of SAC's 
+working memory.  You can use wildcard characters in the  READ_ command to 
+represent groups  of files which have a similiar set of characters in their 
+names.  Each time you use the READ_ command to transfer data from disk to 
+memory the data currently in memory is destroyed.  If you want this data 
+saved, you must write it to diskbefore reading more data into memory.  There 
+is an option called  MORE in the READ_ command that lets you read data into 
+memory without destroying the old data.  See the Command_Reference_ for 
+details.
+
+Writing Data Files
+------------------
+At any time during your analysis, you may transfer this modified data back to 
+disk using the WRITE_ command.  You may overwrite the old data files on disk 
+using the OVER option or create new ones by specifying their file names.  
+Action commands (such as ADD_, DECIMATE_, and FFT_) modify the data that is 
+currently in memory.  The data files on disk are not modified.
+
+Reading and Writing Examples
+----------------------------
+A complete discussion of reading and writing SAC data files is given in 
+sac_reading_and_writing_routines_.
+
+The examples below demonstrates several uses of the READ_ and WRITE_ commands.
+
+Scaling Example
+---------------
+The first example reads two files into memory, multiplies each data point in 
+each file by a constant, and then writes the results to disk in two new files::
+
+  SAC> R file1 file2
+  SAC> MUL 10 20
+  SAC> W file3 file4
+
+Decimation Example
+------------------
+The next example reads a single file into memory, desamples the data by a 
+factor of five ( DECIMATE_ also applies an anti-aliasing filter), and then 
+writes the results back to disk using the same file name::
+
+  SAC> R file1 file2 file3 file4
+  SAC> DECIMATE 5
+  SAC> WRITE OVER
+
+Sample Data Files
+-----------------
+You're going to need some data files for use in the next section on plotting.  
+You'll also need them if you want to try any of the other commands discussed 
+later in this guide.  If you don't have any sample SAC data files around to 
+play with, you can use FUNCGEN_ to generate some.  This is shown in the example 
+below::
+
+  SAC> fg triangle npts 200 delta 1.0
+  SAC> write file1
+  SAC> fg boxcar 
+  SAC> write file2
+  SAC> fg step
+  SAC> write file3
+
+This results in you having three files in your directory called file1, file2, 
+file3 which contain the triangle, boxcar, and step functions respectively.  
+Each will have 200 data points in them and be sampled at 1 sample per second.  
+If you already had files in your directory by those names, they would be 
+replaced by these new ones.
+
+Displaying the Results 
+----------------------
+After reading data into SAC you can see it on your screen in several different 
+formats using the various plot commands.  Default values for each of the 
+graphics display commands have been chosen to make it as easy as possible to 
+display your data.  By changing these default values before plotting, you also 
+have complete control over the details of how each plot will look.
+
+You've already used PLOT_ to display data files.  With this command, each data 
+file is plotted one at a time.  SAC pauses between files to give you a chance 
+to examine the data.  This is shown in the following example.::
+
+  SAC> read file1 file2 file3
+  SAC> plot
+  Waiting [press return]
+  Waiting [press return]
+  Waiting [press return]
+  SAC> 
+
+Typing a "q" and then return will exit the plot command and not plot the 
+remainder of the files in memory.
+
+More Plot Commands
+------------------
+Several other canned plot formats are available.  PLOT1_ plots each file along 
+a common x axis but with a separate y axes.  By default all files are placed 
+on the same plot.  Try this with the three files from the example above.  
+PLOT2_ is an overlay plot.  Again all files are plotted together, this time 
+using both a common x and a common y axis.  PLOTPK_ uses a format similiar to 
+PLOT1_.  It lets you use the cursor to blow up parts of the plot, determine 
+values of selected data points, pick phase arrival times, etc.
+
+Display Options
+---------------
+By default, all SAC plots are self-scaling.  SAC determines what limits to use 
+for the x and y axes.  If you want to set these limits yourself, you may do so 
+using the XLIM_ and YLIM_ commands.  If you wish, you may also change the 
+location of annotated axes, change the linestyle, select a symbol to be 
+plotted at each data point, create titles and labels, make logarithmic plots, 
+change the size and type of text, and control a number of other even more 
+exotic aspects of the plot.  These commands are part of the Graphics 
+Environment Module, and are defined in links frmon the Command_Reference_ Manual.
+
+An Overview of Graphics Capability in SAC
+-----------------------------------------
+
+File GRAPHICS_IN_SAC_ has an overview of graphics in SAC.  Of paaricular interest
+may be the command SAVEIMG_ that allws one to save displayed plots in several formats.
+
+Analysis Capabilities
+---------------------
+SAC does a lot more than just reading, writing, and plotting data files! 
+SAC_ANALYSIS_CAPABILITIES_ provides an introduction to these features.
+COMMAND_REFERENCE_ lists all the commands and has links to help files for them.
+

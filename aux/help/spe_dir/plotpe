@@ -1,0 +1,32 @@
+PLOTPE
+++++++
+    
+SUMMARY
+-------
+Plots the RMS_ prediction error function.
+    
+SYNTAX
+------
+
+   `` [P]LOT[PE] ``
+    
+DESCRIPTION
+-----------
+  This command produces a diagnostic plot which may be used to select
+  the order of the MEM spectral estimate.  The plot is of the normalized
+  prediction error function, displayed as a function of the order of the
+  estimator.  Typically, the prediction error is large for small orders,
+  but decreases rapidly as the order is increased.  The prediction error
+  is the "residual power" left after the prediction filter is applied to
+  the data.  When this quantity is small, so the theory goes, most of
+  the structure in the spectrum has been captured in the power frequency
+  response of the filter.  The residual data is white noise.  Consequently,
+  one may examine the prediction error function for "knees" in the
+  curve, where the function drops dramatically to some value that is not
+  reduced much further by further increases in order.  The order of the
+  predictor at the "knee" is often used as the order of the MEM_ spectral
+  estimator.
+  
+ERROR MESSAGES
+--------------
+ - 5003: No correlation function calculated.

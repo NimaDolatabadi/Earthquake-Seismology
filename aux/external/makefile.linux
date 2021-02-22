@@ -1,0 +1,5 @@
+SRC    = $(SACDIR)/src
+LIB    = $(SACDIR)/lib
+libcom.so:  flipxy.c  $(LIB)/sac.a
+	cc -shared -o libcom.so flipxy.c $(LIB)/sac.a
+$(LIB)/sac.a: $(SRC)/make_stamp

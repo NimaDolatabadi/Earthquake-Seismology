@@ -1,0 +1,39 @@
+
+ENVELOPE
+++++++++
+
+SUMMARY
+-------
+Computes the envelope function using a Hilbert transform.
+
+SYNTAX
+------
+
+  ``ENVELOPE``
+
+DESCRIPTION
+-----------
+   This command computes the envelope function of the data in memory.  The
+   envelope is defined by the square root of x(n)^2 + y(n)^2, where x(n)
+   is the original signal and y(n) its Hilbert transform (see HILBERT).
+   As with HILBERT_, very long period datashould be decimated (see DECIMATE)
+   prior to processing.
+
+HEADER CHANGES
+--------------
+   DEPMIN, DEPMAX, DEPMEN
+
+SEE COMMANDS
+------------
+   HILBERT_, DECIMATE_
+
+
+ACKNOWLEDGEMENT
+---------------
+  The subroutines used to perform the Hilbert transform  were designed and 
+  developed by Dave Harris (DBH).
+
+LATEST REVISION
+---------------
+   April 21, 1989 (Version 10.4c)
+

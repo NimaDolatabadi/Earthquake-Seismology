@@ -1,0 +1,475 @@
+SAC Macros
+++++++++++
+
+Overview
+--------
+A SAC macro is a file that contains a set of SAC commands to be executed 
+together. As well as regular commands and inline functions, a SAC macro file 
+can contain references to SAC header variables and blackboard variables that 
+are evaluated and substituted into the command before it is executed. SAC 
+macros can also have arguments that are evaluated as the macro is executed. 
+Control flow features such as "if tests" and "do loops" are also available.
+These features let you control and alter the order of execution of commands 
+within a macro. All of these features are discussed later in this section.
+
+A Simple Example
+----------------
+Assume that you have a set of commands that you execute repeatedly. A macro 
+file is the obvious solution. Simply fire up your favorite text editor, put 
+the commands into a file, and then have SAC execute them using the MACRO_ 
+command. Lets say you wanted to repeatedly read the same three files, multiply 
+each file by a different value, take the Fourier transform, and plot the 
+amplitude responses to a set of SAC Graphics Files. The macro file would look 
+like this::
+
+  * * This certainly is a simple little macro.
+  READ ABC DEF XYZ
+  MUL 4 8 9
+  FFT
+  BG SGF
+  PSP AM
+
+Assume the file is called MYSTUFF and that it and the data are in the 
+directory to which you are currently attached. To execute the macro from SAC 
+type::
+
+  SAC> MACRO MYSTUFF 
+
+Note that commands in a macro file are not normally echoed to the terminal as 
+they are executed. You can use the ECHO command to turn command echoing on if 
+you wish. Also note that an asterisk in the first column of a line denotes a 
+comment line and is not processed by SAC.
+
+Order Dependent Arguments
+-------------------------
+The above example while simple is also very inflexible. If you wanted to read 
+a different set of files or use a different set of multiplicative values you 
+have to edit the file. Allowing macros to have arguments that you enter at 
+execution time greatly increases their flexibility. We will modify the 
+previous macro to accept the names of the files as arguments::
+
+  READ $1 $2 $3
+  MUL 4 8 9
+  FFT
+  BG SGF
+  PSP AM
+
+The dollar sign ("$") is used to delineate arguments in a macro file. $1 is 
+the first argument, $2 the second, $3 the third, and so on. To execute this 
+modified macro from SAC type::
+
+  SAC> MACRO MYSTUFF ABC DEF XYZ
+
+The token "ABC" is substituted wherever the "$1" token is found. Also "DEF" 
+and "XYZ" are substituted for "$2" and "$3" respectively. To execute the same
+macro with a different set of files only the execute line changes::
+
+  SAC> MACRO MYSTUFF AAA BBB CCC 
+
+Keyword-Driven Arguments
+------------------------
+Keyword driven arguments let you enter arguments in any order and also makes 
+the body of a macro easier to understand. This becomes increasingly important 
+as the number of arguments and the size of the macro increase. Lets again 
+modify our example to accept a list of files and also a list of multiplicative 
+values::
+
+  $KEYS FILES VALUES
+  READ $FILES
+  MUL $VALUES
+  FFT
+  BG SGF
+  PSP AM
+
+This simple change has increased both the flexibility and the readability of 
+the macro. The first line says that there are two keywords, one called 
+"FILES" and the other called "VALUES". To execute it you could type::
+
+  SAC> MACRO MYSTUFF FILES ABC DEF XYZ VALUES 4 8 9
+
+Since the order of the arguments is no longer important you could also type::
+
+  SAC> MACRO MYSTUFF VALUES 4 8 9 FILES ABC DEF XYZ
+
+This macro doesn't limit you to reading in only three files. It would work 
+equally well for two or 10 files as long as the number of values match the 
+number of files.
+
+Default Argument Values
+-----------------------
+There are times when you have a macro where some arguments often (but not 
+always) have the same value from one execution to the next. Providing default 
+values for such arguments eliminates the need to enter the same values each 
+time but allows you the flexibility to enter them when needed. This is 
+demonstrated in the next example::
+
+  $KEYS FILES VALUES
+  $DEFAULT VALUES 4 8 9
+  READ $FILES
+  MUL $VALUES
+  FFT
+  BG SGF
+  PSP AM
+
+The second line in the macro specifies a default value to be used for the 
+variable "VALUES" if you don't enter one on the execute line::
+
+  SAC> MACRO MYSTUFF FILES ABC DEF XYZ
+
+If you wanted to use a different set of values you could type::
+
+  SAC> MACRO MYSTUFF VALUES 10 12 3 FILES ABC DEF XYZ 
+
+Argument Querying
+-----------------
+If you fail to enter a value for an argument on the execute line and it has no 
+default value, SAC will ask you to enter a value from the terminal. Using the 
+macro in the previous section, assume that you forgot to enter the filelist::
+
+  SAC> MACRO MYSTUFF
+  FILES?
+  SAC> ABC DEF XYZ
+
+Note that SAC did not query for "VALUES" because it had a default value. The 
+timing of this query can sometimes be used to your advantage. SAC does not 
+query for a value until it first tries to evaluate the argument and finds that 
+it has no default or input value. This allows part of the macro to execute 
+showing you some partial results before asking you to enter values for an 
+argument.
+
+Blackboard Variables
+--------------------
+SAC has a blackboard feature that can be used to temporarily store and 
+retrieve information. A blackboard entry consists of a name and a value. 
+Blackboard entries are created using the SETBB_ and EVALUATE_ commands. The 
+value of a blackboard variable can be obtained using the GETBB_ command. You 
+can also substitute the value of a blackboard variable directly in other 
+commands by preceeding its name with a percent sign ("%") as shown below::
+
+  SAC> SETBB C1 2.45
+  SAC> SETBB C2 4.94
+  SAC> BANDPASS CORNERS %C1 %C2
+
+Now lets see how blackboard variables can be used in macros. (You are probably 
+getting tired of endless variations on our original macro, but we are almost 
+done with it.) Assume that only the first value was a variable, i.e. the other 
+values could be calculated from the first as shown below::
+
+  $KEYS FILES VALUE1
+  $DEFAULT VALUE1 4
+  READ $FILES
+  EVALUATE TO VALUE2 $VALUE1 * 2
+  EVALUATE TO VALUE3 %VALUE2 + 1
+  MUL $VALUE1 %VALUE2 %VALUE3
+  FFT
+  BG SGF
+  PSP AM
+
+Now only the first value is input to the macro and only if it differs from 
+the default value::
+
+  SAC> MACRO MYSTUFF VALUE1 6 FILES ABC DEF XYZ 
+
+See Blackboard_Variables_in_SAC_ for further discussion and examples.
+
+Header Variables
+----------------
+SAC header variables can also be evaluated and substituted directly in 
+commands much like blackboard variables. You must specify which file (by name 
+or number) and which variable to be evaluated. You must preceed this 
+specification with an ampersand ("&") and you must separate the file and 
+variable with a comma as shown below::
+
+  SAC> READ ABC
+  SAC> EVALUATE TO TEMP1 &ABC,A + 10
+  SAC> EVALUATE TO TEMP2 &1,DEPMAX * 2
+  SAC> CHNHDR T5 %TEMP1
+  SAC> CHNHDR USER0 %TEMP2
+
+In the above example a file is read in and several temporary blackboard 
+variables are calculated using header variables from the file itself. The 
+first header reference is by file name and the second by file number. New 
+header variables are then defined using these blackboard variables.
+
+Concatenation
+-------------
+You can append or prepend any text string to a macro argument, blackboard 
+variable, or header variable. To prepend simply concatenate the text string 
+with the argument or variable. To append you must repeat the delimiter ($, %, 
+or &) after the argument or variable and before the text string. Sounds 
+confusing? See the examples below for some clarification:
+
+Assume that the macro argument STATION has the value "ABC". Then value of 
+"$STATION$.Z" would be "ABC.Z".
+
+Assume that the blackboard variable TEMP has the value "ABC". Then value 
+of "XYZ%TEMP" would be "XYZABC" and the value of "%TEMP%XYZ" would be 
+"ABCXYZ".
+
+Assume that the header variable KA for file Z has the value "IPU0". Then 
+value of "(& Z,KA &)" would be "(IPU0)".
+
+Nesting and Recursion
+---------------------
+When a macro can call another macro which can call another macro, etc., this 
+is often refered to as nesting. When one macro calls another, the second macro 
+is said to be operating at a new (lower) level of execution. The top level of 
+execution is always interactive input from the terminal. When a macro can call 
+itself, then it is said to be recursive. The SAC macro capability supports 
+nesting but not recursion. SAC does not check to ensure that macro calls are 
+not recursive. It is the responsibility of the user to make sure a macro is 
+not directly or indirectly calling itself.
+
+Interrupting a MACRO
+--------------------
+There are occasions when you need to temporarily interrupt the execution of a 
+macro, enter a few commands from the terminal, and then continue executing the 
+macro. This can be done in SAC using the pause and resume feature. When SAC 
+sees a $TERMINAL in a macro it temporarily stops reading commands from the 
+macro, changes its prompt to include the name of the macro, and starts 
+prompting for commands from the terminal. Then when SAC sees a $RESUME entered 
+from the terminal it stops reading commands from the terminal and begins 
+reading from the macro starting at the next line (the one after the 
+$TERMINAL.) If you don't want to continue executing the commands in the macro 
+you can type a $KILL from the terminal. SAC will then close the macro file and 
+return to the previous level of execution, normally interactive input from the 
+terminal. You can have more than one $TERMINAL in a macro.
+
+If Tests
+--------
+This feature lets you alter the order of commands being executed from a macro 
+file. The syntax is similiar but not identical to the if-then-else clause in 
+F77:
+
+  IF expr
+  commands
+  ELSEIF expr
+  commands
+  ELSE
+  commands
+  ENDIF
+
+In the above clause expr is a logical expression of the form::
+
+  token op token
+
+where token is a constant, macro argument, blackboard variable, or a header 
+variable and op is one of the following logical operators::
+
+  GT | GE | LE | LT | EQ | NE 
+
+The tokens are converted to floating point numbers before the logical 
+expression is evaluated. The maximum number of nested if clauses is currently 
+set at 10. The ELSEIF and ELSE elements are optional. There is no limit of the 
+number of ELSEIF elements in an if clause. Note that there are no parentheses 
+around a logical expression and no THEN keyword ending the IF and ELSEIF 
+elements as in F77. (If a THEN is included, it is ignored.)  Unlike Fortran, an
+ENDIF is always required -- even if there is only a single option.  An example 
+is given below::
+
+  READ $1
+  MARKPTP
+  IF &1,USER0 GE 2.45
+  FFT
+  PLOTSP AM
+  ELSE
+  MESSAGE "Peak to peak for \$1 below threshold."
+  ENDIF
+
+In this example a file is read into memory and the maximum peak to peak 
+amplitude is measured.
+
+(MARKPTP stores this amplitude into the header variable USER0.) If this 
+amplitude is above a certain value, a Fourier transform is calculated and the 
+amplitude response is plotted. If not a message is sent to the terminal.
+
+Do Loops
+--------
+These features let you easily repeat a set of commands. You can execute a set 
+of commands a fixed number of times, for each element in a list, or until a 
+condition has been met. You can also break out (prematurely terminate the 
+execution) of a do loop. The syntax for this group is summarized below::
+
+  DO variable = start, stop, {,increment}
+  commands
+  ENDDO
+
+  DO variable FROM start TO stop { BY increment}
+  commands
+  ENDDO
+
+  DO variable} LIST} entrylist}
+  commands
+  ENDDO
+
+  DO variable WILD {DIR name} entrylist
+  commands
+  ENDDO
+
+  WHILE expr
+  commands
+  ENDDO
+  BREAK
+
+Where:
+
+  - variable is the name of the do loop variable. Its current value while the 
+    do loop is executing is stored as a macro argument and may be used in the 
+    body of the do loop (i.e., the commands) by preceeding its name with a 
+    dollar sign.
+  - start is the starting value for the do loop variable. It must be an integer.
+  - stop is the stopping value for the do loop variable and must also be an 
+    integer.
+  - increment is the optional increment in the do loop variable. If omitted, 
+    the default value is set to 1.
+  - entrylist is a space delimited list of values that the do loop variable 
+    is to have. 
+
+These may be integers, floating point numbers, or character strings. In the 
+DO WILD case, the entrylist consists of character strings containing both 
+regular and wildcard characters. This entrylist is expanded into a list of 
+files that match the character strings before the do loop is executed.
+
+expr is a logical expression as described in the section on if tests.
+
+The maximum number of nested do loops is currently set at 10. Examples of each 
+of these do loops are given below.
+
+Do Loop Examples
+----------------
+The first macro applies the DIF_ command to a data file (to prewhiten the 
+data), performs a Fourier transform on the data, and then applies the DIVOMEGA_ 
+command to remove the effect of the prewhitening. Sometimes it is necessary to 
+differentiate the data more than once before doing the transform. This can be 
+handled with a do loop::
+
+  $KEYS FILE NPREW
+  $DEFAULT NPREW 1
+  READ \$FILE
+  DO J = 1 , $NPREW
+  DIF
+  ENDDO
+  FFT AMPH
+  DO J = 1 , $NPREW
+  DIVOMEGA
+  ENDDO
+
+Notice the use of a default value for the order of the prewhitening. In the 
+second example, particle motion plots are produced for five different two 
+second time windows on the same data file::
+
+  READ ABC
+  SETBB TIME1 0
+  DO TIME2 FROM 2 TO 10 BY 2
+  XLIM %TIME1 $TIME2
+  TITLE 'Particle Motion from %TIME1 to $TIME2$'
+  PLOTPM
+  SETBB TIME1 $TIME2
+  ENDDO
+
+(Why is a dollar sign needed after TIME2 in the TITLE command?) In the next 
+example, a macro called PREVIEW exists that performs a set of commands on a 
+single data file. A new macro is created with several nested do loops to run 
+PREVIEW on a predefined group of data files::
+
+  DO STATION LIST ABC DEF XYZ
+  DO COMPONENT LIST Z N E
+  MACRO PREVIEW $STATION$.$COMPONENT$
+  ENDDO
+  ENDDO
+
+In the next example we modify the previous one to now process all of the files 
+in the directory called "MYDIR" that end in the letters ".Z"::
+
+  DO FILE WILD DIR MYDIR *.Z
+  MACRO PREVIEW $FILE
+  ENDDO
+
+The last (somewhat artificial) example has three arguments. The first is the 
+name of a data file, the second a multiplicative constant, and the third a 
+threshold value. The macro reads the data file into memory, and multiplies 
+each data point by the constant until the maximum value is below the threshold::
+
+  READ $1
+  WHILE &1,DEPMAX GT $3
+  MUL $2
+  ENDDO
+
+Another version of this macro illustrates the BREAK statement::
+
+  READ $1
+  WHILE 1 GT 0
+  DIV $2
+  IF &1,DEPMAX GT $3
+  BREAK
+  ENDIF
+  ENDDO
+
+This WHILE loop in this macro is an example of a "do forever" loop which can 
+only be terminated by a BREAK statement. (This version of the macro has a 
+flaw. What happens if the maximum value is already below the threshold?) The 
+BREAK statement terminates the execution of the do loop where the statement 
+appears.
+
+Executing Other Programs From SAC Macros
+----------------------------------------
+You can execute other programs from inside a SAC macro. You can pass an 
+optional execution line message to the program. If the program is interactive, 
+you can also send input lines to it. The syntax for this feature is given 
+below::
+
+  $RUN program message
+  inputlines
+  $ENDRUN
+
+Macro arguments, blackboard variables, header variables, and inline functions 
+may be used in the above lines. They are all evaluated before the program is 
+executed. When the program completes the SAC macro resumes at the line 
+following the ENDRUN line.
+
+If there are no inputlines, one can use command SC (SYSTEMCOMMAND_):
+
+  SC program message
+
+Macro Search Path
+-----------------
+When you request a macro, SAC searches for it as follows:
+
+  - in the current directory.
+  - in the directories specified in the SETMACRO_ command.
+  - in the global macro directory that is maintained by SAC. 
+
+The global macro directory contains macros meant to be used by everyone on 
+your system. Use the INSTALLMACRO_ command to install a macro in this 
+directory. You may also specify the absolute or relative pathname of a macro 
+that is not in this search path.
+
+Execution Line Macro
+--------------------
+SAC treats command-line arguments as a sequence of macros to run before
+reading your typed-in commands from the SAC> command line.  These are 
+processed, in sequence, by SAC and may be used to customize the run-time environment to your preference.  For example, you might open a graphical 
+device window and place it in a preferred place on your screen, set up a path to search for SAC macro commands, or change plot colors or line widths.
+
+The Escape Character
+--------------------
+There may be times when you need to use a dollar sign or a percent sign in a 
+command and not have SAC interpret it as a macro argument or blackboard 
+variable entry. To do this you preceed the special character with another 
+special character, called the escape character. The escape character is an at 
+sign ("@".) The special characters that must be treated in this way are:
+
+$  The macro argument expansion character.
+%  The blackboard variable expansion character.
+&  The header variable expansion character.
+@  The escape character itself.
+(  The inline function starting character.
+)  The inline function terminating character.
+
+More about the inline function delimiters in SAC_Inline_Functions_.
+
+Acknowledgements
+----------------
+The concept of blackboard variables are due to Dave Harris.
+
+The "if test" and "do loop" features were developed by Mandy Goldner.

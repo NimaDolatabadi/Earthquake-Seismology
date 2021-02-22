@@ -1,0 +1,93 @@
+
+WIDTH
++++++
+
+SUMMARY
+-------
+Controls line-width selection for graphics devices.
+
+SYNTAX
+------
+
+  ``WIDTH  {ON|OFF|linewidth} options``
+
+   where options are one or more of the following:
+
+  ``{SKELETON width}``
+
+  ``{INCREMENT {ON|OFF}}``
+
+  ``{LIST STANDARD|widthlist}``
+
+
+  and where linewidth, width and widthlist are integer values.
+
+  **SPECIAL NOTE** The LIST option must appear last in this command.
+
+INPUT
+-----
+   :WIDTH ON:  Turn WIDTH_ option on but don't change current width values.
+   
+   :WIDTH OFF:  Turn width option off.
+    
+   :WIDTH linewidth:  Change data width to linewidth and turn WIDTH_
+       option on.
+    
+   :SKELETON width:  Change width of skeleton to width and turn WIDTH_
+       option on.
+    
+   :INCREMENT {ON}:  Increment width from widthlist list after each data
+       file is plotted.
+    
+   :INCREMENT OFF:  Do not increment data line width.
+    
+   :LIST widthlist:  Change the content of the width list.  Enter list of
+       widths.  Sets data width to first width in list and turns width
+       option on.
+    
+   :LIST STANDARD:  Change to the standard width list.  Sets data width to
+       first width in list and turns width option on.
+    
+DEFAULT VALUES
+--------------
+
+  ``WIDTH OFF SKELETON 1 INCREMENT OFF LIST STANDARD``
+
+DESCRIPTION
+-----------
+  This command controls width attributes for those devices which can
+  display a large number of line-widths.  The data width is the width that is
+  used when plotting the data files.  The data width may be automatically
+  incremented from a width list after each data file is plotted.
+  The skeleton width is the width used to plot the axes.  Only plot axes
+  change with SKELETON option.  Grids, text, labels and frame ids are always
+  displayed with the thin line-width of value 1.
+
+  If plotting several data files on the same plot, you may want each to
+  be in a different width.  This is done using the INCREMENT option.  When this
+  option is on, the data width is incremented from a list of widths each time a
+  data file is plotted.  The order and value of widths in the standard 
+  (default) list is::
+
+     1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+
+  You may change the order or content of this list using the LIST option.  This
+  is useful for doing overlay plots (see PLOT2) when you want the same widths
+  used in the same order on each plot.
+
+EXAMPLES
+--------
+  To select an incrementing data width starting with 1::
+
+    u:  WIDTH 1 INCREMENT
+
+  To set up an incrementing data width list of 1, 3, and 5 with an skeleton 
+  of 2::
+
+    u:  WIDTH SKELETON 2 INCREMENT list 1 3 5
+
+
+LATEST REVISION
+---------------
+   June 20, 1992 (Version 10.6e)
+

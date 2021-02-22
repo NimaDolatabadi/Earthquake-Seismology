@@ -1,0 +1,26 @@
+
+LOGLOG
+++++++
+
+SUMMARY
+-------
+Turns on logarithmic scaling for  the x and y axes.
+
+SYNTAX
+------
+
+  ``LOGLOG``
+
+DEFAULT VALUES
+--------------
+
+  ``Linear scaling for both axes.``
+
+SEE COMMANDS
+------------
+   LINLIN_, LINLOG_, LOGLIN_
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

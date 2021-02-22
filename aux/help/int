@@ -1,0 +1,38 @@
+
+INT
++++
+
+SUMMARY
+-------
+Performs integration using the trapezoidal or rectangular rule.
+
+SYNTAX
+------
+
+  ``INT TRAPEZOIDAL | RECTANGULAR``
+
+DEFAULT VALUES
+--------------
+
+  ``INT TRAPEZOIDAL``
+
+DESCRIPTION
+-----------
+   This command uses the trapezoidal or rectangular integration method.  The
+   first output data point is set to zero.  If the trapezoidal option is used,
+   the number of points is reduced by one.  The data does not have to be evenly
+   spaced.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1307: Illegal operation on spectral file
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMIN
+
+LATEST REVISION
+---------------
+  March 20, 1992 (Version 10.6e)
+

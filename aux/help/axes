@@ -1,0 +1,78 @@
+
+AXES
+++++
+
+SUMMARY
+-------
+Controls the location of annotated axes.
+
+SYNTAX
+------
+
+  ``AXES   ON|OFF|ONLY   sides``
+
+   where sides is the keyword:
+
+  ``ALL``
+
+   or one or more of the following:
+
+  ``TOP,BOTTOM,RIGHT,LEFT``
+
+
+ALTERNATE FORMS
+---------------
+AXIS may be used for AXES_.  (Useful for grammarians only.)
+
+INPUT
+-----
+   :ON:  Turn axes on for listed sides; others unchanged.
+    
+   :OFF:  Turn axes off for listed sides; others unchanged.
+    
+   :ONLY:  Turn axes on only for listed sides; others off.
+    
+   :ALL:  All four axes.
+    
+   :TOP:  X axis above plot.
+    
+   :BOTTOM:  X axis below plot.
+    
+   :RIGHT:  Y axis to right of plot.
+    
+   :LEFT:  Y axis to left of plot.
+    
+DEFAULT VALUES
+--------------
+
+  ``AXES ONLY BOTTOM LEFT``
+
+DESCRIPTION
+-----------
+   Axes can be drawn on one or more of the four sides of a plot.  
+   Axes annotation is drawn using the division spacing set by the 
+   XDIV_ command.  Tick mark labeling is controlled independently using the 
+   TICKS_ command.
+
+EXAMPLES
+--------
+   To turn on the top axes and leave the others unchanged::
+
+      u:  AXES ON TOP
+
+   To turn off all axes annotation::
+
+      u:  AXES OFF ALL
+
+   To turn axes annoation on for the bottom side and off for the rest::
+
+      u:  AXES ONLY BOTTOM
+
+SEE COMMANDS
+------------
+  XDIV_, TICKS_
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

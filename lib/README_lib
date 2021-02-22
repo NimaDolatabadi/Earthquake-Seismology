@@ -1,0 +1,48 @@
+A brief description of the libraries in sac/lib.
+
+Libraries in this directory can be used by users to work with SAC files
+using their own programs (in C or Fortran).  For examples of using these
+libraries please consult the C and Fortran examples in sac/doc/examples.
+
+sac-config
+----------------------------------------------------------------------------
+Use to identify where the sac libraries below are located and what the 
+command line options are to aid in compliation. For example to compile your
+fortran program with only the sacio library try
+
+% f77 -o my_sac_program  my_sac_program.f `sac-config --libs sacio`
+
+or with the sacio (libsacio.a) and sac library (libsac.a)
+
+% f77 -o my_sac_program  my_sac_program.f `sac-config --libs sacio sac`
+
+
+libsacio.a and sacio.a:
+----------------------------------------------------------------------------
+These two files are identical copies of the same library.  (File sacio.a is
+put in for backwards compatibility.)  Routines from this library can be used
+to read or write SAC data files, header values, and blackboard variables. 
+For further information about the functions in these libraries go to the
+online user's manual at URL <http://www.iris.edu/manuals/sac/manual.html> and
+read the sections on Accessing Blackboard Variables In Home Grown Software
+and Reading And Writing SAC Data Files In Home Grown Software.
+
+libsac.a
+----------------------------------------------------------------------------
+This library was introduced in SAC version 101.2.  It is a superset of
+libsacio.a, but is intended to include additional routines on operations
+on data.  As of this writing, a User's Manual is in preparation for libsac.a
+
+    Contents: xapiir - IIR filter, use this 
+              firtrn - FIR filter, hilbert transform 
+              crscor - Cross Correlation 
+              next2  - Next Power of Two
+              envelope - Envelope of a function
+              
+    Note: Future updates will include more legible 
+          names for these functions and smaller argument
+          lists for easier use, but the original
+          functions will still continute to operate.
+    
+Again, please see the example routines in sac/doc/examples for the correct
+way to use these functions.

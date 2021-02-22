@@ -1,0 +1,57 @@
+
+MLM
++++
+
+SUMMARY
+-------
+Calculates the spectral estimate using the Maximum Likelihood Method.
+
+SYNTAX
+------
+
+  ``MLM {[O]RDER n}, {[N]UMBER n}``
+
+INPUT
+-----
+
+    :ORDER n:    Set the number of parameters in the estimate in lags to v.
+    :NUMBER n:   Set the number of points to be used in the spectral estimate.
+        
+DEFAULT VALUES
+--------------
+
+ `` MEM ORDER 25``
+    
+    
+DESCRIPTION
+-----------
+   This command implements the Maximum Likelihood Method estimator
+   for the power density spectrum.
+   This estimator generates a spectral estimate which represents the
+   power outputs of a bank of narrow band-pass filters which have been
+   optimized to reject out-of-band power.  The result is a smoothed, parametric
+   estimate of the power density spectrum.  The parameters are the coefficients
+   of the (finite impulse response) narrowband filters.  The user can choose the
+   number of parameters.  The filters are not actually computed by the
+   algorithm, which accounts for the speed of the method.
+    
+   The method is desirable because it generally has better resolution
+   than the conventional method, and much better sidelobe reduction.
+   The order of the algorithm is limited to 100, since it requires
+   the inversion of a matrix with dimension equal to the order.  A fast
+   method exists for the inversion, but numerical noise can be a problem
+   for large order estimates.
+    
+   Documentation for this method can be found in the paper by Richard Lacoss
+   in the IEEE book "Modern Spectrum Analysis" by Donald Childers.
+     
+ERROR MESSAGES
+--------------
+ - 5003 No correlation functioncalculated.
+    
+SEE COMMANDS
+------------
+  COR_, PLOTSPE_, WRITESPE_
+
+
+

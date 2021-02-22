@@ -1,0 +1,142 @@
+
+PLOTPK
+++++++
+
+SUMMARY
+-------
+Produces a plot for the picking of arrival times.
+
+SYNTAX
+------
+
+  ``PLOTPK options``
+
+   where options are one or more of the following:
+
+  ``{PERPLOT {ON|OFF|n}},``
+
+  ``{BELL {ON|OFF}},``
+
+  ``{ABSOLUTE|RELATIVE},``
+
+  ``{REFERENCE {ON|OFF|v}},``
+
+  ``{MARKALL {ON|OFF}},``
+
+  ``{SAVELOCS {ON|OFF}}``
+
+
+INPUT
+-----
+   :PERPLOT {ON}:  Plot n files per frame.  Use old value for n.
+    
+   :PERPLOT OFF:  Plot all files on one frame.
+    
+   :PERPLOT n:  Plot n files per frame.
+    
+   :BELL {ON}:  Ring bell on each keystroke in active window.
+    
+   :BELL OFF:  keystrokes are silent.
+    
+   :ABSOLUTE:  Display times in absolute (GMT) format.
+    
+   :RELATIVE:  Display times relative to each files's zero time.
+    
+   :REFERENCE {ON}:  Turn reference line display on.
+    
+   :REFERENCE OFF:  Turn reference line display off.
+    
+   :REFERENCE v:  Turn reference line display on and change reference
+       value to v.
+    
+   :MARKALL {ON}:  Store header picks in all of the files displayed on a
+       particular plot.
+    
+   :MARKALL OFF:  Store header pick only in the file marked by the
+       horizontal cursor.
+    
+   :SAVELOCS {ON}:  Save pick locations (from L cursor command) in the
+       blackboard.
+    
+   :SAVELOCS OFF:  Do not save pick locations in the blackboard.
+    
+ALTERNATE FORMS
+---------------
+GMT may be used instead of ABSOLUTE and ZERO may be used instead of RELATIVE.
+
+DEFAULT VALUES
+--------------
+
+  ``PLOTPK PERPLOT OFF ABSOLUTE REFERENCE OFF MARKALL OFF SAVELOCS OFF``
+
+DESCRIPTION
+-----------
+   The format of the PLOTPK_ plot is similiar to the PLOT1_ plot.  This plot
+   requires a terminal with a cursor.  When the cursor comes on and the bell
+   rings, you enter single character responses to perform the various functions.
+   Some but not all responses produce graphic output on the screen.  Error and
+   output messages are printed at the top of the screen.
+   Picks that are currently in the header are automatically displayed on
+   the screen.  Output from the various cursor responses can be directed to the
+   SAC header, to a alphanumeric pick file if open (see OAPF), to a HYPO pick
+   file if open, and to the terminal.
+   If you use the SAVELOCS option to save the cursor locations from the L
+   cursor option in the blackboard, the following blackboard variables will be
+   defined:
+
+   :NLOCS: The number of locations picked during the execution of this command.
+           This is initialized to 0 each time PLOTPK_ is invoked and incremented
+   	   by 1 each time a cursor location pick is made.
+
+   :XLOCn: The x value for the nth cursor location pick.  This will be the GMT
+   	   time of the pick if the reference time fields in the header are 
+	   defined. Otherwise, this will be an offset time.
+
+   :YLOCn: The y value for the nth cursor location pick.
+
+   The command  'help plotpktable' lists valid cursor options for plotpk
+
+HEADER CHANGES
+--------------
+   Depending upon user responses any of A, KA, F, KF, Tn, KTn.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1202: Maximum number of vars sections exceeded:
+
+
+WARNING MESSAGES
+----------------
+- 1502: Bad cursor position.  Please retry.
+
+  - cursor is positioned outside of the plot window.  
+  - occasionally the Tektronix sends the wrong position to SAC.  Move the 
+    cursor a little and retry.
+
+- 1503: Invalid character.  Please retry.
+
+  - A character was input that SAC didn't recognize as a legal response.
+
+- 1905: Need an integer.  Retry.
+
+  - Didn't input an integer following the T response.
+
+- 1906: Need an integer in the range 0 to 4.  Retry.
+
+  - Didn't input a 0, 1, 2 or 3 after a Q response.
+
+- 1907: HYPO line already written.
+- 1908: HYPO pick file not open.
+- 1909: Can't compute waveform.
+
+  - Adjust cursor position and retry.  Plot is always in ABSOLUTE mode.
+
+SEE COMMANDS
+------------
+   PLOT1_, OHPF_, OAPF_, APK_, PLOTPKTABLE_
+
+LATEST REVISION
+---------------
+   May 16, 2006 (version 100.1)
+

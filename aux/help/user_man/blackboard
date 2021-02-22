@@ -1,0 +1,293 @@
+Blackboard Variables in SAC
++++++++++++++++++++++++++++
+
+The blackboard is a feature that can be used to temporarily store and retrieve 
+information while inside SAC. Blackboard variables can also be saved in a disk 
+file using the WRITEBBF command and later restored into SAC using the READBBF 
+command. There are four functions in the sacio library which allow the user to 
+read and write blackboard variables in home grown software. This library is 
+available in the lib directory of the SAC distribution for all platforms. 
+
+A blackboard entry consists of a name and a value. Blackboard entries are 
+created using the SETBB and EVALUATE commands. The value of a blackboard 
+variable can be obtained using the GETBB command. You can also substitute the 
+value of a blackboard variable directly in other commands by preceeding its 
+name with a percent sign ("%") as shown below::
+
+
+  SAC> SETBB C1 2.45
+  SAC> SETBB C2 4.94
+  SAC> BANDPASS CORNERS %C1 %C2
+
+Prior to v101.6, Blackboard number variables were stored as strings, now they
+are stored as double-precision variables.
+
+Now lets see how blackboard variables can be used in macros. In the following 
+example, the first value is a variable, and the other values are calculated 
+from the first::
+
+  $KEYS FILES VALUE1
+  $DEFAULT VALUE1 4
+  READ $FILES
+  EVALUATE TO VALUE2 $VALUE1 * 2
+  EVALUATE TO VALUE3 %VALUE2 + 1
+  MUL $VALUE1 %VALUE2 %VALUE3
+  FFT
+  BG SGF
+  PSP AM
+
+You can append or prepend any text string to a blackboard variable. To prepend 
+simply concatenate the text string with the variable. To append you must 
+repeat the delimiter % after the variable and before the text string.
+
+
+Examples
+--------
+Assume that the blackboard variable TEMP has the value "ABC". Then value of 
+"XYZ%TEMP" would be "XYZABC" and the value of "%TEMP%XYZ" would be "ABCXYZ"::
+
+
+  SAC> fg
+  SAC> echo on
+  SAC> setbb TEMP "ABC"
+   setbb TEMP "ABC"
+  SAC> ch kname ABC%TEMP
+   ch kname XYZ%TEMP
+   ==> ch kname XYZABC
+   ch kevnm %TEMP%XYZ
+   ch kevnm %TEMP%XYZ
+    ==> ch kevnm ABCXYZ
+
+More information on the use of blackboard variables in SAC macros is given in 
+the section on SAC macros.
+
+Blackboard I/O in SAC
+---------------------
+There are four SAC commands which are used to read and write blackboard 
+variables and to set and get blackboard variable values. These are READBBF, 
+WRITEBBF, GETBBV, and SETBBV. These are SAC commands which can be called at 
+the SAC prompt or within a SAC macro. For details, use the HELP command from
+within SAC or by linking to the Command Reference manual.
+
+
+Blackboard I/O in Your Own C or FORTRAN Programs
+------------------------------------------------
+The sacio library , which is included in the SAC distribution, contains four 
+blackboard I/O routines which you can call from C or FORTRAN programs. These 
+routines: read the blackboard variable files (READBBF), write blackboard 
+variable files (WRITEBBF), get the current values of blackboard variables 
+(GETBBV), and set new values of blackboard variables (SETBBV).
+
+  **readbbf** -- Read a Blackboard File ::
+
+   void readbbf(char *name, int *nerr, int kname_s)
+
+  Arguments 
+   :kname:    File to be read    
+   :nerr:     Error return Flag, 
+
+   - 0 on Success
+   - Non-Zero on Error
+
+   :kname_s:  Length of character array p name
+    
+  **writebbf** Write a Blackboard File::
+
+    void writebbf(char *name, int *nerr, int kname_s)
+
+  Arguments
+   :kname:   File to be written
+   :nerr:    Error return Flag
+
+   - 0 on Success
+   - Non-Zero on Error
+
+   :kname_s: Length of character array p name
+    
+  **getbbv** Get a Variable::
+
+    void getbbv(char *kname, char *kvalue, int *nerr,
+                int kname_s, int kvalue_s)
+
+  Arguments:             
+   :kname:     Input Variable Name
+   :kvalue:    Output Variable Value
+   :nerr:      Error return Flag, 
+       
+   - 0 on Success
+   - Non-Zero on Error
+
+   :kname_s:   Length of character array p name
+   :kvalue_s:  Length of character array p value
+    
+    
+ **setbbf** Set a Variable::
+
+   void setbbv(char *kname, char *kvalue, int *nerr,
+               int kname_s, int kvalue_s)
+
+ Arguments:
+   :kname:   Input Variable Name
+   :kvalue:  Input Variable Value
+   :nerr:    Error return Flag, 
+
+   - 0 on Success
+   - Non-Zero on Error
+
+   :kname_s: Length of character array p name
+   :kvalue_s: Length of character array p value
+    
+
+Fortran Example
+---------------
+The following is a short FORTRAN program that reads in a blackboard variable 
+file gets the values of a few variables, sets the value of a new one, and then 
+writes the file back to disk::
+
+      program bbv
+      implicit none
+      character(len=10) kname, kvalue
+      integer nerr
+
+      ! Read in the Blackboard Variable File
+      kname = 'bbf       '
+      call readbbf(kname, nerr)
+      if(nerr .NE. 0) then
+         write(*,*)'Error reading blackboard variable file'
+         call exit(-1);
+      endif
+      call test("error reading blackboard file: bbf", (nerr .eq. 0))
+
+      ! Set a New Variable on the Blackboard
+      kname  = 'newvar    '
+      kvalue = '1         '
+      call setbbv(kname, kvalue, nerr)
+      if(nerr .NE. 0) then
+         write(*,*)'Error setting blackboard variable'
+         call exit(-1);
+      endif
+      
+      ! Get a Variable already on the Blackboard
+      kname = 'newvar    '
+      call getbbv(kname, kvalue, nerr)
+      if(nerr .NE. 0) then
+         write(*,*)'Error getting blackboard variable'
+         call exit(-1);
+      endif
+
+      ! Get a Variable already on the Blackboard
+      kname = 'somevar    '
+      call getbbv(kname, kvalue, nerr)
+      if(nerr .NE. 0) then
+         write(*,*)'Error getting blackboard variable'
+         call exit(-1);
+      endif
+      
+      ! Write out the new set of Blackboard Variables
+      kname = 'bbfout    '
+      call writebbf(kname, nerr)
+      if(nerr .NE. 0) then
+         write(*,*)'Error writing blackboard variable file'
+         call exit(-1);
+      endif
+
+      return
+      end 
+
+Case Insensitive Variable Names
+-------------------------------
+The names of blackboard variables are converted to uppercase before being 
+stored or retrieved. This means that you can use either uppercase or lowercase 
+in your program. However, the name of the blackboard variable file must be 
+given exactly as it appears on disk. No case conversion is done on file names.
+
+To compile your code with the above blackboard variable routine the  sacio 
+library must be linked in at compile time.  This can be accomplished with a 
+command similar to the one below. This exact command will depend on your 
+Fortran compilier, here we are using f77 and assuming SAC is installed in the 
+default location of /usr/local/sac and the sacio.a library is at 
+/usr/local/sac/lib/sacio.a ::
+
+  f77 -o my_blackboard_program my_blackboard_program.f /usr/local/sac/lib/sacio.a
+
+
+C Example
+---------
+Below is a C program which performs the same functions as the FORTRAN program 
+above.  It can be compiled in a similar manner as the Fortran examples::
+
+
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  int 
+  main(int argc, char* argv[]) {
+    int kname_s, kvalue_s, nerr;
+    char *kname, *kvalue;
+  
+    char kvalue2[128];
+
+    readbbf("bbf", &nerr, -1);
+    if(nerr != 0) {
+      fprintf(stderr, "Error reading in blackboard variable file\n");
+      exit(-1);
+    }
+
+    kname = strdup("newvar");
+    kname_s = strlen(kname);
+
+    kvalue = strdup("1  ");
+    kvalue_s = strlen(kvalue);
+
+    sprintf(kvalue2, "%s", "1");
+    setbbv(kname, kvalue2, &nerr, -1, -1);
+    if(nerr != 0) {
+      fprintf(stderr, "Error setting blackboard variable\n");
+      exit(-1);
+    }
+     
+    kvalue = (char *) malloc(sizeof(char) * 128);
+    memset(kvalue, 0, 128);
+
+    kname = strdup("newvar");
+    kname_s = strlen(kname);
+
+    getbbv(kname, kvalue2, &nerr, -1, 128);
+    if(nerr != 0) {
+      fprintf(stderr, "Error getting blackboard variable\n");
+      exit(-1);
+    }
+
+    kvalue = (char *) malloc(sizeof(char) * 128);
+    memset(kvalue, 0, 128);
+
+    kname = strdup("somevar");
+    kname_s = strlen(kname);
+
+    getbbv(kname, kvalue2, &nerr, -1, sizeof(kvalue2));
+    if(nerr != 0) {
+      fprintf(stderr, "Error getting blackboard variable\n");
+      exit(-1);
+    }
+
+    kname = strdup("bbfout");
+    kname_s = strlen(kname);
+
+    writebbf(kname, &nerr, kname_s);
+    if(nerr != 0) {
+      fprintf(stderr, "Error writing blackboard variable file\n");
+      exit(-1);
+    }
+
+    return 0;
+  }
+
+
+Notice that in C, more parameters are required in the function calls than in 
+FORTRAN. This is because unlike C, FORTRAN implicitly passes string length 
+specifiers for each string in the parameter list. These specifiers are at the 
+end of the parameter list, and are declared as INTEGER*4 or long int. Notice 
+also that the values passed as string length specifiers do not include the 
+null termintor '\0'.::
+
+   gcc -o my_blackboard_program my_blackboard_program.c /usr/local/sac/lib/sacio.a

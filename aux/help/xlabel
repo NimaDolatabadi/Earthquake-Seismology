@@ -1,0 +1,72 @@
+
+XLABEL
+++++++
+
+SUMMARY
+-------
+Defines the x axis label and attributes.
+
+SYNTAX
+------
+
+  ``XLABEL {ON|OFF|text},{LOCATION location},{SIZE size}``
+   where location is one of the following:
+
+
+  ``TOP|BOTTOM|RIGHT|LEFT``
+
+   and where size is one of the following:
+
+
+  ``TINY|SMALL|MEDIUM|LARGE``
+
+
+INPUT
+-----
+   :{ON}:  Turn x axis labeling option on. Don't change text.
+    
+   :OFF:  Turn x axis labeling option off.
+    
+   :text:  Turn x axis labeling option on. Change text of label.  If text
+       contains embedded blanks, it must be enclosed in single quotes.
+    
+   :LOCATION location:  Change location of x axis label.
+    
+   :TOP:  Top of the plot window.
+    
+   :BOTTOM:  Bottom of the plot window.
+    
+   :RIGHT:  To the right of the plot window.
+    
+   :LEFT:  To the left of the plot window.
+    
+   :SIZE size:  Change x axis label text size.
+    
+   :TINY:  Tiny text size has 132 characters per line.
+    
+   :SMALL:  Small text size has 100 characters per line.
+    
+   :MEDIUM:  Medium text size has 80 characters per line.
+    
+   :LARGE:  Large text size has 50 characters per line.
+    
+DEFAULT VALUES
+--------------
+
+  ``XLABEL OFF LOCATION BOTTOM SIZE SMALL;``
+
+DESCRIPTION
+-----------
+   If this option is on, an x axis label is placed on each plot.  The size and
+   location of the x axis label can be changed as well as the text of the x axis
+   label itself.  The text quality and font used can be set using the GTEXT_
+   command.
+
+SEE COMMANDS
+------------
+   GTEXT_
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

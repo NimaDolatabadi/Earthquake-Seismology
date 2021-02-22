@@ -1,0 +1,176 @@
+
+DATAGEN
++++++++
+
+SUMMARY
+-------
+Generates sample data files and stores them in memory.
+
+SYNTAX
+------
+
+  ``DATAGEN {MORE} {COMMIT|ROLLBACK|RECALLTRACE} {SUB name} {filelist}``
+
+   where name is one of the following:
+
+  ``LOCAL``
+
+  ``REGIONAL``
+
+  ``TELESEISEM``
+
+
+INPUT
+-----
+   :MORE:  Place the new sample data files in memory AFTER the old data.
+       If this option is omitted, the new sample data files REPLACE the
+       old ones.
+    
+   :Note:  if the MORE option is not specified, the COMMIT_, ROLLBACK_,
+       and RECALLTRACE_ options have no effect.
+    
+   :COMMIT:  If the MORE option is specified, the COMMIT option commits
+       headers and waveforms in SAC memory -- removing any previous
+       versions of headers or waveforms from RAM -- prior to
+       generating more files.  COMMIT is the default.
+    
+   :ROLLBACK:  If the MORE option is specified, the ROLLBACK option reverts
+       to the last committed version of the header and waveform
+       before generating more files.
+    
+   :RECALLTRACE:  If the MORE option is specified, the RECALLTRACE option:
+
+      - reverts to the last committed version of the waveform,
+      - reverts to the last committed version of those header
+      	variables closely linked to the waveform,
+      - commits those header variables which are loosely linked
+       	to the waveform.
+       	(use HELP_ RECALLTRACE for a list of which header variables are
+       	committed, and which are rolled back.)
+    
+   :SUB name: Select the sub-directory name from which to read the data.
+       Where the subdirectory name is local, regional, or teleseismic.
+    
+       A filelist is required. Possible filenames are listed below.
+    
+   :name:  LOCAL|REGIONAL|TELESEIS ,BREAK Specifics about the contents of
+       these sub-directories is given below.
+    
+   :filelist:  A list of SAC sample data files.  The names of the files in
+       each subdirectory are given below.  This list may contain simple
+       filenames and wildcard characters.  See the READ_ and WILD_ commands
+       for a complete description.
+    
+DEFAULT VALUES
+--------------
+
+  ``DATAGEN COMMIT SUB LOCAL cdv.z``
+
+DESCRIPTION
+-----------
+  This command reads one or more files from a set of sample seismograms
+  provided with the program.  In fact, it operates much like the READ_ command
+  except that it gets the data from a special data directory.  You specify the
+  name of the sub-directory containing the event of interest.  Each
+  sub-directory contains a different type of event.  You can use wildcards just
+  like the READ_ command to specify groups of files in the sub-directory.
+
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+
+  - haven't given a list of files to read.  
+  - none of the files in the list could be read.
+
+- 1314: Data file list can't begin with a number.
+- 1315: Maximum number of files in data file list is
+
+
+WARNING MESSAGES
+----------------
+- 0101: opening file
+- 0108: File does not exist:
+- 0114: reading file
+
+  - Normally when SAC encounters one of these errors it skips that file and
+    reads the remainder.  These errors can be made to be fatal using 
+    the READERR_ command.
+
+
+LOCAL EVENT
+-----------
+  The local event occurred in the Livermore Valley of California.
+  It was a small unfelt event (ML 1.6).  It was recorded by the Livermore Local
+  Seismic Network (LLSN).  LLSN is a set of vertical and three-component
+  stations operated by LLNL and the USGS.  Data from nine three-component
+  stations are included in this set.  There is 40 seconds of data sampled at 100
+  samples per second.  Station information, event information, p-wave 
+  time picks, and coda picks are included in the headers.  The filenames are::
+
+    cal.z, cal.n, cal.e
+    cao.z, cao.n, cao.e
+    cda.z, cda.n, cda.e
+    cdv.z, cdv.n, cdv.e
+    cmn.z, cmn.n, cmn.e
+    cps.z, cps.n, cps.e
+    cva.z, cva.n, cva.e
+    cvl.z, cvl.n, cvl.e
+    cvy.z, cvy.n, cvy.e
+
+REGIONAL EVENT
+--------------
+  The regional event occurred in Nevada and was recorded by the
+  Digital Seismic Network (DSS).  DSS is a set of four broadband
+  three-component stations in the Western U.S.  The stations are:
+
+   :elk: Elko, NV
+
+   :lac: Landers, CA
+
+   :knb: Kanab, UT
+
+   :mnv: Mina, NV
+
+  The sampling rate is 40 samples per second. The files contain 300 seconds of
+  data, starting 5 seconds before the origin time of the event.  The filenames
+  are::
+
+    elk.z, elk.n, elk.e
+    lac.z, lac.n, lac.e
+    knb.z, knb.n, knb.e
+    mnv.z, mnv.n, mnv.e
+
+
+TELESEISMIC EVENT
+-----------------
+  The teleseismic event occurred off the coast of Northern
+  California near Eureka on September 10, 1984.  It was a moderate to large
+  event (ML 6.6, MB 6.1, MS 6.7) and was felt from the San Francisco Bay area
+  to Roseburg, Oregon.  It was recorded at the Regional Seismic Test Network
+  (RSTN), a set of five stations in the U.S. and Canada.  The stations are:
+
+    :cpk: Tennessee
+
+    :ntk: Northwest Territories, Canada
+
+    :nyk: New York
+
+    :onk: Ontario, Canada
+
+    :sdk: South Dakota
+
+  Both mid-period and long period data is included.  Data from cpk was not
+  available and the long-period data from sdk is clipped.  There is 1600 seconds
+  of data in this set.  The long-period data was recorded at 1 sample per second
+  and the mid-period data at 4 samples per second.  The filenames are::
+  
+    ntkl.z, ntkl.n, ntkl.e, ntkm.z, ntkm.n, ntkm.e
+    nykl.z, nykl.n, nykl.e, nykm.z, nykm.n, nykm.e
+    onkl.z, onkl.n, onkl.e, onkm.z, onkm.n, onkm.e
+    sdkl.z, sdkl.n, sdkl.e, sdkm.z, sdkm.n, sdkm.e
+
+LATEST REVISION
+---------------
+  August 2011 (version 101.5)
+

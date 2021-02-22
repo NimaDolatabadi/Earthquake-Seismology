@@ -1,0 +1,62 @@
+
+ZLEVELS
++++++++
+
+SUMMARY
+-------
+Controls the contour line spacing in subsequent contour plots.
+
+SYNTAX
+------
+
+  ``ZLEVELS {options}``
+
+   where options are one or more of the following:
+
+  ``SCALE``
+
+  ``RANGE v1 v2``
+
+  ``INCREMENT v``
+
+  ``NUMBER n``
+
+  ``LIST v1 v2 ... vn``
+
+INPUT
+-----
+   :SCALE:  Scale the range of the contour levels to the data.
+    
+   :RANGE v1 v2:  Set the range (minimum and maximum) of the contour
+       levels to v1 and v2.  You should use either the SCALE or the RANGE
+       option but not both.
+    
+   :INCREMENT v:  Set the increment between contour levels to v.
+    
+   :NUMBER n:  Set the number of contour levels to n.  You should use
+       either the INCREMENT or the NUMBER option but not both.
+    
+   :LIST v1 v2 . vn:  Set the list of contour levels to v1, v2, etc.
+       All other options are ignored if you use this one.
+    
+DEFAULT VALUES
+--------------
+
+  ``ZLEVELS SCALE NUMBER 20``
+
+EXAMPLES
+--------
+  See CONTOUR_ for examples of the use of ZLEVELS_.
+
+LIMITATIONS
+-----------
+  The maximum number of contour levels is 40.
+
+SEE COMMANDS
+------------
+  CONTOUR_
+
+LATEST REVISION
+---------------
+  April 30, 1990 (Version 10.5b)
+

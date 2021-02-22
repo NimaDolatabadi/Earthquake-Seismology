@@ -1,0 +1,66 @@
+
+DIF
++++
+
+SUMMARY
+-------
+Differentiates data in memory.
+
+SYNTAX
+------
+
+  ``DIF {TWO|THREE|FIVE}``
+
+INPUT
+-----
+   :TWO:  Apply a two point difference operator.
+    
+   :THREE:  Apply a three point difference operator.
+    
+   :FIVE:  Apply a five point difference operator.
+    
+DEFAULT VALUES
+--------------
+
+  ``DIF TWO``
+
+DESCRIPTION
+-----------
+  The two-point algorithm is::
+
+    OUT(J)= (DATA(J+1) - DATA(J))  / DELTA
+
+  The last output point is not defined by this algorithm.  It is also not a 
+  centered algorithm.  SAC takes care of these problems by decreasing the 
+  number of points in the file (NPTS) by one and by increasing the begin 
+  time (B) by half the sampling interval (DELTA). 
+
+  The three-point (centered two-point) algorithm is::
+
+    OUT(J)= 1/2 * (DATA(J+1) - DATA(J-1)) / DELTA
+
+  The first and last output point is not defined by this algorithm.  SAC
+  decreases NPTS by 2 and increases B by DELTA.
+
+  The five-point (centered four-point) algorithm is::
+
+     OUT(J)=2/3 (DATA(J+1) - DATA(J-1)) / DELTA -
+	    1/12 * (DATA(J+2) - DATA(J-2)) / DELTA
+
+  The first two and last two output points are not defined by this algorithm.
+  SAC applies the three-point operator to the second points from each end,
+  decreases NPTS by 2, and increases B by DELTA.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+
+HEADER CHANGES
+--------------
+  NPTS, B, E, DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+  January 15, 1985 (Version 9.10)
+

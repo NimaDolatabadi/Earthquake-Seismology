@@ -1,0 +1,53 @@
+
+PLOTCTABLE
+++++++++++
+
+
+TABLE 
+-----
+Parameter-Setting Options These options consist of sets of two to four
+characters enclosed by square brackets.  More than one set can be enclosed
+within the same set of brackets.  For example, "[ALAFF7]" changes to large
+filled arrow heads and to text font 7.  You MUST type only one character at a
+time and wait for the cursor to reappear before typing the next character.
+
+====== ====================================================================
+chars  meaning
+====== ====================================================================
+AT     Set arrow head size to TINY.
+AS     Set arrow head size to SMALL. [Default]
+AM     Set arrow head size to MEDIUM.
+AL     Set arrow head size to LARGE.
+AF     Set arrow head type to FILLED.
+AU     Set arrow head type to UNFILLED. [Default]
+AV     Set arrow shaft type to VISIBLE. [Default]
+AI     Set arrow head shaft type to INVISIBLE.
+BHn    Set number of horizontal border tick marks
+       to n, n=0,99. [Default=9]
+BVn    Set number of vertical border tick marks
+       to n, n=0,99. [Default=9]
+CN     Set color to NORMAL. [Default]
+CR     Set color to RED.
+CG     Set color to GREEN.
+CY     Set color to YELLOW.
+CB     Set color to BLUE.
+CM     Set color to MAGENTA.
+CC     Set color to CYAN.
+CW     Set color to WHITE.
+Fn     Set text font number to n, n=1,8. [Default=1]
+HL     Set horizontal text justification to LEFT. [Default]
+HC     Set horizontal text justification to CENTER.
+HR     Set horizontal text justification to RIGHT.
+Ln     Set linestyle to n, n=1,4. [Default=1]
+Nn     Set number of polygon sides to n, n=2,9. [Default=3]
+QN     Set text quality to HARDWARE.
+QS     Set text quality to SOFTWARE. [Default]
+ST     Set text size to TINY.
+SS     Set text size to SMALL. [Default]
+SM     Set text size to MEDIUM.
+SL     Set text size to LARGE.
+VB     Set vertical text justification to BOTTOM.
+VC     Set vertical text justification to CENTER. [Default]
+VT     Set vertical text justification to TOP.
+====== ====================================================================
+

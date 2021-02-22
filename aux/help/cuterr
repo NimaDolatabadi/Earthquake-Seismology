@@ -1,0 +1,61 @@
+
+CUTERR
+++++++
+
+SUMMARY
+-------
+Controls errors due to bad cut parameters.
+
+SYNTAX
+------
+
+  ``CUTERR FATAL|USEBE|FILLZ``
+
+INPUT
+-----
+   :FATAL:  Treat cut errors as fatal.
+    
+   :USEBE:  Replace bad start cut with file begin and bad stop cut with
+       file end.
+    
+   :FILLZ:  Fill with zeros before file begin or after file end to
+       account for difference between bad cut and file begin and end.
+    
+DEFAULT VALUES
+--------------
+
+  ``FILLZ for signal stacking subprocess, USEBE for others.``
+
+DESCRIPTION
+-----------
+  This command controls error conditions arising from bad cut parameters.  These
+  error conditions can be defined as fatal errors (FATAL).  If the starting or
+  ending cut parameter is undefined in the header record the disk file
+  beginning or ending value can be chosen (USEBE).  If the cut parameter is
+  defined but the resulting cut value is less than the disk beginning value or
+  greater than the disk ending value, the beginning or ending values can be
+  used, or enough zeros can be added before or after the actual data to make up
+  the difference (FILLZ).
+
+EXAMPLES
+--------
+  Assume that FILE1 has a begin time, B, of 25 seconds, a first arrival, A, of
+  40 seconds, and a sampling rate of 100 samples per second.  Assume the
+  following commands were typed::
+
+      u:  CUT A -20 E
+      u:  READ FILE1
+
+  The starting cut evaluates to 20 seconds and generates a bad cut error
+  condition.  In the USEBE mode, the starting value would become 25 seconds (B).
+  In the FILLZ mode, 500 zeros (5 seconds at 100 samples per second) would be
+  inserted before the data and the starting value would remain as 20 seconds.
+
+SEE COMMANDS
+------------
+  CUT_, READ_
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

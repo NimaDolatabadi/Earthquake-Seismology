@@ -1,0 +1,86 @@
+
+PLOT2
++++++
+
+SUMMARY
+-------
+Generates a multi-trace single-window (overlay) plot.
+
+SYNTAX
+------
+
+  ``[P]LOT[2] {ABSOLUTE|RELATIVE} {PRINT {pname} }``
+
+INPUT
+-----
+   :ABSOLUTE:  Plot files treating time as an absolute.  Files with
+       different begin times will be shifted relative to the first file.
+    
+   :RELATIVE:  Plot each file relative to it's own begin time.
+    
+   :PRINT {pname}:  Prints the resulting plot to the printer named in
+       pname, or to the default printer if pname is not used.  (This
+       requires that program sgftops is in the path.)
+    
+    
+DEFAULT VALUES
+--------------
+
+  ``P2 ABSOLUTE``
+
+DESCRIPTION
+-----------
+  All files in the data file list are plotted in the same plot window.  An
+  optional legend containing the plot symbol and file name can be generated.
+  Fixed x and y axis limits may be defined before using this command.  See the
+  XLIM_ and YLIM_ commands.  The plot is sized to the extrema of the entire file
+  list if fixed limits are not requested. The location of the legend is controlled 
+  by the FILEID_ command.
+
+  Unlike PLOT_ and PLOT1_, PLOT2 will plot spectral data.  Real/Imaginary 
+  data is plotted as Real vs. Frequency.  Amplitude/Phase data is plotted 
+  as Amplitude vs. Frequency.  Imaginary and Phase information are ignored.  
+  Spectral data is always plotted in relative mode.  Note that in the fequency
+  domain,b, e, and delta are reset to 0, the Nqquist frequency, and df resjpectively.
+  The header values depmin and dapmax are not changed.  As with PLOTSP_, if XLIM_ is
+  off, the plot starts at DF=DELTA rather than 0.  If XLIM_ or YLIM_ were changed
+  before transferring to the frequency domain, it is best to enter XLIM off and 
+  YLIM off before calling PLOT2.
+
+  Note:  If for some reason, the user has both time-series data and spectral 
+  data in memory at the same time and does not elect to use the RELATIVE 
+  option, the time-series files will be plotted ABSOLUTE and the spectral 
+  files will be plotted RELATIVE.  Relative mode means relative to the 
+  first file.  So the order of the files in memory will effect the relation 
+  of the plots with respect to each other.
+
+
+EXAMPLES
+--------
+  The commands used to generate the example plot are given below::
+
+      u:  READ MNV.Z.AM KNB.Z.AM ELK.Z.AM
+      u:  XLIM 0.04 0.16
+      u:  YLIM 0.0001 0.006
+      u:  LINLOG
+      u:  SYMBOL 2 INCREMENT
+      u:  TITLE 'Rayleigh Wave Amplitude Spectra for NESSEL'
+      u:  XLABEL 'Frequency (Hz)'
+      u:  PLOT2
+      u:  FFT
+      u:  XLIM off YLIM off
+      u:  line increment list 1 3
+      u:  PLOT2 print
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+
+
+SEE COMMANDS
+------------
+  XLIM_, YLIM_, FILEID_, FILENUMBER_
+
+LATEST REVISION
+---------------
+  April 11, 2010 (Version 101.4)

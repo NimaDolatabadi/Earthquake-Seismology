@@ -1,0 +1,74 @@
+
+FIR
++++
+
+SUMMARY
+-------
+Applies a finite-impulse-response filter.
+
+SYNTAX
+------
+
+  ``FIR {REC|FFT},file``
+
+INPUT
+-----
+   :FFT:  Apply the FIR_ filter using the transform method.
+    
+   :REC:  Apply the FIR_ filter recursively.
+    
+   :file:  The name of the file containing the FIR_ filter.
+    
+ALTERNATE FORMS
+---------------
+DFT may be used in place of FFT_.
+
+DEFAULT VALUES
+--------------
+
+  ``FIR FFT FIR``
+
+DESCRIPTION
+-----------
+   The filter applied by this command must have been designed by using the DFIR
+   interactive filter design program (see BUGS below).  The filter is applied
+   using the transform method unless you request the recursive method or the
+   number of data points is too large for the transform method.  These filters
+   all have zero phase distortion but can produce precursors with impulsive
+   signals.
+
+HEADER CHANGES
+--------------
+   DEPMIN, DEPMAX, DEPMEN
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+- 1307: Illegal operation on spectral file
+- 1601: File and filter sampling intervals not equal for
+
+  - The filter must be designed using the same sampling rate as the data to be
+    filtered.
+
+- 1603: Inadequate memory to perform FIR_ filter.
+
+
+WARNING MESSAGES
+----------------
+- 1602: Inadequate memory to perform FIR_ filter using DFT.
+
+  - the recursive method will be used automatically.
+
+LIMITATIONS
+-----------
+  Maximum number of data points for transform method is 4096.  The DFIR routine
+  has since vanished, as this has not been used by the Seismologists at LLNL
+  for some years.  1. See the author for information on the use of DFIR.  2. See
+  Chapter 3 of Rabiner and Gold, Theory and Application of Digital Signal
+  Processing, Prentice-Hall, 1975 for a discussion of FIR_ filters.
+
+LATEST REVISION
+---------------
+  July 22, 1991 (Version 8.0)
+

@@ -1,0 +1,23 @@
+
+LDLIBS=-lm
+CFLAGS=-O2
+
+all: sgftops sacswap saclst bbfswap unvis
+
+saclst: saclst.o
+	$(CC) $(CFLAGS) -o saclst saclst.o $(LDLIBS)
+
+sacswap: sacswap.o
+	$(CC) $(CFLAGS) -o sacswap sacswap.o $(LDLIBS)
+
+sgftops: sgftops.o
+	$(CC) $(CFLAGS) -o sgftops sgftops.o $(LDLIBS)
+
+bbfswap: bbfswap.o
+	$(CC) $(CFLAGS) -o bbfswap bbfswap.o $(LDLIBS)
+
+unvis: unvis.o
+	$(CC) $(CFLAGS) -o unvis unvis.o $(LDLIBS)
+
+clean:
+	rm -f saclst.o sacswap.o sgftops.o bbfswap.o unvis.o

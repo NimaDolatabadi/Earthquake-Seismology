@@ -1,0 +1,21 @@
+
+CAPF
+++++
+
+SUMMARY
+-------
+Closes the currently open alphanumeric pick file.
+
+SYNTAX
+------
+
+  ``CAPF``
+
+SEE COMMANDS
+------------
+   OAPF_
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

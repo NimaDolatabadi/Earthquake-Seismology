@@ -1,0 +1,232 @@
+
+READTABLE
++++++++++
+
+SUMMARY
+-------
+Reads alphanumeric data files in collumn format on disk into memory.
+
+SYNTAX
+------
+
+  ``READTABLE {options}  {filelist}``
+
+   where options is one or more of the following:
+
+  ``MORE``
+
+  ``TRUST ON|OFF``
+
+  ``COMMIT|ROLLBACK|RECALLTRACE``
+
+  ``DIR CURRENT|name``
+
+  ``FREE|FORMAT text  **** NOTE:  the FORMAT option is not working. ****``
+
+  ``CONTENT text``
+
+  ``HEADER number``
+
+
+  ALL options MUST preceed any element in the filelist.
+  The last two options may also be placed on the first line of file itself.
+
+INPUT
+-----
+   :MORE:  Append the new data files after the old ones in memory.  If
+       this option is missing, the new data replaces the old data in memory.
+       See the READ_ command for more details about this option.
+    
+   :Note:  if the MORE option is not specified, the COMMIT, ROLLBACK,
+       and RECALLTRACE options have no effect.
+    
+   :TRUST:   This option is used to resolve an ambiguity in converting
+       files from SAC to CSS format.  When converting the data,
+       matching event IDs could mean the files have identical
+       event information, or they could be an artifact of the
+       merging of these two very different formats.  When TRUST
+       is ON, SAC is more likely to accept matching event IDs as
+       identical event information than when TRUST is OFF,
+       depending on the history of READ_ commands associated with
+       the current data files in memory.
+    
+   :COMMIT_:  If the MORE option is specified, the COMMIT option commits
+       headers and waveforms in SAC memory -- removing any previous
+       versions of headers or waveforms from RAM -- prior to
+       reading more files.  COMMIT is the default.
+    
+   :ROLLBACK_:  If the MORE option is specified, the ROLLBACK option reverts
+       to the last committed version of the header and waveform
+       before reading more files.
+    
+   :RECALLTRACE_:  If the MORE option is specified, the RECALLTRACE option:
+
+       - reverts to the last committed version of the waveform
+       - reverts to the last committed version of those header
+       	 variables closely linked to the waveform,
+       - commits those header variables which are loosely linked
+       	 to the waveform.  (use HELP_ RECALLTRACE for a list of which 
+	 header variables are committed, and which are rolled back.)
+    
+   :DIR CURRENT:  Read all simple filenames (with or without wildcards)
+       from the current directory.  This is the directory from which you
+       started SAC.
+    
+   :DIR name:  Read all simple filenames (with or without wildcards) from
+       the directory called name.  This may be a relative or absolute
+       directory name.
+    
+   :FREE:  Read the data in the filelist in free format (space delimited)
+       mode.
+    
+   :FORMAT text:  Read the data in the filelist in fixed format mode.  The
+       format statement to use is given in text.
+    
+   :CONTENT text:  Define the content of the data in the filelist.  The
+       meaning of the content text is described below.
+    
+   :HEADER:  The number of header lines in the file to skip.
+    
+   :filelist:  A list of alphanumeric files.  This list may contain simple
+       filenames, full or relative pathnames, and wildcard characters.  See
+       the READ_ command for a complete description.
+    
+DEFAULT VALUES
+--------------
+
+  ``READTABLE COMMIT FREE CONTENT Y. DIR CURRENT``
+
+DESCRIPTION
+-----------
+  All commands in SAC work on the data that is currently in memory.  This
+  data in memory is analogous to the temporary or working files used by a text
+  editor.  The READ_ command reads binary SAC data files into memory.  This
+  command can be used to read a wide variety of alphanumeric data files into
+  memory.  These files can be in a fixed format or in free format.  They may
+  contain evenly or unevenly spaced data.  They may contain more than one set of
+  data.  Once in memory the WRITE_ command can be used to create SAC binary data
+  files for later use.
+
+  The simplest use of this command is free field input of a Y data set.
+  This is also the default.  Free field input of X-Y pairs can be done by simply
+  changing the content option.  By combining the fixed format and content
+  options, this command can also be used to read very complicated formatted
+  output from other programs directly into SAC.  Multiple Y data sets can be
+  read from the same file using this method.  Only a single X data set is
+  allowed.
+
+  The basic header variables needed for processing are computed.  These
+  are NPTS, B, E, DELTA, LEVEN, DEPMIN, DEPMAX, and DEPMIN.  If there is only a
+  single Y data set, the name of the data file in memory will be the same as
+  that of the alphanumeric disk file.  If there are multiple Y data sets in the
+  file, a two digit sequence number is appended to the file name.
+
+  Each line of the alphanumeric data file is read in either free format
+  or using the format statement provided.  Each line can be up to 160 characters
+  long.  In the case of a free format file, the number of data entries in each
+  line is also determined.  The content field is then used to determine what to
+  do with each of these data entries.  Each specific character in the context
+  field represents a different kind of data element and the order of these
+  characters mimics the order of the data in each line of the file.  The
+  meanings of the allowed characters in the content field are given below:
+
+   :Y: Next entry belongs to Y (dependent variable) data set.
+
+   :X: Next entry belongs to X (independent variable) data set.
+
+   :N: Next entry belongs to next Y data set.
+
+   :P: Next pair of entries belong to X and Y data sets.
+
+   :R: Next pair of entries belong to Y and X data sets.
+
+   :I: Ignore (skip) this data element.
+
+  An optional repetition count may follow any of the above characters.  This
+  repetition count is a one or two digit integer and has the same meaning as
+  repeating the content character that number of times.  A period (".") is an
+  infinite repetition count and means use the last characters meaning to decode
+  the remaining data elements in the line.  The period can only appear at the
+  end of a content field.
+
+  Any command which loads data into memory is monitored to maintain a
+  level of confidence in the event infomation when transfered from the SAC
+  data buffer to the CSS data buffer.  When READTABLE_ is used, the confidence
+  is set to LOW, indicating that SAC should consider any matching event IDs
+  as artifacts and reassign the event ID of the incoming file.  For more
+  details, use HELP_ READ_.
+
+EXAMPLES
+--------
+  To read in X-Y pairs in free format where there may be any number of pairs on
+  the same line::
+
+      u:  READTABLE CONTENT P. FILEA
+
+  You can't break an X-Y pair between lines in the file.
+  Assume you have a file which contains formatted data including a set of
+  X and Y data buried somewhere in the middle of each line.  Other data that is
+  of no interest is also on each line.  Also assume that the Y data preceeds the
+  X data in each line.  Once the format statement needed to read in the proper
+  data is determined, the following command could be used::
+
+      u: READTABLE CONTENT R FORMAT \(24X,F12.3,14X,F10.2\) FILEB
+
+  Special Note: The atsign "\" BEFORE EACH LEFT AND RIGHT PARENTHESIS IS SAC's
+  escape character, and is necessary because SAC uses parenthesis in inline
+  functions.  Since there is no repeat count, only a single Y-X pair will be
+  read from each line of the file.
+
+  Assume you have a file, FILEC, which contains a table consisting of an X
+  value followed by Y values belonging to seven different data sets on each
+  line.  This data is in (8F10.2) format.  To create seven different sets of
+  data in memory, the following command could be used::
+
+      u:  READTABLE CONTENT XN . FORMAT \(8F10.2\) FILEC
+
+  This would produce seven different "data files" in memory with the names
+  FILEC01, FILEC02, etc.  Now assume that you did not want the fifth Y data set
+  to be read.  This could be done by executing the following command::
+
+      u:  READTABLE CONTENT XN6 FORMAT \(5F10.20X,2F10.2\) FILEC
+
+  Another way that means less typing but is slightly less efficient is given
+  below::
+
+      u:  READTABLE CONTENT XN4IN2 FORMAT \(8F10.2\) FILEC
+
+   Note:  for examples of the behavior of the COMMIT, ROLLBACK, and RECALLTRACE
+   options, see the commands of the same names.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+
+  - haven't given a list of files to read.  
+  - none of the files in the list could be read.
+
+- 1020: Invalid inline function name:
+  
+  - Expected inline function. Preceed parenthesis with an atsign.
+
+- 1320: Available memory too small to read file
+- 1314: Data file list can't begin with a number.
+- 1315: Maximum number of files in data file list is
+
+WARNING MESSAGES
+----------------
+- 0101: opening file
+- 0108: File does not exist:
+
+HEADER CHANGES
+--------------
+   B, E, DELTA, LEVEN, DEPMIN, DEPMAX, DEPMEN.
+
+SEE COMMANDS
+------------
+   READ_, WRITE_, COMMIT_, ROLLBACK_, RECALLTRACE_
+
+LATEST REVISION
+---------------
+   Oct. 27, 1998 (Version 0.58)
+

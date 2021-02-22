@@ -1,0 +1,18 @@
+QUITSUB
++++++++
+
+SUMMARY
+-------
+Terminates a SAC subprocess.
+
+SYNTAX
+------
+
+  ``[Q]UIT[S]UB``
+
+DESCRIPTION
+-----------
+  SAC has several subprocesses which act like separate programs.
+  Use this command to exit one of these subprocesses and return to the
+  main SAC program.
+

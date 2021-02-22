@@ -1,0 +1,81 @@
+
+PLOTSP
+++++++
+
+SUMMARY
+-------
+Plots spectral data in several different formats.
+
+SYNTAX
+------
+
+  ``PLOTSP {type},{mode}``
+   where type is one of the following:
+
+
+  ``ASIS|RLIM|AMPH|RL|IM|AM|PH``
+
+   where mode is one of the following:
+
+
+  ``LINLIN|LINLOG|LOGLIN|LOGLOG``
+
+INPUT
+-----
+   :ASIS:  Plot components in their present format.
+    
+   :RLIM:  Plot real and imaginary components.
+    
+   :AMPH:  Plot amplitude and phase components.
+    
+   :RL:  Plot real component only.
+    
+   :IM:  Plot imaginary component only.
+    
+   :AM:  Plot amplitude component only.
+    
+   :PH:  Plot phase component only.
+    
+   :LINLIN:  Set x-y scaling mode to linear-linear.
+    
+   :LINLOG:  Set x-y scaling mode to linear-logarithmic.
+    
+   :LOGLIN:  Set x-y scaling mode to logarithmic-linear.
+    
+   :LOGLOG:  Set x-y scaling mode to logarithmic-logarithmic.
+    
+DEFAULT VALUES
+--------------
+
+  ``PLOTSP ASIS LOGLOG``
+
+DESCRIPTION
+-----------
+   SAC data files may contain either time-series data or spectral data.
+   Certain fields in the header distinguish between the two formats.  Most plot
+   commands (PLOT, PLOT1_, etc.) only plot time-series data.  This command lets
+   you plot spectral data.
+
+   You may plot one or both spectral components using this command.  One
+   frame is generated for each spectral component plotted.  Other plot formats
+   will be added as needed.  You can also select the scaling mode to be used.
+   This scaling mode applies only to PLOTSP_.
+
+EXAMPLES
+--------
+  To get a logarithmic-linear plot of the spectral amplitude of a data file::
+
+      u:  READ FILE1
+      u:  FFT
+      u:  PLOTSP AM LOGLIN
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1305: Illegal operation on time series file
+
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

@@ -1,0 +1,50 @@
+
+MEM
++++
+
+
+SUMMARY
+-------
+Calculates the spectral estimate using the Maximum Entropy Method.
+
+SYNTAX:
+
+   ``MEM {[O]RDER n}, {[N]UMBER n}``
+
+INPUT
+-----
+   :ORDER n:   Set the order of the prediction error filter in lags to n.
+   :NUMBER n:   Set the number of points to be used in the spectral estimate.
+       
+DEFAULT VALUES
+--------------
+  
+  `` MEM ORDER 25``
+    
+DESCRIPTION
+-----------
+  This command implements the Maximum Entropy Method estimator.
+  This estimator is a parametric method, which uses a prediction
+  error filter to whiten the data.  The resulting spectral estimate
+  is proportional to the inverse of the filter's power frequency
+  response.  The user is free to choose the order of the prediction error
+  filter.  See the documentation of the PPE_ command for further details.
+
+  The principal advantage of this method is the very high resolution that
+  it can achieve with a relatively small amount of data.  Its disadvantage
+  is that less can be said about it theoretically than about the conventional
+  method.
+
+  Documentation for this method can be found in the review paper
+  on linear prediction by John Makhoul in "Modern Spectrum Analysis."
+  The formal name of the actual method implemented is the Yule-Walker
+  method.
+
+ERROR MESSAGES
+--------------
+ - 5003 No correlation function calculated.
+
+SEE COMMANDS  
+------------
+  COR_, WRITESPE_, PLOTSPE_
+

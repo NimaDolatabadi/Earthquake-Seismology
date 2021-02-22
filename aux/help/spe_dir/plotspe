@@ -1,0 +1,34 @@
+PLOTSPE
++++++++
+
+SUMMARY
+-------
+Plots the spectral estimate.
+
+SYNTAX
+   ``[P]LOT[SPE] {[P]OWER|[L]OG|[A]MPLITUDE} {[C]ONFIDENCE {ON|OFF}}``
+
+INPUT
+-----
+
+     :POWER:            Plot the power response using linear interpolation.
+     :LOG:              Plot the power response using logarithmic interpolation.
+     :AMPLITUDE:        Plot the amplitude response.
+     :CONFIDENCE {ON}:  Include confidence limits on the plot.
+     :CONFIDENCE OFF:   Do not include confidence limits.
+
+DEFAULT VALUES
+--------------
+
+   ``PLOTSP POWER CONFIDENCE OFF``
+
+
+DESCRIPTION
+-----------
+  The plot includes a legend describing the parameters used to calculate
+  the correlation function and the spectral estimate.
+
+ERROR MESSAGES
+--------------
+ - 5004 No spectral estimate claculated.
+

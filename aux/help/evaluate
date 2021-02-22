@@ -1,0 +1,104 @@
+
+EVALUATE
+++++++++
+
+SUMMARY
+-------
+Evaluates simple arithmetic expressions.
+
+SYNTAX
+------
+
+  ``EVALUATE {TO TERM|name} {v} op v {op v ...}``
+   where op is one of the following:
+
+  ``ADD|SUBTRACT|MULTIPLY|DIVIDE|POWER|``
+
+  ``SQRT|EXP|ALOG|ALOG10|SIN|ASIN|``
+
+  ``COS|ACOS|TAN|ATAN|``
+
+  ``EQ|NE|LE|GE|LT|GT``
+
+INPUT
+-----
+   :TO TERM:  Result is written to the user's terminal.
+    
+   :TO name:  Result is written to the blackboard variable name.
+    
+   :v:  An floating point or integer number.  Since all arithmetic is done
+       in floating point, integers are converted to floating point numbers.
+    
+    
+   :op:  One of the arithmetic or logical operators listed above.
+    
+ALTERNATE FORMS
+---------------
+::
+
+ + may be substituted for ADD_
+ - for SUBTRACT
+ * for MULTIPLY
+ / for DIVIDE
+ ** for POWER
+
+Be sure and place spaces around each operator.
+
+DEFAULT VALUES
+--------------
+
+  ``EVALUATE TO TERM 1. * 1.``
+
+DESCRIPTION
+-----------
+  This command lets you evaluate arithmetic and logical expressions.  The
+  arithmetic expression can be a compound one, containing more than one
+  operator.  In this case the expression is evaluated left to right.  There is
+  no nesting capability.  A logical expression can contain only one operand.
+  The result of evaluating this expression can be written to the user's
+  terminal or to a specified blackboard variable.  This blackboard variable can
+  later be used directly in other commands.  This is especially useful when
+  writing macros.  You can also get the value of a blackboard variable using the
+  GETBB_ command.
+
+EXAMPLES
+--------
+  Let's first check to see if SAC knows its multiplication tables::
+
+      u:  EVALUATE 2. * 2.
+      s:  4.0000
+      u:  EVALUATE 2. * 3.
+      s:  6.0000
+
+  Now let's convert an angle in degrees to radians and then find its tangent::
+
+      u:  EVALUATE 45 * 3.14159 / 180
+      s:  0.78540
+      u:  EVALUATE TAN 0.78540
+      s:  0.9982
+
+  That's pretty close.  Notice that when you omit the first variable, SAC
+  assumes it's value to be 1.  Why does SAC not get the same answer in the
+  following example? ::
+
+      u:  EVALUATE TAN 45 * 3.14159 / 180
+      s:  0.02827
+
+  Finally let's repeat an earlier example but this time use the blackboard::
+
+      u:  EVALUATE TO TEMP1 45 * 3.14159 / 180
+      u:  EVALUATE TAN %TEMP1
+      s:  0.9982
+
+LIMITATIONS
+-----------
+  Maximum number of operators in a single expression is 10.
+
+SEE COMMANDS
+------------
+  GETBB_ See the section on "Macros" in the SAC Users Manual.
+
+LATEST REVISION
+---------------
+  April 15, 1987 (Version 10.1)
+

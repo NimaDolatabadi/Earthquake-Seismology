@@ -1,0 +1,109 @@
+
+RGLITCHES
++++++++++
+
+SUMMARY
+-------
+Removes glitches and timing marks.
+
+SYNTAX
+------
+
+  ``RGLITCHES options``
+
+   where options are one or more of the following:
+
+  ``THRESHOLD v``
+
+  ``TYPE LINEAR|ZERO``
+
+  ``WINDOW ON|OFF|pdw``
+
+  ``METHOD ABSOLUTE|POWER|RUNAVG``
+
+INPUT
+-----
+   :THRESHOLD v:  Set onset threshold level to v.  Data points whose
+       absolute values are greater than or equal to v are corrected.
+    
+   :TYPE LINEAR:  Correct data points above the threshold by linearly
+       interpolating between the data points on each side of the bad data.
+    
+    
+   :TYPE ZERO:  Correct data points above the threshold by setting them
+       to zero.
+    
+   :METHOD ABSOLUTE:  Corrects data points having absolute values >= the
+       threshold v.
+    
+   :METHOD POWER:  Corrects data points where the power of the signal
+       computed using a backward difference method exceeds the threshold v.
+    
+   :METHOD RUNAVG:  Corrects data points by calculating a running average
+       and standard deviation in a window SWINLEN seconds long that moves
+       from the end of the trace to the beginning of the trace in 1-point
+       increments. Each new point is compared to the average, and if it
+       differs by more than THRESH2 times the current standard deviation,
+       and if the difference is greater than MINAMP counts, it is replaced
+       by the current mean. This method is always applied to the entire
+       seismogram.
+   :There are three options associated with the RUNAVG method. These are:
+   :SWINLEN v: Set length in seconds of running average window.
+   :THRESH2 v: Set the threshold value for glitches.
+   :MINAMP  v: Set the minimum amplitude for glitches.
+    
+    
+   :WINDOW ON:  Only correct data points within the previously defined
+       pdw.
+    
+   :WINDOW OFF:  Correct data points within the entire data file.
+    
+   :WINDOW pdw:  Only correct data points within the defined pdw.  A pdw
+       consists of a starting and a stopping value of the independent
+       variable, usually time, which defines the desired window of data that
+       you wish to make measurements on.  See the CUT_ command for a
+       complete explanation of how to define and use a pdw.  Some examples
+       are given below.
+    
+DEFAULT VALUES
+--------------
+
+  ``RGLITCHES THRESHOLD 1.0E+10 TYPE LINEAR WINDOW OFF METHOD ABSOLUTE SWINLEN 0.5``
+
+  ``THRESH2 5.0 MINAMP 50``
+
+DESCRIPTION
+-----------
+  This command can be used to smooth out irregularities caused by "glitches" in
+  the data acquistion system and by timing marks produced by some data
+  acquistion systems.  It checks each data point to see if it's value is greater
+  than or equal to the requested "onset threshold level".  It then zeros out
+  these bad data points or linearly interpolates between the data point just
+  before and the data point just after the bad ones.  You can have it remove
+  glitches in the entire file or select a smaller portion of the file by
+  setting the window.  Using this option lets you remove glitches that are
+  smaller than the maximum in the entire data file.
+
+EXAMPLES
+--------
+  Some examples of pdw are given below::
+
+    B 0 30: First 30 secs of the file.
+    T3 -1 T7: From 1 sec before T3 time pick to T7 time pick.
+    30.2 48: 30.2 to 48 secs relative to file zero.
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+- 1307: Illegal operation on spectral file
+
+
+LATEST REVISION
+---------------
+  March, 1997 (Version 00.53a)
+

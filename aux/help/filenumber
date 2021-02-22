@@ -1,0 +1,36 @@
+
+FILENUMBER
+++++++++++
+
+SUMMARY
+-------
+Controls the file number display found on most SAC plots.
+
+SYNTAX
+------
+
+  ``FILENUMBER {ON|OFF}``
+
+INPUT
+-----
+   :FILENUMBER ON:  Turn on file number option.
+    
+   :FILENUMBER {OFF}:  Turn off file number option.
+    
+    
+DEFAULT VALUES
+--------------
+
+  ``FILENUMBER OFF``
+
+DESCRIPTION
+-----------
+   This command controls the file number that is displayed on most SAC plots.
+   When filenumber is on, the file number appears on the plot.  This can be
+   used to identify a specific waveform by number when a command requires
+   the information.
+
+LATEST REVISION
+---------------
+   February 5, 1997 (Version 53)
+

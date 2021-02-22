@@ -1,0 +1,49 @@
+
+LOADCTABLE
+++++++++++
+
+SUMMARY
+-------
+Allows the user to select a new color table for use in image plots.
+
+SYNTAX
+------
+
+  ``LOADCTABLE n | [options] [filelist]``
+   where n is a number (currently between 1 and 17) of a standard SAC
+
+  ``color table stored in directory SACAUX, or``
+   where options is the following:
+
+
+  ``DIR CURRENT|name``
+
+
+  ``options MUST preceed any element in the filelist.``
+
+INPUT
+-----
+   :n:  The number of a standard SAC color table.
+    
+   :DIR CURRENT:  Load color table from the current directory.  This is
+       the directory from which you started SAC.
+    
+   :DIR name:  Load color table from the directory called name.  This may
+       be a relative or absolute directory name.
+    
+   :filelist:  file
+    
+   :file:  A legal color table filename.  This may be a simple filename or
+       a pathname.  The pathname can be a relative or absolute one.
+    
+DESCRIPTION
+-----------
+   This command allows the user to select a new color table or provide their own
+   custom color table by specifying the color table file with a pathname,
+   relative to the current directory. If the DIR option is not used, SAC looks first in
+   SACAUX for the color table, then in the user's working directory.
+
+LATEST REVISION
+---------------
+   May 26, 1995 (Version 00.31)
+

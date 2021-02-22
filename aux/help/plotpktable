@@ -1,0 +1,60 @@
+
+PLOTPKTABLE
++++++++++++
+
+PLOTPK_ Cursor Options
+----------------------
+
+======== =====================================================================
+char     meaning
+======== =====================================================================
+A        Define first arrival in header {1,7}.
+B        Display previous plot if any.
+C        Evaluate first arrival and end of event {1,4,7}.
+D        Set phase direction to DOWN.
+E        Set phase onset to EMERGENT.
+F        Define end of event {1,2,3,7}.
+G        Display picks to terminal in HYPO format {4}.
+H        Write picks to HYPO pick file {3,4}.
+I        Set phase onset to IMPULSIVE.
+J        Set noise level {2,6,8}.
+L        List cursor location {2,4}.
+M        Compute maximum amplitude waveform {2,3,5}.
+N        Display next plot if any.
+O        Display previous plot window. A maximum of five windows are saved.
+P        Define P wave arrival time {1,2,3,7}.
+Q        Terminate PLOTPK_ immediately.
+S        Define S wave arrival time {1,2,3,7}.
+T        Define user time Tn in header {1,2,7}.
+	 Next response an integer between 0 and 9.
+U        Set phase direction to UP.
+V        Define a Wood-Anderson waveform {2,5}.
+W        Define a general waveform {2,5}.
+X        Display current plot with new x plot window. Plot begins at current
+	 cursor position. This response must be followed by moving the
+	 cursor and hitting any key.  The new plot will end at this second 
+	 cursor position. If the second key is an S then these new x limits 
+	 are saved and used in subsequent plots.
+Z        Set zero (reference) level {2,6,8}.
+\        DELETE ALL CURRENT PICK FIELD DEFINITIONS.
+	 Useful when a file contains more than one event.
+'+'      Set phase direction to PLUS.
+'-'      Set phase direction to MINUS.
+(space)  Set the phase direction to NEUTRAL.
+n        Set phase quality to n, n=0, 1, 2, 3, or 4.
+======== =====================================================================
+
+Notes
+-----
+- {1} Written to SAC header.
+- {2} Written to alphanumeric pick file if open.
+- {3} Written to HYPO pick file if open.
+- {4} Written to terminal.
+- {5} Place horizontal cursor at zero (reference) level and vertical
+      cursor beyond first extrema. Terminal echo is a box encompassing 
+      waveform.
+- {6} Place horizontal cursor at desired level.
+- {7} Terminal echo is a labeled vertical line.
+- {8} Terminal echo is a labeled horizontal line.
+
+

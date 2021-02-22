@@ -1,0 +1,139 @@
+
+SPECTROGRAM
++++++++++++
+
+SUMMARY
+-------
+Calculate a spectrogram using all of the data in memory.
+
+SYNTAX
+------
+
+  SPECTROGRAM options
+
+   where options are one or more of the following
+
+   :WINDOW: v
+
+   :SLICE: v
+
+   :ORDER: n
+
+   :CBAR:    {ON|OFF}
+
+   :Choose from: {SQRT|NLOG|LOG10|NOSCALING{
+
+   :YMIN: v
+
+   :YMAX: v
+
+   :METHOD: {PDS|MEM|MLM}
+
+   :Choose from: {COLOR|GRAY}
+
+   :PRINT: {pname}
+
+
+INPUT
+-----
+   :WINDOW v:  Set the sliding data window length in seconds to v.  This
+       window length determines the size of the fft.
+    
+   :SLICE v:  Set the data slice interval in seconds to v.  A single
+       spectrogram line is produced for each slice interval.
+    
+   :ORDER n:  Specifies the number of points in the autocorrelation
+       function used to compute the spectral estimate.
+    
+   :CBAR {ON|OFF}:  Turn reference color bar on or off.
+    
+   :{SQRT|NLOG|LOG10|NOSCALING}:  Specify natural log, log base 10, or
+       square root scaling of amplitudes.
+    
+   :YMIN v:  Specifies the minimum frequency to plot.
+    
+   :YMAX v:  Specifies the maximum frequency to plot.
+    
+   :METHOD {PDS|MEM|MLM}:  Specifies the type of spectral estimator used.
+       MLM stands for maximum likelihood and MEM stands for maximum
+       entropy spectral estimators, respectively.  See description and
+       references below.
+    
+   :{COLOR|GRAY}:  Specifies a color or grayscale image.
+    
+   :PRINT {pname}:  Prints the resulting plot to the printer named in
+       pname, or to the default printer if pname is not used.  (This
+       makes use of the SGF_ capability.)
+    
+DEFAULT VALUES
+--------------
+
+  ``SPECTROGRAM WINDOW 2 SLICE 1 METHOD MEM ORDER 100 NOSCALING YMIN 0 YMAX FNYQUIST COLOR``
+
+DESCRIPTION
+-----------
+  A spectrogram is computed by calculating power spectra of consecutive,
+  possibly overlapping time windows of data and plotting the spectra side by
+  side along a time axis.  The spectra are calculated from a truncated
+  autocorrelation function using either the maximum likelihood method (MLM),
+  maximum entropy method (MEM), or Power Density Spectral method (PDS).  In
+  general, the high resolution, maximum likelihood and maximum entropy methods
+  are preferred because they improve resolution and because they do not produce
+  artifacts (sidelobes) in the spectra due leakage of energy between different
+  frequencies.  Descriptions of these techniques can be found in Kanasewich
+  (1981) and Lacoss (1971) and the references therein.   The length of the
+  truncated autocorrelation function is determined by the order parameter.  To
+  maintain consistency with the spe subroutines we have set the defaults order
+  to 200 for the power density spectra (pds) and 100 for the maximum entropy
+  and maximum likelihood spectral estimates.   In sac the length of each data
+  window is determined by the window parameter.  The spacing between spectra
+  along the spectrograms time axis is determined by the slice parameter.  The
+  difference between these two parameters determines the amount of overlap
+  between adjacent time window as indicated in the diagram below.::
+
+   Time --->
+   0     1     2     3     4     5     6     7     8     9    10    11
+   |.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|.....|
+   |__^__| window 1, First time will be at the center of this window.
+         |__^__| window 2
+               |__^__| window 3
+
+   |.....| Slice: Difference between the start times of adjacent windows.
+   
+  The start and end points on the spectrograms time axis depend on the length
+  of the time series being analysed and the window and slice parameters.
+  The spectrogram's start time is one-half a window later than the time series
+  start time because it is defined as the center of time of the first window.
+  SAC doesn't pad the start of the data with zeros.
+
+  Kanasewich, E. R., "Time Sequence Analysis in Geophysics",
+  The University of Alberta Press, Edmonton, 1981.
+
+  Lacoss, R. T., Data Adaptive Spectral Analysis Methods",
+  Geophysics, Vol. 36, 661-675, 1971.
+
+
+LIMITATIONS
+-----------
+  The size of the image in the frequency direction is 512.
+
+
+PROBLEMS
+--------
+  There is currently very little error checking of the headers to
+  make sure that they are from the same component and are contiguous in time.
+  This will be corrected in the future.
+
+HEADER VARIABLES
+----------------
+
+  :REQUIRED:  DELTA
+
+  :CHANGED:    NPTS, DELTA, B, E, IFTYPE, DEPMIN, DEPMAX, DEPMEN
+
+  :CREATED:    NXSIZE, XMINIMUM, XMAXIMUM, ,BREAK NYSIZE, YMINIMUM, YMAXIMUM
+
+LATEST REVISION
+---------------
+   May 26, 1995 (Version 00.31)
+

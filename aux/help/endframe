@@ -1,0 +1,29 @@
+
+ENDFRAME
+++++++++
+
+SUMMARY
+-------
+Resumes automatic new frame actions between plots.
+
+SYNTAX
+------
+
+  ``ENDFRAME``
+
+ALTERNATE FORMS
+---------------
+ENDFR is an obsolete but allowable form of this command.
+
+DESCRIPTION
+-----------
+   See the BEGINFRAME_ documentation.
+
+SEE COMMANDS
+------------
+   BEGINFRAME_
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

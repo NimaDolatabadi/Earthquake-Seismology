@@ -1,0 +1,584 @@
+
+TRANSFER
+++++++++
+
+SUMMARY
+-------
+Performs deconvolution to remove an instrument response and
+convolution to apply another instrument response.
+
+SYNTAX
+------
+::
+
+  [TRANS]FER {FROM type {options}} , {TO type {options}} ,
+        {FREQlimits f1 f2 f3 f4} , {PREWhitening ON|OFF|n}
+
+INPUT
+-----
+   :FROM type:  Remove the instrument type by deconvolution using
+       spectral division.
+    
+   :TO type:  Insert the instrument type by convolution using
+       spectral multiplication.
+    
+       The allowed instrument types and their options
+       for both TO and FROM are listed in a table below.
+    
+   :DEFAULT VALUES:  TRANS FROM NONE TO NONE
+    
+DESCRIPTION
+-----------
+   The default input and output "instrument" in TRANSFER is
+   displacement, which in SAC is designated as NONE.  Hence, if a
+   FROM type or a TO type is not specified, SAC assumes it to be
+   NONE. If the output instrument is NONE, IDEP in the SAC header
+   is set to DISPLACEMENT (NM).  For the seismometers listed in the
+   table below, the output units for TO NONE  will be in nm, SAC's
+   choice for displacement.  If TRANSFER has TO VEL or TO ACC, the
+   header variable IDEP is changed accordingly for all waveforms
+   in memory.
+
+   If the TO type is specified as anything other than NONE, VEL, or
+   ACC, the waveforms in memory are transformed to that instrument
+   type.  If the FROM instrument type is NONE, then no instrument
+   is  removed, and the original trace is presumed to be a
+   displacement.   This is useful for adding instrument responses
+   to synthetic seismograms.
+
+   Care must be taken when calling TRANSFER a second time within
+   a single SAC session, because in the second call TRANSFER will
+   use the same arguments for FROM, TO, FREQ, etc. as in the first
+   call unless an alternative argument is explicitly provided.
+
+   Many of the instruments have options that further specify the
+   response. The most common of these options is the instrument
+   subtype.  A few instruments require that certain numerical
+   parameters be specified and do not use the subtype option.
+   For a list of instruments and a list of the instruments that
+   use subtypes or other parameters, see the table below.
+
+   When TRANSFER was introduced more than 20 years ago, the
+   data acquisition systems were much simpler.  The seismometers in
+   the list at the end of this message include the most popular
+   ones used previously. Now the majority of data analysis is done
+   on data sets commonly exchanged as SEED volumes, which can be
+   downloaded from the IRIS Data Management Center over the
+   Internet.  These data can be read from SEED volumes using the
+   program RDSEED, which is available for all computer operating
+   systems that can run SAC.  The EVALRESP program calculates the
+   complete system response from response (RESP) files produced by
+   RDSEED.  EVALRESP routines have been embedded within TRANSFER as
+   an "instrument" type, allowing a user to perform (de)convolution
+   using the complete system response represented in RESP files.
+   For the source code for programs RDSEED and EVALRESP, go to URL
+   <http://www.iris.edu/dms/nodes/dmc/software/downloads/>.  for the SEED
+   manual, go to < http://www.fdsn.org/seed_manual/SEEDManual_V2.4.pdf>.
+
+   Most of the implementation is done using double-precision
+   (64-bit) arithmetic even though the SAC data is single-precision.
+   
+   The SAC sign convention for Laplace/Fourier transforms is the same as
+   that used in RDSEED and EVALRESP: phase for a causal response decreases 
+   with increasing frequency.  For displacements, the SAC convention is nm,
+   while RDSEED RESP files use meters.  The EVALRESP option in TRANSFER
+   corrects the output to the SAC convention.  For other options (FAP, PZ)
+   it may be ncessary to change the units. (See examples below.)
+
+   FREQLIMITS f1 f2 f3 f4  :  All seismometers have zero response
+   at zero frequency.  When deconvolving and not convolving
+   with another response (e.g. "TO NONE"), it is therefore
+   necessary to modify the response at very low frequencies.
+   At high frequencies, the signal-to-noise ratio is often low,
+   so it may be desirable to dampen the response.  FREQLIMITS
+   serves this purpose within SAC. FREQLIMITS has both a
+   low-pass and a high-pass taper. It is necessary that f1 < f2
+   < f3 < f4.  The taper is unity between f2 and f3 and zero
+   below f1 and above f4.  Frequencies f1 and f2 specify the
+   high-pass filter at low frequencies, while frequencies f3
+   and f4 specify the low-pass filter at high frequencies. The
+   filters applied between f1 and f2 and between f3 and f4 are
+   quarter cycles of a cosine wave.
+   
+   If you want to do a low-pass filter but have no filtering at low
+   frequencies, one way is to set f1=-2 and f2=-1.  If you want to  do
+   a high-pass filter but have no filtering at the high frequencies, for
+   a Nyquist frequency of 0.5, set f3=10. and f4=20.
+   
+   Note that because this filter has zero phase, it is not causal.
+   As a result, if npts is not a power of 2, the output amplitude 
+   will not be zero outside the interval (f1,f4).  If it is important
+   to have the number of points an exact power of 2, the help file for
+   CUT_ explains how to modify your file within SAC.
+
+   Note that the default has no FREQLIMITS.  It is strongly advised
+   that one includes FREQLIMITS if one is doing a deconvolution.
+
+   PREWHITENING:  Prewhitening can be used to flatten the spectrum
+   of the input time series before transforming in the
+   frequency domain. This should reduce the dynamic range of
+   the spectral values, and improve the accuracy of the
+   overall operation at high frequencies for seismic data. The
+   default for prewhitening is off.  See command WHITEN_ for
+   further information.
+
+   PREWHITENING ON   : Turns on prewhitening in the time domain
+   before spectral operations, and compensating dewhitening in
+   the time domain after spectral operations.
+
+   PREWHITENING OFF  :  Turns off prewhitening.
+
+   PREWHITENING n  :  Turns on prewhitening and change the
+   prewhitening order to n. If the user turns it on without
+   specifying the order, it will default to n=6, unless the
+   order has been changed in the WHITEN_ command.
+
+
+EVALRESP OPTION
+---------------
+  This option enables the application of transfer functions
+  extracted from SEED data volumes using the EVALRESP code
+  (Version 3.3.3). To use this option, one needs RESP files,
+  commonly these are produced from SEED volumes by the RDSEED
+  program.  The RESP files must be in the current directory or
+  must be specified by full path and name.
+  
+  There is no formal documentation for the RESP files themselves, but since they
+  refer directly to the SEED format you can read the SEED manual to learn more
+  about the values.
+  
+  To identify the correct RESP file and to extract the proper
+  transfer function from that file, EVALRESP uses information from
+  the SAC headers.  The fields are station (KSTNM), channel
+  (KCMPNM), date and time (KZDATE & KZTIME), network (KNETWK), and
+  location ID. Location ID is referred to as LOCID; it commonly
+  distinguishes between multiple instruments with the same
+  network, station and channel names, operating at the same
+  time.  Data received from IRIS in SAC format (or converted to
+  SAC with RDSEED) will have KHOLE set to a valid LOCID if one is
+  necessary.  If the user is informed of real LOCIDs in the
+  EVALRESP file, the user can set KHOLE with CH (HELP CH for
+  details).  SAC will use KHOLE as LOCID if it is a two character
+  alpha-numeric string (padded with spaces or not).
+
+  It is possible to override the header values by specifying
+  additional options to EVALRESP. The possible options are::
+
+    STATION, CHANNEL, NETWORK, DATE, TIME, LOCID, FNAME
+
+  and each option must be followed by an appropriate value. If
+  DATE is not set in the header and is not specified as an option,
+  then the current date is used in the search.  If TIME is not
+  set in the   seismogram header and is not specified as an
+  option, then the current system time is used in the search.  If
+  network is not specified, then the search for a transfer
+  function defaults to use any network.  If LOCID is not set at
+  the command line or in KHOLE, then the search for the transfer
+  function defaults to use any LOCID.  To force TRANSFER to use a
+  specific SEED response file use the FNAME option followed by
+  the filename.
+
+  If the FNAME option is not specified EVALRESP will attempt to
+  identify the correct file in the current working directory using
+  the  general form::
+
+    RESP.<NET>.<STA>.<LOCID>.<CHAN>
+
+  for example: "RESP.IU.ANMO..BHZ"
+
+  The embedded version of EVALRESP is configured to always produce
+  a displacement response in SI units (i.e. displacement in
+  meters), which SAC scales by a factor of 1.0e9 to conform to the
+  SAC convention of units of displacement (nanometers).
+
+EVALRESP EXAMPLES
+-----------------
+
+  To remove the instrument response from the seismogram in memory
+  (assuming a response file exists)::
+
+    SAC> r 2006.253.14.30.24.0000.TA.N11A..LHZ.Q.SAC
+    SAC> RTR
+    SAC> TAPER
+    SAC> TRANS FROM EVALRESP TO NONE freq 0.004 0.007 0.2 0.4
+
+  To remove the instrument response from the same waveform but
+  using a response contained in file
+  /tmp/Responses/RESP.TA.N11A..LHZ::
+
+    SAC> SETBB RESP "/tmp/Responses/RESP.TA.N11A..LHZ"
+    SAC> r 2006.253.14.30.24.0000.TA.N11A..LHZ.Q.SAC
+    SAC> RTR
+    SAC> TAPER
+    SAC> TRANSFER FROM EVALRESP FNAME %resp TO NONE FREQLIM 0.004 0.007 0.2 0.4
+
+  To remove the instrument response from
+  16.42.05.5120.TS.PAS.BHZ.SAC and apply the response from station
+  COL, channel BHZ for the same time period::
+
+    SAC> R 16.42.05.5120.TS.PAS.BHZ.SAC
+    SAC> RTR
+    SAC> TAPER
+    SAC> TRANS FROM EVALRESP TO EVALRESP STATION COL
+
+  To display the instrument response in units of displacement for
+  station COL, channel BHZ, network IU, for the date 1992/02 and
+  time 16:42:05::
+
+    SAC> FG IMPULSE NPTS 16384 DELTA .05 BEGIN 0.
+    SAC> TRANS TO EVALRESP STATION COL CHANNEL BHZ NETWORK IU DATE 1992/2 TIME 16:42:05
+    SAC> FFT
+    SAC> PSP AM
+ 
+  COMMENTS: rtr removes any trend and offset.  Because the FFT_
+  called by TRANSFER pads with zeroes to a power of 2 number of
+  points, TAPER eliminates any large jumps at the ends of the time
+  series.  FREQLIMITS is necessary for deconvolutions TO NONE because
+  the instrument has zero response at zero frequency.
+
+POLEZERO OPTION
+---------------
+  POLEZERO is an instrument type that can be used to put in or
+  take out the (analog) seismometer response.  A good reference is
+  Appendix C in the SEED manual.  
+  
+  A polezero file as written may be for displacement, velocity, or acceleration,
+  and the units of the output should be known in advance.  If the polezero
+  file was written by program RDSEED 5.0 or later, this information is included
+  in the file (see example below).
+  
+  The transfer function, H(s), is the Laplace transform of the linear system 
+  impulse response of the seismometer.  The Laplace variable s = 2*pi*i*f, 
+  where f is the frequency in Hz.
+
+  The response H(w) is the ratio of the product of the difference
+  between s and each of the np poles and nz zeros::
+
+            (s-z )*(s-z )*...*(s-z  )
+                1      2          nz
+     H(s) = -------------------------
+            (s-p )*(s-p )*...*(s-p  )
+                1      2          np
+
+  The options in the file (poles, zeros, constant, and comment
+  lines) are keyword driven and numbers are in free format.
+  CONSTANT is a scaling factor.  (See the SEED manual for how it
+  is defined for polezero files produced by RDSEED.) The default for
+  CONSTANT is 1.0 if one omits this line.  one specifies the
+  number of poles by putting a line in the file with the keyword
+  "POLES" followed by an integer number (np in the above
+  example).  The next np lines in the file, each containing two 
+  floating-point numbers, are the poles for this instrument.  One
+  specifies the zeros with a line starting with "ZEROS" followed by an
+  integer specifying the number of zeros (nz).  Because a typical
+  polezero file has one or more zeros that are (0.0,0.0),  SAC
+  does not require one to write out a line for a zero equal to
+  (0.0,0.0). One may specify up to 30 poles and 30 zeros.
+  
+  The original SAC polezero files only contained poles, zeroes, and a 
+  constant.  Recently, it has been determined that supplying formatted 
+  comments as a header in the polezero file helps greatly for users to 
+  organize and understand the origins of the coefficients presented.  
+  For this reason, SAC now supports the 'annotated' polezero file, 
+  which can be readily produced by IRIS DMC's RDSEED program (v5.2, 
+  October 2011) as well as IRIS DMC's SAC PZ web service 
+  <http://www.iris.edu/ws/sacpz>.  (RDSEED v5.0 had annotation lines
+  with slightly different formats for some entries.  SAC v 101.5 can
+  handle files written by either v5.0 or 5.2 of RDSEED.  Polezero files
+  produced by a request to sacpz are in the RDSEED 5.2 format.) If a 
+  waveform in memory has header values KSTNM, KCMPNM, KZDATE, and KZTIME 
+  that match entries for a polezero file in the call to TRANSFER, the 
+  command will work for that waveform.  Depending on the request format, 
+  a fpolezero file returned by sacpz may include multile polezero files
+  covering more than one time epoch as well as more than one station and/or
+  channel.  A call to transfer using such a file will work satisfactorily
+  for all waveforms in memory with anotation values that match the header
+  values.
+  
+  Here is a polezero file written by program RDSEED (v5.2).  Earlier 
+  versions of RDSEED have a slightly different format for the
+  comments (v5.0) or may have no comments (earlier versions)::
+
+    * **********************************
+    * NETWORK   (KNETWK): II
+    * STATION    (KSTNM): PFO
+    * LOCATION   (KHOLE): 00
+    * CHANNEL   (KCMPNM): BHZ
+    * CREATED           : 2011-08-11T00:24:07
+    * START             : 2010-07-30T18:50:00
+    * END               : 2599-12-31T23:59:59
+    * DESCRIPTION       : Pinon Flat, California, USA
+    * LATITUDE          : 33.610700
+    * LONGITUDE         : -116.455500
+    * ELEVATION         : 1280.0
+    * DEPTH             : 5.3
+    * DIP               : 0.0
+    * AZIMUTH           : 0.0
+    * SAMPLE RATE       : 20.0
+    * INPUT UNIT        : M
+    * OUTPUT UNIT       : COUNTS
+    * INSTTYPE          : Streckeisen STS-1 Seismometer with Metrozet E300
+    * INSTGAIN          : 3.314400e+03 (M/S)
+    * COMMENT           : S/N #119005
+    * SENSITIVITY       : 5.247780e+09 (M/S)
+    * A0                : 7.273290e+01
+    * **********************************
+    ZEROS	6	
+    -7.853982e+01	+0.000000e+00	
+    -1.525042e-01	+0.000000e+00	
+    -1.525042e-01	+0.000000e+00	
+    POLES	6
+    -1.207063e-02	+1.224561e-02	
+    -1.207063e-02	-1.224561e-02	
+    -1.522510e-01	+9.643684e-03	
+    -1.522510e-01	-9.643684e-03	
+    -4.832398e+01	+5.817080e+01	
+    -4.832398e+01	-5.817080e+01	
+    CONSTANT	3.816863e+11
+     
+  For this transfer function, there are six poles, for which the
+  complex  values are listed on the five lines following the line
+  POLES 6.  There are six zeros, but because only three are listed,
+  the three not listed have the value of (0.0,0.0).
+  
+  Note: On some platforms, RDSEED v5.1 produces incorrect END times -- often
+  earlier than the START time, so TRANSFER will not work.  Manually changing
+  END to a time later than CREATED will allow TRANSFER to process that
+  waveform.
+
+  To use this option, one specifies the type to be POLEZERO and
+  the [S]ubtype is the name of the file.  This may be a file in
+  the current directory or in some other directory if one
+  specifies the absolute or relative pathname.
+
+PZ EXAMPLES
+-----------
+
+  The PZ file SAC_PZs_XC_OR075_LHZ is the correct one to remove the
+  instrument response from waveform OR075_LHZ.SAC. 
+  (Names are shortened from those rturned by RDSEED.)::
+
+    SAC> SETBB pzfile "SAC_PZs_XC_OR075_LHZ"
+    SAC> READ OR075_LHZ.SAC
+    SAC> RTR
+    SAC> TAPER
+    SAC> TRANS FROM POLEZERO S %pzfile TO NONE FREQ 0.008 0.016 0.2 0.4
+    SAC> MUL 1.0e9
+    SAC> w OR075.z
+
+  COMMENTS: If the polezero file was produced by the RDSEED program
+  from a SEED volume, the poles and zeros will be in units of
+  displacement with length units the same as contained in the SEED
+  volume, which is almost always meters.  The polezero file for a
+  given sensor represents only one piece of the response
+  information available in a SEED volume.  The polezero file in
+  this example is such a file.  It includes only the first stage of
+  the instrument response: the seismometer.  Not included are later stages 
+  in the response that include FIR and IIR  filters. EVALRESP calculates 
+  responses using all stages, but in most applications the POLEZERO stage 
+  suffices.  Unlike EVALRESP, SAC does not know where the  polezero file 
+  comes from, so in this case, it is necessary to multiply the waveform 
+  by 1.0e9 to convert from meters to nanometers.   The command w OR075.z 
+  produces a waveform that is instrument corrected to displacement in nm.
+  
+  Fot the above example, suppose one had not used SAC_PZs_XC_OR075_LHZ
+  but instead has used an inappropriate PZ file: SAC_PZs_wrong.  The following
+  procedure shows how one can use one call to TRANSFER to take out the incorrect
+  response and put in the correct response::
+  
+      SAC> READ OR075.z
+      SAC> write OR075.zbad
+      SAC> SETBB pzo "SAC_PZs_wrong"
+      SAC> SETBB pzn "SAC_PZs_XC_OR075_LHZ"
+      SAC> TRANS FROM POLEZERO S %pzn TO POLEZERO S %pzo FREQ 0.008 0.015 0.2 0.4
+      SAC> write OR075.z
+
+  The first write statement makes a copy of the original file.
+  
+  As a final example we consider the case for which one has several stations and
+  BH* channels for waveforms from an event in the calling directory written by
+  RDSEED v5.2.  Assume one has either made a call to sacpz or concatinated all the
+  BH* PZ files for this event into a single file named event.pz.  The following 
+  sequence will read all the BH* waveforms into memory and overwrite those files
+  in memory with instrument-corrected waveforms::
+  
+       SAC> r *BH*SAC
+       SAC> rtr;taper
+       SAC> TRANS FROM POLEZERO S event.pz freq 0.05 0.1 10.0 15.0
+
+
+FAPfile OPTION
+---------------
+
+  Reintroduced into Sac in version 101.4, is the FAPfile option.
+  A FAPFILE is an ascii file in which each line has three entries:
+  a frequency (in HZ), an amplitude, and a phase (in degrees that will
+  decrease with increasing frequency).  This FROM option will deconvolve
+  the waveform over the frequency range from the frequency in the first
+  line to the frequency in the last line.  The frequencies need not be
+  equally spaced.  When applying the correction, for frequencies less that
+  the frequency in the first line, the amplitude and phase of that first
+  line are used.  Similarly, for frequencies greater than that in the last
+  line, the amplitude and phase for the frequency in the last line are used.
+  
+  As of version 3.3.2 in EVALRESP, a FAPfile output can be generated.  An
+  advantage of using a FAPFILE generated by EVALRESP rather than a POLEZERO
+  file generated from the same RESP file is that one can include additional
+  stages of the instrument response and/or control more explicitly the
+  frequency range over which the correction is applied.  Historically, a
+  FAPFILE was used because one did not have a polezero file for the 
+  instrument or the full response included analog stages.
+  
+  The format of a FAP file is consistent with that produced by the standalone
+  program EVALRESP (v3.3.3), but is different from the format used by SAC2000.
+  
+FAP EXAMPLES
+------------
+
+  Suppose one has a fapfile fap.n11a.lhz_0.006-0.2, where the name is a short-hand 
+  for the fact that the frequency range is from0.006 HZto 0.2 HZ, and one wants to 
+  remove the instrument response from waveform
+  2006.253.14.30.24.0000.TA.N11A..LHZ.Q.SA. ::
+
+    SAC> READ 2006.253.14.30.24.0000.TA.N11A..LHZ.Q.SAC
+    SAC> RTR
+    SAC> TAPER
+    SAC> TRANSFER FROM FAP S fap.n11a.lhz_0.006-0.2 FREQ 0.004 0.006 0.1 0.2
+    SAC> MUL 1.0e9
+
+  COMMENTS: As with the EVALRESP and POLEZERO options, one should accompany
+  the instrument correction with a FREQLIMITS option to handle the highest 
+  and lowest frequencies.  (The Nyquist for this LHZ file is 0.5 Hz.)
+  
+TABLE OF AVAILABLE INSTRUMENT TYPES
+-----------------------------------
+
+========== ==================================================
++ACC       acceleration
+BBDISP     Blacknest specification of Broadband Displacement
+BBVEL      Blacknest specification of Broadband Velocity
+BENBOG     Blacknest specification of Benioff by Bogert
+DSS        LLNL Digital Seismic System
+DWWSSN     Digital World Wide Standard Seismograph Station
+EKALP6     Blacknest specification of EKA LP6
+EKASP2     Blacknest specification of EKA SP2
+ELMAG      Electromagnetic
+++EVALRESP Response specified in SEED RESP files
+GBALP      Blacknest specification of GBA LP
+GBASP      Blacknest specification of GBA SP
+GENERAL    General seismometer
+GSREF      USGS Refraction
+HFSLPWB    Blacknest specification of HFS LPWB
+IW         EYEOMG-spectral differentiation
+LLL        LLL broadband analog seismometer
+LLSN       LLSN L-4 seismometer
+LNN        Livermore NTS Network instrument
+LRSMLP     Blacknest specification of LRSM LP
+LRSMSP     Blacknest specification of LRSM SP
++NONE      displacement, this is the default
+NORESS     NORESS (NRSA)
+NORESSHF   NORESS high frequency element
+OLDBB      Old Blacknest specification of BB
+OLDKIR     Old Blacknest specification of Kirnos
+++POLEZERO reads Pole Zero file
+PORTABLE   Portable seismometer with PDR2
+PTBLLP     Blacknest specification of PTBL LP
+REDKIR     Blacknest specification of RED Kirnos
+REFTEK     Reftek 97-01 portable instrument
+RSTN       Regional Seismic Test Network
+S750       S750 Seismometer
+SANDIA     Sandia system 23 instrument
+SANDIA3    Sandia new system with SL-210
+SRO        Seismic Research Observatory
++VEL       velocity
+WA         Wood-Anderson
+WABN       Blacknest specification of Wood-Anderson
+WIECH      Wiechert seismometer
+WWLPBN     Blacknest specification of WWSSN long period
+WWSP       WWSSN short period
+WWSPBN     Blacknest specification of WWSSN short period
+YKALP      Blacknest specification of YKA long period
+YKASP      Blacknest specification of YKA short period
+========== ==================================================
+
+  **Note** [ + ] ACC, VEL, and NONE do not refer to actual seismometer
+  specifications but to acceleration, velocity, and
+  displacement respectively.   When these are specified as
+  the TO type, IDEP is set accordingly.
+    
+  **Note** [ ++ ] EVALRESP and POLEZERO do not refer to actual seismometer
+  specifications. They are described in greater detail above.
+
+INSTRUMENT TYPE OPTIONS
+-----------------------
+
+:SUBTYPE: the following instrument types use the following subtypes:
+
+:LLL:             LV, LR, LT, MV, MR, MT, EV, ER, ET, KV, KR, KT
+
+:LNN:          	  BB, HF
+
+:NORESS:       	  LP, IP, SP
+
+:POLEZERO:     	  name of file to be read
+
+:RSTN:         	  [CP, ON, NTR, NY, SD][KL, KM, KS, 7S][Z, N, E]
+
+:SANDIA:       	  [N, O][T, L, B, D, N, E][V, R, T]
+
+:SRO:             BB, SP, LPDE
+
+:FREEPERIOD v:    ELMAG, GENERAL, IW, LLL SUBTYPE BB, REFTEK
+	       	  (v must be 15.0 or 30.0 for ELMAG)
+
+:MAGNIFICATION n: ELMAG, GENERAL
+	       	  (n must be 375, 750, 1500, 3000, or 6000 for ELMAG)
+:NZEROS n:     	  GENERAL, IW
+
+:DAMPING v:    	  GENERAL, LLL SUBTYPE BB, REFTEK
+
+:CORNER v:     	  LLL SUBTYPE BB, REFTEK
+
+:GAIN v:
+
+:HIGHPASS v:	  REFTEK
+
+EXAMPLES
+--------
+
+  To remove the instrument response from the RSTN station NYKM.Z
+  and apply the instrument response for DSS without prewhitening
+  (which is the default)::
+
+      SAC> READ NYKM.Z
+      SAC> TRANS FROM RSTN SUBTYPE NYKM.Z TO DSS PREW OFF
+
+  To remove the LLL broadband instrument response and apply the SRO
+  instrument response with frequency tapering and prewhitening::
+
+      SAC> READ ABC.Z
+      SAC> TRANS FROM LLL TO SRO FREQ .02 .05 1. 2. PREW 2
+
+  The passband of the resulting trace will be flat from .05 Hz to 1
+  Hz and will be zero below .02 Hz and above 2 Hz.  Prewhitening of
+  order 2 is applied in the time domain before deconvolution and
+  the effect is removed in the time domain after convolution.
+
+  To transfer from the electromagnetic instrument response to
+  displacement::
+
+      SAC>  READ XYZ.Z
+      SAC>  TRANSFER FROM ELMAG FREEP 15. MAG 750. TO NONE
+
+ACKNOWLEDGEMENTS
+----------------
+  Roger Hanscom did the original conversion of Keith
+  Nakanishi's TRANSFER program. George Randall added the prewhitening
+  option and was a major contributor to the testing and documentation of
+  this command.  Doug Dodge included the EVALRESP option.
+
+LATEST REVISION
+---------------
+   August 2011 (Version 101.5) In previous versions, if the header vaiable
+   SCALE was defined, it might be used in scaling the output and would be 
+   changed.  In this version, SCALE is ignored.

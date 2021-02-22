@@ -1,0 +1,66 @@
+PICKAUTHOR
+++++++++++
+
+SUMMARY
+-------
+Tell sac to read author list (and possibly phase pick information) from
+a user-defined preferences file, or interactively enter author list on
+the PICKAUTHOR_ command line.
+
+SYNTAX
+------
+
+  ``PICKAUTHOR author1 {author2 author3 ... }``
+
+  ``PICKAUTHOR FILE {filename}``
+
+  ``PICKAUTHOR PHASE {filename}``
+
+INPUT
+-----
+   :authorlist:     sac uses the input to create the author list.
+    
+   :FILE:	if the FILE option is used, sac will read the author list
+       from the preferences file.  If a filename is given on the
+       command line, sac will read the specified file, else it will
+       read the most recently entered file name from a previous
+       call to PICKAUTHOR_.  If no filename was ever entered, sac
+       will look for SACAUX/csspickprefs.
+    
+   :PHASE:	this option behaves essencially like the FILE option with
+       the added benefit of having sac read specific header
+       variable information as well.
+    
+    
+DEFAULT VALUES
+--------------
+
+  ``PICKAUTHOR FILE``
+
+
+DESCRIPTION
+-----------
+  PICKAUTHOR_ is provided as a means to override the preferences file on the
+  command line.  It can be used to provide a prioritized list of authors at
+  the command line, or to redirect SAC from one preferences file to
+  another.  For more on the preferences files, see PICKPREFS_ and READCSS_.
+
+  Note:  If the user alters the preference settings while data is in the data
+  buffers, the picks in the SAC data buffer (the buffer visible to the user
+  through LISTHDR_ and CHNHDR_ etc.) may be modified.
+  Eg. if the author list is "john rachel michael" and some files are read
+  with the READCSS_ command some arrivals may be read with author = michael.  
+  (The user will proably not be aware of who the author is for a given pick, 
+  because the author field in CSS does not appear in the SAC format.)  If 
+  the user later uses the PICKAUTHOR_ command to change the author list 
+  to "peter doug rachel", then on a READCSS_ MORE command, no arrivals 
+  with author = michael will be read from the data files, and the file 
+  already in memory will lose the picks which have michael as the author.  
+  The user may not know why seemingly random picks have disappeard.  
+  For an explanation, type HELP_ PICKPREFS_.
+
+SEE COMMANDS
+------------
+  PICKPREFS_, READCSS_, PICKPHASE_
+
+

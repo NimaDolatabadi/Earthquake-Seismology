@@ -1,0 +1,53 @@
+Seismic Analysis Code Example Programs
+
+What follows is a collection of programs that use various portions of the
+sacio and sac libraries included with this distribution.  The source code
+for each program in Fortran and C should be documented and the programs 
+usable once compiled.  They are provided here as reference and a starting
+point to create your own programs using the sacio and sac libraries.
+
+The Makefile provided with the examples demonstrates a way to use the 
+sac-config helper program to get the location and name of libraries along
+with required compile flags.
+
+Programs include:
+  * Get SAC Header Variables
+      - gethvc.c
+      - gethvf.f
+  * Read a Evenly Spaced SAC file
+      - rsac1c.c
+      - rsac1f.f
+  * Read an Un-Evenly Spaced SAC file
+      - rsac2c.c
+      - rsac2f.f
+  * Write a Evenly Spaced SAC file
+      - wsac1c.c
+      - wsac1f.f
+  * Write a Un-Evenly Spaced SAC file
+      - wsac2c.c
+      - wsac2f.f
+  * Write Another Evenly Spaced SAC file
+      - wsac3c.c
+      - wsac3f.f
+  * Write a 2D SAC file
+      - wsac4c.c
+      - wsac4f.f
+  * Write a collection of SAC files
+      - wsac5c.c
+      - wsac5f.f
+  * Convolve Two SAC files
+      - convolvec.c
+      - convolvef.f
+  * Correlate Two SAC files
+      - correlatec.c
+      - correlatef.f
+  * Get the Envelope of a SAC file
+      - envelopec.c
+      - envelopef.f
+  * Filter a SAC file
+      - filterc.c
+      - filterf.f
+  * create_input.sh
+      Run SAC to create SAC files that are then 
+      compared to the output from each standalone program.
+      

@@ -1,0 +1,61 @@
+
+WHITEN
+++++++
+
+SUMMARY
+-------
+Flattens the spectrum of the input time series.
+
+SYNTAX
+------
+
+  ``WHITEN {N} {FILTERDESIGN|FD}``
+
+INPUT
+-----
+  :N:  The order (number of poles).  The higher this number, the flatter the
+       resultent data.  High orders can clean the data up better, but they can
+       clean the data up too much, and important data can be lost if the order
+       is set too high.  The default is 6.
+    
+  :FD: Performs something akin to the filterdesign command.  Using the whitening
+       coefficients, it designs the whitening filter.  Output is written to
+       disc as a set of three output files per input file.  Output files have
+       the following suffixes:  
+
+         - .imp = impulse response, 
+	 - .spec = spectral
+
+       responses (amplitude and phase), and .gd = group delay.  Note that while
+       the group delay claims to be a time series file, it is really a frequency
+       series.
+    
+DEFAULT VALUES
+--------------
+
+  ``WHITEN 6``
+
+DESCRIPTION
+-----------
+  Add white noise to the data.  Flattens the spectrum of the input time series.
+  When this is performed prior to the spectral commands (like those in SPE_, or
+  transfer or spectrogram), it reduces the dynamic range of the spectral values,
+  and improves the accuracy of the overall operation at high frequencies for
+  seismic data.
+
+  **Note**  WHITEN_ can be called from within the SPE_ subprocess, or from SAC's
+  main shell.  The WHITEN_ in SPE_ maintains the order separately from
+  the WHITEN_ in the main shell.  From the main shell, you can
+  call WHITEN_ 4.  Future calls to WHITEN_ from the main shell will have
+  an order of 4, but calls to WHITEN_ in SPE_ will still have order of 6,
+  unless it is changed at the commandline in SPE_.  Furthermore, the
+  order in SPE_ is the same as the order related to the PREWHITEN option
+  in SPE's COR command (setting one sets the other).  Also the order in
+  the main shell's WHITEN_ command is the same as the order in the
+  TRANSFER_ command's PREWHITEN option.
+
+
+SEE COMMANDS
+------------
+  SPE_, SPE_COR, TRANSFER_
+

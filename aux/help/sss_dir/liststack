@@ -1,0 +1,26 @@
+LISTSTACK
++++++++++
+
+SUMMARY
+-------
+Lists the properties of the files in the stack file list.
+
+SYNTAX
+------
+
+    ``[L]IST[S]TACK {[N]ARROW |[W]IDE}``
+
+INPUT
+-----
+   :NARROW:      Use the narrow report format.  Two lines of about
+       70 characters in width are output for each file.
+
+   :WIDE:      Use the wide report format.  A single line of about
+       120 characters in width is output for each file.
+    
+DEFAULT VALUES
+--------------
+
+   ``LISTSTACK NARROW``
+    
+

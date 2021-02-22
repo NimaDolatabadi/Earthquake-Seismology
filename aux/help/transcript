@@ -1,0 +1,156 @@
+
+TRANSCRIPT
+++++++++++
+
+SUMMARY
+-------
+Controls output to the transcript files.
+
+SYNTAX
+------
+
+  ``TRANSCRIPT options``
+
+   where options are one or more of the following:
+
+  ``OPEN|CREATE|CLOSE|CHANGE|WRITE|HISTORY``
+
+  ``FILE filename``
+
+  ``CONTENTS ALL|list``
+
+  ``MESSAGE text``
+
+   where list is one or more of the following:
+
+  ``ERRORS``
+
+  ``WARNINGS``
+
+  ``OUTPUT``
+
+  ``COMMANDS``
+
+  ``MACROS``
+
+  ``PROCESSED``
+
+INPUT
+-----
+   :OPEN:  Open and append transcript to the bottom of an existing file.
+    
+   :CREATE:  Create a new transcript file.
+    
+   :CLOSE:  Close an open transcript file.  (NEW version 101.2)
+    
+   :CHANGE:  Change the contents of an open transcript file.
+    
+   :WRITE:  Write message to transcript file without changing its status
+       or contents.
+    
+   :HISTORY FILE filename:  Save/restore command-line history to a file.
+    
+   :FILE filename:  Define the name of a transcript.
+    
+   :MESSAGE text:  Write message contained in text to transcript file.
+       This message can be used to identify the processing being done or
+       to identify different events as they are being processed.  This
+       message is NOT retained between executions of this command.
+    
+   :CONTENTS ALL:  Define the contents of the transcript file to be all
+       input/output types.
+    
+   :CONTENTS list:  Define the contents of the transcript file.  This is
+       a list of the types of input and output to include in the file.
+    
+   :ERRORS:  Error messages generated during the execution of a command.
+    
+    
+   :WARNINGS:  Warning messages generated during the execution of a
+       command.
+    
+   :OUTPUT:  Output messages generated during the execution of a
+       command.
+    
+   :COMMANDS:  Raw commands as they were typed at the terminal.
+    
+   :MACROS:  Raw commands as they appears in a macro file.
+    
+   :PROCESSED:  Processed commands originating from the terminal or a
+       macro file.  A processed command is one where all macro arguments,
+       blackboard variables, header variables, and inline functions have
+       been processed (evaluated) and substituted into the raw command.
+    
+DEFAULT VALUES
+--------------
+
+  ``TRANSCRIPT OPEN FILE TRANSCRIPT CONTENTS ALL``
+
+DESCRIPTION
+-----------
+   A transcript file can be used to record the results of executing SAC.  It
+   can be a complete or partial transcript.  It can contain the results from
+   one or more executions.  You can have up to five transcripts active at any
+   given time, each keeping track of different aspects of the execution.  One
+   use as illustrated below is to record the commands typed at the terminal and
+   to later use this as a macro file.
+
+EXAMPLES
+--------
+  To create a new transcript file called MYTRAN containing everything except
+  the processed commands::
+
+      u:  TRANSCRIPT CREATE FILE MYTRAN CONTENTS ERRORS WARNINGS OUTPUT
+
+  COMMANDS MACROS
+
+  If later during this session you did not want the macro commands to be sent
+  to this file you would use the CHANGE option::
+
+      u:  TRANSCRIPT CHANGE FILE MYTRAN CONTENTS ERRORS WARNINGS OUTPUT
+
+  COMMANDS
+
+  To define a transcript file called MYRECORD which records the commands as
+  they are typed at the terminal::
+
+      u:  TRANSCRIPT CREATE FILE MYRECORD CONTENTS COMMANDS
+
+  Later this file, perhaps after some editing, could be used as a macro to
+  automatically execute the same set of commands.  In the final example assume
+  you needed to process a number of events overnight.  You could set up
+  transcript files for each of these events (with different names) that
+  recorded the results of the processing.  In addition you could store any
+  error messages from the processing of all of these events in a single
+  transcript file::
+
+      u:  TRANSCRIPT OPEN FILE ERRORTRAN CONTENTS ERRORS
+      u:  TRANSCRIPT WRITE MESSAGE 'Processing event 1'
+
+  These commands would be placed in the macro that processes each event.  It
+  is assumed that the name of the event is passed into the macro as the first
+  argument.  By using the open option, the message and any errors would be
+  appended to the end of the file.  By examining this error transcript the
+  next day, you could quickly see whether any errors occurred during
+  processing and for which events these errors occurred.
+
+  To save a command-line transcript that records SAC commands from curent
+  and future runs, use::
+
+      u:  TRANSCRIPT HISTORY FILE .sachist
+
+  This creates and writes to a transcript file, "./.sachist", in the current
+  directory. Any commands stored there are loaded into your command history,
+  and you can scroll back through them.  If this command is in your startup
+  initialization macro, there will be a separate command-line history for each
+  directory in which you run SAC.  In a new run of SAC, the up/down or
+  previous/next keys scroll through the complete history.  You can edit a
+  previously-typed command and enter it again.  If you do not enter this
+  command within SAC or in an initialization macro, the command-line history
+  will be automatically logged to ~/.sac_history.  See README_utils in
+  subdirectory sac/utils for further discussion.
+
+LATEST REVISION
+---------------
+  September 2008 (version 101.2)
+

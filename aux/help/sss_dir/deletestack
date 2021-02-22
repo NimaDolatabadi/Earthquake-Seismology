@@ -1,0 +1,33 @@
+DELETESTACK
++++++++++++
+
+SUMMARY
+-------
+Deletes one or more files from the stack file list.
+
+SYNTAX
+------
+
+  ``[D]ELETE[S]TACK filename|filenumber {filename|filenumber...}``
+
+INPUT
+-----
+    
+   :filename:    The name of the file in the stack file list.
+    
+   :filenumber:  The number of the file in the stack file list.
+    
+EXAMPLES
+--------
+  See the example for the ADDSTACK command.
+    
+ERROR MESSAGES
+--------------
+- 5106: File name not in file list
+- 5107: File number not in file list
+    
+SEE COMMANDS
+------------
+  ADDSTACK
+    
+

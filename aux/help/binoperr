@@ -1,0 +1,82 @@
+
+BINOPERR
+++++++++
+
+SUMMARY
+-------
+Controls errors that can occur during binary file operations.
+
+SYNTAX
+------
+
+  ``BINOPERR {NPTS FATAL|WARNING|IGNORE},``
+
+  ``{DELTA FATAL|WARNING|IGNORE}``
+
+INPUT
+-----
+   :NPTS:  Change error condition for unequal number of data points.
+    
+   :DELTA:  Change error condition for unequal sampling intervals.
+    
+   :FATAL:  Make error condition fatal.  Control is immediately returned
+       to the user's terminal.  Additional commands typed on the same line
+       or in the same command file are ignored.
+    
+   :WARNING:  Send a warning message to the user.  Correct the error
+       condition and continue.
+    
+   :IGNORE:  Correct the error condition and continue.
+    
+DEFAULT VALUES
+--------------
+
+  ``BINOPERR NPTS FATAL DELTA FATAL``
+
+DESCRIPTION
+-----------
+  SAC checks for certain common errors whenever you execute a binary
+  operations module command (ADDF, DIVF_, etc.) Using this command, you can
+  control what SAC does when it finds one of these errors.
+  If you make an error condition fatal, then SAC will stop executing the
+  current command, will ignore all commands in its queue, will print an error
+  message to the terminal, and will return control to you.  If you make an error
+  condition a warning, then SAC will send you a warning message, correct the
+  condition as best it can, and continue.  If you tell SAC to ignore a
+  condition, then SAC will correct the condition and continue without telling
+  you the condition even occurred.
+
+  One of these error conditions occurs when the number of data points in
+  the two files to be operated on are not equal.  Corrective action in this case
+  is to perform the operation using the number of data points in the smaller
+  file.
+
+  Another error condition occurs when the sampling intervals of the two
+  files are not the same.  The corrective action in this case is to use the
+  sampling interval of the first data file.
+
+EXAMPLES
+--------
+  Assume that FILE1 has 1000 data points and FILE2 has 950 data points.::
+
+      u:  BINOPERR NPTS FATAL
+      u:  READ FILE1
+      u:  ADDF FILE2
+      u:  ERROR:  Header field mismatch: NPTS FILE1 FILE2
+
+  The file addition was not performed.  Assume you now type::
+
+      u:  BINOPERR NPTS WARNING
+      u:  ADDF FILE2
+      u:  WARNING:  Header field mismatch: NPTS FILE1 FILE2
+
+  The file addition was performed on the first 950 data points of each file.
+
+SEE COMMANDS
+------------
+  ADDF_, SUBF_, MULF_, DIVF_
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

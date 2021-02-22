@@ -1,0 +1,59 @@
+
+MTW
++++
+
+SUMMARY
+-------
+Determines the measurement time window for use in subsequent measurement
+commands.
+
+SYNTAX
+------
+
+  ``MTW {ON|OFF|pdw}``
+
+INPUT
+-----
+   :{ON}:  Turn measurement time window option on but don't change window
+       values.
+    
+   :OFF:  Turn measurement time window off.  Measurements are done on the
+       entire file.
+    
+   :pdw:  Turn measurement time window on and set window values to a new
+       "partial data window." A pdw consists of a starting and a stopping
+       value of the independent variable, usually time, which defines the
+       desired window of data that you wish to make measurements on.  See
+       the CUT_ command for a complete explanation of how to define and use
+       a pdw.  Some examples are given below.
+    
+DEFAULT VALUES
+--------------
+
+  ``MTW OFF``
+
+DESCRIPTION
+-----------
+  When this option is on, measurements are made on the data within the window
+  only.  When this option is off, measurements are made on the entire file.
+  This option currently applies to the MARKPTP_ and MARKVALUE_ commands only.
+  Others measurement commands will be added as needed.
+
+EXAMPLES
+--------
+  Some examples of pdw are given below::
+
+    B 0 30: First 30 secs of the file.
+    A -10 30: From 10 secs before to 30 secs after first arrival.
+    T3 -1 T7: From 1 sec before T3 time pick to T7 time pick.
+    B N 2048: First 2048 points of file.
+    30.2 48: 30.2 to 48 secs relative to file zero.
+
+SEE COMMANDS
+------------
+  CUT_, MARKPTP_, MARKVALUE_
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

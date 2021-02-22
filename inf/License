@@ -1,0 +1,245 @@
+SAC 2000 SOFTWARE END-USER LICENSE
+
+IMPORTANT – READ THESE TERMS AND CONDITIONS CAREFULLY BEFORE PROCEEDING.  BY
+CHECKING “I AGREE” AND CLICKING “SUBMIT”, YOU ACKNOWLEDGE THAT YOU ARE DULY
+AUTHORIZED TO ENTER INTO THIS LICENSE AGREEMENT ON BEHALF OF THE ORGANIZATION
+IDENTIFIED IN THE USER LICENSE APPLICATION SUBMITTED TO INCORPORATED RESEARCH
+INSTITUTIONS FOR SEISMOLOGY.  YOU FURTHER ACKNOWLEDGE THAT YOU HAVE READ THIS
+LICENSE AGREEMENT, YOU UNDERSTAND IT, AND THE ORGANIZATION WILL BE BOUND BY ITS
+TERMS.  IF AFTER READING THE TERMS AND CONDITIONS OF THIS LICENSE AGREEMENT YOU
+DO NOT CONSENT, YOU SHOULD EXIT THIS PAGE WITHOUT CHECKING “I AGREE” OR CLICKING
+“SUBMIT”, IN WHICH CASE YOU WILL NOT BE PROVIDED ACCESS TO THE SEISMIC ANALYSIS
+CODE SOFTWARE, SAC 2000 VERSION 100 AND ALL SUBSEQUENT VERSIONS RELEASED THROUGH
+IRIS.
+
+1.	IRIS.  (a) Incorporated Research Institutions for Seismology (“IRIS”)
+agrees to provide the organization or other applicant identified in the User
+License Application (“you”) with access to the Seismic Analysis Code Software,
+SAC 2000 Version 100 and all subsequent versions released through IRIS 
+(the “Software”), and in  consideration thereof, you agree to all of the terms and conditions set forth in this License Agreement (this “License Agreement”).
+
+(b)	IRIS shall provide you with such user IDs and passwords as may be
+necessary for you to access the Software.  During the term of this License
+Agreement, IRIS may provide your employees and/or agents with user IDs and
+passwords.  You agree that all such user IDs and passwords are the confidential
+information of IRIS and shall be maintained in strict confidence, and not
+disclosed to third parties without IRIS’ prior written authorization.  IRIS may
+grant your employees or agents passwords on condition that they execute an
+on-line password use agreement.  You agree that any such on-line password use
+agreement will be a valid and binding agreement when executed by such employees
+or agents, and you agree to make best efforts to ensure that such employees and
+agents comply with the terms of such password use agreements and to notify IRIS
+promptly if such an employee or agent terminates his or her employment or
+engagement with you.  Your employees and/or agents are authorized to use the
+user IDs and passwords  only for accessing the Software for the Licensed Use (as
+defined herein) and for no other purpose.  You, at your own expense, shall
+obtain, maintain and operate suitable and fully compatible computer equipment,
+communication devices, printers and related equipment, consumable items and
+software, including Internet connections, required to access and use the
+Software.  You shall assume full responsibility including expenses for remote
+connectivity necessary for the transmission of data and to access and use the
+Software.
+
+2.	GRANT OF LICENSE: IRIS grants to you a non-exclusive, non-transferable
+license to the access and utilize the Software, subject to all of the terms and
+conditions set forth in this License Agreement, including, without limitation,
+the following:
+
+(a)	You may access and use the Software solely in the regular course of your
+teaching and/or research solely for the purposes of supporting scientific
+research activities (the “Licensed Use”).  This License Agreement does not
+convey to you any interest in or right to use the Software, except the limited
+right of access and use licensed hereunder, revocable at any time by IRIS in
+accordance with the terms of this License Agreement.  No form of remote access
+to IRIS’ computer system is permitted, other than as specified herein, and as
+authorized by IRIS from time to time in connection with the Licensed Use.
+
+(b)	You agree not to cause or permit any person, including but not limited to
+your employees to:  (i) access, copy, modify, rent, lease, sub-license,
+distribute, disclose, or use the Software, or any portion thereof, except as
+expressly provided in this License Agreement; (ii) permit any third party to
+access or use the Software, unless IRIS provides its prior written consent to
+such third party access or use.
+
+(c)	You acknowledge and agree that the Software is proprietary to IRIS or its
+licensors; that IRIS or its licensors retains all right, title and interest in
+and to the Software and all copies, improvements, enhancements, modifications
+and derivative works of or based on the Software  (including, without
+limitation, any customization of the Software or other software developed by
+IRIS for the Licensed Use); that you shall not tamper with, bypass, or alter any
+security feature of the Software or of IRIS’s computer system, or attempt to do
+so; that you shall take all reasonable steps to ensure that the provisions of
+this License Agreement are not violated by any person under your control or in
+your service; that title to and ownership of any and all proprietary rights
+including, without limitation, all patents, copyrights, trademarks and trade
+secrets embodied in the Software and in any complementary computer programs
+resident on IRIS’s computer system shall remain with IRIS (or other proprietary
+rights owner, if licensed to  IRIS by a third party licensor).  You shall not
+delete or alter any proprietary rights notices contained in the Software.
+
+(d)	Notwithstanding the foregoing, you may prepare derivative works based on
+the Software, and IRIS shall provide the source code to the Software to you, to
+enable you to prepare derivative works based on the Software; provided, that all
+derivative works incorporating the Software shall be owned by IRIS, and your use
+thereof shall be solely pursuant to the license granted herein.  You acknowledge
+and agree that IRIS, may, in its discretion, distribute all such derivative
+works of the Software to its other licensees, and that IRIS’s intention in this
+regard is to promote scientific research.  You agree to keep IRIS currently
+apprised of any derivative works you create based on the Software, and you shall
+provide copies of the source code for all such derivative works to IRIS
+promptly.
+
+3.	TERMS AND CONDITIONS. IRIS may publish SAC 2000 Terms and Conditions
+(“Terms and Conditions”) from time to time and will provide the same to you by
+means of written notice, publication on-line in connection with the Software
+and/or such other reasonable means that IRIS shall determine.  Notwithstanding
+any other provisions of this License Agreement, your continued access of the
+Software after written notice, publication on-line in connection with the
+Software and/or such other reasonable means that IRIS shall determine, shall
+serve as your agreement to abide by the Terms and Conditions, as revised from
+time to time, as if they were fully set forth herein.  The Terms and Conditions,
+including revisions thereto, shall be deemed to be incorporated into this
+License Agreement by this reference and you expressly agree and warrant that
+access to and all usage of the Software shall be in compliance with all of the
+Terms and Conditions herein.
+
+4.	ENHANCEMENTS. From time to time, IRIS may, in its sole discretion, modify,
+enhance or otherwise revise the functional features of the Software and make
+such changes available to you at no additional charge, in lieu of the functional
+features previously provided.
+
+5.	LIMITED WARRANTY:
+
+THE SOFTWARE IS SUPPLIED "AS IS" WITHOUT WARRANTY OF ANY KIND. THIS LICENSE AND
+THE ASSOCIATED SOFTWARE ARE PROVIDED WITHOUT WARRANTY OF MERCHANTABILITY OR
+FITNESS FOR A PARTICULAR PURPOSE OR ANY OTHER WARRANTY, EXPRESS OR IMPLIED. IRIS
+MAKES NO REPRESENTATION OR WARRANTY THAT USE OF THE SOFTWARE WILL NOT INFRINGE
+ANY COPYRIGHT OR OTHER PROPRIETARY RIGHT. IRIS (1) DOES NOT ASSUME ANY LEGAL
+LIABILITY OR RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR USEFULNESS OF THE
+SOFTWARE; AND (2) DOES NOT WARRANT THAT THE SOFTWARE WILL FUNCTION
+UNINTERRUPTED, THAT IT IS ERROR-FREE OR THAT ANY ERRORS WILL BE CORRECTED.
+
+6.	LIMITATION OF LIABILITY:
+
+(a)	You acknowledge that IRIS' obligations and liabilities with respect to
+the Software are solely as provided in this License Agreement, and that your use
+of the Software is at your own risk and you are responsible for the consequences
+of any use of the Software, whether or not such use was consistent with the
+license granted hereunder.  IN NO EVENT WILL THE IRIS OR ITS LICENSORS BE LIABLE
+FOR ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL OR PUNITIVE DAMAGES OF ANY
+KIND OR NATURE, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS OR LOSS OF DATA,
+FOR ANY REASON WHATSOEVER, WHETHER SUCH LIABILITY IS ASSERTED ON THE BASIS OF
+CONTRACT, TORT (INCLUDING NEGLIGENCE OR STRICT LIABILITY), OR OTHERWISE, EVEN IF
+IRIS HAS BEEN WARNED OF THE POSSIBILITY OF SUCH LOSS OR DAMAGES.
+
+(b)	If at any time an allegation of infringement of any rights of any third
+party is made, or in IRIS or IRIS’s opinion is likely to be made, with respect
+to the Software, IRIS may, at its option and at its own expense either (i)
+obtain for you the right to continue using the Software, (ii) modify or replace
+the Software or any portion thereof so as to avoid any such claim of
+infringement, or (iii) terminate this License Agreement and refund to you the
+development fee paid by you for customization of the Software for your use (if
+any).  IRIS’s sole liability to you for damages pursuant to this Section 6(b),
+if any, shall not exceed the amount of the license fee paid by you for the
+Software subject to any such claim.
+
+(c)	IRIS SHALL NOT BE LIABLE OR RESPONSIBLE FOR ANY LOSS, INJURY, CLAIM,
+LIABILITY, DAMAGE OR EXPENSE OF ANY KIND OR NATURE, INCLUDING ATTORNEYS’ FEES,
+FOR ANY INTERRUPTION OF SERVICE OR LOSS OF USE OF THE SOFTWARE, FOR ANY LOSS OF
+BUSINESS BY YOU, OR FOR ANY OTHER LOSS FROM A CAUSE OR CAUSES WITHIN OR BEYOND
+THE CONTROL OF IRIS IN CONNECTION WITH THE SOFTWARE CAUSED BY, RESULTING FROM OR
+IN ANY WAY RELATED DIRECTLY OR INDIRECTLY, TO THE SOFTWARE LICENSED HEREUNDER,
+INCLUDING, BUT NOT LIMITED TO, ERRORS, OMISSIONS OR INACCURACIES IN THE DATA
+GENERATED BY THE SOFTWARE.  IF, FOR ANY REASON, BY OPERATION OF LAW OR
+OTHERWISE, ANY PORTION OF THE FOREGOING LIMITATION OF LIABILITY SHALL BE VOID,
+THEN, IN SUCH EVENT, THE MAXIMUM LIABILITY OF IRIS, IF ANY, SHALL BE LIMITED TO
+GENERAL MONEY DAMAGES IN AN AMOUNT NOT TO EXCEED THE TOTAL AMOUNT YOU ACTUALLY
+PAID TO IRIS BY LICENSEE (IF ANY) FOR LICENSING THE SOFTWARE DURING AND FOR A
+PERIOD OF TIME COMMENCING UPON THE OCCURRENCE OF SUCH ERROR, DEFECT OR FAILURE
+AND CEASING UPON THE DISCOVERY OF SUCH, IN WHOLE OR IN PART, PROVIDED, HOWEVER,
+THAT IN NO EVENT SHALL SUCH PERIOD OF TIME EXCEED THE SIX (6) MONTH PERIOD
+IMMEDIATELY PRECEDING THE DATE ON WHICH SUCH ERROR, DEFECT OR FAILURE IS FIRST
+DISCOVERED.
+
+7.	INDEMNIFICATION:
+
+Neither IRIS or any of its directors, officers, employees, agents, or
+representatives nor any of its licensors (including, without limitation, the
+Regents of the University of California, and its officers, employees, agents,
+the Department of Energy, and its employees and agents,  the Software
+Developers, the Software sponsors, nor any of their agents, officers and
+employees (the “IRIS Indemnified Parties”) shall have any liability for, and you
+shall defend, indemnify and hold each of the IRIS Indemnified Parties harmless
+from and against, any claim, loss, demand, liability, obligation and expenses
+(including reasonable attorneys’ fees) based upon or arising out of any loss,
+injury or damage, including but not limited to, any personal injury or property
+damage, arising out of, pertaining to, or resulting in any way from, the use or
+of the Software by you and/or any of your directors, officers, employees,
+representatives, agents or contractors.  Licensee will pay any and all costs,
+including reasonable attorney’s fees, incurred by IRIS or any of the IRIS
+Indemnified Parties enforcing this indemnification.
+
+8.	EXPORT CONTROL LAWS
+
+LICENSEE will comply with all applicable United States and foreign laws and
+regulations concerning the transfer of Licensed Products and related technical
+data, including but not limited to International Traffic in Arms Regulations
+(ITAR) and Export Administration Regulations.  The Software is currently under a
+Department of Commerce EAR99 level of export control and thus is not allowed to
+be distributed to embargoed countries.
+
+9.  COPYRIGHT MARKING You will affix to all copies of Software and their
+containers that are made, used, or sold or otherwise distributed under this
+Agreement: a)	the proper copyright notice in accordance with applicable
+copyright marking laws; and b)	the following notice: "This work is based on a
+pre-existing work created at the University of California, Lawrence Livermore
+National Laboratory (UC LLNL) under contract No. W-7405-ENG-48 between the U.S.
+Department of Energy and The Regents of the University of California for the
+operation of UC LLNL. That pre-existing work was sponsored by an agency of the
+United States Government. NEITHER THE UNITED STATES GOVERNMENT NOR THE
+UNIVERSITY OF CALIFORNIA NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY EXPRESS
+OR IMPLIED, OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR THE ACCURACY,
+COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, OR PROCESS
+DISCLOSED IN THE PRE-EXISTING WORK, OR REPRESENTS THAT ITS USE WOULD NOT
+INFRINGE PRIVATELY OWNED RIGHTS."
+
+
+10.	TERMINATION:  This License Agreement may be terminated immediately by
+IRIS upon breach of any provision of this License Agreement by you.  Upon any
+termination of this License Agreement, you shall immediately discontinue use of
+the Software, and IRIS may disable any and all user IDs and passwords provided
+to you or to others on your behalf.  Either party may terminate this License
+Agreement for convenience on thirty (30) days prior written notice.
+
+11.	GOVERNING LAW; ATTORNEY’S FEES:  This License Agreement shall be governed
+by and interpreted in accordance with the laws of the District of Columbia,
+applicable to contracts entered into and to be wholly performed therein, without
+given effect to conflict of laws principles thereunder.  You agree that any
+legal or equitable action of whatever nature by or against IRIS arising out of
+or related in any respect to this License Agreement shall be brought solely in
+the courts located in the District of Columbia, except that in the event IRIS is
+sued or joined by a third party in any other court or in any other forum in
+respect of any manner which may give rise to a claim by IRIS hereunder, you
+consent to the jurisdiction of such court or forum over any claim which may be
+asserted by IRIS therein.  You or IRIS may enforce any judgment rendered by any
+of the aforementioned courts, in any court of competent jurisdiction.  The
+parties hereby consent to and waive any challenge or objection to personal
+jurisdiction and venue of the above-mentioned courts, including any claim that
+such action, suit or proceeding has been brought in an inconvenient forum, and
+consent to service of legal process by any means consistent with applicable law.
+
+1.	MISCELLANEOUS: This License Agreement constitutes the entire agreement
+between IRIS and you with respect to the subject matter hereof, and supersedes
+all prior oral or written understandings, communications or agreements not
+specifically incorporated herein.  This License Agreement may not be modified 
+except in writing duly signed by an authorized representative of IRIS and you. 
+If any provision of this License Agreement is held to be unenforceable for any
+reason, such provision shall be reformed only to the extent necessary to make it
+enforceable, and such decision shall not affect the enforceability (i) of such
+provision under other circumstances, or (ii) of the remaining provisions hereof
+under all circumstances.  Headings shall not be considered in interpreting the
+License Agreement.
+
+BY ACCESSING THE SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ THE TERMS OF THIS
+LICENSE AGREEMENT AND AGREE TO BE BOUND BY ITS TERMS.
+

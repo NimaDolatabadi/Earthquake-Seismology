@@ -1,0 +1,39 @@
+
+YFULL
++++++
+
+SUMMARY
+-------
+Controls plotting of y axis full logarithmic decades.
+
+SYNTAX
+------
+
+  ``YFULL {ON|OFF}``
+
+INPUT
+-----
+   :{ON}:  Turn full decade plotting on.
+    
+   :OFF:  Turn full decade plotting off.
+    
+DEFAULT VALUES
+--------------
+
+  ``YFULL ON``
+
+DESCRIPTION
+-----------
+   Full decade plotting applies only when logarithmic scaling is being used and
+   when the fixed limits option is off (see YLIM.) When on, the actual axis
+   limits will be set to the first full decade before and after the data limits.
+   When off, the actual data limits will be used.
+
+SEE COMMANDS
+------------
+   YLIM_
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

@@ -1,0 +1,125 @@
+
+BEAM
+++++
+
+SUMMARY
+-------
+Computes the beam using all data files in SAC memory.
+
+SYNTAX
+------
+
+  ``BEAM {BEARING v} {VELOCITY v} {REFERENCE ON|OFF| lat lon {el} }``
+
+  ``{OFFSET  REF|USER|STATION|EVENT|CASCADE}``
+
+  ``{EC anginc survel} {CENTER x y z} {WRITE fname}``
+
+INPUT
+-----
+   :BEARING v:  Bearing, in degrees from the north.
+    
+   :VELOCITY v:  Velocity, in kilometers per second.
+    
+   :[REF]ERENCE lat lon {el}:  Reference point.
+       Turns REFERENCE option on and defines a reference point relative
+       to which the offsets can be determined.
+       (See OFFSET REF below)
+    
+   :lat: latitude.
+   :lon: longitude.
+   :el:  elevation (positive is down).
+    
+   :[REF]ERENCE ON|OFF: Turns REFERENCE option on or off.
+       (See OFFSET REF below)
+       Be careful not to use REFERENCE ON the first
+       time this option is used with BEAM_ unless you
+       really want the point where the prime maridian
+       meets the equator.
+    
+   :OFFSET REF:	Offsets are determined relative to the reference
+       point entered with the REFERENCE option.  This
+       requires the REFERENCE option to be on.
+    
+   :OFFSET USER:	Offsets are taken directly from USER7, USER8, and
+       USER9, (in the directions of latitude, longitude,
+       and elevation, respectively).  This requires all
+       the files to have defined values of USER7 and USER8.
+       If the EC option is set, then OFFSET USER also
+       requires that USER9 be set.
+    
+   :OFFSET STATION:	Offsets are determined relative to the location
+       of the first station.  This requires all
+       the files to have defined values of STLA and STLO.
+    
+   :OFFSET EVENT:	Offsets are determined relative to the location
+       of the first event.  This requires all the files
+       to have defined values of EVLA and EVLO.
+    
+   :OFFSET CASCADE:	SAC will consider each of the previous methods of
+       determining the offsets in the order listed above,
+       and look to see if the necessary data is present;
+       it will use the first method for which the
+       requesite information is available.
+    
+   :EC:  Elevation correction:
+    
+   :anginc:  Angle of incidence in degrees from the z axis (the more
+       distant the signal source, the smaller anginc).
+    
+   :survel:  Surface medium velocity in kilometers per second.
+    
+   :CENTER:  Center station for which the beam is to be computed:
+    
+   :x:  Easterly  offset from the reference station, in meters.
+    
+   :y:  Northerly offset from the reference station, in meters.
+    
+   :z:  Upward    offset from the reference station, in meters.
+    
+   :Note:  CENTER positions the beam with respect to the offsets
+       already determined according to the OFFSET option.  CENTER
+       is not intended to offset a beam great distances; it is
+       offered as a way to offset a beam to the center of an
+       emplacement.
+    
+   :WRITE:  Write beam to disk.
+    
+   :fname:  File or path name. May be an absolute or relative pathname,
+       or simple name of a file to appear in the dir in which SAC was
+       started.
+    
+DEFAULT VALUES
+--------------
+
+  ``BEAM  B 90  V 9.0 EC 33  6.0 C  0. 0. 0. W beam``
+
+
+DESCRIPTION
+-----------
+   BEAM_ does not overwrite existing input data in SAC memory, so it can be
+   repeatedly issued while varying bearing and velocity.  The beam result is
+   written to disk and may be targetted to a different file each time.  These
+   design features anticipates users' need to compare multiple runs of this
+   command to find the bearing and velocity that produced the maximal beam.
+
+HEADER DATA
+-----------
+ See HEADER DATA section of BBFK_ command.
+
+
+ERROR MESSAGES
+--------------
+ CENTER parameter missing offset z, when the presence of the
+ EC parameter requires it.
+
+
+LIMITATIONS
+-----------
+ The maximum number of stations allowed (see BBFK).
+
+SEE COMMANDS
+------------
+  MAP:  for plotting stations in an array, according to x and y offsets stored
+  in SAC header variables USER7 & USER8.  July 22, 1991 (Version 10.5c)
+

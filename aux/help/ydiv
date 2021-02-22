@@ -1,0 +1,45 @@
+
+YDIV
+++++
+
+SUMMARY
+-------
+Controls the y axis division spacing.
+
+SYNTAX
+------
+
+  ``YDIV {NICE|INCREMENT v|NUMBER n},{POWER {ON/OFF}}``
+
+INPUT
+-----
+   :NICE:  Use "nice-numbered" division spacings.
+    
+   :INCREMENT v:  Set division spacing increment to v.
+    
+   :NUMBER n:  Set number of division spacings to n.
+    
+   :POWER {ON}:  Turn power option on.  When this option is on, SAC may
+       print the division spacings as a number raised to a power of 10.
+    
+   :POWER OFF:  Turn power option off.
+    
+DEFAULT VALUES
+--------------
+
+  ``YDIV NICE POWER ON``
+
+DESCRIPTION
+-----------
+   This command controls the selection of y axis division spacings.  Most
+   of the time the default "nice-numbered" spacings are satisfactory.  SAC
+   determines these based on the minimum and maximum axis limits, the length of
+   the axis, and the current axis character size.
+   You may also force the division spacing to be a certain value by use of
+   the INCREMENT option or you may set the number of division spacings by use of
+   the NUMBER option.
+
+LATEST REVISION
+---------------
+   October 11, 1984 (Version 9.1)
+

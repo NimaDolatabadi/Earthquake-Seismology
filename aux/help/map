@@ -1,0 +1,146 @@
+
+MAP
++++
+
+SUMMARY
+-------
+  Generate a GMT (Generic Mapping Tools) map which can include station/event
+  symbols topography and station names using all the files in SAC memory
+  and an optional event file specified on the command line.  Event symbols
+  can be scaled according to magnitude, residual, etc. A variety of projections
+  are available.  The result of this command is a postscript file and a screen
+  display of that file plus a shell script with the GMT commands that produced
+  the plot.
+
+SYNTAX
+------
+
+  ``MAP   {MERcator | EQuidistant | AZimuthal_equidistant | ROBinson }``
+
+  ``{WEST minlon} {EAST maxlon} {NORTH maxlat} {SOUTH minlat}``
+
+  ``{MAGnitude | REsidual | RMean_residual}``
+
+  ``{EVentfile filename} {TOPOgraphy} {STANames}``
+
+  ``{MAPSCALE on|off } {PLOTSTATIONS on|off} {PLOTEVENTS on|off}``
+
+  ``{PLOTLEGEND on|off} {LEGENDXY x y} {FILE output-file}``
+
+  **Note** Shorthand notations for keywords are in capital letters.
+
+INPUT OPTIONS
+-------------
+
+ :MERCATOR:    Generate a Mercator projection.              [ Default ]
+ :EQUIDISTANT: Generate an Equidistant cylindrical projection.  
+ 	       Linear in latitude and longitude.
+ :ROBINSON:    Robinson projection, nice for world map.
+ :LAMBERT:     Good for large east-west areas.
+ :UTM:         Universal transverse mercator. (unimplemented)
+
+ Distances from center are true.
+
+ The following options allow the user to specify the map region.
+ The default is to use the min and max defined by the plotted stations
+ and events.
+
+ :WEST:        Define minimum longitude for map window.
+ :EAST:        Define maximum longitude for map window.
+ :NORTH:       Define maximum latitude for map window.
+ :SOUTH:       Define minimum latitude for map window.
+ :AUTOLIMITS:  Automatically Determine the Limits           [ Default ]
+
+
+ The following options allow the user to add locations and annotations to
+ the map.
+
+ :STANames:     on | off                                     [ Off ]
+ :MAPSCALE:     on | off                                     [ Off ]
+ 		Plot a Distance Scale on the Map
+ :PLOTSTATIONS: on | off                                     [ On  ]
+ 		Plot all the Stations from seismograms
+ :PLOTEVENTS:   on | off                                     [ On  ]
+  		Plot all the Events from eventfile and/or seismograms
+
+ The following options allow the user to scale the event symbols.
+ The default is a constant symbol size.
+
+ :MAGnitude: Scale event symbols linearly with user0.       [ Off ]
+ :REsidual:  Scale event symbols linearly with abs(user0).  [ Off ]
+	    Positive values are (+) negatives are (-).
+ :RMean_residual: Same as residual except mean is removed   [ Off ]
+		 from all the residuals.
+ :PLOTLEGEND:  on | off                                     [ On  ]
+	      Plot a legend for Earthquake Magnitudes and Residuals 
+ :LEGENDXY x y: Absolute Location to Plot the Legend        [ 1,1 ]
+	       The location is relative to the lower left corner of the Page
+	       Values for x and y are to be in inches.
+	       This is a legend for Earthquake Magnitudes and Residuals
+
+ :EVENTFILE:   Specify a free-format ASCII text file containing
+	      additional event data. Each line in the file contains
+	      data for a single event.  The first two columns of
+	      each line must contain latitude and longitude (in
+	      degrees), respectively.  The third column is optional
+	      and contains symbol size information  (e.g.,
+	      magnitudes, depth, travel-time residual, ...).
+	      The following is an example of a few lines in an
+	      eventfile::
+
+	        38.5    42.5   6.5
+	        25.5    37.3   5.5
+	        44.2    40.9   5.7
+
+ A TITLE_ can be specified using SAC's TITLE_ command.
+
+ :TOPOgraphy:   on | off                                     [ Off ]
+  Setting TOPO on allows the user to add  topography and bathymetry to the
+  maps.  The command reads option (1) in grdraster.info, and the data file
+  referenced for that option must be installed.  The topography color map
+  used is in $SACAUX/ctables/gmt.cpt.  The grid files are written in the
+  current directory.
+
+
+The default output file is gmt.ps. An alternative file name can be specified
+using the FILE option.
+
+DEFAULT VALUES
+--------------
+
+  ``MAP  MERCATOR TOPO off STAN off FILE gmt.ps PLOTSTATIONS on PLOTEVENTS on``
+
+  ``FUNCTIONAL MODULE: FK Spectrum (fks)``
+
+  A title can be added using ch TITLE "..." before running map.
+
+HEADER DATA
+-----------
+  Station latitudes (stla) and longitudes (stlo) must be set.  If event
+  latitudes (evla) and longitudes (evlo) are set they will be included in
+  the map.  If this command is executed after running BBFK_, MAP_  will plot
+  a great circle arc path along the back azimuth.
+
+  This version of MAP_  was based on version 4.0 of the Generic
+  Mapping Tools software and it assumes that the GMT4.0 software is
+  loaded on the user's machine and the executables are in the path.
+
+  The results of each MAP_  command are written to a shell file called
+  gmt.csh, in the current directory. The user can modify this file to
+  take advantage of GMT options not readily available through SAC.
+  Default units are in inches, but can be changed in the shell script.
+
+  The results of each MAP_ command will automatically be displayed.  The
+  default program used to create the display is gs (ghostscript).  The user
+  can choose an  alternative display tool by setting the SACPSVIEWER
+  environmental variable.   The default is::
+
+    setenv SACPSVIEWER "gs -sDEVICE=x11 -q -dNOPROMPT -dTTYPAUSE"
+
+  Possible values for SACPSVIEWER on different platforms may include::
+
+    Linux:    gs, gv, ggv, evince
+    Mac/OSX:  open, Preview, gs, gv
+    Sun/Solaris:  gs, gv
+
+

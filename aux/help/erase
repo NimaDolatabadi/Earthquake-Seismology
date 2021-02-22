@@ -1,0 +1,25 @@
+
+ERASE
++++++
+
+SUMMARY
+-------
+Erases the graphics display area.
+
+SYNTAX
+------
+
+  ``ERASE``
+
+DESCRIPTION
+-----------
+   This command works only if SAC knows what graphics device you are using.
+   This is true only if you have already done some plotting.
+   This command is necessary for the ADM terminal which does not have an
+   erase screen key and is useful in command files when you want the screen
+   erased prior to sending out a large amount of text.
+
+LATEST REVISION
+---------------
+   October 11, 1984 (Version 9.1)
+

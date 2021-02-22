@@ -1,0 +1,46 @@
+
+UNSETBB
++++++++
+
+SUMMARY
+-------
+Unsets (deletes) blackboard variables.
+
+SYNTAX
+------
+
+  ``UNSETBB ALL | variable ...``
+
+INPUT
+-----
+   :ALL:  Unset all of the currently defined blackboard variables.
+    
+   :variable:  Unset the blackboard variable variable.
+    
+DESCRIPTION
+-----------
+  The blackboard is a place to temporarily store information.  Blackboard
+  variables are defined using the SETBB_ and EVALUATE_ commands.  They can be
+  accessed by the GETBB_ command or used directly in a command by preceeding the
+  name of the variable with a percent sign ("%".) This command allows you to
+  unset previously defined blackboard variables.  You may unset all variables or
+  only a named subset.
+
+EXAMPLES
+--------
+  To unset several blackboard variables at once::
+
+      u:  UNSETBB C1 C2 X
+
+  To unset all blackboard variables::
+
+      u:  UNSETBB ALL
+
+SEE COMMANDS
+------------
+  SETBB_, EVALUATE_, GETBB_
+
+LATEST REVISION
+---------------
+  January 26, 1989 (Version 10.4B)
+

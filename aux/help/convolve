@@ -1,0 +1,70 @@
+
+CONVOLVE
+++++++++
+
+SUMMARY
+-------
+Compute the convolution of a master signal with itself and with
+all other signals in memory.
+
+SYNTAX
+------
+
+  ``CONVOLVE  {MASTER name|n},   {NUMBER n},{LENGTH ON|OFF|v},``
+
+  ``{TYPE  RECTANGLE|HAMMING|HANNING|COSINE|TRIANGLE}``
+
+INPUT
+-----
+   :MASTER name|n:  Select master file in data file list by name or
+       number.  All files will be cornvolved with the MASTER.
+    
+   :NUMBER n:  Set number of correlation windows to be used.
+    
+   :LENGTH {ON}:  Turn fixed window length option on.
+    
+   :LENGTH OFF:  Turn fixed window length option off.
+    
+   :LENGTH v:  Turn fixed window length option on and change window
+       length in seconds to v.
+    
+   :TYPE RECTANGLE:  Apply a rectangle function to each window.  This is
+       equivalent to applying no function to each window.
+    
+   :TYPE HAMMING:  Apply a hamming function to each window.
+    
+   :TYPE HANNING:  Apply a hanning function to each window.
+    
+   :TYPE COSINE:  Apply a cosine function to each window.
+    
+   :TYPE TRIANGLE:  Apply a triangle function to each window.
+    
+DEFAULT VALUES
+--------------
+
+  ``CONVOLVE MASTER 1 NUMBER 1 LENGTH OFF TYPE RECTANGLE``
+
+DESCRIPTION
+-----------
+  If there are N SAC files in memory, there are N output files that are the
+  results of the convolution with MASTER.  There is no normalization.
+  All signals in memory must have the same DELTA.
+  
+  The algorithm assumes all time series are causal, so if one wants to 
+  convolve signals with a boxcar (as a method of non-causal,low-pass 
+  filtering perhaps to smooth out spikes in a synthetic waveform), 
+  the output signals will be time-shifted by half the width of the boxcar.
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+
+ACKNOWLEDGEMENTS
+----------------
+  This command is based on an algorithm developed by Dave Harris (DBH).
+
+LATEST REVISION
+---------------
+  Dec. 4, 1996 (Version 52a)
+

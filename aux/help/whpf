@@ -1,0 +1,41 @@
+
+WHPF
+++++
+
+SUMMARY
+-------
+Writes auxiliary cards into the HYPO pick file.
+
+SYNTAX
+------
+
+  ``WHPF IC n m``
+
+INPUT
+-----
+   :IC n m:  Insert an "instruction card" with the two integers n and m
+       in columns 18 and 19.  Allowed values for n are 0, 1, 5, and 6.
+       Allowed values for m are 0, 1, and 9.
+    
+DESCRIPTION
+-----------
+  The "instruction card" can be used to separate events in a HYPO pick file.
+  See the HYPO71 manual for details on the use of this card.  Closing an open
+  HYPO pick file (CHPF command) or quitting SAC automatically appends the "10"
+  instruction card to the HYPO pick file.
+
+ERROR MESSAGES
+--------------
+- 1908: HYPO pick file not open.
+
+
+SEE COMMANDS
+------------
+  CHPF_, OHPF_ W.H.K. Lee and J.C. Lahr; HYPO71 (Revised): A Computer Program 
+  for Determining Hypocenter, Magnitude, and First Motion Pattern of Local
+  Earthquakes; U. S. Geological Survey report 75-311.
+
+LATEST REVISION
+---------------
+  March 20,1992 (Version 10.6e)
+

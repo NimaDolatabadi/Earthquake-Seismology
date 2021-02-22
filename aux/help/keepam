@@ -1,0 +1,24 @@
+
+KEEPAM
+++++++
+
+SUMMARY
+-------
+Keep amplitude component of spectral files (of either the AMPH or RLIM
+format) in SAC memory.
+
+SYNTAX
+------
+
+  ``KEEPAM``
+
+DESCRIPTION
+-----------
+   This command is an easy way for users to drop the phase component, so that
+   the amplitude data may be subjected to algebraic operations which require
+   single-dimensional data.  If the files exist in the RLIM format, the data is
+   first converted to the AMPH format, before phase is dropped.  The resulting
+   data files containing the amplitude component will exist as as generic xy
+   files, so that they can be distinguished for time-domain files.  May 28, 1991
+   (Version 10.5c)
+

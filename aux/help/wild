@@ -1,0 +1,131 @@
+
+WILD
+++++
+
+SUMMARY
+-------
+Sets wildcard characters used in read commands to expand filelists.
+
+SYNTAX
+------
+
+  ``WILD {ECHO {ON|OFF}},{SINGLE char},{MULTIPLE char},``
+
+  ``{CONCATENATION chars}``
+
+INPUT
+-----
+   :ECHO {ON}:  Turn echoing of expanded filelist on.  Echoing is only
+       when this option is on and there are wildcard characters in the
+       filelist.
+    
+   :ECHO OFF:  Turn echoing of expanded filelist off.
+    
+   :SINGLE char:  Change the character used to match single characters.
+    
+   :MULTIPLE char:  Change the character used to match multiple
+       characters.
+    
+   :CONCATENATION chars:  Change the two characters used to enclose
+       concatenation lists.
+    
+DEFAULT VALUES
+--------------
+
+  OPTION          UNIX  VAX   PRIME
+  ECHO            ON    ON    ON
+  SINGLE          ?     ?     \+
+  MULTIPLE        \*    \*    \'
+  CONCATENATION   [,\]  (,\)  [,\]
+
+
+DESCRIPTION
+-----------
+  This feature is available at the command level of many modern  operating
+  systems and is called "wildcarding" or "filename expansion." It is a notation
+  that allows you to abbreviate filenames and to specify entire groups of files
+  using a simple shorthand notation.  SAC has implemented wildcarding, along
+  with several extensions, in its READ_, READALPHA, and READHDR_ commands.  
+  Using this notation, you can easily access lists such as:
+
+   - All files beginning with the letters "abc".
+   - All files ending with the letter "z".
+   - All files with exactly three letters in their names.
+
+  There are three elements in this wildcard notation.  We will use the default
+  wildcard characters for the UNIX version in this description and in the
+  examples below.  The defaults may be different on the computer you are using.
+  You may also use this command to change the characters to be anything you
+  want.  The multiple match character ("\*") is used to match an arbitrary
+  character string, including an empty string.  The single match character ("?")
+  is used to match any single character.  The concatenation characters ("[" and
+  "]") are used to enclose a comma delimited list of character strings to match.
+  The character strings in a concatenation list may not contain the single or
+  multiple match wildcard characters.
+  These are the steps that SAC uses to perform this wildcard filename
+  expansion:
+
+   1) Strip away the directory part of the token if it exists.
+      Otherwise use the current directory.
+   2) Make a system call to get a list of all files in the directory.
+   3) If a concatenation list is in the token, form new tokens from each
+      character string in the concatenation list with the other characters 
+      in the token and then match them to the list of files. If there is 
+      no concatenation list in the token, simply match the token to the list 
+      of files.
+   4) Remove any duplicates matches to form the expanded filelist.
+   5) Echo the expanded filelist if requested.
+   6) Attempt to read the expanded filelist into memory.
+
+  Each operating system uses a somewhat different scheme to store and access
+  files in a directory. The system call in (1) above reflects these differences.
+  For example, the filenames are returned in alphabetical order in UNIX but are
+  not on the PRIME or VAX.  The order of the files in a PRIME directory is
+  arbitrary.  These differences are reflected in the order of the files in the
+  expanded filelist.  You may have to experiment with different variations of
+  wildcard characters and concatenation lists if the order of the files in the
+  expanded list is important.
+
+  The examples below will help clarify how to use these wildcard elements.
+  One useful feature is that SAC saves the character strings contained in the
+  concatenation list.  When you enter an empty list, then the previous list is
+  reused.  This can save a lot of typing.
+
+EXAMPLES
+--------
+  Assume that the contents of the current directory contain the following files
+  in the order shown::
+
+   ABC   DEF   STA01E   STA01N   STA01Z   STA02E   STA02N   STA02Z   STA03Z
+
+  Also, assume that expanded filelist echoing is on.  The following shows how
+  the various wildcarding elements can be used to read parts of the above
+  filelist into memory.::
+
+    u:  READ S\*
+    s:  STA01E STA01N STA01Z STA02E STA02N STA02Z STA03Z
+    u:  READ \*Z
+    s:  STA01Z STA02Z STA03Z
+    u:  READ ???
+    s:  ABC DEF
+    u:  READ STA01[Z,N,E]
+    s:  STA01Z STA01N STA01E
+    u:  READ *[Z,N,E]
+    s:  STA01Z STA02Z STA03Z STA01N STA02N STA01E STA02E
+    u:  READ *1[Z,N,E] *2[ ]
+    s:  STA01Z STA01N STA01E STA02Z STA02N STA02E
+
+LIMITATIONS
+-----------
+  You may have only one concatenation string in a token.  This limitation will
+  be eliminated in a future version.  Several other wildcard and filename
+  expansion options will also be added at that time.
+
+SEE COMMANDS
+------------
+   READ_, READALPHA, READHDR_
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

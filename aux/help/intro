@@ -1,0 +1,94 @@
+Introduction
+++++++++++++
+
+On-Line documentation for SAC includes
+--------------------------------------
+
+A tutorial,  user manual,  and command descriptions
+including commands in the spe and sss subprocesses.
+The general syntax for using on-line help is:
+help "help-file",  Where "help-file" is one of the files listed below.
+
+Main SAC commands
+-----------------
+::
+
+ abs             absolutevalue   add             addf            apk
+ arraymap        axes
+ bandpass        bandrej         bbfk            beam            begindevices
+ beginframe      beginwindow     benioff         binoperr        border
+ capf            cds             chnhdr          chpf            color
+ comcor          contour         convert         convolve        copy
+ copyhdr         correlate       cut             cuterr
+ datagen         decimate        delete          deletechannel   deltacheck
+ dif             div             divf            divomega
+ echo            enddevices      endframe        envelope        erase
+ evaluate        exp             exp10           external
+ external_interface              external_howto
+ fft             fileid          filenumber      filterdesign
+ fir             floor           funcgen
+ getbb           gmap            gmtmap          grayscale       grid
+ group           gtext
+ hanning         help            highpass        hilbert         howto_external
+ ifft            image           inicm           installmacro    int
+ interpolate     intro           keepam          khronhite
+ lds             line            linefit         linlin          linlog
+ listhdr         load            loadctable      log             log10
+ loglab          loglin          loglog          lowpass
+ macro           map             mat             mat3c           markptp
+ marktimes       markvalue       merge           message         mtw
+ mul             mulf            mulomega
+ mathop          nplotc          null            oapf            ohpf
+ pause           pickauthor	 pickphase	 pickprefs       picks
+ plabel          plot            plot1           plot2           plotalpha
+ plotc           plotctable      plotdy          plotpk          plotpktable
+ plotpm          plotsp          plotxy          production
+ qdp             quantize        quit            quitsub
+ read            readalpha       readbbf         readcss         readerr
+ readhdr         readsdd         readsp          rename          report
+ reverse         rglitches       rmean           rms             rotate
+ rq              rtrend
+ scallop         setbb           setdevice       setmacro        sgf
+ smooth          sonogram        spe             spectrog        spectrogram
+ sqr             sqrt            sss             stretch         sub
+ subf            symbol          synchronize     syntax          systemcommand
+ taper           ticks           title           trace           transcript
+ transfer        transfertable   tsize           tutorial
+ unsetbb         unwrap          vspace
+ wait            whpf            width           wiener          wild
+ window          write           writebbf        writecss        writehdr
+ writesdd        writesp
+ xdiv            xfudge          xfull           xgrid           xlabel
+ xlim            xlin            xlog            xvport
+ ydiv            yfudge          yfull           ygrid           ylabel
+ ylim            ylin            ylog            yvport
+ zcolors         zlabels         zlevels         zlines          zticks
+
+Signal Stacking Subprocess Commands
+-----------------------------------
+::
+
+ addstack	changestack	deletestack	distanceaxis	distancewindow
+ globalstack	incrementstack	liststack	plotrecordsection    plotstack
+ sumstack	timeaxis	timewindow	traveltime      velocitymodel
+ velocityroset	writestack	zerostack
+
+Spectral Estimation Subprocess Commands
+---------------------------------------
+::
+
+ spe_cor         mem             mlm             pds             plotcor
+ plotspe         quitsub         read            writecore       writespe
+
+Reference Sources
+-----------------
+
+You can also inspect or print the ascii documentation files under
+the help subdirectory of the $SACAUX directory.
+The contents of this file are in $SACAUX/help/intro.
+
+SAC information is also available on the World Wide Web at URL
+<http://www.iris.edu/manuals/sac/manual.html>.
+
+Please report any problems to sac-help@iris.washington.edu.
+

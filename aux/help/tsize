@@ -1,0 +1,96 @@
+
+TSIZE
++++++
+
+SUMMARY
+-------
+Controls the text size attributes.
+
+SYNTAX
+------
+
+  ``TSIZE {size v},{RATIO v},{OLD|NEW}``
+   where size is one of the following:
+
+  ``TINY|SMALL|MEDIUM|LARGE``
+
+INPUT
+-----
+   :size v:  Change the value of one of the text sizes to v.
+    
+   :RATIO v:  Change the text width to height ratio to v.
+    
+   :OLD:  Change the values of all the text sizes to their "old" values.
+       These are the values used by SAC prior to Version 9.
+    
+   :NEW:  Change the values of all the text sizes to their "new" values.
+       These are the default values when SAC is initialized.
+    
+DEFAULT VALUES
+--------------
+
+  ``TSIZE RATIO 1.0 NEW``
+
+DESCRIPTION
+-----------
+  Most of the text annotation commands (TITLE, XLABEL_, FILEID_, etc.)
+  allow you to change the size of the text being displayed.  You may choose from
+  a set of four named sizes (TINY, SMALL, MEDIUM, and LARGE.) Each named size
+  has an initial value given in the table below.  These sizes are the height of
+  a character as a fraction of the full (0.0 to 1.0) viewspace.  There are times
+  when you may want some of this annotation to be of a size different from
+  these default values.  TSIZE_ allows you to redefine any or all of these four
+  named sizes.  You may also use this command to change the width to height
+  ratio of the characters.
+
+  The default text sizes were changed, starting with Version 9 of SAC.
+  The new set covers a wider range and generally looks better on most devices.
+  You can easily change back to the original set of sizes by using the OLD
+  option.  This might be useful if you want to create a plot that looks very
+  similar to one that was generated using an older version of SAC.  Also old
+  PLOTC_ files and macros will not look the same when replotted unless you first
+  set the text sizes to their old values.  The NEW option resets the sizes to
+  their default values.
+
+  DEFAULT TEXT SIZES
+
+   ======= ====== === === === ====
+   NAME    A      B   C   D   E
+   ======= ====== === === === ====
+   TINY    0.015  66  50  68  110
+   SMALL   0.020  50  37  66  82
+   MEDIUM  0.030  33  25  44  55
+   LARGE   0.040  25  18  33  41
+   ======= ====== === === === ====
+
+   The column definitions in the table above are as follows:
+
+    - A Height of character as a fraction of full viewspace.
+    - B Number of lines of text in full viewspace.
+    - C Number of lines of text in a normal viewspace.
+        Normal means 0. to 1. in x and 0. to 0.75 in y.
+    - D Minimum number of characters per normal viewspace line.
+    - E Average number of characters per normal viewspace line.
+        This is larger because the text is proportionally spaced.
+
+EXAMPLES
+--------
+  To change the definition of MEDIUM and then use it to create a specially
+  sized title::
+
+      u:  TSIZE MEDIUM 0.35
+      u:  TITLE 'Rayleigh Wave Spectra' SIZE MEDIUM
+      u:  PLOT2
+
+  To reset this (and any other) size definitions to their default values::
+
+      u:  TSIZE NEW
+
+SEE COMMANDS
+------------
+  TITLE_, XLABEL_, FILEID_, PLOTC_
+
+LATEST REVISION
+---------------
+  July 22, 1991 (Version 9.1)
+

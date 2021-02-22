@@ -1,0 +1,822 @@
+Please see file HISTORY for list of official release and 
+a summary of bug fixes and enhancements made between releases.
+
+2013/06 Version 101.6 released
+
+For v101.6, pre-built binaries are provided for only two platforms:
+
+1. Mac OS 10.6 (64 bit): will run on 10.7 or 10.8.
+   The Mac build does not use /opt/local (macports default).
+2. Linux 64-bit: built on CentOS release 5.8 (Final).
+
+Other platforms or operating systems must be built from the source code.  
+Successful builds for v101.6 have been made and tested on Solaris 2.8 (big
+endian) and 2.11 (x86); Linux 32-bit; and Mac 10.4 (both ppc and intel).
+Because of licensing issues, a Cygwin binary distribution cannot be
+provided.
+
+IRIS has updated their Web site so that several URLs have changed.  Hopefully 
+we have the corect links in our documentation.
+
+Updated Using SAC help files. (See the HTML versions at
+<http://www.iris.edu/software/sac/manual.html>.)
+
+Beginning in Spring 2013, IRIS has set up a SAC project in their SeisCode
+initiative: <https://seiscode.iris.washington.edu/projects/sac/>.
+
+Replaced the obsolete macros/ subdirectory with a sample set that is up to date.
+
+Disabled PNG and XFT for default builds
+          - To turn on PNG: ./configure --enable-png
+          - To turn on XFT: ./configure --enable-xft
+
+Fill positive and negative portions of seismograms (through the LINE command)
+
+New command parser (see HISTORY for details)
+
+At the 2012 annual meeting of the Eastern Section of the SSA (Blacksburg, VA),
+there was a presentation that discussed the fact that precision in timing and 
+(perhaps) distance has improved beyond the SAC single-precision capability.  
+For example, because SAC stores time variables in single precision, to resolve 
+times to less than 0.001 s, the total time must be less than 16,384 s = 4.5 hours.
+The presentation can be downloaded from URL 
+<https://seiscode.iris.washington.edu/attachments/275/es-ssa-2012.pdf>.  
+The only improvement in precision for v101.6 is that blackboard numerical values 
+are now stored as double-precision floating-point numbers.
+
+Increaqsed default plot linewidths for program sgftops to make them better
+match the output from SAC command saveimg.
+
+Richard Godbee and Brian Savage found and fixed MANY errors and
+warnings through the SAC tree using clang static analyzer (v3.1), 
+clang address sanitizer (v3.1),  and valgrind with compilation flags 
+-Wall -Wextra.  Details are given in HISTORY.
+
+2012/02 Version 101.5c released
+
+Fixes a bug introduced in v101.5 when writing SAC headers (wh), and a bug that
+led to an incorrect error message when interpolate was applied to LEVEN FALSE
+files.
+
+Fixed memory errors related to plotting labels that could lead to crashes.
+
+Two HELP files were incomplete: input_output and sacio.  These had listings for
+sample programs that did not get input correctly.  Also, sacio is about the use
+of the SAC library for processing data using SAC functions (such as filtering
+or correlation) in C or FORTRAN programs.  It has been renamed saclib and the
+reference from the online help top page has been changed accordingly.
+
+The Linux 64-bit binary written using Ubuntu did not work on Centos 5.x systems.  
+One built on Centos 5.7 works on Centos 5 and 6 and on Ubuntu.
+
+2011/11 Version 101.5 released
+
+Starting with version 101.5, we do not give a date/author for changes made.  As
+noted above, the HISTORY file summarizes in one or two lines each bug fix and 
+enhancement made between versions.  Usually the updated (or new) HELP file 
+provides details and explanations about usage, but for a few items we feel some
+further explanation is called for. 
+
+ADDITIONAL PLOT-FILE FORMATS: Several users have requested that SAC be able to 
+produce directly plot files in formats used by other applications.  Although we
+provide programs and scripts that can convert SGF files into Postscript (and to
+EPS or PDF if one has Ghostscript), this process requires extra steps and the 
+fonts are vector-drawn rather than true Postscript fonts.  Command [SAVE]IMG 
+(the [] indicate the SAVE alias for SAVEIMG) allows one to create PNG, XPM, PS, 
+and PDF plots in a single line.  Fonts in the PS and PDF files are true 
+Postscript fonts.  See the HELP file for further details.  To build SAC from
+sources, one must have libpng installed to be able to write PNG files.  The
+binary distributions are built using only a static libpng to maximize portability. 
+(The license for libpng has no restrictions for uses such as in SAC.)
+
+TRAVELTIME: Although the traveltime command has existed since SAC2000, it was 
+not robust.  The method used is one developed in 1991 when the IASP91 velocity 
+model was introduced and requires reading two binary files.  As written, the 
+command tried to use the big-endian form of the binary forms even if the 
+computer architecture was little endian.  The updated traveltime does 
+byte-swapping if needed and can handle EVDP in either meters or kilometers.  
+The earlier traveltime had three "syntax" choices, but only the first syntax is
+supported in the current version. The current version runs within SSS or 
+without going into SSS.  See the Help file for details.
+
+ANNOTATED POLEZERO FILES:  In v101.4 a bug fix made it so that SAC could 
+interpret lines that started with * as comments.  In program RDSEED v5.2  and the
+SACPZ Web service <http://www.iris.edu/ws/sacpz/>, each set of poles and zeros 
+will be annotated (using comment lines) with details that identify the 
+associated time series and other related metadata).  Polezero files can now 
+contain multiple "epochs" in a single file: more than one set of poles and 
+zeros differentiated by the time range for which they were valid for a given 
+station, component and location (an identification tag coded in the SAC header 
+as KHOLE).  Version 101.5 of SAC can interpret such files correctly. 
+Note that if KCMPNM in the SAC header does not agree with the * COMPONENT (v5.0) 
+or * CHANNEL (v5.2) line, SAC TRANSFER will return an error message: 
+"ERROR 2114: No response information for this channel in response file."
+
+FUNCGEN SEISMOGRAM:  As mentioned below, the origin time had been changed in 
+seismogram so that P arrivals would be at the first break for the EVDP of 0.0.
+Even though the actual event probably had a focal depth of 2.4 km (George 
+Helfrich), this was for a local velocity model with several crustal layers.  
+We decided to set EVDP and adjust the origin time so that the P arrival came in
+at the first break using the AK135 or IASP91 velocity models.  We did this 
+because we use it in our examples in the traveltime help file, and as there are
+no other clear arrivals in the seismogram, the actual EVDP and GCARC do not 
+really matter.  For the next update, we hope to have real data with multiple 
+arrivals.  (We also took out the displayed T arrival, which had no obvious meaning.)
+
+2010/06/07 Version 101.4 released
+
+2010/06/02 Brian Savage <savage@uri.edu>
+
+    * Changes to code in makefiles to make sure Cygwin will compile correctly for
+      both version 1.5 and 1.7
+    * Introduced a docutils package that can produce HTML versions of HELP files.
+      These will replace the manual.html directory tree at IRIS.  A side effect
+      is a slight change in appearance of the HELP files as accessed within SAC.
+      Many of the pages in the "Using SAC" section had obsolete sections.  These 
+      have been updated.
+    * Fixed command interpolate so that calculatings of NPTS from a floating point
+      number returned the nearest integer rather than the truncated integer. to do
+      this, lfloat had to be added to co.h. (src/scm/xinterpolate.c, inc/co.h)
+    * fixed small problem in src/bbf/readbbf.c
+      
+2010/05/04 Arthur Snoke <snoke@vt.edu>
+
+    * Changed origin time in the fg seismogram from 0.0 to -43.2, station latitude,
+      and put in an evdp of 0.0 (researched by GH).  (aux/seismogram)
+      
+2010/05/04 Arthur Snoke <snoke@vt.edu>
+
+    * Updated src/evalresp to EVALRESP v 3.3.3 (a bug fix). 
+    
+2010/04/23 Arthur Snoke <snoke@vt.edu> and George Helffrich <george@gly.bris.ac.uk>
+
+    * JAS incorporated bug fixes in SPE code that had been made by GRH in macsac.  This
+      included fixing typos in inc/spe.h and small changes in five .c files in src/spe.
+      The help files were updated as well (including the fact that since 1998 the 
+      restriciton to 2048 points had been removed).
+    * JAS found that SSS/TRAVELTIME did not work and required more time that available
+      at preset to fix.  The HELP page has been rewritten to reflect this fact.  It 
+      includes an alternative method using Crotwell's taup package.
+      
+2010/04/20 Arthur Snoke <snoke@vt.edu>
+
+    * Fixed plotxy so that with default limits and ylog and/or xlog, limits work.
+      Brian Savage had written the code in February for Y.  (src/gam/xplotxy.c)
+    * Refined wording in README and the two initialization files bin/sacinit.sh.in
+      and bin/sacinit.csh.in.
+    * Appended the pre-IRIS/SAC history file to HISTORY so it now goes back to 1990.
+      
+2010/04/10 Arthur Snoke <snoke@vt.edu> and George Helffrich <george@gly.bris.ac.uk>
+
+    * Fixed plot2 so that default X and Y limits worked correctrectly if in the 
+      frequency domain.  The HELP entry has been modified.  (src/gam/xp2.c)
+
+2010/03/23 Arthur Snoke <snoke@vt.edu>
+
+    * Fine-tuned transfer.c so it handles frequency limits more correctly.  No noticable 
+      effect based on test runs.
+
+2010/03/15 Arthur Snoke <snoke@vt.edu>
+
+    * Updated src/evalresp to EVALRESP v 3.3.2. 
+    * Updated the TRANSFER HELP file to include documentation on the FAPfile option and
+      to add more details about the FREQlimits option.  This in turn led to a small
+      addition to the CUT help file.
+    * Updated program SGFTOPS (source in utils) so that it can handle SGF input files
+      with either byte order -- program SGFSWAP no longer needed, but is still included.
+
+2010/01/30 Brian Savage <savage@uri.edu>
+
+    * Updated testing framework to use command line options and not put commands into 
+      the history
+    * Added option to turn adding commands to the history (--history-off 
+      and --history-on)
+    * Converted old history to the libedit/readline history [src/history/history.c]
+    * Added FAP option to transfer, along with tranfer_fap tests [ src/icm/fap.c ].
+      The format of a FAP file is consistent with that produced by the program
+      EVALRESP (v3.3.2), but is different from the format used by SAC2000.
+    * Fixed polezero comment bug and added initial tests for transfer 
+
+2010/01/28 Brian Savage <savage@uri.edu>
+
+    * Setting default station (sta) and channel (Q) name off by default, 
+         can be turned on by command line option 
+    * Applied patch and tests for evaluate command
+    * Added debug and sac command line options
+    * Applied patch for vertical rotations
+    * Added memory initialzation to envelope()
+    * Added checks for X11 Fonts
+    * Added more tests for getkhv and setkhv
+    * Fixed libsac routine getkhv and added extra tests
+    * Applied beginwindow patch and added a test
+    * Added tests for fg random and patch for fg random->gauss()->dbh_random()
+    * Applied getline patch, changed getline to getline_sac
+    * Added tests for plotalpha
+    * Applied patch for zmemad and unwrap, added tests for convolve and unwrap
+    * Fixed bug in read/write alpha due to a missing atof() prototype
+
+2010/01/27 Brian Savage <savage@uri.edu>
+
+    * Added maintainer mode to avoid re-running autotools/configure on make
+    * Fixed uninitialized values and small buffer overruns
+    * Added test for do file wild macro and fixed other macro tests, 
+         pytest.sh needed to copy over the macros to the build directory
+    * Added missing vasprintf() function for systems missing it.
+
+2010/01/26 Brian Savage <savage@uri.edu>
+
+    * Added patch for 'do file wild' with the addition of the string/strings.c library
+
+2010/01/21 Brian Savage <savage@uri.edu>
+
+    * Added readline patch and fixed new testing suite to interact with the updated 
+      libedit library
+    * Updated libedit version,
+    
+2010/01/02 Brian Savage <savage@uri.edu>
+
+    * Removed write dir on and fixed the write to directory option
+    * Fixed plotalpha error where cabalistic characters were displayed, variable was 
+      not initialized
+
+2010/01/01 Brian Savage <savage@uri.edu>
+
+    * Fixed RMS bug where noise is larger than signal
+    * Updated output for segy test
+    * Fixed SEGY I/O and extracted file formats from read and write tests
+
+2009/12/31 Brian Savage <savage@uri.edu>
+
+    * Fixed Possible SDD Header bug
+    * Fixed header writing in XDR file format
+    * Fixed read alpha bug, write test output and a write alpha bug
+    * Updated pytest.py to use difflib, and fixed a minor output bug in dfm/xwtab.c
+
+2009/12/30 Brian Savage <savage@uri.edu>
+
+    * Add gauss bug fix
+    * Removal of old dejagnu test suite in favor of a simpler approach 
+      that also handles floating point values properly, pytest.py
+
+2009/08/26 Version 101.3b released
+
+2009/08/24 Brian Savage <savage@uri.edu>
+    * Corrected an error in the synchronize command that caused
+         bus errors and terminated SAC
+
+2009/08/01 Version 101.3 released
+
+2009/07/21 Brian Savage <savage@uri.edu>
+        * wsac0() now behaves like wsac3() (see 2007-11-19)
+        * SeisMgr database default behavior: ON
+        * evalresp 3.3.0 -- Added two enable options as suggested by
+	  Chad Trabant: --enable-lib-mode and --enable-log-label
+        * --disable-ncurses can be used to avoid the ncurses library
+	  (Solaris users might have trouble with ncurses)
+        * Documentation added or updated:
+           - transfer function
+               see aux/help/transfer
+           - Utils subdirectory
+               see utils/README_utils
+           - Readme.buildsac
+              - optional build directories with VPATH
+              - 64 bit builds
+              - Testing suite
+           - cleaned up help files dealing with graphics (Arthur Snoke):
+	     begindevices, enddevices, file_format, intro, graphics
+2009/05/15 Brian Savage <savage@uri.edu>
+        * evalresp version 3.3.0 (Arthur Snoke: official release July 2009)
+        * Removed aux/polezero directory
+        * Units changed to be all nm, nm/sec, nm/sec/sec
+          This is mostly a documentation fix, but used some in transfer
+        * Added byte-order check in utils program sgftops (Arthur Snoke)
+        * Added program sgfswap (Arthur Snoke) swaps byte-order in SGF files
+
+2009/03/23 Brian Savage <savage@uri.edu>
+        * Added 64-bit native builds for Linux 
+
+2009/03/23 Richard Godbee <rwg@vt.edu>
+        * sgftops ignores phantom moves (no extra whitespace in upper left)
+
+2009/03/19 Brian Savage <savage@uri.edu>
+        * Addition of testsuite in sac/t/testsuite
+          To run the testsuite requires DejaGnu, Expect, and Tcl
+          
+2009/03/06 Brian Savage <savage@uri.edu>
+        * Removed automatic drop back to 32 bit on a 64 bit system
+
+2009/03/04 Brian Savage <savage@uri.edu>
+        * Added tests for sacio
+
+2009/03/03 Brian Savage <savage@uri.edu>
+        * sacswap will now swap an unevenly spaced data file
+
+2009/02/26 Brian Savage <savage@uri.edu>
+        * Added Clear memory command (alias to inicm)
+        * Matlab routines update (David Yang)
+        * Testsuite added for basic routines in sac
+        * make -j n works now
+        * cut-off cnvatf(), now uses strtod()
+        * correlate can be normalized
+        * spaces can be handled in header variables
+        * builds available in other directories through vpath
+        * Help now uses a pager, like "more" or "less"
+        * Fixed buffer overflows in sachistory
+        * Ctrl-D will quit
+        * Cannot kill sac plotting window and crash sac
+        * use toupper/tolower if available
+        * make distclean updated
+
+2008/09/04 Version 101.2 released
+
+2008/09/01 George Helffrich <george@gly.bris.ac.uk>
+        * Modified TRANSCRIPT command (several files) to include a
+	  transcript history file option that enhances the command-line
+	  history feature introduced by Brian Savage on August 6. 
+	  The help file aux/help/transcript has been updated to include
+	  this option.  See utils/README_utils for further information.
+	
+2008/09/01 George Helffrich <george@gly.bris.ac.uk>
+        * Modified src/dfm/xlh.z so that one can have lh columns 2 the
+	  default in an init command, by including LH COLUMNS 2 FILES NONE
+	  aux/help/listhdr is changed to reflect this new option
+	  
+2008/09/01 Kuang He <icrazy@gmail.com>
+        * utils/sacswap:  Use long swaps for data to avoid signaling
+          NaN bit changes with floating point arithmetic.
+	  
+2008-08-29 Arthur Snoke <snoke@vt.edu>
+        *  Put in missing equation in aux/help/envelope (user suggestion)
+	*  Added README files to directories utils and lib
+	
+2008-08-19 Brian Savage <savage@uri.edu>
+        *  Bug Fix: Conversion from text to integer (src/ucf/cnvati.c)
+           Global Error Flag set but never reset and is used in
+           the evaluate command, src/exm/xeval.c.  Reset Global Error Flag
+           at the beginning of each command in src/top/saccommands.c
+
+2008-08-18 Brian Savage <savage@uri.edu>
+        *  utils/unvis: Utility added to reclaim .sac_history files
+        *  bin/sac-config: More documentation added
+
+2008-08-11 Brian Savage <savage@uri.edu>
+        *  Added Documentation directory for examples using libsac & libsacio
+           Will include future updates of the Users Manual and Other 
+           Documentation in various formats, including the 
+           Sac Command Reference
+
+2008-08-08 Arthur Snoke <snoke@vt.edu>
+        *  Updated src/evalresp to evalresp 3.2.40 (released July 2008) 
+
+2008-08-06 Brian Savage <savage@uri.edu>
+        * Added sac history file (${HOME}/.sac_history) to save history
+          from session to session
+
+2008-07-10 Brian Savage <savage@uri.edu>
+	* Bug Fix: CPU overload fixed for scripts that do not end with quit
+
+2008-07-08 Xiaoning (David) Yang <email@redacted.org>
+	* New Contributed Matlab routines to read and write sac files
+	  - utils/readsac.m
+	  - utils/writesac.m
+	  - utils/padcat.m
+	  - utils/getsacdata.m
+
+2008-07-08 Brian Savage <savage@uri.edu>
+        * Removed confusing lines in src/icm/transfer.c regarding
+          uninitialized calib and calper, which are derived from
+          wfdisc databases.  Final value of the scaling is printed
+          at the end of the transfer routine.
+          For Reference
+          - calib - Conversion factor that maps digital data to 
+                    value with a unit (displacement, velocity, ...)
+          - calper - Period at which the calib (-ration) value is 
+                     valid.
+          - sac files derived from seed files and use polezero files
+             and/or response file do not use the calib/calper values
+
+2008-07-05 Brian Savage <savage@uri.edu>
+	* Initial creation of the library libsac including the routines
+	   - xapiir (filtering)
+	   - envelope 
+        * Added rsach to only read the sac header
+	* Bug Fix in SUDS reading and writing system
+	  Byte swapping will only occur if the host is a 
+	  Big Endian system.  
+
+2008-05-22 Brian Savage <savage@uri.edu>
+        * Added readcor (Read Correlation Function) in SPE subprocess
+          Currently there is no way to differentiate an actual
+          Correlation function file from a regular SAC file
+
+2008-05-13 Richard Godbee <rwg@vt.edu>
+        * Fixed cnvfta() handling of very large numbers incorrectly.
+          Numbers are now converted to strings correctly and sanely.
+
+2008-04-08  Brian Savage <savage@uri.edu>
+        * Fixed warnings during compilation by adding missing header files 
+          and incorrectly typed parameters in function calls.  Fixed compile 
+          warnings were determined from a (1) routine and (2) optimized 
+          compile of the full source files.
+        * Removed src/sss/xtraveltime SPARC executable file that was not
+          removed years ago.
+        * Transitioned build system to use inc/config.h.in and inc/config.h
+          to hold the configure dependent parameters to clean up the compiler 
+          output.
+
+2008-04-01  Brian Savage  <savage@uri.edu>
+        * Updated Matlab routines and now is only available if requested
+          by the user upon compilation. Use the value of --enable-matlab
+          with the appropriate Matlab installation directory when 
+          compiling to include Matlab.  SAC needs to know where to find
+          the Matlab libraries when running, use LD_LIBRARY_PATH to add
+          the path to the mx and eng libraries.  OS X users may need to
+          use DYLD_LIBRARY_PATH instead.  The interaction of Matlab and
+          SAC is under development and in serious need to attention, 
+          care and help.
+
+2008-03-24  Brian Savage <savage@uri.edu>
+        * Heavily modified the map command, New Options added
+          Reworked command to use GMT 4.0 (src/fks/xgmtmap.c,
+          aux/help/map)
+        * changed a function that is able to determine if SAC is
+          run from a script like <<EOF or is run "normally."
+          (src/co/select.c)
+
+2008-03-05  Brian Savage  <savage@uri.edu>
+        * Fixed segmentation fault bug while reading files with 
+          wildcards (src/dfm/readfl.c) .  
+
+2008-03-04  Brian Savage  <savage@uri.edu>
+        * Fixed bug in src/scm/xinterpolate.c.  Interpolation of very 
+          long time sequences introduced unexpected phase shifts into
+          resulting records.  Repeated addition changed to multiplication
+          to determine the correct time position of individual samples.
+
+2008-02-18  Brian Savage  <savage@uri.edu>
+        * Fixed bug in src/bbs/getbbv.c.  An array was overrunning its
+          This caused a segmentation error for the command SAC > map.
+
+2008/02/16 Richard Godbee <rwg@vt.edu>
+        * Patched src/gd3.x11/error3.c so it would not crash when
+          reporting an error code reported by Xlib.
+
+2008-02-06 Savage, Helfrich, Snoke:
+        * restFP and saveFP only seem to appear on the Apple version of
+          the system libraries (libgcc.a) and only for the PPC.  Tests
+          found this to be a problem when building Fortran programs on
+          the PPC if sac had been built with the -O2 flag.  There are
+          work-arounds, but best not to build sac with -O2.  This will
+          be followed for future binaries.
+
+2007/11/20 Version 101.1 released
+
+2007-11-19  Brian Savage  <savage@uri.edu>
+        * Updated sgftox.csh to use ghostscript as the Postscript viewer
+        * Readme.buildsac: Added instructions for new configure system
+        * Readme: Updated Readme to handle configure 
+          script and sacinit.[sh,csh]
+        * Makefile.am: Added link between libsacio.a and sacio.a
+        * src/dff/wsac3.c: Added, same to wsac0() but now
+          updates the depmin,depmax,depmen, and the distance and azimuth.
+        * libsacio.a: Changed name from sacio.a but old file still exists
+          for backwards compatibility.  
+        * Added routines distaz() and extrma() to handle header updates 
+          for wsac3().
+        * bin/sacinit.[sh,csh]: Initialization scripts for paths
+          and Environment Variables
+        * src/exm/xabout.c (xabout): 
+        * Updated version string to incorporate the Version number
+          from the configure scripts (PACKAGE_NUMBER)
+
+2007-10-27  Brian Savage <savage@uri.edu>
+        * Updated Build system to configure/autoconf
+
+2007-10-04  Brian Savage  <savage@uri.edu>
+        * SAC/src/dfm/xsort.c (xsort): 
+        * SAC/src/dfm/xsort.c (reorder):        
+        Fixed the sort command to operate independently of
+        the SeisMgr Database routines.  This is important
+        as the default is now SAC_USE_DATABASE = 0 or
+        "Do not Use the SeisMgr Database"
+
+2007-10-03  Brian Savage  <savage@uri.edu>
+        * SAC/src/icm/polezero.c (polezero): 
+          Bug Fix:  Characters past the end of variable key 
+          were being accessed producing unanticipated results.
+          Changed static length of key to dynamic and modified 
+          the calls involving key: strcmp() to strncmp() with
+          the inclusion of #defines for each Key Value for a
+          PoleZero file.  Documentation of the Function Updated
+          for doxygen.
+
+2007-09-28  Brian Savage  <savage@uri.edu>
+        * SAC/src/gd3.x11/dispatcheve3.c (dispatchevent3): 
+          Added Option to restore Ultra Large Crosshairs on the PPK window
+          Environment Variable: SAC_PPK_LARGE_CROSSHAIRS
+             0 or Undefined - Tiny Cross Hairs
+             1              - Cross Hairs of the Full Plot Window
+
+2007-09-26  Brian Savage  <savage@uri.edu>
+        * SAC/src/gam/xppk.c (xppk): 
+          From Richard Godbee Through Arthur Snoke
+          Make it so the ppk command does not care about the order of 
+          picking the lower and upper bounds of the new time window.
+
+        * SAC/utils/sac.h (SacHeaderName): 
+          Changed first o the odelta, avoiding a conflict
+
+2007-09-25  Brian Savage  <savage@uri.edu>
+        * SAC/inc/proto.h: 
+        * SAC/inc/isnan.h: 
+          added include "isnan.h" header file for systems lacking isnan()
+        * SAC/src/icm/polezero.c (polezero): 
+          Changed isNaN() to isnan() as isNaN only operated on single 
+          precision floating point numbers.  
+        * free(s1) statements we2005/07/25 Version 100.1 beta removed 
+	  so not to get a seg fault
+          during an error message
+        * SAC/src/dff/f2c.c (DEPRECATED):
+          Added function to report removed functions and what to substitute 
+        * SAC/src/dfm/sort.c (isNaN):
+          ERROR 2118: No Transfer Function applied. In src/icm/polezero.c
+          On reading of the CONSTANT Key from a Pole Zero file
+          If the constant is larger than a float from a double can handle
+          it barfs on the isNaN() routine in src/dfm/xsort.c
+          Since the constant being read into is a double (const_)
+          it should call a function with a double argument not a float
+          Fix: Use isnan() (in Math Library) instead of isNaN() 
+          as it handles both floats and doubles
+          FIX: Replaced all occurrences of isNAN() with isnan() and
+          add a statement in isNaN() about this function being deprecated.
+        * SAC/src/exm/xabout.c (xabout):
+          Updated exm/xabout.c 
+                Uses SAC_DISPLAY_COPYRIGHT
+                = 1     Display Copyright
+                = 0     Do Not Display Copyright
+                = undef Display Copyright
+                
+2007/03/07 Arthur Snoke <snoke@vt.edu> (for Doug Neuhauser 
+                                <doug@seismo.berkeley.edu>)                     
+        *  src/SeisMgr/cssListOps/cssArchitecture.c 
+           The filename array used for determining the architecture of the
+           computer is not long enough.  The constructed filename will
+           overwrite the end of the array, and cause a segmentation 
+           violation.  Increased the size of the array from 31 to 64
+        *  src/icm/makefile and src/SeisMgr/makefile:  In both makefiles,
+           replaced "make" with ${MAKE}.  Without that, on Sun Solaris,
+           trying to use "gmake" would not work for all makefiles.
+
+2007/03/03 Version 101.0
+
+2007/03/03 Arthur Snoke <snoke@vt.edu>
+        *  Updated src/evalresp to evalresp 3.2.37 (released October 2006) 
+
+20007/02/23 Brian Savage <savage@uri.edu>
+        * Major Bug Fix for all SACIO Library routines.  Filenames and 
+          string handling should be much saner now
+          (added sac/dff/f2c.c - converts fortran strings to C string)
+                Note this is not related to the old f2c program 
+                     SAC/src/bbs/getbbv.c
+                     SAC/src/bbs/readbbf.c
+                     SAC/src/bbs/setbbv.c
+                     SAC/src/bbs/unsetbbv.c
+                     SAC/src/bbs/writebbf.c
+                     SAC/src/co/zopen.c
+                     SAC/src/dff/f2c.c
+                     SAC/src/dff/getfhv.c
+                     SAC/src/dff/getihv.c
+                     SAC/src/dff/getkhv.c
+                     SAC/src/dff/getlhv.c
+                     SAC/src/dff/getnhv.c
+                     SAC/src/dff/setfhv.c
+                     SAC/src/dff/setihv.c
+                     SAC/src/dff/setkhv.c
+                     SAC/src/dff/setlhv.c
+                     SAC/src/dff/setnhv.c
+                     SAC/src/dff/wsac0.c
+        * Changed determination of Byte Order in CSS Files
+          now done internally versus using a temporary file
+        * Added a SAC_USE_DATABASE environment variable
+          If set to 0, will not use the database
+          If not defined, will use the database
+          If set to 1, will use the database
+          The database is confusing, and is buggy
+          This will dramatically speed up the reading of large file lists
+          ( src/ssi/sacToSeisMgr.c)
+        * Added a SAC_DISPLAY_COPYRIGHT environment variable
+          If defined will not show the COPYRIGHT
+          The addition of this code snippet is debatable
+          (src/exm/xabout.c)
+
+2006/08/21 Brian Savage <savage13@dtm.ciw.edu>
+        * Added SAC/libedit/config.h.in.  This file with the associated 
+          makefile removed the dependency on issetugid() so that a build
+          on solaris 2.9 would work on solaris 2.8
+        * Changed SAC/libedit/makefile.  This removes the dependency 
+          on issetugid() and GNU install
+        * Changed SAC/src/makefile.  This removes the dependency on 
+          GNU install and OS X Darwin now only  depends on 
+          libncurses.5.dylib.  Previously, a build on 10.4 would not work
+          on 10.3.)
+
+2006/08/18 Arthur Snoke <snoke@vt.edu>
+        *  Modified bin/sgftoeps.csh so it does not need epstool.  It still
+           needs gs.  Also, changed the default scale to 0.75 so that when
+           printing the .eps file it does not truncate.
+        *  Added a script bin/sgf2x.csh that displays a .sgf file on the
+           screen.  It uses gv.  If not available, tries /usr/bin/ggv.
+           When running programs over the Internet, gv can be very slow, so
+           replacing the call to gv with one to gs can be significantly faster
+           This script has the functionality of the old sac program sgfplot.
+
+2006/07/26 Richard Godbee <rwg@vt.edu>
+        *  ./src/co/math.c defines fmin, fmax, and labs that are defined 
+           in the Standard C library everywhere bu on the Sun. They
+           have the same arguments and actions.  On OS X one gets
+           warnings about possible redefinitions of these functions
+           whenever one compiles a program using sacio.a on Mac OS X.
+           Put in a conditional not to define them in math.c on OS X.
+
+2006/07/17 Brian Savage <savage13@dtm.ciw.edu>
+        * Bug fix: Make certain a power of 2 is greater than input number
+          (src/ucf/next2.c)
+        * Bug fix: Memory Leak, Old Files released on a read call
+          (src/dfm/readfl.c)
+
+2006/07/01 Arthur Snoke <snoke@vt.edu>
+        *  Updated several files in aux/help taking out obsolete references.
+        
+2006/05/31 Arthur Snoke <snoke@vt.edu>
+        * added a rm \tmp/sactemp.ps commend in src/gam/xprint.c to erase
+          that file after printing so if subsequent user does a p1 print
+          there Will not be an existing file with a different owner in /tmp.
+
+2006/05/18 Brian Savage <savage13@dtm.ciw.edu>
+        * Added utility program saclst (modified from program by Lupei Zhu).
+          Standalone program allows display of header variables that can
+          be ported to programs or printed.  Source is in ./utils and is put
+          in ./bin during a normal build.
+
+2006/05/04 Brian Savage <savage13@dtm.ciw.edu>
+        * Modified the number of Y Limit points to match the 
+          maximum number of files
+          (inc/gam.h)
+        * Added -p flag to install to preserve modification dates
+          (src/makefile)
+
+2006/05/02 Richard Godbee <rwg@vt.edu>
+        * Edited src/co/math.c so that if fmin & fmax are defined elssewhere
+          on the system, they won't be defined again (a warning message)
+          Arthur Snoke <snoke@vt.edu>
+        * Edited src/makefile so that SAC/utils and SAC/bin/sacswap 
+          get copied to PREFIX/sac
+
+2006/03/27 Richard Godbee <rwg@vt.edu>
+        * Changed all occurrences of gets() to fgets()and corrected
+          boundingbox in sgftops.c (utils/sgftops.c)
+        
+2006/03/02 Brian Savage <savage13@dtm.ciw.edu>
+        * Added utils/sacswap.c and changed Makefile to create it
+
+2006/02/14 Brian Savage <savage13@dtm.ciw.edu>
+        * Fixed writehdr bug for files of opposite endian
+          (src/dff/wrsac.c)
+        * Changed call to map_hdr_out() to allow for swapping
+          (src/dff/map_hdr_out.c)
+        * Fixed bug in zwabs() with bad prototype
+          (src/co/zwabs.c)
+
+2005/12/13 George Helffrich http://www1.gly.bris.ac.uk/~george/gh.html
+        * Tweak makefile (again) so builds work on any MacOS system
+          (src/makefile)
+
+2005/12/01 George Helffrich http://www1.gly.bris.ac.uk/~george/gh.html
+        * Tweak makefile so MacOS 10.2.x builds work
+          (src/makefile)
+        * Update Readme info to mention 10.2.x builds work
+          (Readme.buildsac)
+
+2005/11/30 George Helffrich http://www1.gly.bris.ac.uk/~george/gh.html
+        * Eliminate warning messages about redefined #defines by shrouding
+          them in #ifdef conditionals.
+          (inc/proto.h)
+
+2005/07/25 Version 100.1 beta released
+
+2005/07/22 Richard Godbee <rwg@vt.edu>
+        * In Apple OS 10.4.2 with xcode 2.1, swab() is defined twice: 
+          in string.h and unistd.h.  As string.h is not needed,
+          remove unneeded #include <string.h> from exm/xcd.c.
+        * In order to get a successful build using gcc 4.0 in OS 10.4.2,
+          found it necessary to move the prototype for e_decompress() 
+          above the enlarge() function in SeisMgr/cssListOps/enlarge.c.
+          
+2005/07/21 Brian Savage <savage13@dtm.ciw.edu>
+        * Fixed bug in help command for non-existent commands
+          (ucf/wrhelp.c)
+        * Fixed pause/redraw bug 
+          (co/zgtmsg.c)
+        * Added co/select.c to remove duplicate code in co/zgpmsg.c
+          and co/zgtmsg.c.  To set a prompt and get a message use
+          select_loop() and its axillary functions.
+        * Modified co/zsleep.c to be platform independent
+          now uses select_loop with a timeout to handle sleeping
+
+2005/05/26 Brian Savage <savage13@dtm.ciw.edu>
+        * Fully integrated libedit into build process
+        * Updated Readme, License, History, Readme.buildsac files
+        * Removed extra CC=cc lines in makefile
+        * Updated Makefile for better install process
+
+2005/05/23 Brian Savage <savage13@dtm.ciw.edu>
+        * Changed from GNU Readline to editline due to License conflicts
+           between GNU Public License and the SAC License
+        * Changed function name parse_line to parse_line_evresp
+           It conflicts with a function call in the libedit library
+          (evalresp/evresp.c)
+          (evalresp/string_fctns.c)
+        * Fix Bug for X Error Handling and Editline
+          (gd3.x11/createwindo3.c)
+          (gd3.x11/error3.c) - Added
+        * Added History file for Version history
+        * Added License file for the SAC License
+        * Cleaned up Changes file, includes all the intermediate changes
+        
+2005/04/18 Brian Savage <savage13@dtm.ciw.edu>
+        * Fix Bug during window resize, now frees and recreates backing pixmap
+          (gd3.x11/dispatcheve3.c)
+        * Changed bounding box back to letter (792 612)
+          (utils/sgftops.c)
+
+2005/03/11 Brian Savage <savage13@dtm.ciw.edu>
+        * Fix Bug during select() for an Interrupted System Call
+          (co/gpmsg.c)
+        
+2005/02/20 Brian Savage <savage13@dtm.ciw.edu>
+        * USE_X11_DOUBLE_BUFFER was part of the ANNOYANCE_FIXES patch
+	   Moved the position of where the XExposeEvent is emitted from the
+	   end of the command loop to endframe->endframe3->flushbuffer so now
+	   only  routines that draw to the screen get an XExposeEvent.  
+           Many of the files
+           are changing the #ifdef Statements from ANNOYANCE_FIXES to 
+           USE_X11_DOUBLE_BUFFER
+           Files: gd3.x11/flushbuffer3.c
+                          createwindo3.c 
+                          cursor3.c
+                          dispatcheven3.c
+                          draw3.c
+                          drawpoly3.c
+                          expose3.c
+                          erase3.c
+                  main/sac.c
+                  co/zgpmsg.c
+                  inc/gd3.x11.h
+                
+        * USE_X11_MULTIPLE_DEPTHS allows use of XCreateImage and XPutImage
+           on displays of various depths.  We need to know what the pixel 
+           size when creating an XImage, which depends on the depth of 
+           the window and display.
+           Files: gd3.x11/fill_clrbar3.c
+                          put_image3.c
+                          setpsctable3.c
+        * USE_READLINE was part of the ANNOYANCE_FIXES patch, now independent
+           Uses the GNU Readline Library to handle the command prompt
+           Files: main/sac.c
+                  co/zgpmsg.c
+                
+2005/02/23 Peter Goldstein <peterg@llnl.gov>
+        * Updated sgf plotting utilities to with enhanced versions from 
+           Arthur Snoke.  New version of sgftops does translation rotation 
+           and scaling  of postscript plots. sgftoeps.csh is a csh shell 
+           script that creates encapsulated postscript  that are compatible 
+           with latex and version 10 of Adobe Illustrator. The script 
+           requires epstool (http://www.ghostgum.com.au/) and ghostscript 
+           (http://www.cs.wisc.edu/~ghost/).
+
+2005/02/07 Brian Savage <savage13@dtm.ciw.edu>
+ 
+        * Added export to SACFLAGS to push -D$(OSTYPE) into subdirectories
+        * Added OSTYPE=linux for linux systems defined as linux-gnu
+        * Command Line editing added to main/sac.c
+           Uses the GNU Readline Library
+           Set ANNOYANCE_FIXES=TRUE in makefile to get command line editing
+        * Updated X11 events for window redraws (gd3.x11)
+           We now draw to a pixmap when ploting and this is then drawn to the 
+           screen. When one window overlaps the plotting window, the pixmap 
+           is drawn to the screen
+           Set ANNOYANCE_FIXES=TRUE in makefile to get X11 Fixes
+        * Added a select() call to switch between X Events and Keyboard Events
+        * Modified csserror.c to not use sys_errlist and sys_nerr, they output
+           warnings upon linking/compilation
+
+2004/12/08 Peter Goldstein <peterg@llnl.gov>
+        * Version 100.00 released for Solaris, Linux, and OS X
+        * Recent enhancements and bug fixes: 
+        * Automatic byteswapping has been implemented.  SAC will automatically
+           read sac data files in either big or little endian format. (ie., It
+           doesn't matter if your data were created on a little endian 
+           platform like i686-based PCs or big endian platforms like 
+           Sun workstations.   
+        * readalpha/readtable (command for reading ascii tables or columns of
+           xy data): a bug in the linux version has been fixed.  

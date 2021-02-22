@@ -1,0 +1,93 @@
+
+LOWPASS
++++++++
+
+SUMMARY
+-------
+Applies an IIR lowpass filter.
+
+SYNTAX
+------
+
+  ``LOWPASS {BUTTER|BESSEL|C1|C2},{CORNER v},``
+
+  ``{NPOLES n},{PASSES n},{TRANBW v},{ATTEN v}``
+
+INPUT
+-----
+   :BUTTER:  Apply a Butterworth filter.
+    
+   :BESSEL:  Apply a Bessel filter.
+    
+   :C1:  Apply a Chebyshev Type I filter.
+    
+   :C2:  Apply a Chebyshev Type II filter.
+    
+   :CORNER v:  Set corner frequency to v.
+    
+   :NPOLES n:  Set number of poles to n {range: 1-10}.
+    
+   :PASSES n:  Set number of passes to n {range: 1-2}.
+    
+   :TRANBW v:  Set the Chebyshev transition band width to v.
+    
+   :ATTEN v:  Set the Chebyshev attenuation factor to v.
+    
+DEFAULT VALUES
+--------------
+
+  ``LOWPASS BUTTER CORNER 0.4 NPOLES 2 PASSES 1 TRANBW 0.3 ATTEN 30.``
+
+DESCRIPTION
+-----------
+   See the BANDPASS_ command for definitions of the filter parameters and
+   descriptions on how to use them.
+
+EXAMPLES
+--------
+  To apply a four-pole Butterworth with a corner at 2 Hz.::
+
+      u:  LOWPASS NPOLES 4 CORNER 2
+
+  To apply a two-pole two-pass Bessel with the same corner.::
+
+      u:  LP N 2 BE P 2
+      
+  A Butterworth causal low-pass filter will time shift (forward) the waveform
+  by an amount that depends on the corner frequency.  The following macro will
+  time-shift the data::
+  
+    *  Time shift a time series $1 by $2  Output $1-TS
+    *  If IZTYPE = IB, macro will not work.
+    *
+    setbb wf $1
+    setbb ts $2
+    r %wf
+    ch b (%ts + &1,b&)
+    write %wf%-TS
+    
+  If the macro is named time-shift.m, the waveform file named XXX and the time 
+  shift -0.25, the following sequence will time-shift the data and output a file
+  named XXX-TS.  This macro will fail if IZTYPE is IB::
+  
+    SAC> m time-shift.m XXX -0.25
+    
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+- 1307: Illegal operation on spectral file
+- 1002: Bad value for
+
+  - corner frequency larger than Nyquist frequency.  See Chapter 4 of Rabiner
+    and Gold, Theory and Application of Digital Signal Processing, 
+    Prentice-Hall, 1975 for a discussion of IIR filters.
+
+SEE COMMANDS
+------------
+  BANDPASS_
+
+LATEST REVISION
+---------------
+  Version 101.6
+

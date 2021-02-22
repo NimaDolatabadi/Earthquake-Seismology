@@ -1,0 +1,38 @@
+PLOTCOR
++++++++
+
+SUMMARY
+-------
+Plots the correlation function.
+
+SYNTAX
+------
+
+   `` [P]LOT[COR] {[X]LIM v|ON|OFF} {PRINT {pname} } ``
+
+INPUT
+-----
+    :XLIM_ v:        Turn partial x limits option on and set upper limit
+       to v seconds.  The lower limit is always 0.
+    :XLIM_ {ON}:     Turn partial x limits option on and use previous 
+       upper limit.
+    :XLIM_ off:      Turn partial x limits option off.
+       All of the correlation function is plotted.
+    :PRINT_ {pname}: Print the resultant plot.  If a printer name is specified,
+       print to that printer, else use default printer.
+    
+    
+DEFAULT VALUES
+--------------
+
+ `` PLOTCOR XLIM_ OFF``
+    
+ERROR MESSAGES
+--------------
+ - 5003: No correlation function calculated.
+    
+SEE COMMANDS
+------------
+ COR_
+    
+    

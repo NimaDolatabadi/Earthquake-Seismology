@@ -1,0 +1,54 @@
+
+DIV
++++
+
+SUMMARY
+-------
+Divides each data point by a constant.
+
+SYNTAX
+------
+
+  ``DIV {v1 {v2 ... vn} }``
+
+INPUT
+-----
+   :v1:  Constant to divide first file by.
+    
+   :v2:  Constant to divide second file by.
+    
+   :vn:  Constant to devide nth file by.
+    
+DEFAULT VALUES
+--------------
+
+  ``DIV 1.``
+
+DESCRIPTION
+-----------
+   This command will divide each element of each data file in memory by a
+   constant.  The constant may be the same or different for each data file.  If
+   there are more data files in memory than constants, then the last constant
+   entered is used for the remainder of the data files in memory.
+
+EXAMPLES
+--------
+  To divide each element of F1 by 5.1 and each element of F2 and F3 by 6.2::
+
+      u:  READ F1 F2 F3
+      u:  DIV 5.1 6.2
+
+HEADER CHANGES
+--------------
+   DEPMIN, DEPMAX, DEPMEN
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1307: Illegal operation on spectral file
+- 1701: Can't divide by zero.
+
+LATEST REVISION
+---------------
+   January 8, 1983 (Version 8.0)
+

@@ -1,0 +1,21 @@
+
+REVERSE
++++++++
+
+SUMMARY
+-------
+Reverse the order of data points.
+
+SYNTAX
+------
+
+  ``REVERSE``
+
+DESCRIPTION
+-----------
+   This command reverses the order of data points in each file in memory.
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

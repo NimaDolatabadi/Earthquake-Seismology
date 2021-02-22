@@ -1,0 +1,91 @@
+
+LOAD
+++++
+
+SUMMARY
+-------
+Load an external command.
+
+external commands and load require extra work in the linux version of SAC.
+
+SYNTAX
+------
+
+  ``LOAD comname {ABBREV abbrevname}``
+
+INPUT
+-----
+   :comname:  The name of an external function to load from a shared object.
+    
+   :ABBREV abbrevname:  An abbreviation or alias for comname.
+    
+DESCRIPTION
+-----------
+   This command allows the user to load commands written to the SAC external
+   command interface specification (See EXTERNAL_INTERFACE_ help page).  This
+   command must be a function stored in a shared object library ( a .so file-
+   see UNIX LD manpage for details ).  SAC will look in all shared object
+   libraries listed in environmental variable SACSOLIST.  This environmental
+   variable should contain one or more names of shared objects in a blank
+   delimited list.  The path to these shared objects must be specified in the
+   LD_LIBRARY_PATH environmental variable.  If SACSOLIST is not set, then SAC
+   will look for a shared object library called libsac.so, using the paths
+   specified in LD_LIBRARY_PATH.  A library called libcom.so is distributed
+   with SAC (see EXTERNAL COMMAND . below).
+
+EXAMPLE
+-------
+  Set up your environment to have SAC look in the current directory for a
+  command named foo from a shared object called libbar.so.  Set up an
+  alias for foo called myfft.::
+
+    % setenv SACSOLIST "libcom.so libbar.so"
+    #  Add the current directory to the search path.
+    % setenv LD_LIBRARY_PATH {$LD_LIBRARY_PATH}:. 
+
+    % sac
+    SAC> load foo abbrev myfft         * load the command
+    SAC> read file1.z file2.z file3.z  * input files to pass to the command
+    SAC> myfft real-imag               * invoke command with its arguments,
+                                       * commands must parse their own args.
+    SAC> psp
+
+  How to create a shared object library containing your command(s):
+  Solaris::
+
+    cc -o libxxx.so -G extern.c foo.c bar.c
+
+  SGI::
+
+    cc -g -o libxxx.so -shared foo.c bar.c
+
+  LINUX: (gcc)::
+
+    gcc -o libxxx.so -shared extern.c foo.c bar.c sac.a
+
+  where sac.a is the sac library available where you got sac.
+
+EXTERNAL COMMAND INCLUDED IN THE DISTRIBUTION OF SAC
+----------------------------------------------------
+  There is one external command which is distributed with SAC.  It is called
+  FLIPXY.  FLIPXY takes as input one or more X-Y datafiles, and transposes
+  the data.  This command is in libcom.so in ${SACAUX}/external along with
+  the source code of FLIPXY for reference.  To load FLIPXY, libcom.so must
+  be included in SACSOLIST.
+
+ERRORS
+------
+- 1028:  External command does not exist:
+  This means that SAC did not find your external command.
+
+  This error can arise for a couple of reasons.  One possibility is that your
+  LD_LIBRARY_PATH environmental variable does not contain the path to your 
+  shared library.  Another possibility is that you have not set your 
+  SACSOLIST environmental variable to contain the names of your 
+  shared libraries.
+
+
+LATEST REVISION
+---------------
+  March 21, 1996 (Version 00.50)
+

@@ -1,0 +1,56 @@
+DISTANCEAXIS
+++++++++++++
+
+SUMMARY
+-------
+Define the record section plot distance axis parameters.
+
+SYNTAX
+------
+   `` [D]ISTANCE[A]XIS FIXED v|SCALED v``
+
+INPUT
+-----
+    :FIXED v:       Force axis length to be $v$ cm long.
+    :SCALED v:      Allow the axis length to be scaled to the data.
+        The axis length (in cm) will be the range of the axis
+        (in km.) divided by v.
+    
+DEFAULTS VALUES
+---------------
+
+   ``DISTANCEAXIS FIXED 35``
+    
+DESCRIPTION
+-----------
+   This command defines the properties of the distance axis for subsequent
+   record section plots (see  PLOTRECORDSECTION.)
+   The length of the axis can be a fixed size or it can be scaled to the
+   range of the axis variable (distance in this case.)
+   The TIMEAXIS command controls the time axis properties.
+  
+EXAMPLES
+--------
+  If you entered the following command::
+    
+      u:  DISTANCEAXIS SCALED 2.0
+
+  and the minimum and maximum distances in the data set being plotted are
+  150 and 300 km respectively, the distance axis would be 75 cm long.
+    
+KNOWN BUGS
+----------
+  The y to x aspect ratio defined by this command and by the  TIMEAXIS
+  command is correct on plots to any device.
+  The physical size requested is ignored when plotting to an interactive
+  device (e.g. TERMINAL, XWINDOWS)
+
+  If the SGF_ device is requested, the physical size is stored in these files.
+  The current SGF_ plot programs do not have the capability to make arbitrary
+  sized plots (i.e. panelling).  This panelling option is planned for a
+  future release.
+
+SEE COMMANDS
+------------
+  PLOTRECORDSECTION_, TIMEAXIS_
+

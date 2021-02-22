@@ -1,0 +1,175 @@
+Calling SAC from Scripts
+++++++++++++++++++++++++
+
+Overview
+========
+The SAC program can be run from a variety of scripting languages and shells.
+Provided below are a few examples of using SAC within the bounds of either
+a shell or high-level scripting language.  Included are examples for
+sh, csh, perl and python.  Other languages very likely have a similar format.
+Terminator string EOF is required to start at the first character of a line
+or the scripts will not work.
+
+Setting the environment variable SAC_DISPLAY_COPYRIGHT to 0 will force SAC not
+to display the copyright header information.  In the sh shell the option is::
+
+  export SAC_DISPLAY_COPYRIGHT=0
+
+and in csh the syntax is::
+ 
+  setenv SAC_DISPLAY_COPYRIGHT 0
+
+
+Simple Examples
+===============
+
+sh
+--
+::
+
+  #!/bin/sh
+
+  sac <<EOF
+  fg seismo
+  lh columns 2
+  quit
+  EOF
+
+
+csh 
+---
+::
+
+  #!/bin/csh
+
+  sac <<EOF
+  fg seismo
+  lh columns 2
+  quit
+  EOF
+
+perl
+----
+::
+
+  #!/usr/bin/env perl
+
+  open(SAC, "| sac ") or die "Error opening sac";
+  print SAC "fg seismo\n";
+  print SAC "lh columns 2\n";
+  print SAC "quit\n";
+  close(SAC);
+
+
+python
+------
+::
+
+  #!/usr/bin/env python
+
+  import subprocess
+
+  p = subprocess.Popen(['sac'], 
+                       stdout = subprocess.PIPE,  
+                       stdin  = subprocess.PIPE, 
+                       stderr = subprocess.STDOUT )
+
+  out = p.communicate('''
+  fg seismo
+  lh columns 2
+  quit
+  ''')
+
+  print out[0]
+
+Extended Examples
+=================
+
+The following examples take a set of SAC files in the current directory and 
+low pass filter then at 1.0 Hz with a 2 pass, 4th order filter.  The shell
+examples, sh and csh, require an invocation of sac for each file, but the 
+scripting languages, perl and python, do not.   The python and perl scripts
+use more complex and more powerful string handling than do the shell scripts.
+
+sh
+--
+::
+
+  #!/bin/sh
+  
+  for file in *.SAC; do
+     sac <<EOF
+     echo on
+     read $file
+     rmean 
+     rtrend
+     lp co 0.1 p 2 n 4
+     write ${file}.filtered
+     quit
+  EOF
+  done
+
+csh
+---
+::
+
+  #!/bin/csh
+
+  foreach file ( *SAC )
+     sac <<EOF
+     echo on
+     read $file
+     rmean 
+     rtrend
+     lp co 0.1 p 2 n 4
+     write ${file}.filtered
+     quit
+  EOF
+  end
+
+perl
+----
+::
+
+  #!/usr/bin/env perl
+
+  open(SAC, "| sac ") or die "Error opening sac";
+  foreach $file ( glob("*.SAC") ) {
+     print SAC qq[
+       read $file
+       rmean
+       rtrend\
+       lp co 0.1 p 2 n 4
+       write ${file}.filtered
+     ];
+  } 
+  print SAC "quit\n";
+  close(SAC);
+
+
+python
+------
+::
+
+  #!/usr/bin/env python
+
+  import subprocess
+  import glob
+
+  p = subprocess.Popen(['sac'], 
+                       stdout = subprocess.PIPE,  
+                       stdin  = subprocess.PIPE, 
+                       stderr = subprocess.STDOUT )
+
+  s = "echo on\n"
+  for filename in glob.glob("*.SAC"):
+      s += '''
+         read %(file)s
+         rmean 
+         rtrend
+         lp co 0.1 p 2 n 4
+         write %(file)s.filtered
+      ''' % ( {'file': filename } )
+  s += "quit\n"
+  out = p.communicate( s )
+  print out[0]

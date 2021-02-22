@@ -1,0 +1,43 @@
+WRITECOR
+++++++++
+
+SUMMARY
+-------
+Writes a SAC file containing the correlation function.
+
+SYNTAX
+------
+
+  `` [W]RITE[COR] {file} ``
+
+INPUT
+-----
+  :file:     The name of the SAC file to write.
+
+DEFAULT VALUES
+--------------
+ 
+  `` WRITECOR COR ``
+
+DESCRIPTION
+-----------
+  The structure of the correlation function written out by this command
+  is determined by the algorithm used to compute it.  Since the data
+  is partitioned into windows, and sample correlation functions are calculated
+  from each window, then averaged, the length of the correlation function
+  is determined by the data window size.  It contains exactly one less
+  sample than twice the number of samples in the data window.  However,
+  since FFT's are used to calculate the sample correlation functions,
+  the number of points in the file is a power of two.  It is, in fact,
+  the first power of two larger than the data window size (in samples).
+  The additional samples are zero.  The correlation function is also circularly
+  rotated within the file, due to the pecularities of  computing correlations
+  with the FFT_ algorithm.  This means that the zero-lag sample is the first
+  sample in the file, and the negative-lag samples follow the positive-lag
+  samples.
+
+ERROR MESSAGES
+--------------
+ - 5003: No correlation function calculated.
+
+

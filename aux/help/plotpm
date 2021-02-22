@@ -1,0 +1,66 @@
+
+PLOTPM
+++++++
+
+SUMMARY
+-------
+Generates a "particle-motion" plot of pairs of data files.
+
+SYNTAX
+------
+
+  ``PLOTPM {PRINT {pname} }``
+
+INPUT
+-----
+   :PRINT {pname}:  Print the resultant plot.  If a printer name is
+       specified, print to that printer, else use default printer.
+    
+    
+DESCRIPTION
+-----------
+  In a particle-motion plot one evenly spaced file is plotted against
+  another.  For each value of the independent variable, normally time, the value
+  of the dependent variable of the first file is plotted along the y axis and
+  the value of the dependent variable of the second file is plotted along the x
+  axis.  For a pair of seismograms this type of plot shows the motion of a
+  "particle" in the plane of the two seismograms as a function of time.
+  A square plot is generated, with the limits along each axis being the
+  minimum and maximum values of the dependent variable.  Annotated axes are
+  generated along the bottom and left.  Axes labels and title can be set by the
+  XAXIS, YAXIS, and TITLE_ commands.  If no x and y axis labels are set, 
+  then the name and azimuth of the station are used as axes labels.  
+  The XLIM_ command can be used to control how much of each file to plot.
+
+EXAMPLES
+--------
+  To create a particle-motion plot of two seismograms, XYZ.T and XYZ.R and set
+  up your own axes labels and title::
+
+      u:  READ XYZ.T XYZ.R
+      u:  XLABEL 'Radial component'
+      u:  YLABEL 'Transverse component'
+      u:  TITLE 'Particle-motion plot for station XYZ'
+      u:  PLOTPM
+
+  If you wanted to plot only a small part of each file around the first arrival
+  time, you could use the XLIM_ command::
+
+      u:  XLIM A -0.2 2.0
+      u:  PLOTPM
+
+  You could also use PLOTPK_, possibly in a different graphics window as in this
+  example, to mark which portion of the files you wanted to see in the particle
+  motion plot::
+
+      u:  BEGINWINDOW 2
+      u:  PLOTPK
+      u:  ... mark the portion you want using X and S
+      u:  ... terminate PLOTPK with a Q
+      u:  BEGINWINDOW 1
+      u:  PLOTPM
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

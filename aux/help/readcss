@@ -1,0 +1,295 @@
+
+READCSS
++++++++
+
+SUMMARY
+-------
+Read data files in CSS external format from disk into memory.
+
+NOTE:  The READCSS_ command reads flat files which adhere to CSS 3.0 or
+2.8 data formats. The following tables are supported for version 3.0:
+
+wfdisc, wftag, origin, arrival, assoc, sitechan, site, affiliation,
+origerr, origin, event, sensor, instrument, gregion, stassoc, remark
+sacdata.
+
+For version 2.8 only wfdisc, arrival, and origin are supported. Previous
+versions of READCSS_ required that the origin file have only one line
+which would be associated with the waveforms pointed to by the wfdisc
+file. The current version can extract the correct origin (or origins)
+using information from a wftag file or using an evid column in the wfdisc
+file (position 284 - 291). If no such information is available, READCSS_
+will default to its previous behavior, and use the first row in the origin
+file. There is now no information lost when data is read using READCSS_.
+Although existing SAC commands can only access a subset of the CSS data,
+everything read from CSS flatfiles is retained in memory and will be written
+to disk with the WRITECSS_ command.
+
+READCSS_ now reads a non-standard table named sacdata (written by the WRITECSS_
+command) which holds data from the SAC header that does not have a place in
+the standard schema. With the sacdata table, there is now no information loss
+when SAC data is written in CSS format and then re-read. For instance, you
+can now write frequency domain data to disk with WRITECSS_ and re-read it
+later with READCSS_.
+
+READCSS_ now has a binary option that allows it to read binary CSS files written
+by WRITECSS_. In binary mode the css options have no effect. That is, the entire
+contents of the specified file(s) will be read.
+
+READCSS_ supports the following binary datatypes:
+On bigendin machines (eg. Sun) t8, t4, f8, f4, s4, s3, s2, i4, i2,
+g2, e1, and ri (real-imag).
+
+On littleendin machines (eg. DEC or PC) f8, f4, t8, t4, i4, i2, s4, s2, and g2
+
+
+SYNTAX
+------
+
+  ``READCSS {BINARY|ASCII} {MAXMEM v} {MORE} {TRUST ON|OFF} {VERBOSE ON|OFF}``
+
+  ``{SHIFT ON|OFF} {SCALE ON|OFF} {COMMIT|ROLLBACK|RECALLTRACE} {DIR name}``
+
+  ``wfdisclist {filelist} {css options}``
+
+   The css options are one or more of the following:
+
+
+  ``STATION station``
+
+  ``CHANNEL channel``
+
+  ``BANDWIDTH band code``
+
+  ``ORIENTATION orientation code``
+
+  which causes this command to further select from files
+  that are qualifying members of filelist based on the content
+  of their corresponding records in the wfdisc file.
+
+
+INPUT
+-----
+   :ASCII: (Default) Reads normal ASCII flatfiles.
+    
+   :BINARY: Reads binary CSS files. See the WRITECSS_ command for more
+       information on this format.
+    
+   :TRUST ON|OFF:   This option is used to resolve an ambiguity in converting
+       files from SAC to CSS format.  When converting the data,
+       matching event IDs could mean the files have identical
+       event information, or they could be an artifact of the
+       merging of these two very different formats.  When TRUST
+       is ON, SAC is more likely to accept matching event IDs as
+       identical event information than when TRUST is OFF,
+       depending on the history of READ_ commands associated with
+       the current data files in memory.
+    
+   :MAXMEM: Specify the maximum fraction of physical memory to use when
+       reading large data sets. When this limit is reached, no more
+       waveforms will be read, although other tables may still be read.
+       The default value for MAXMEM is 0.3.
+    
+   :MORE:  See the READ_ command.
+    
+   :VERBOSE ON|OFF: If VERBOSE is ON, SAC displays extended information
+       about the waveforms being read, and prints a summary of the CSS
+       tables that were filled. SAC also displays a progress indicator
+       for the conversion to SAC internal format.
+    
+   :SHIFT ON|OFF:  If SHIFT is on, the origin time is set to zero, and
+       other time related header variables are shifted back to be
+       consistent with the origin time.  Some of the distance related
+       header variables are also affected.  SHIFT ON is the default.
+    
+   :SCALE ON|OFF:  The SCALE option is OFF by default.
+       When SCALE is OFF, SAC reads the counts from the .w file.  When
+       SCALE is ON, SAC multiplies counts by a SCALE factor given as
+       CALIB in the .wfdisc file.  This scale option changes with the
+       SCALE options of READ_ SEGY, READGSE_, and READSUDS_.
+       If SCALE is OFF, the CALIB value from the file will be stored
+       in SAC's SCALE header variable.  If SCALE is on, SAC's SCALE
+       header field is set to 1.0.
+       SCALE is a crude method of accounting for the instrument
+       response.  The prefered method is with the TRANSFER_ command.
+       It is recommended to leave SCALE off for the READ_ and use
+       the TRANSFER_ command.  SCALE should really only be used
+       if the response information necessary for the TRANSFER_ command
+       is not available.
+    
+   :COMMIT:  If the MORE option is specified, the COMMIT option commits
+       headers and waveforms in SAC memory -- removing any previous
+       versions of headers or waveforms from RAM -- prior to
+       reading more files.  COMMIT is the default.
+    
+   :ROLLBACK:  If the MORE option is specified, the ROLLBACK option reverts
+       to the last committed version of the header and waveform
+       before reading more files.
+    
+   :RECALLTRACE:  If the MORE option is specified, the RECALLTRACE option:
+
+       - reverts to the last committed version of the waveform,
+       - reverts to the last committed version of those header
+       	 variables closely linked to the waveform,
+       - commits those header variables which are loosely linked
+       	 to the waveform. (use HELP_ RECALLTRACE for a list of which 
+	 header variables are committed, and which are rolled back.)
+    
+   :Note:  if the MORE option is not specified, the COMMIT, ROLLBACK,
+       and RECALLTRACE options have no effect.
+    
+   :DIR name:  The directory to be searched for wfdisc(s).
+    
+   :wfdisclist:  The name(s) of one or more wfdisc files.
+    
+   :filelist:  A list of data file names contained in the previously
+       specified wfdisc(s).  These files will be searched for first in the
+       directory specified with the DIR option, then using the path
+       specified in the wfdisc.  If no filelist is supplied, all the data
+       files defined in the specified wfdisc(s) will be read into memory.
+    
+    
+   :STATION station:  station is a string of six or fewer characters.
+       Selects those lines from the .wfdisc file whose KSTNM matches
+       station.  station may contain * and ? wildcards.
+    
+   :CHANNEL channel:  channel is a string of eight or fewer characters.
+       Selects those lines from the .wfdisc file whose channel specifier
+       matches channel.  channel may contain * and ? wildcards.
+    
+   :BANDWIDTH type:  A 1-letter code. Usual values are
+       E            Extremely Short Period
+       S            Short Period
+       H            High Broad Band
+       B            Broad Band
+       M            Mid Period
+       L            Long Period
+       V            Very Long Period
+       U            Ultra Long Period
+       R            Extremely Long Period
+    
+       Selects those files whose 'chan' field has a leading character
+       which is s, m or l.  The character * selects all.
+    
+   :ORIENTATION type:  Usual values are:
+       Z N E        (Vertical North East)
+       A B C        (Triaxial along edges of cube standing on corner)
+       1 2 3        Orthogonal but non-standard orientation
+    
+    
+       Selects those files whose 'chan' field has a final character which 
+       matches code.  The character * selects all.
+    
+MAGNITUDE 
+----------------------
+ - MB 
+ - MS
+ - ML 
+ - DEF
+
+Determines which value of magnitude to put into SAC's
+magnitude hearder variable.  MB gets the bodywave magnitude,
+MS gets the surfacewave magnitude, ML gets the local magnitude,
+and def (the default) follows this algorithm:  if Ms exists and
+is greater than or equal to 6.6, take it, else, if Mb exists take
+it, else, if Ms exists take it, else take Ml.
+
+DEFAULT VALUES
+--------------
+
+  ``READCSS * ASCII MAXMEM 0.3 VERBOSE OFF COMMIT STATION * BAND * CHAN * ORIENT *``
+
+DESCRIPTION
+-----------
+   See the READ_ command.  Oct. 27, 1998 (Version 00.58)
+
+   All commands which load data into memory have are now monitored to maintain
+   a level of confidence in the event information when moved from the SAC data
+   buffer to the CSS data buffer.  For READCSS_, when the confidence is HIGH 
+   that all the data files are cosistent in the numbering of event IDs, matching
+   event IDs are treated as having identical event information.  When the
+   confidence is LOW in READCSS_, matching event IDs are understood as an 
+   artifact, and new event IDs are generated for the incoming file.
+   For more details use HELP_ READ_.
+
+   How READCSS_ reads picks from the .arrival file:
+
+   SAC has two data buffers.  One holds the data in SAC format, and one
+   holds it in CSS3.0 format.  READCSS_ reads all the available arrivals into 
+   the CSS buffer.  Only 10 picks will fit into the SAC formatted buffer.  
+   The command PICKPREFS_ controls the way the picks are transfered from the 
+   CSS buffer to the SAC buffer.
+
+   There is a preferences file which SAC uses to determine which phases and
+   authors' picks to transfer between buffers.  The default preferences file is
+   $SACAUX/csspickprefs.  This default can be overridden by either the 
+   PICKAUTHOR_ or PICKPHASE_ commands.  These commands can select a 
+   user-defined preferences file, or they can interactively override the 
+   preferences file.
+
+   If PICKPREFS_ is OFF (the default), SAC will transfer the first 10 picks from
+   the CSS data buffer to the SAC data buffer.  If PICKPREFS_ is ON, SAC will
+   transfer the picks according to the preferences file, or the PICKAUTHOR_ and
+   PICKPHASE_ commands.
+
+   The following is an example of a preferences file:
+
+   john
+   rachel
+   michael
+
+   t0      P       -
+   t1      Pn      rachel
+   t2      Pg      -
+   t3      S       -
+   t4      Sn      -
+   t5      Sg      -
+   t6      Lg      -
+   t7      LR      -
+   t8      Rg      -
+   t9      pP      -
+
+   Note:  phase names are case sensitive;  author names are not.
+
+   The first few lines are a prioritized list of author names (analysts who have
+   made picks) that sac can use to select picks from the data.  The remaining
+   lines tell sac which css phase picks should be mapped into which sac
+   header variables (T0 through T9). A hyphen (-) in the third column tells sac
+   to use the prioritized author list.  An optional author name can be specified
+   in the third column which will overide the default author list for this pick.
+
+   For a given waveform, sac will choose from the available picks those which
+   match the given phase and author name.  If an author name is specified in the
+   third column, sac will try to match that; if it fails to match that author
+   name, it will leave the header variable undefined.  If the third column has a
+   hyphen, sac will try to match the first name in the list; if it fails it will
+   try to match the second name and so on until it gets a match, or the author
+   list is exhaused (in which case the header variable is left undefined).  
+   In the example file shown above, T0 will have a P phase with john, rachel, 
+   or micheal as the author, or it will be left blank; T1 will have a Pn phase
+   and rachel as the author, or it will be left blank.  For each pick header
+   variable there is a corresponding string header variable (KT0 through KT9).
+   These will be populated with the phase names of the corresponding picks.
+
+   The basic format of the preferences file is:
+   Author names are delimited by newlines.  There are no blank lines before the
+   first author name, and no blank spaces at the begining of a line.  There are
+   no blank spaces in the middle of an author name.  Author names must be
+   unique.  Author names may be up to 15 characters long.  There may be any
+   number of author names.
+
+   The names are listed in order of priority, the most important author name
+   first.  The last name in the author list is followed by an empty line to
+   designate the end of the author list.
+
+   The header variable information occupies 10 lines in three columns.
+   The first column simply lists the names of the header variables in numerical
+   order.  The second column lists specific phase names; phase names can be up
+   to eight characters long.  The third column can have a specific author name,
+   or a hyphen.  The columns are separated by tabs.  There are no spaces
+   anywhere in these 10 lines.
+
+SEE COMMANDS
+------------
+   READ_, PICKPREFS_, PICKAUTHOR_, PICKPHASE_, COMMIT, ROLLBACK, RECALLTRACE
+

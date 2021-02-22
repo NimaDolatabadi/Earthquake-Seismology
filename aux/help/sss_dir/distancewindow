@@ -1,0 +1,48 @@
+DISTANCEWINDOW
+++++++++++++++
+
+SUMMARY
+-------
+Controls the distance window properties on subsequent record section plots.
+
+SYNTAX
+------
+
+   `` [D]ISTANCE[W]INDOW [options]``
+ 
+   where options is one or more of the following:
+   
+   ``[U]SEDATA|[W]IDTH v|[F]IXED v1 v2``
+
+   ``[UN]ITS [K]ILOMETERS|[D]EGREES``
+
+INPUT
+-----
+    :USEDATA:            Use the minimum and maximum values of the distance
+      properties of the files in the stack file list.
+
+    :WIDTH v:           Use the minimum value of the distance property of
+       the files in the stack file list but force the width to
+       be a fixed value.  The maximum distance is then set to
+       the minimum distance plus v.
+
+    :FIXED v1 v2:       Fix the minimum and maximum distances to be v1 and v2 
+       respectively.
+
+    :UNITS KILOMETERS:  Set the distance window units to be in kilometers.
+
+    :UNITS DEGREES:     Set the distance window units to be in degrees of arc.
+    
+DEFAULTS VALUES
+---------------
+
+   ``DISTANCEWINDOW USEDATA UNITS KILMETERS``
+    
+KNOWN BUGS
+----------
+ The KILOMETER option is not currently implemented.
+    
+SEE COMMANDS
+------------
+ PLOTRECORDSECTION_
+    

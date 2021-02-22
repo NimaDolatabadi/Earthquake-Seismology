@@ -1,0 +1,184 @@
+
+COMMIT , RECALLTRACE , ROLLBACK
++++++++++++++++++++++++++++++++
+
+SUMMARY
+-------
+ROLLBACK:    reverts SAC data to last committed version in I/O buffers.
+COMMIT:      commits (copies) SAC data to the I/O buffers.
+RECALLTRACE: rolls back the last committed waveform and a few header
+fields, commits most of the header fields.
+
+SYNTAX
+------
+
+  ``ROLLBACK``
+
+  ``COMMIT``
+
+  ``RECALLTRACE (or simply RECALL)``
+
+
+DESCRIPTION
+-----------
+   Context:
+   In order to support multiple data formats with as little information loss as
+   possible, SAC's internal data storage has been augmented with I/O buffers
+   based on the CSS 3.0 schema. Computations continue to be performed on the
+   data stored in the original SAC-format headers, but most I/O takes place using
+   the data stored in the I/O buffers.  Because there are two copies of the data
+   in memory, and because most SAC commands do not affect the copy stored in the
+   I/O buffers, SAC can revert to the copy in the I/O buffer to effectively erase
+   unwanted changes without having to re-read the data.
+
+
+ROLLBACK
+--------
+After a series of operations on the data you can issue the ROLLBACK command,
+and the operations will be undone; the datafiles in SAC's internal data
+storage are replaced with the corresponding files in the I/O buffer, which
+represent the last committed version of the data files.
+
+COMMIT
+------
+After a series of operations on the data you can issue the COMMIT command,
+any changes to the header values and the waveforms will be copied from the
+SAC headers to the I/O buffers.  Future ROLLBACK commands will revert to this
+committed data.
+
+RECALLTRACE
+-----------
+The RECALLTRACE command:
+  - rolls back the waveforms
+  - rolls back those header variables which are tightly linked to the waveforms
+  - commits those variables which are loosely linked to the waveforms.
+
+This allows the user the flexibility to read a file, filter it, process it,
+and change some of the header variables not tightly linked to the waveform
+(make picks, establish new event location, etc.) and then recall the original
+waveform while saving the new header values.  The user need not worry about
+ending up with header variables which are inconsistent with the waveform,
+because RECALLTRACE will roll those variables back with the waveform.
+
+The following header variables are considered tightly linked to the waveform:
+DELTA	ODELTA	DEPMIN	DEPMAX	DEPMEN	STLA	STLO	STEL	STDP
+CMPAZ	CMPINC	XMINIMUM	XMAXIMUM	YMINIMUM	YMAXIMUM
+NPTS	NXSIZE	NYSIZE	NVHDR	NORID	NEVID	NWFID
+IFTYPE	IDEP	IINST	ISTREG	IZTYPE	ISYNTH	LEVEN	LPSPOL
+KSTNM	KINST	KCMPNM	KHOLE	KNETWK
+
+
+The following header variables are considered loosely linked to the waveform:
+B	E	O	A	T0	T1	T2	T3
+T4	T5	T6	T7	T8	T9	F	EVLA
+EVLO	EVEL	EVDP	MAG	USER0	USER1	USER2	USER3
+USER4	USER5	USER6	USER7	USER8	USER9	DIST	AZ
+BAZ	GCARC	SCALE	RESP0	RESP1	RESP2	RESP3	RESP4
+RESP5	RESP6	RESP7	RESP8	RESP9
+NZYEAR	NZJDAY	NZHOUR	NZMIN	NZSEC	NZMSEC
+IEVTYP	IMAGTYP	IMAGSRC	IEVREG	IQUAL	LOVROK	LCALDA
+KDATRD	KEVNM	KO	KA	KT0	KT1	KT2	KT3
+KT4	KT5	KT6	KT7	KT8	KT9	KF	KUSER0
+KUSER1	KUSER2
+
+
+EXAMPLES
+--------
+
+   The COMMIT command is used on the 14th line of the following example.
+   Run the example three times:  the second time use ROLLBACK in place of COMMIT.
+   The third time, use RECALLTRACE::
+
+      u: FG SEIS
+      u: RTR
+      u: P1
+      u: LH KSTNM KEVNM
+      u: CH KSTNM KAH KEVNM SOMEEVENT
+      u: ENVELOPE
+      u: PPK
+      u: user picks T1 at the change in frequency content
+      u: P1
+      u: LH KSTNM KEVNM
+      u: COMMIT	# replace with ROLLBACK or RECALLTRACE as appropriate
+      u: P1
+      u: LH KSTNM KEVNM
+
+   
+
+RESULTS
+-------
+When running this example with the COMMIT command, the final P1 will
+display the enveloped data and the T1 pick; the LH will display the
+new values for KSTNM and KEVNM which were set with the CH command.
+
+When running this example with the ROLLBACK command, the final P1 will
+display the unprocessed file produced by the FG command and the T1 pick
+will be lost; the LH will display the original values of KSTNM and KEVNM.
+
+When running this example with the RECALLTRACE command, the final P1 will
+display the unprocessed file produced by the FG command but the T1 pick will
+be preserved; the LH will display the original value of KSTNM and the new
+value of KEVNM.
+
+
+SEE COMMANDS
+------------
+   DATAGEN_, DELETECHANNEL_, DELETESTACK, MERGE_, READ_, READALPHA, READCSS_,
+   READGSE_, READHDR_, READSDD_, READSUDS_, SORT_, WRITE_, WRITECSS_,
+   WRITEHDR_, WRITESP_, WRITESTACK
+
+
+
+WARNING
+-------
+Certain SAC commands will automatically commit your data for you.
+Because there are now two data storage locations, certain SAC commands
+will require that the two sets of files be made consitent with each
+other prior to executing the command.  The following commands require
+consistency every time they are called,
+
+MERGE_           SORT_            WRITE_           WRITECSS_
+WRITEHDR_        WRITESP_         WRITESTACK
+
+The following commands require consistency when the MORE option is
+specified,
+
+DATAGEN_         READ_            READALPHA       READCSS_
+READGSE_         READHDR_         READSDD_        READSUDS_
+
+These commands will by default commit the data before executing.  Each
+of these commands takes options to allow it to rollback or recall the
+data prior to execution.  The options are COMMIT_, ROLLBACK_, and
+RECALLTRACE_.  COMMIT is the default. 
+
+Changing the option in any one of these commands changes it in all
+of them for future calls.
+
+
+
+Note:	Because there are now two data storage locations, we optimized
+flexibility of the DELETECHANNEL_ and DELETESTACK_ commands by allowing
+the COMMIT option to control whether the datafiles are deleted from
+the I/O buffers.  When either of these delete commands are used with
+COMMIT ON, the specified data files are deleted from the I/O buffers
+as well as the SAC internal data storage; subsequent ROLLBACK_ commands
+will find no trace of the deleted files.  When one of these delete
+commands is issued with COMMIT OFF, the specified datafiles are
+deleted from the SAC internal data storage, but not from the I/O
+buffers; subsequent calls to ROLLBACK will return these files to
+the SAC internal data storage.  There is an exception:  when
+DELETECHANNEL_ is called with the ALL option, all datafiles will be
+deleted from SAC internal storage and the I/O buffers regardless of
+the COMMIT_ option.  The default is COMMIT OFF.  See DELETECHANNEL_
+and DELETESTACK_ for details.
+
+Changing the COMMIT option in one delete command changes it in both
+for future calls.  The COMMIT option for DELETECHANNEL and
+DELETESTACK is unrelated to the COMMIT option in other commands
+listed in the Warning above.
+
+
+LATEST REVISION
+---------------
+   October  29, 1998 (Version 00.58beta)
+

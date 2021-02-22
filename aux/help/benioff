@@ -1,0 +1,46 @@
+
+BENIOFF
++++++++
+
+SUMMARY
+-------
+Applies a Benioff filter to the data.
+
+SYNTAX
+------
+
+  ``BENIOFF``
+
+DESCRIPTION
+-----------
+  This command is a digital approximation used to emulate the response of
+  a short-period seismograph which was used by a VELA Program started by the U.
+  S. Air Force about 1960.  This Long Range Seismic Measurements (LRSM) program
+  used truck vans and trailers to deploy moveable seismic systems, principally
+  in North America, to record controlled source seismic experiments.  Most of
+  the seismic profiles were radial lines or circular arcs about the Nevada Test
+  Site (NTS).  Two semi-permanent sites or installations were Kanab, UT, and
+  Mina, NV.
+
+  LLNL continued operation of KN-UT and MI-NV after the LRSM program.
+  These two stations used a variable-reluctance short-period seismometer (with
+  a natural frequency of 1 Hz, critically damped) which was designed and named
+  after Professor Hugo Benioff of Cal Tech.  This short-period seismometer was
+  coupled to a galvanometer (with a natural frequency of 5 Hz and damped to 0.9
+  critical).  The coupling factor was nominally defined at 0.01 (or loosely
+  coupled at low magnification settings which were used for recording the
+  larger explosions) and the response was nearly flat-to-velocity between 1 and
+  5 Hz.  When LLNL converted this system to a broadband, flat-to-velocity
+  telemetered system, an analog filter was designed to shape a passband into
+  the LRSM short-period passband.  This command executes a digital equivalent of
+  that analog shaping filter which produces an output (measured in nanometers)
+  analogous to the LRSM short-period system.
+
+HEADER CHANGES
+--------------
+   DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

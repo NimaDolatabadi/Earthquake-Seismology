@@ -1,0 +1,38 @@
+
+KHRONHITE
++++++++++
+
+SUMMARY
+-------
+Applies a Khronhite filter to the data.
+
+SYNTAX
+------
+
+  ``KHRONHITE {v}``
+
+INPUT
+-----
+   :v:  Cutoff frequency in hertz.
+    
+DEFAULT VALUES
+--------------
+
+  ``KHRONHITE 2.0``
+
+DESCRIPTION
+-----------
+   This lowpass filter is a digital approximation of an analog filter which was
+   a cascade of two fourth-order Butterworth lowpass filters.  This lowpass
+   filter has been used with a corner frequency of 0.1 Hz to enhance
+   measurements of the amplitudes of the fundamental mode Rayleigh wave (Rg) at
+   regional distances.
+
+HEADER CHANGES
+--------------
+   DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+   February 15, 1987
+

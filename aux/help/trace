@@ -1,0 +1,71 @@
+
+TRACE
++++++
+
+SUMMARY
+-------
+Controls the tracing of blackboard and header variables.
+
+SYNTAX
+------
+
+  ``TRACE [ON|OFF] name [name ...]``
+
+INPUT
+-----
+   :ON:  Turn tracing on for variables that follow.
+    
+   :OFF:  Turn tracing off for variables that follow.
+    
+   :name:  The name of the blackboard or header variable to trace.  If
+   :this is a header variable it is of the form: filename,hdrname ,BREAK
+       where filename is the name (or number) of the SAC data file and
+       hdrname is the name of a SAC header variable.
+    
+DEFAULT VALUES
+--------------
+
+  ``TRACE ON``
+
+DESCRIPTION
+-----------
+  This command can be used to trace or track the values of SAC blackboard or
+  header variables while SAC is executing.  It is useful primarily for debugging
+  long or complicated macros.  When the tracing for a variable is turned on, its
+  current value is printed.  While the tracing is on, its value is checked after
+  the execution of each command.  Each time its value changes a new output line
+  is printed.  When tracing is turned off, its current value is also printed.
+
+EXAMPLES
+--------
+  To turn tracing on for the blackboard variable called TEMP1 and for the
+  header variable called T0 belonging to the file called MYFILE::
+
+      u:  TRACE ON TEMP1 MYFILE,T0
+      s:  TRACE  (on) TEMP1 = 1.45623
+      s:  TRACE  (on) MYFILE,T0 = UNDEFINED
+
+  As you execute commands, either typed at the terminal or executed from a
+  macro, SAC will check the values of the variables versus the saved value and
+  print a message whenever either one of them changes.  Assume that some
+  calculations are performed that caused TEMP1 to change and  T0 to become
+  defined.  SAC would print the messages::
+
+      s:  TRACE (mod) TEMP1 = 2.34293
+      s:  TRACE (mod) MYFILE,T0 = 10.3451
+
+  Later in the processing TEMP1 may change again::
+
+      s:  TRACE (mod) TEMP1 = 1.93242
+
+  When the tracing is turned off, SAC will print the current value one last
+  time::
+
+      u:  TRACE OFF TEMP1 MYFILE,T0
+      s:  TRACE (off) TEMP1 = 1.93242
+      s:  TRACE (off) MYFILE,T0 = 10.3451
+
+LATEST REVISION
+---------------
+  January 27, 1989 (Version 10.4B)
+

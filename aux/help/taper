@@ -1,0 +1,66 @@
+
+TAPER
++++++
+
+SUMMARY
+-------
+Applies a symmetric taper to each end of data.
+
+SYNTAX
+------
+
+  ``TAPER {TYPE HANNING|HAMMING|COSINE},{WIDTH v}``
+
+INPUT
+-----
+   :TYPE HANNING:  Apply a Hanning taper.
+    
+   :TYPE HAMMING:  Apply a Hamming taper.
+    
+   :TYPE COSINE:  Apply a cosine taper.
+    
+   :WIDTH v:  Set the taper width on each end to v.  This is a value
+       between 0.0 and 0.5.
+    
+DEFAULT VALUES
+--------------
+
+  ``TAPER TYPE HANNING WIDTH 0.05``
+
+DESCRIPTION
+-----------
+   A taper is a monotonically varying function between zero and one.  It is
+   applied in a symmetric manner to the data such that the signal is zero for
+   the first and last data points and increases smoothly to its original value
+   at an interior point relative to each end.
+   The general form for the taper is::
+
+     DATA(J)=DATA(J)*(F0-F1*COS(OMEGA*(J-1))
+
+   This equation would be applied to the left hand side of each signal.  A
+   symmetric one is applied to the right hand side.  The following table defines
+   the various parameters used in the different tapers.  In this table N is the
+   length of the taper on each end.
+   
+    ======== ========= ===== ======
+    TYPE     OMEGA     F0    F1
+    ======== ========= ===== ======
+    HANNING_  PI/N     0.50  0.50
+    HAMMING   PI/N     0.54  0.46
+    COSINE    PI/(2*N) 1.00  1.00
+    ======== ========= ===== ======
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+  January 15, 1985 (Version 9.10)
+  A Comparison of the Various Types of Tapers
+

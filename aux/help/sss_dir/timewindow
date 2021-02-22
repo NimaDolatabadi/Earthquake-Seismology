@@ -1,0 +1,37 @@
+TIMEWINDOW
+++++++++++
+
+SUMMARY
+-------
+Sets the time window limits for subsequent stack summations.
+
+SYNTAX
+------
+
+   ``[T]IME[W]INDOW v1 v2``
+
+INPUT
+-----
+    :v1 v2:  The time window limits to use when reading in files
+       before doing a stack summation.
+
+DEFAULT VALUES
+--------------
+   None.  You MUST specify a time window before doing a summation
+
+DESCRIPTION
+-----------
+  This command sets the stack time window.  This is the time window that will 
+  be used in subsequent SUMSTACK_ PLOTSTACK_, and  PLOTRECORDSECTION_ 
+  commands. The stack time window must be defined before any of these commands
+  are executed.  If a particular file does not fall entirely within this stack
+  time window enough zeros are added before or after the actual data to make 
+  up the difference.
+
+SEE COMMANDS
+------------
+  SUMSTACK_, PLOTSTACK_, PLOTRECORDSECTION_
+
+
+
+

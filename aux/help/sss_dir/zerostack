@@ -1,0 +1,19 @@
+ZEROSTACK
++++++++++
+
+SUMMARY
+-------
+Zeros or reinitializes the signal stack.
+
+SYNTAX
+------
+
+   ``[Z]ERO[S]TACK``
+
+DESCRIPTION
+-----------
+  This command zeros the signal stack. It deletes all entries in the stack 
+  file  list and sets the global stack properties back to their 
+  original values.
+
+

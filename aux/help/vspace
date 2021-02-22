@@ -1,0 +1,66 @@
+
+VSPACE
+++++++
+
+SUMMARY
+-------
+Changes the maximum size and shape of plots.
+
+SYNTAX
+------
+
+  ``VSPACE FULL|v``
+
+INPUT
+-----
+   :FULL:  Use full viewspace.  This is the largest possible screen or
+       window size.
+    
+   :v:  Force the viewspace to have a y:x aspect ratio of v.  The largest
+       possible area with this aspect ratio becomes the viewspace.
+    
+DEFAULT VALUES
+--------------
+
+  ``VSPACE FULL``
+
+DESCRIPTION
+-----------
+  The viewspace represents that portion of the viewing surface on which
+  plots can be drawn.  There is a large variation in viewspace shapes and sizes
+  between different graphics devices:
+
+   1. Although differing greatly in size, many graphics terminals
+      have an aspect ratio of 0.75.
+      Some terminals, however, have different aspect ratios.
+      The HP 26xx family of terminals have an aspect ratio of 0.5.
+      The Tektronix 4025 terminals can have a wide range of aspect ratios,
+      depending upon how many lines on the screen are assigned to the
+      alphanumeric display and how many to the graphic display.
+
+   2. The SAC Graphics File (SGF) has an aspect ratio of 0.75
+      This is the approximate ratio of a standard sheet of 8.5 by 11 paper.
+
+   3. The graphics windows created by the XWINDOWS or SUNWINDOWS device
+      can have any aspect ratio you wish.
+
+  This variation among graphics devices can be a problem if you are need
+  complete control over the size and shape of a plot.  This command gives you
+  control over the shape of a plot by letting you select a fixed aspect ratio.
+  (SAC does not currently give you much control over the size.) The default is
+  to plot to the full viewspace.  If you do select a fixed aspect ratio, then
+  the viewspace becomes the largest enclosed area on the device with that
+  aspect ratio.
+
+  This command is useful when you are creating a figure on an interactive
+  device using PLOTC_ that you eventually want to send to the SGF_ device.  You
+  should set the aspect ratio to 0.75 before doing any plotting.  This will
+  ensure that the figure will have the same in the SGF_ file as it is does on
+  the interactive device.  Another use is when you want a square viewspace
+  independent of the graphics device. This is easily done by requesting an
+  aspect ratio of 1.0.
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

@@ -1,0 +1,84 @@
+
+MARKTIMES
++++++++++
+
+SUMMARY
+-------
+Marks files with travel times from a velocity set.
+
+SYNTAX
+------
+
+  ``MARKTIMES {TO marker},{DISTANCE HEADER|v},``
+
+  ``{ORIGIN HEADER|v|GMT time},{VELOCITIES v ...}``
+
+INPUT
+-----
+   :TO marker:  Define the first time marker in the header to store
+       results.  The time markers are incremented for each requested
+       velocity.
+    
+   :marker:  T0|T1|T2|T3|T4|T5|T6|T7|T8|T9
+    
+   :DISTANCE HEADER:  Use the distance (DIST) from the header in the
+       travel time calculations.
+    
+   :DISTANCE v:  Use v as the distance in the travel time calculations.
+    
+   :ORIGIN HEADER:  Use the origin time (O) in the header in the travel
+       time calculations.
+    
+   :ORIGIN v:  Use v as the offset origin time.
+    
+   :ORIGIN GMT time:  Use the Greenwich mean time time as the origin time.
+    
+    
+   :time:  Greenwich mean time in the form of six integers: year, julian
+       day, hour, minute, second, and millisecond.
+    
+   :VELOCITIES v ...:  Set the velocity set to use in the travel time
+       calculations.  Up to 10 velocities may be entered.
+    
+ALTERNATE FORMS
+---------------
+UTC for Universal Time Coordinate may be used instead of GMT.
+
+DEFAULT VALUES
+--------------
+
+  ``MARKTIMES VELOCITIES 2. 3. 4. 5. 6.  DISTANCE HEADER ORIGIN HEADER TO T0``
+
+DESCRIPTION
+-----------
+  This command marks travel travel times in the header, given the origin time
+  of the event, the epicentral distance, and an input velocity set.  The
+  following simple equation is used to estimate travel times.::
+
+     time(j) = origin + distance/velocity(j)
+
+  The results are written into the header in the requested time marker.
+
+EXAMPLES
+--------
+  To use the default velocity set but force the distance to be 340 kilometers
+  and the first marker to be T4::
+
+      u:  MARKTIMES DISTANCE 340. TO T4
+
+  To select a different velocity set::
+
+      u:  MARKT V 3.5 4.0 4.5 5.0 5.5
+
+  To set the origin time in GMT and store the results in T2::
+
+      u: MARKT ORIGIN GMT 1984 231 12 43 17 237 TO T2
+
+HEADER CHANGES
+--------------
+  Tn, KTn
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

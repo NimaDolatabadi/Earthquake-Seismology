@@ -1,0 +1,74 @@
+
+WRITESDD
+++++++++
+
+SUMMARY
+-------
+Writes data in memory to disk in SDD format.
+
+SYNTAX
+------
+
+  ``WRITESDD {options} {namingoptions}``
+
+   where options are one or more of the following:
+
+  ``DIR ON|OFF|CURRENT|name``
+
+   These options MUST preceed any element in the namingoptions:
+
+  ``OVER``
+
+  ``APPEND text``
+
+  ``PREPEND text``
+
+  ``DELETE text``
+
+  ``CHANGE text1 text2``
+
+  ``filelist``
+
+  Only one of these namingoptions is allowed at a time.
+
+INPUT
+-----
+   :DIR ON:  Turn directory option on but don't change name of write
+       directory.
+    
+   :DIR OFF:  Turn directory option off.  When off, write files to current
+       directory.
+    
+   :DIR CURRENT:  Turn directory option on and set name of write
+       directory to the "current directory" (e.g. the directory from which
+       you started SAC.)
+    
+   :DIR name:  Turn directory option on and set name of write directory
+       to name.  Write all filenames to the directory called name.  This
+       may be a relative or absolute directory name.
+    
+   :OVER:  Use current read filelist as write filelist.  Overwrite files
+       on disk with data in memory.
+    
+   :APPEND text:  Write filelist is created by appending text to each
+       name in the current read filelist.
+    
+   :PREPEND text:  Write filelist is created by prepending text to each
+       name in the current read filelist.
+    
+   :DELETE text:  Write filelist is created by deleting the first
+       occurrence of text in each name in the current read filelist.
+    
+   :CHANGE text1 text2:  Write filelist is created by changing the first
+       occurrence of  text1 in each name in the current read filelist to
+       text2.
+    
+   :filelist:  Write filelist is set to filelist.  This list may contain
+       simple filenames, relative pathnames, or full pathnames.  IT MAY NOT
+       CONTAIN WILDCARDS.
+    
+    
+LATEST REVISION
+---------------
+  September 08, 1990 (Version 10.6)
+

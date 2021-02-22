@@ -1,0 +1,96 @@
+
+ROTATE
+++++++
+
+SUMMARY
+-------
+Rotates a pair of data components through an angle.
+
+SYNTAX
+------
+
+  ``ROTATE {to GCP|TO v|THROUGH v|,{NORMAL|REVERSED}``
+
+INPUT
+-----
+   :TO GCP:  Rotate to the "great circle path".  Both components must be
+       horizontals.  The station and event coordinates header fields must
+       be defined.
+    
+   :TO v:  Rotate to the angle v in degrees.  Both components must be
+       horizontals.
+    
+   :THROUGH v:  Rotate through the angle v in degrees.  One component may
+       be vertical.
+    
+   :NORMAL:  Output components with normal polarity.
+    
+   :REVERSED:  Output components with reversed polarity.
+    
+DEFAULT VALUES
+--------------
+
+  ``ROTATE TO GCP NORMAL``
+
+DESCRIPTION
+-----------
+  Pairs of data components are rotated in this command.  Each pair must
+  have the same station name, event name, and sampling rate.  In the THROUGH
+  option both components are simply rotated through the requested angle.  One of
+  those components may be a vertical.  Rotations in the horizontal plane are
+  clockwise from north.  Rotations with a vertical component are clockwise from
+  up.
+
+  Both components must be horizontals when the TO option is used.  This
+  means that CMPAZ must be definined and that CMPINC must be 90 degrees.  After
+  the rotation is completed the first component of each pair will be directed
+  along the angle given after to TO keyword.  If the TO GCP option is used this
+  component will be directed along the angle given by the station-event back
+  azimuth plus or minus 180 degrees.  This component therefore points from the
+  event toward the station.  The station and event coordinates header fields
+  (STLA, STLO, EVLA, and EVLO) must be defined so that the back azimuth can be
+  calculated.
+
+  The NORMAL and REVERSED options also apply only to horizontal rotations.
+  If the NORMAL option is used the second component leads the first by 90
+  degrees.  If the REVERSED option is used it lags the first by 90 degrees.
+
+EXAMPLES
+--------
+  To rotate a pair of horizontals through 123.43 degrees::
+
+      u: READ XYZ.N XYZ.E
+      u: ROTATE TO 123.43
+
+  To rotate two sets of horizontals to the great circle path::
+
+      u: READ ABC.N ABC.E DEF.N DEF.E
+      u: ROTATE TO GCP
+      u: W ABC.R ABC.T DEF.R DEF.T
+
+  In the above example if the BAZ header variable had been 33 degrees, the
+  radial components would be at 213 degrees and the tangential components at
+  303 degrees.  If reversed polarity had been requested the tangential
+  components would be at 123 degrees.
+
+HEADER CHANGES
+--------------
+  CMPAZ, CMPINC
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 2001: Command requires an even number of data files.
+- 2004: Insufficient header information for rotation:
+
+  - STLA, STLO, EVLA, EVLO must be defined for GCP option.
+
+- 2002: Following files are not an orthogonal pair:
+- 2003: Following files are not both horizontals:
+
+  - TO option only works on horizontals.
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+

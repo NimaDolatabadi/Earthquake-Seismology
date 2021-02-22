@@ -1,0 +1,65 @@
+
+ZLINES
+++++++
+
+SUMMARY
+-------
+Controls the contour linestyles in subsequent contour plots.
+
+SYNTAX
+------
+
+  ``ZLINES  {ON|OFF}  {options}``
+
+   where options are one or more of the following:
+
+  ``LIST n1 n2 ... nn``
+
+  ``REGIONS v1 v2 ... vn``
+
+
+INPUT
+-----
+   :ON:  Turn display of contour lines on.
+    
+   :OFF:  Turn display of contour lines off.
+    
+   :LIST n1 n2 . nn:  Set list of linestyles to use.  Each entry in
+       this list is used for the corresponding contour level. If the
+       number of contour levels is larger than the number of entries in
+       the list, the entire list is repeated.
+    
+   :REGIONS v1 v2 . vn:  Set list of contour regions.  The length of
+       this list should be one less than the linestyle list.  Contour
+       levels less than a contour region value are assigned the linestyle
+       of the corresponding entry in the linestyle list.  Contour levels
+       above the last contour region value are assigned the value of the
+       last entry in the linestyle list.
+    
+DEFAULT VALUES
+--------------
+
+  ``ZLINES ON LIST 1``
+
+EXAMPLES
+--------
+  To set up contours which cycle between four different linestyles::
+
+      u: ZLINES LIST 1 2 3 4
+
+  To set contours with dotted lines representing levels below 0.0 and solid
+  lines representing contours above 0.0::
+
+      u: ZLINES LIST 2 1 REGIONS 0.0
+
+  See CONTOUR_ for more examples of the use of ZLINES_.
+
+
+SEE COMMANDS
+------------
+  CONTOUR_
+
+LATEST REVISION
+---------------
+   April 30, 1990 (Version 10.5b)
+

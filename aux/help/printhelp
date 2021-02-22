@@ -1,0 +1,55 @@
+
+PRINTHELP
++++++++++
+
+SUMMARY
+-------
+Prints hardcopies of information about SAC commands and features.
+
+SYNTAX
+------
+
+  ``PRINTHELP {item ...}``
+
+INPUT
+-----
+   :item:  The (full or abbreviated) name of a command, module,
+       subprocess, feature, etc.
+    
+DEFAULT VALUES
+--------------
+
+  ``If no item is requested, an introductory help package is printed.``
+
+DESCRIPTION
+-----------
+  Each requested item in the help package is printed in the order they
+  are requested.  A short message is printed if no information is available for
+  an item.  The help package for each command consists of the entry in the SAC
+  Command Reference Manual.  The help package for non-commands may be paragraphs
+  from the SAC Users Manual or other information.
+
+EXAMPLES
+--------
+  To get the introductory help package type::
+
+      u:  PRINTHELP
+
+  Now lets say you want information on several commands::
+
+      u:  PRINTHELP READ CUT BEGINDEVICE PLOT
+
+ERROR MESSAGES
+--------------
+- 1103: No help package is available.
+
+  - SAC can't find the help package.  Check your SACAUX environment.
+
+SEE COMMANDS
+------------
+  HELP_
+
+LATEST REVISION
+---------------
+  November 13, 1998 (Version 0.58)
+

@@ -1,0 +1,90 @@
+
+Using SAC: Introduction
++++++++++++++++++++++++
+
+Overview
+--------
+SAC (Seismic Analysis Code), previously SAC2000, is a general-purpose 
+interactive program designed for the study of sequential signals, 
+especially time-series data. Emphasis has been placed on analysis tools used 
+by research seismologists in the detailed study of seismic events. Analysis 
+capabilities include general arithmetic operations, Fourier transforms, three 
+spectral estimation techniques, IIR and FIR filtering, signal stacking, 
+decimation, interpolation, correlation, and seismic phase picking. SAC also 
+contains an extensive graphics capability. Versions are available for a wide 
+variety of computer systems. SAC was developed at Lawrence Livermore National 
+Laboratory and is copyrighted by the University of California.  It is 
+currently begin developed and maintained by a small group of developers 
+working in cooperation with IRIS http://www.iris.edu
+
+This Manual
+-----------
+This manual contains general information for the new user about what SAC can 
+do, how it works, and how to get started. It also contains detailed 
+information for the more experienced user on topics such as how to use SAC 
+macros, how to read and write SAC data files from C or FORTRAN programs, and 
+how the SAC program is structured.
+
+Update Policy
+-------------
+This manual will be periodically updated to include new descriptions and to 
+revise old ones. Please report any errors in this manual to:
+
+sac-help@iris.washington.edu - SAC Help Mailing List
+
+This will help keep it as accurate and current as possible.
+
+Notation
+--------
+This section describes the notation used in this manual. All of the SAC 
+manuals use a similiar notation.
+
+Uppercase/red words (e.g. READ) identify commands or keywords. They must be 
+entered as shown, although they may be either uppercase or lowercase.
+
+When showing examples of interaction between the user and SAC, a uppercase 
+typewriter style font is used within these examples, with comments about what 
+is happening appearing in lowercase and enclose in parentheses.
+
+Repeating an important point made above, you may enter keywords and options in 
+either uppercase or lowercase. SAC converts these to uppercase before 
+interpreting them. The exceptions to this rule are text appearing within 
+single or double quotes and the names of directories and files. The case of 
+these items is not changed. They are interpreted literally.
+
+Other Manuals
+-------------
+Other SAC manuals include:
+
+A Tutorial_ Guide For New Users which explains the basic SAC commands with 
+examples for you to try as you read.
+
+Command_Reference_ Manual which contains detailed descriptions of each SAC 
+command including purpose, syntax, default values, and examples. This manual 
+also contains lists of SAC commands sorted alphabetically and functionally.
+
+Spectral_Estimation_Subprocess_ Manual which describes a subprocess for the 
+study of stationary random processes. A subprocess is like a small separate 
+program within the main SAC program.
+
+Signal_Stacking_Subprocess_ Manual which describes a subprocess for performing 
+signal stacking with delays, traveltimes, and record section plots.
+
+Program Design
+--------------
+
+SAC is a fairly portable code written in C.  There are no differences between 
+versions on different operaing systems.
+
+ - Linux: 2.0.x and later
+ - Mac OS X: 10.3 and later
+ - Solaris: Solaris 5.8 and later
+ - Windows/Cygwin
+
+SAC handles graphics by including two different graphics devices in the code:
+
+ - X11: Common to all the supported platforms, and
+
+ - SGF: Stands for SAC Graphics File. Each file contains all the information
+   needed to generate a single plot.
+

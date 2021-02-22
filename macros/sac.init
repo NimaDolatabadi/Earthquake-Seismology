@@ -1,0 +1,8 @@
+#window 1 x 0.1 0.99 y 0.1 0.99 aspect 1.0
+lh columns 2 files none ; xdiv power off ; xlabel 'Time (sec)' ; title size medium
+color on
+color blue
+setmacro /usr/local/macros ; transcript history file ./.sachist
+#===============================================================
+# this is a macro to set any defaults for sac program.
+# alias sac="/usr/local/bin/sac ~/sac/macros/sac.init"

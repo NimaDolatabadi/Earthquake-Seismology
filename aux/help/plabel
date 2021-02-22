@@ -1,0 +1,85 @@
+
+PLABEL
+++++++
+
+SUMMARY
+-------
+Defines general plot labels and their attributes.
+
+SYNTAX
+------
+
+  ``PLABEL {n} {ON|OFF|text},{SIZE size},``
+
+  ``{BELOW|POSITION x y {a}}``
+
+   where size is one of the following:
+
+  ``TINY|SMALL|MEDIUM|LARGE``
+
+INPUT
+-----
+   :n:  Plot label number.  If omitted, the previous label number is incremented by one.
+    
+   :ON:  Turn this plot label on.
+    
+   :OFF:  Turn this plot label off.
+    
+   :text:  Change text of plot label.  Also turns plot label on.
+    
+   :SIZE size:  Change the plot label size.
+    
+   :TINY:  Tiny text size has 132 characters per line.
+    
+   :SMALL:  Small text size has 100 characters per line.
+    
+   :MEDIUM:  Medium text size has 80 characters per line.
+    
+   :LARGE:  Large text size has 50 characters per line.
+    
+   :BELOW:  Position this label "below" the previous label.
+    
+   :POSITION x y a:  Define a specific position for this label.  The range
+   :of the positions are: 0. to 1. for x and 0. to the maximum
+       viewspace (normally 0.75) for y.  a is the angle of the label in
+       degrees clockwise from horizontal.
+    
+DEFAULT VALUES
+--------------
+
+  Default size is small.  
+  
+  Default position for label 1 is 0.15 0.2 0.  
+
+  Default position for other labels is below previous label.
+
+DESCRIPTION
+-----------
+  This command lets you define general purpose plot labels for subsequent plot
+  commands.  You can define the location and size of each label.  The text
+  quality and font used can be set using the GTEXT_ command.  You can also
+  generate a title and axes labels using the TITLE_, XLABEL_, and 
+  YLABEL_ commands.
+
+EXAMPLES
+--------
+  The following commands would generate a four line label in the upper left
+  hand corner of subsequent plots::
+
+      u:  PLABEL 'Sample seismogram' POSITION .12 .5
+      u:  PLABEL 'from earthquake'
+      u:  PLABEL 'on January 24, 1980'
+      u:  PLABEL 'in Livermore Valley, CA'
+
+  An additional tiny label could be placed in the lower left hand corner::
+
+      u:  PLABEL 5 'LLNL station: CDV' S T P .12 .12
+
+SEE COMMANDS
+------------
+  GTEXT_, TITLE_, XLABEL_, YLABEL_
+
+LATEST REVISION
+---------------
+  July 22, 1991 (Version 9.1)
+

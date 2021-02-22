@@ -1,0 +1,79 @@
+
+ADDF
+++++
+
+SUMMARY
+-------
+Adds a set of data files to data in memory.
+
+SYNTAX
+------
+
+  ``ADDF {NEWHDR ON|OFF} filelist``
+
+INPUT
+-----
+   :NEWHDR ON|OFF:  By default, the resultant file will take its
+       header field from the original file in memory.
+       Turning NEWHDR ON, causes the header fields to be taken from
+       the new file in the filelist.
+    
+   :filelist:  A list of SAC binary data files.  This list may contain
+       simple filenames, full or relative pathnames, and wildcard
+       characters.  See the READ_ command for a complete description.
+    
+DESCRIPTION
+-----------
+   This command can be used to add a single file to a set of files or to add one
+   set of files to another set.  An example of each case is presented below.  The
+   files must be evenly spaced and should have the same sampling interval and
+   number of data points.  These last two restrictions can be eliminated using
+   the BINOPERR_ command.  If there are more data files in memory than in the
+   filelist, then the last file in the filelist is used for the remainder of the
+   data files in memory.
+
+EXAMPLES
+--------
+   To add one file to three other files::
+
+      u:  READ FILE1 FILE2 FILE3
+      u:  ADDF FILE4
+
+   To add two files to two other files::
+
+      u:  READ FILE1 FILE2
+      u:  ADDF FILE3 FILE4
+
+HEADER CHANGES
+--------------
+   If NEWHDR is OFF (the default) the headers in memory are unchanged).
+   If NEWHDR is ON, the headers are replaced with the headers from the
+   files in the filelist.
+
+   DEPMIN, DEPMAX, DEPMEN
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1803: No binary data files read in.
+- 1307: Illegal operation on spectral file
+- 1306: Illegal operation on unevenly spaced file
+- 1801: Header field mismatch:
+
+  - sampling interval or number of points are not equal.
+  - can be controlled using the BINOPERR_ command.
+
+WARNING MESSAGES
+----------------
+- 1802: Time overlap:
+  - the file addition is still performed.
+
+SEE COMMANDS
+------------
+   READ_, BINOPERR_
+
+LATEST REVISION
+---------------
+   May 26, 1999 (Version 0.58)
+
+

@@ -1,0 +1,73 @@
+
+WRITEGSE
+++++++++
+
+SUMMARY
+-------
+Write data files in GSE 2.0 format from memory to disk.
+
+SYNTAX
+------
+
+  ``WRITEGSE {TYPE} {SOURCE ON|OFF|str} {COMMIT|ROLLBACK|RECALLTRACE} {DIR name} filename``
+
+INPUT
+-----
+   :TYPE:  Determines wether the data are written in ascii integer format
+       (INT) or as compressed gse format (CM6). Default is INT.
+    
+   :SOURCE str:  str is a string 20 characters or less specifying the
+       institution at which the GSE file was written.  str is
+       written in the MSG_ID line of the resultant GSE file.
+    
+   :COMMIT_:   Commits headers and waveforms in SAC memory -- removing any
+       previous versions of headers or waveforms from RAM -- prior
+       to reading more files.  COMMIT is the default.
+    
+   :ROLLBACK_:  Reverts to the last committed version of the header and
+       waveform before reading more files.
+    
+   :RECALLTRACE_:
+
+       - reverts to the last committed version of the waveform,
+       - reverts to the last committed version of those header
+         variables closely linked to the waveform,
+       - commits those header variables which are loosely linked
+         to the waveform. (see RECALLTRACE_ for a list of which 
+	 header variables are committed, and which are rolled back.)
+
+   :DIR name:  The directory in which to write the gsefile.  This directory
+       name is the same one that is used in WRITE_ command.
+
+   :filename: The name of the gse file to be written.
+
+DEFAULT VALUES
+--------------
+
+  ``WRITEGSE INT SOURCE OFF COMMIT``
+
+DESCRIPTION
+-----------
+  Writes all data in memory to a single file according to the GSE 2.0 data format
+
+  The following GSE Data messages are written:
+   - WAVEFORM
+   - STATION
+   - CHANNEL
+   - ARRIVAL
+   - ORIGIN
+
+  Waveforms are written in INT format:  floating point data is truncated to the
+  nearest integer.
+
+  **Note**  There is no way in GSE 2.0 to associate ORIGIN data with a 
+  waveform, so SAC's READGSE_ command does not read ORIGIN data, but 
+  WRITEGSE_ writes it.
+
+  **Note**  SAC does not currently read nor write DETECTIONS information.  
+  Therefore, ARRIVAL information is not associated with specific channels.
+
+LATEST REVISION
+---------------
+   April 22, 1999 (Version 00.58)
+

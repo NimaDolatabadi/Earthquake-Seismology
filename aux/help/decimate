@@ -1,0 +1,67 @@
+
+DECIMATE
+++++++++
+
+SUMMARY
+-------
+Decimates (downsamples) data, including an optional anti-aliasing FIR_ filter.
+
+SYNTAX
+------
+
+  ``DECIMATE {n},{FILTER {ON|OFF}}``
+
+INPUT
+-----
+   :n:  Set decimation factor to n.  Range is 2 to 7.  This command may be
+       applied several times if a larger decimation factor is required.
+    
+   :FILTER {ON}:  Turn anti-aliasing FIR_ filter on.
+    
+   :FILTER OFF:  Turn anti-aliasing FIR_ filter off.
+    
+DEFAULT VALUES
+--------------
+
+  ``DECIMATE 2 filter on``
+
+DESCRIPTION
+-----------
+  This command is used to downsample data after it has been read into memory.
+  An optional finite impulse response (FIR) filter is applied to the data as 
+  it is being decimated to prevent aliasing effects normally associated with 
+  downsampling digitized analog signals.  These filters also preserve the 
+  phase information.  The application of these FIR_ filters often produces 
+  undesirable transients at each end of the data so the results should be 
+  checked graphically.  Turning the anti-aliasing filter option off should 
+  only be done when the accuracy of the high frequency response is 
+  unimportant, such as when plotting.
+
+EXAMPLES
+--------
+  To reduce the sampling rate by a factor of 42::
+
+      u:  READ FILE1
+      u:  DECIMATE 7
+      u:  DECIMATE 6
+
+HEADER CHANGES
+--------------
+  NPTS, DELTA, E, DEPMIN, DEPMAX, DEPMEN
+
+ERROR MESSAGES
+--------------
+- 1003: Value out of allowed range at symbol
+
+  - Range on decimation factor is 2 to 7.
+
+- 1301: No data files read in.
+- 1306: Illegal operation on unevenly spaced file
+- 1307: Illegal operation on spectral file
+
+**Note** The decimation by 7 filter has occasionally been unstable.
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

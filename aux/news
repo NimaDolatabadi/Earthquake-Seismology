@@ -1,0 +1,22 @@
+* If you need help ... 
+---------------------------------------------------------------------------
+1.  If you have SAC working, use the help command from within SAC.  You can
+    print hard-copies of the help files using printhelp.  HTML versions of the
+    help files can be found at URL <http://www.iris.edu/software/sac/manual.html>.
+2.  Some features of SAC are described in the CHANGES file in this directory,
+    and changes in new versions are summarized in HISTORY.
+3.  URL <http://www.iris.edu/software/sac/> has links to other resources 
+    and information about updates.
+4.  A place to share problems and find solutions is the sac-help mailing
+    list: <sac-help@iris.washington.edu>.  You must be a subscriber
+    to post to this listserv.  For further information, go to
+    URL <http://www.iris.washington.edu/mailman/listinfo/sac-help>.
+    You do not have to be a subscriber to access the list archives.
+5.  Beginning in Spring 2013, IRIS has set up a SAC project in their SeisCode
+    iniative: <https://seiscode.iris.washington.edu/projects/sac/>.  A section
+    in this project is a Wiki that includes a Tutorial and a set of Examples.
+
+* READ THIS!!   
+---------------------------------------------------------------------------
+DO NOT DISTRIBUTE the SAC Software.  (That is what you agreed to at the time 
+the IRIS software request form was submitted.)

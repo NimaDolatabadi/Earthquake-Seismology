@@ -1,0 +1,64 @@
+
+MARKVALUE
++++++++++
+
+SUMMARY
+-------
+Searches for and marks values in a data file.
+
+SYNTAX
+------
+
+  ``MARKVALUE {GE v|LE v},{TO marker}``
+
+INPUT
+-----
+   :GE v:  Search for and mark the first data point that is greater than
+       or equal to v.
+    
+   :LE v:  Search for and mark the first data point that is less than or
+       equal to v.
+    
+   :TO marker:  Define the time marker in the header in which to store
+       the result.
+    
+   :marker:  T0|T1|T2|T3|T4|T5|T6|T7|T8|T9
+    
+DEFAULT VALUES
+--------------
+
+  ``MARKVALUE GE 1 TO T0``
+
+DESCRIPTION
+-----------
+  This command searches for the requested value in each data file and marks the
+  time of the first occurance of that value.  If a measurement time window has
+  been defined (see MTW), only that portion of each data file is searched.
+  Otherwise the entire file is searched.  The results are written into the
+  header in the requested time marker.
+
+EXAMPLES
+--------
+  To search for the first data point whose value is at least 3.4 and to store
+  the result in the header as T7::
+
+      u:  MARKVALUE GE 3.4 TO T7
+
+  To later perform that same search in the measurement time window 10 seconds
+  long beginning at T4::
+
+      u:  MTW T4 0 10
+      u:  MARKVALUE
+
+HEADER CHANGES
+--------------
+  Tn, KTn
+
+SEE COMMANDS
+------------
+  MTW_
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

@@ -1,0 +1,43 @@
+
+STRETCH
++++++++
+
+SUMMARY
+-------
+Stretches (upsamples) data, including an optional interpolating FIR_ filter.
+
+SYNTAX
+------
+
+  ``STRETCH {n},{FILTER {ON|OFF}}``
+
+INPUT
+-----
+   :n:  Set upsampling factor.  Must be in the range 2 to 7.
+    
+   :FILTER {ON}:  Turn interpolating filter option on.
+    
+   :FILTER OFF:  Turn interpolating filter option off.
+    
+DEFAULT VALUES
+--------------
+
+  ``STRETCH 2 FILTER ON``
+
+DESCRIPTION
+-----------
+   By using the interpolating filter option, this command can be used to create
+   a file with a smaller sampling interval (more data points) but which looks
+   similar to the original.  Care should be taken when using this command,
+   because the filter does effect the frequency content.  When this filter option
+   is off, the appropriate number of zeros are simply inserted between each of
+   the original data points.
+
+HEADER CHANGES
+--------------
+   NPTS, DELTA, E, DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

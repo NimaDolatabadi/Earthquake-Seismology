@@ -1,0 +1,74 @@
+
+SAVEIMG
++++++++
+
+SUMMARY
+-------
+Saves a display graphics window to an image file in a variety of formats
+
+SYNTAX
+------
+
+  ``[SAVE]IMG filename.format``
+
+INPUT
+-----
+   :filename:  Filename for the saved image.  
+   
+   :format: Format for saved file from among one of the four choices:
+       ps  (Postscript);
+       pdf (Portable Document Format);
+       png (Image file)
+       xpm (Pixmap format)
+        
+    
+DESCRIPTION
+-----------
+  This command will save a current plot to an image file format including
+  Postscript (ps), Portable Document Format (pdf), Image file (png), and 
+  Pixmap file (xpm).  The format is derived from the filename's extension.
+  
+  An advantage of SAVEIMG to producing SGF_ files is that letters and numbers 
+  in .sgf files are made up of drawn line segments, while those in the .ps
+  or .pdf images produced by SAVEIMG use the Postscript feature of producing
+  fonts directly.  Also, for many applications, a lower-resolution .png or
+  ,xpn file is sufficient.  Because of potential problems with portability,
+  the PNG format is not enabled in the default builds of SAC.
+  
+  The .xpm and .png files will have the aspect ratio of the current window.
+  (See WINDOW_ for instructions about choosing the size and aspect ratio of
+  display windows.)  The .pdf and .ps files produced by SAVEIMG will have a
+  fixed aspect ratio of X/Y = 11/8.5 = 1,2941.  For these plots, the plots will
+  look best if the display window  aspect ratio is 1.2941.
+  
+  As with .sgf files, the plots will not have a tight boundingbox.  For .sgf
+  files the script SACDIR/bin/sgftoeps.csh will produce an EPS file with a
+  tight boundingbox if the program Ghsostscript (gs) is in the path.  Similar
+  scripts could be written for the output files from SAVEIMG.
+
+  To save a plot using SAVEIMG, the plot must already be visible.  SAVEIMG will 
+  not work in the SSS subprocess, but if one enters qs after creating the plot,
+  SAVEIMG can then be used for that image.  Also, if a frame has been opened to
+  produce multiple panels in a single file, saveimg cannot be used until after
+  the ENDFRAME_ command.
+  
+EXAMPLES
+--------
+  To save a file as a PDF document::
+
+       SAC> read PAS.CI.BHZ.sac
+       SAC> p1
+       SAC> saveimg pas.ci.pdf
+
+  To save a spectrogram in three different formats::
+
+       SAC> fg seismo
+       SAC> spectrogram
+       SAC> save spectrogram.ps
+       SAC> save spectrogram.xpm
+       SAC> save spectrogram.pdf
+
+LATEST REVISION
+---------------
+   version 101.6 
+

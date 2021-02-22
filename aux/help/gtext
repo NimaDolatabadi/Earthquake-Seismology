@@ -1,0 +1,77 @@
+
+GTEXT
++++++
+
+SUMMARY
+-------
+Controls the quality and font of text used in plots.
+
+SYNTAX
+------
+
+  ``GTEXT {SOFTWARE|HARDWARE},{FONT n},{SIZE size} {SYSTEM system} {NAME name}``
+
+INPUT
+-----
+   :SOFTWARE:  Use software text in plots.
+    
+   :HARDWARE:  Use hardware text in plots.
+    
+   :FONT n:  Set software text font to n.  The range for n is currently 1
+       to 8.
+    
+   :FORCE n:  Use harware text in all cases for plots. Overrides HARDWARE
+       option.  HARDWARE still uses software for rotated fonts.
+    
+   :SIZE size:  Change default text size.  See TSIZE_ command for
+       definitions of text sizes.  Option size  is one fo the following:
+
+    ``TINY|SMALL|MEDIUM|LARGE``
+   
+   :SYSTEM system:  Change the Font subsystem, current values are
+       - SOFTWARE  Traditional SAC Font system
+       - CORE      X11 Core Fonts, this creates a real font
+       - XFT       X Freetype library, this creates a real font
+
+   :NAME name:  Change the default font used in the CORE or XFT subsystem
+       Available fonts are: Helvetica, Times-Roman, Courier, ZapfDingbats
+
+    
+DEFAULT VALUES
+--------------
+
+  ``GTEXT SOFTWARE FONT 1 SIZE SMALL``
+
+DESCRIPTION
+-----------
+  Software text uses the text display capabilities of the graphics
+  library.  Characters are stored as small line segments and thus can be scaled
+  to any desired size and can be rotated to any desired angle.  Use of software
+  text will produce the same result on different graphics devices.  Use of
+  software text is slower than hardware text, especially to the terminal.  There
+  are currently 8 software fonts available: simplex block (font 1), simplex
+  italics (2), duplex block (3), duplex italics (4), complex block (5), complex
+  italics (6), triplex block (7), and triplex italics (8).  Examples of each
+  font and each default text size is shown in the figure on the next page.
+  Hardware text uses the text display capabilities of the graphics device
+  itself.  Hardware text sizes vary considerably between devices, so its use
+  can produce different looking plots on different devices.  If a device has
+  more than one hardware text size, the one closest to the desired size is used.
+  Its primary asset is that it is much faster than software text and should
+  therefore be used only when speed is more important than quality.
+
+EXAMPLES
+--------
+  To select the triplex software font::
+
+      u:  GTEXT SOFTWARE FONT 6
+
+SEE COMMANDS
+------------
+   TSIZE_
+
+LATEST REVISION
+---------------
+  July 22, 1991 (Version 9.1)
+  Text Fonts and Default Text Sizes
+

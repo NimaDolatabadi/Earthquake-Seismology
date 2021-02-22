@@ -1,0 +1,41 @@
+
+NULL
+++++
+
+SUMMARY
+-------
+Controls the plotting of null values.
+
+SYNTAX
+------
+
+  ``NULL {ON|OFF|value}``
+
+INPUT
+-----
+   :ON:  Turns the NULL_ option on for plotting.
+    
+   :OFF:  Turns the NULL_ option off for plotting.
+    
+   :value:  Sets the value of a NULL_ to be value.
+    
+DEFAULT VALUES
+--------------
+
+  ``NULL OFF``
+
+DESCRIPTION
+-----------
+  Many times in a data set, when there are gaps in the data, no data is
+  available.  In many cases the data has been set to a predefined value.
+  Typical values are 0.0, -1.0, -99.  Usually the user will not want these
+  values displayed on plots.  The NULL_ command allows the user to define the
+  NULL_ value and not connect a line through these data points.  To set the 
+  NULL_ value to -1.0 and enable the NULL_ option during plotting::
+
+      u: NULL ON -1.0
+
+LATEST REVISION
+---------------
+  March 20, 1992 (Version 10.6e)
+

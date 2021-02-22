@@ -1,0 +1,87 @@
+
+READSDD
++++++++
+
+SUMMARY
+-------
+Reads data from SDD data files on disk into memory.
+
+SYNTAX
+------
+
+  ``READSDD [options] [filelist]``
+
+   where options is one or more of the following:
+
+  ``MORE``
+
+  ``COMMIT|ROLLBACK|RECALLTRACE``
+
+  ``DIR CURRENT|name``
+
+
+  ALL options MUST preceed any element in the filelist.
+
+INPUT
+-----
+   :MORE:  Place the new data files in memory AFTER the old ones.  If this
+       option is omitted, the new data files REPLACE the old ones.
+    
+   :Note:  if the MORE option is not specified, the COMMIT, ROLLBACK,
+       and RECALLTRACE options have no effect.
+    
+   :COMMIT:  If the MORE option is specified, the COMMIT option commits
+       headers and waveforms in SAC memory -- removing any previous
+       versions of headers or waveforms from RAM -- prior to
+       reading more files.  COMMIT is the default.
+    
+   :ROLLBACK:  If the MORE option is specified, the ROLLBACK option reverts
+       to the last committed version of the header and waveform
+       before reading more files.
+    
+   :RECALLTRACE:  If the MORE option is specified, the RECALLTRACE option:
+ 
+       - reverts to the last committed version of the waveform,
+       - reverts to the last committed version of those header
+         variables closely linked to the waveform,
+       - commits those header variables which are loosely linked
+       	 to the waveform. (use HELP_ RECALLTRACE for a list of which 
+	 header variables are committed, and which are rolled back.)
+    
+   :DIR CURRENT:  Read all simple filenames (with or without wildcards)
+       from the current directory.  This is the directory from which you
+       started SAC.
+    
+   :DIR name:  Read all simple filenames (with or without wildcards) from
+       the directory called name.  This may be a relative or absolute
+       directory name.
+    
+   :filelist:  file|wild .
+    
+   :file:  A legal filename.  This may be a simple filename or a pathname.
+       The pathname can be a relative or absolute one.
+    
+   :wild:  A wildcard laden token that expands to a list of filenames.
+       more details.
+    
+DEFAULT VALUES
+--------------
+
+  ``READ COMMIT DIR CURRENT``
+
+DESCRIPTION
+-----------
+   All the same restrictions apply to READSDD_ as to the READ_ command.  See the
+   READ_ command DESCRIPTION and EXAMPLES sections for more detail.
+
+   Any command which loads data into memory is monitored to maintain a
+   level of confidence in the event infomation when transfered from the SAC
+   data buffer to the CSS data buffer.  When READSDD_ is used, the confidence
+   is set to LOW, indicating that SAC should consider any matching event IDs
+   as artifacts and reassign the event ID of the incoming file.  For more
+   details, use HELP_ READ_.
+
+LATEST REVISION
+---------------
+   Oct. 27, 1998 (Version 0.58)
+

@@ -1,0 +1,126 @@
+
+BBFK
+++++
+
+SUMMARY
+-------
+Computes the broadband frequency-wavenumber (FK) spectral estimate, using all
+files in SAC memory.
+
+SYNTAX
+------
+
+  ``BBFK {FILTER} {NORMALIZE} {EPS v} {MLM | PDS}``
+
+  ``{EXP n} {WAVENUMBER v} {SIZE m n} {LEVELS n}``
+
+  ``{DB} {TITLE text} {WRITE {ON | OFF} fname} {SSQ n}``
+
+  ``{PRINT {pname} }``
+
+INPUT
+-----
+   :FILTER:  Apply the bandpass filter designed in the most recent
+       FILTERDESIGN_ command.
+    
+   :NORMALIZE:  Normalizes the covariance matrix with the Capo method.  A
+       good idea if the signals vary much in amplitude among channels.
+    
+   :EPS v:  Regularization quantity for covariance matrix.  Diagonal
+       matrix entries are multiplied by (1.0 + EPS).
+    
+   :MLM:  Use maximum likelihood method for high-resolution estimate.
+    
+   :PDS:  Take power density spectra without maximum likelihood method.
+    
+   :EXP n:  Power to which the wavenumber spectrum will be raised.
+    
+   :WAVENUMBER v:  Number of waves from which to sample spectral
+       estimates.
+    
+   :SIZE m n:  Size of contour plot in polar mode: m is an even num of
+       plot samples in the azimuth direction; n is an even num of plot
+       samples in the wavenumber direction (m*n is limited to 40,000).
+    
+   :LEVELS n:  Number of contour intervals.
+    
+   :DB:  Log scaling of plot in decibels.
+    
+   :TITLE	text:  Title used in plot.
+    
+   :WRITE {ON | OFF} fname:  Whether to compute & write contour data in
+       square mode to disk (as a type xyz SAC file). fname is file or path
+       name (may be an absolute or relative). If no filename has been
+       specified, the default is "BBFK".  ON will reactivate fname most
+       recently used. OFF turns writing off.
+    
+   :SSQ n:  Size of the square (number of samples taken along each margin
+       of the square). Maximum allowed is 200.
+    
+   :PRINT {pname}:  Prints the resulting plot to the printer named in
+       pname, or to the default printer if pname is not used.  (This
+       makes use of the SGF_ capability.)
+    
+DEFAULT VALUES
+--------------
+
+  ``BBFK EPS .01 PDS EXP 1 WVENUMBER 1.0 SIZE 90 32 LEVELS 11 WRITE OFF SSQ 100``
+
+  ``(SSQ matters only if WRITE has been positively specified).``
+
+DESCRIPTION
+-----------
+   The BBFK_ command allows the user to compute broadband frequency
+   wavenumber
+   spectra.  It is based on the work of NAWAB et al., 1985 and many other
+   references
+   in the seismic and engineering literature.
+
+   Nawab, SH, FU Dowla, and RT Lacoss, Direction determination of wideband
+   signals,
+   IEEE Trans. Acous. Speech Sig. Proc., 33: (5), 1114-1122, 1985
+
+
+   FUNCTIONAL MODULE: FK Spectrum (fks)
+
+
+   HEADER DATA:  The following logic is used to determine how to choose or
+   calculate station/event offsets:
+
+   Case 1:  If a reference station is set in KUSER1 and is the same for all
+   files, and USER7 and USER8 are set for all files, USER7 and USER8
+   are used as offsets.
+
+   Case 2:  If station latitude (STLA) and station longitude (STLO) are set
+   for all files, offsets are calculated using these, using the
+   first
+   file as the reference station.
+
+   Case 3:  If USER7 and USER8 are set for all files, they are used as
+   offsets.
+
+   Case 4:  If event latitude (EVLA) and event longitude (EVLO) are set
+   for all
+   files then these are used to calculate offsets, using the first
+   station as the reference station.
+
+   OUTPUT: The polar output is plotted immediately (not retained), the square
+   output if requested is written out to disk.  The FK peak, back azimuth and
+   wavenumber are written to blackboard variables BBFK_AMP, BBFK_BAZIM and
+   BBFK_WVNBR respectively.
+
+
+   ERROR MESSAGES: Size m or n not an even number.  Offsets X,Y,Z not set in
+   USER7,8,9 of headers.  Coefficients produced by FILTERDESIGN_ not found, or
+   filter type used was not "BP".
+
+
+   LIMITATIONS: The maximum number of stations allowed is 100.  The maximum size
+   of polar contour plot is m x n = 40,000.  The maximum size of square contour
+   output is i = 200.
+
+SEE COMMANDS
+------------
+   MAP:  for plotting stations in an array, according to X,Y offsets stored in
+   SAC header variables USER7 & USER8.  July 22, 1991 (Version 10.6c)
+

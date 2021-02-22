@@ -1,0 +1,53 @@
+
+PAUSE
++++++
+
+SUMMARY
+-------
+Sends a message to the terminal and pauses.
+
+SYNTAX
+------
+
+  ``PAUSE {MESSAGE text},{PERIOD {ON|OFF|v}}``
+
+INPUT
+-----
+   :MESSAGE text:  Text of message to send to terminal before pausing.
+       Enclose text in single quotes if it contains any blanks.
+    
+   :PERIOD {ON}:  Turn period option on but don't change length of pause.
+       When this option is on, SAC pauses for a certain period of time
+       and then resumes execution automatically.
+    
+   :PERIOD OFF:  Turn period option off.  When this option is off, SAC
+       pauses until you type a carriage-return.
+    
+   :PERIOD v:  Turn period option on and change length of pause to v
+       seconds.
+    
+DEFAULT VALUES
+--------------
+
+  ``PAUSE MESSAGE 'Pausing' PERIOD OFF``
+
+DESCRIPTION
+-----------
+   This command lets you temporarily suspend the execution of a SAC macro
+   file.  When this command is executed, SAC sends a message to your terminal,
+   pauses, and then either waits until you type a carriage return or waits for a
+   specified period of time.
+   This might be of interest if you wanted to study the output of a
+   particular command before allowing the next command in the macro to be
+   executed.  It is of particular interest in the preparation of macro files to
+   be used in demonstrations and tutorials.  The ECHO_ command is also useful for
+   preparing such demonstrations.
+
+SEE COMMANDS
+------------
+   ECHO_
+
+LATEST REVISION
+---------------
+   May 15, 1987 (Version 10.2)
+

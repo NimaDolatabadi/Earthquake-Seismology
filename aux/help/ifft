@@ -1,0 +1,48 @@
+
+IFFT
+++++
+
+SUMMARY
+-------
+Performs an inverse discrete Fourier transform.
+
+SYNTAX
+------
+
+  ``IFFT``
+
+ALTERNATE FORMS
+---------------
+  Purists may use IDFT instead of IFFT_.
+
+DESCRIPTION
+-----------
+  Data files must have been previously transformed using the FFT_ command.  They
+  may be in either real-imaginary or amplitude-phase format.
+
+HEADER CHANGES
+--------------
+  B, DELTA, and NPTS are changed to the beginning frequency, sampling
+  frequency, and number of data points in the transform.  The original values of
+  B, DELTA, and NPTS are saved in the header as SB, SDELTA, and NSNPTS and are
+  restored when this command performed.
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1305: Illegal operation on time series file
+- 1606: Maximum allowable DFT is
+
+
+LIMITATIONS
+-----------
+  The maximum inverse transform that can currently be performed is 65536 points.
+
+SEE COMMANDS
+------------
+  FFT_
+
+LATEST REVISION
+---------------
+  October 11, 1984 (Version 9.1)
+

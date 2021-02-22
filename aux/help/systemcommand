@@ -1,0 +1,34 @@
+
+SYSTEMCOMMAND
++++++++++++++
+
+SUMMARY
+-------
+Executes system commands from SAC.
+
+SYNTAX
+------
+
+  ``[S]YSTEM[C]OMMAND command {options}``
+
+INPUT
+-----
+   :command:  The name of the system command.
+    
+   :options:  Any options needed by that command.
+    
+DESCRIPTION
+-----------
+  This command allows you to execute system command while running SAC.
+
+EXAMPLES
+--------
+  To get a list of files in the current UNIX directory::
+
+      u:  SYSTEMCOMMAND LS
+      s:  ... produces a list of files
+
+LATEST REVISION
+---------------
+  May 15, 1987 (Version 10.2)
+

@@ -1,0 +1,27 @@
+VELOCITYROSET
++++++++++++++
+
+SUMMARY
+-------
+Controls the placement of a velocity roset on subsequent record section plots.
+
+SYNTAX
+------
+
+   ``[V]ELOCITY[R]OSET [ON|OFF]  [[L]OCATION UL|UR|LL|LR]``
+
+INPUT
+-----
+
+    :ON | OFF:   Turn velocity roset plotting option on or off.
+
+    :LOCATION UL|UR|LL|LR:   Change location on plot of velocity roset.
+        Locations are respectively upper left,  upper right, lower left, 
+        and lower right of the record section plot.
+
+DEFAULTS
+--------
+
+  ``VELOCITYROSET OFF LOCATION LL``
+
+

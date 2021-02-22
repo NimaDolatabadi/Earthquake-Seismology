@@ -1,0 +1,26 @@
+
+SQR
++++
+
+SUMMARY
+-------
+Squares each data point.
+
+SYNTAX
+------
+
+  ``SQR``
+
+ERROR MESSAGES
+--------------
+- 1301: No data files read in.
+- 1307: Illegal operation on spectral file
+
+HEADER CHANGES
+--------------
+  DEPMIN, DEPMAX, DEPMEN
+
+LATEST REVISION
+---------------
+  January 8, 1983 (Version 8.0)
+
