@@ -6,3 +6,15 @@
        git clone --single-branch -b <name-of-branch> <url-of-git-repository>
 !!##
 Nice job..
+
+mkdir gitrep
+git init
+git remote add origin [URL]
+git remote -v
+git push origin main
+git fetch
+git switch [BRANCH]
+git add .
+git commit -m "BRANCH NAME"
+git push origin [Branch name]
+
