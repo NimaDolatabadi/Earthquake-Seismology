@@ -7,9 +7,10 @@
 
 ###### First do 'sudo su', due to your distribution ############
 
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test && sudo apt-get update
-sudo apt-get install gfortran gcc-4.8 libpcre3-dev libgtk2.0-dev subversion ghostscript build-essential cmake
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt update
+sudo apt upgrade
+sudo apt install gfortran libhdf5-serial-dev libfftw3-dev gfortran gcc-4.8 libpcre3-dev libgtk2.0-dev subversion ghostscript build-essential cmake libnetcdf-dev libgdal1-dev
 pwd=`pwd`
 cd bin/
 sed -i "18i export SACHOME=$pwd" sacinit.sh
