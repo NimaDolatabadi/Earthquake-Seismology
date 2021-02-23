@@ -6,10 +6,10 @@
 ################### Put This Script In your SEISAN Home Directory ########################
 
 ###### First do 'sudo su', due to your distribution ############
-sudo su
-apt-get install gfortran libhdf5-serial-dev libfftw3-dev gfortran gcc-4.8 libpcre3-dev libgtk2.0-dev subversion ghostscript build-essential cmake libnetcdf-dev libgdal1-dev
-add-apt-repository ppa:ubuntu-toolchain-r/test && apt-get update
-update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt update
+sudo apt upgrade
+sudo apt install gfortran libhdf5-serial-dev libfftw3-dev gfortran gcc-4.8 libpcre3-dev libgtk2.0-dev subversion ghostscript build-essential cmake libnetcdf-dev libgdal1-dev
 pwd=`pwd`
 NMXHOME="/home/nima/src/seismo/LIB/nmx"
 cd COM/
