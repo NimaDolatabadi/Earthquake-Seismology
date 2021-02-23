@@ -12,7 +12,9 @@ sudo apt update
 sudo apt upgrade
 sudo apt install gfortran libhdf5-serial-dev libfftw3-dev gfortran gcc-4.8 libpcre3-dev libgtk2.0-dev subversion ghostscript build-essential cmake libnetcdf-dev libgdal1-dev
 pwd=`pwd`
-cd bin/
+git clone --single-branch -b SAC https://github.com/NimaDolatabadi/Earthquake-Seismology.git
+mv Earthquake-Seismology-SAC SAC
+cd SAC/bin
 sed -i "18i export SACHOME=$pwd" sacinit.sh
 cd ../exec
 sudo cp * /usr/local/bin
