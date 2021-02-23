@@ -6,15 +6,18 @@
        git clone --single-branch -b <name-of-branch> <url-of-git-repository>
 !!##
 Nice job..
+############ Set-up GitHub Repository from Teminal ############
+mkdir gitrep                        --------> create a directory so that you can manage everything here and everything is classified
+git init                            --------> start git proccessing
+git remote add origin [URL]         --------> add your repository
+git remote -v                       --------> check that your repo is added correctly
+git push origin main                --------> set git to find your main branch
+git fetch                           --------> let it fetch all you have in your repo
+git switch [BRANCH]                 --------> switch between branches
+git add .                           --------> set current files and folders to be added insisde branch
+git commit -m "BRANCH NAME"         --------> save changes
+git push origin [Branch name]       --------> upload added files and done
 
-mkdir gitrep
-git init
-git remote add origin [URL]
-git remote -v
-git push origin main
-git fetch
-git switch [BRANCH]
-git add .
-git commit -m "BRANCH NAME"
-git push origin [Branch name]
-
+##########################################################################################################
+######################################          HO FINITO         ########################################
+##########################################################################################################
