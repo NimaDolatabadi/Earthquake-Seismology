@@ -11,7 +11,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update
 sudo apt upgrade
 sudo apt install gfortran libhdf5-serial-dev libfftw3-dev gfortran gcc-4.8 libpcre3-dev libgtk2.0-dev subversion ghostscript build-essential cmake libnetcdf-dev libgdal1-dev
-git clone --single-branch -b SAC https://github.com/NimaDolatabadi/Earthquake-Seismology.git
+cd ..
 mv Earthquake-Seismology-SAC SAC
 cd SAC
 pwd=`pwd`
