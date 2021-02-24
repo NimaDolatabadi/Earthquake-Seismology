@@ -10,9 +10,9 @@
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update
 sudo apt upgrade
-sudo apt install gfortran libhdf5-serial-dev libfftw3-dev gfortran gcc-4.8 libpcre3-dev libgtk2.0-dev subversion ghostscript build-essential cmake libnetcdf-dev libgdal1-dev
+sudo apt install gfortran libhdf5-serial-dev libfftw3-dev gfortran gcc libpcre3-dev libgtk2.0-dev subversion ghostscript build-essential cmake libnetcdf-dev libgdal1-dev
 cd ..
-mv Earthquake-Seismology-SAC SAC
+mv Earthquake-Seismology SAC
 cd SAC
 pwd=`pwd`
 SACHOME_def=$pwd
