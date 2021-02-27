@@ -23,5 +23,5 @@ echo "export PATH=${SACHOME}/bin:${PATH}" >> ~/.bashrc
 echo "export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SACHOME}/lib" >> ~/.bashrc
 echo "export C_INCLUDE_PATH=$C_INCLUDE_PATH:${SACHOME}/include" >> ~/.bashrc
 echo "export SACAUX=$SACHOME/aux" >> ~/.bashrc
-echo "alias sac="/usr/local/bin/sac $pwd/macros/sac.init"" >> ~/.bashrc
+echo "alias sac="$pwd/bin/sac $pwd/macros/sac.init"" >> ~/.bashrc
 source ~/.bashrc
