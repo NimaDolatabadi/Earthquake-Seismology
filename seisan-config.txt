@@ -24,7 +24,7 @@
 		    go to Seisan/LIB/nmx
 		    patchelf --replace-needed /home/nima/src/seismo/LIB/nmx/libnmxbase.so PATH-TO-YOURS/LIB/nmx/libnmxbase.so libnmxacq.so
 		    go to Seisan/PRO
-		    patchelf --replace-needed /home/nima/src/seismo/LIB/nmx/libnmxacq.so PATH-TO-YOURS/LIB/nmx/libnmxacq.so
-		    patchelf --replace-needed /home/nima/src/seismo/LIB/nmx/libnmxbase.so PATH-TO-YOURS/LIB/nmx/libnmxbase.so
+		    patchelf --replace-needed /home/nima/src/seismo/LIB/nmx/libnmxacq.so PATH-TO-YOURS/LIB/nmx/libnmxacq.so y5dump
+		    patchelf --replace-needed /home/nima/src/seismo/LIB/nmx/libnmxbase.so PATH-TO-YOURS/LIB/nmx/libnmxbase.so y5dump
 ##################################################
 All Done
