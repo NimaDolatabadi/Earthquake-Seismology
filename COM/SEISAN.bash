@@ -13,7 +13,7 @@ export SEISARCH="linux64"
 #
 #    set SEISAN top directory
 #
-SEISAN_TOP
+SEISAN_TOP=Path.To-Seisan.Home
 #
 # set editor
 #
