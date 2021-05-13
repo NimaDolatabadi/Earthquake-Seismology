@@ -1,0 +1,30 @@
+##################################################
+#
+# SEISAN 11.0
+#
+# This INFO Has Been Written By N.Dolatabadi
+# If you were in need, Try to search google (you need more information on unix systems)
+#
+# Manual To Install Seisan in Ubuntu 20.04 LTS Focal Fossa
+#
+#1#  	Go to Seisan/COM Directory and change the 16th Line of "SEISAN.bash" to your Seisan.Home.Directory
+##################################################
+#2#  	Go to Seisan/LIB/libgfortran and chose the directory due to your distribution architecture and do the following:
+		      sudo cp libgfortran.so.3 /usr/lib/x86_64-linux-gnu
+##################################################	
+#3#  	Add the Following to your bashrc:
+		    # Seisan
+		    SEISANHOME=PATH-TO-SEISAN-HOME
+		    source $SEISANHOME/COM/SEISAN.bash
+		    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SEISANHOME}/LIB
+##################################################	
+#4#	If you need Nansei for specific usage do the Followings:
+		    first install patchelf
+		    do the followings to your needs and edit if needed
+		    go to Seisan/LIB/nmx
+		    patchelf --replace-needed /home/nima/src/seismo/LIB/nmx/libnmxbase.so PATH-TO-YOURS/LIB/nmx/libnmxbase.so libnmxacq.so
+		    go to Seisan/PRO
+		    patchelf --replace-needed /home/nima/src/seismo/LIB/nmx/libnmxacq.so PATH-TO-YOURS/LIB/nmx/libnmxacq.so
+		    patchelf --replace-needed /home/nima/src/seismo/LIB/nmx/libnmxbase.so PATH-TO-YOURS/LIB/nmx/libnmxbase.so
+##################################################
+All Done
