@@ -15,7 +15,7 @@
 #
 # Initialize the SAC Environment (only SACHOME may need to be changed) 
 
-SACHOME
+export SACHOME=Path-To-SAC-Home
 export SACAUX=${SACHOME}/aux
 
 # Uncomment the desired options below to change from the default and
