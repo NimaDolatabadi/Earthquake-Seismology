@@ -1,0 +1,24 @@
+##################################################
+#
+# SAC 101.6a
+# EISMIC ANALYSIS CODE [06/12/2013 (Version 101.6)]
+# Copyright 1995 Regents of the University of California
+#
+# This INFO Has Been Written By N.Dolatabadi
+# If you were in need, Try to search google (you need more information on unix systems)
+#
+# Manual To Install SAC in Ubuntu 20.04 LTS Focal Fossa
+#
+#1#  	Go to SAC/bin Directory and change the 18th Line of "sacinit.sh" to your SAC.Home.Directory
+##################################################
+#2#  	Add the Following to your bashrc:
+      # SAC
+      export SACHOME=PATH-To-SAC-HOME
+      export PATH=${SACHOME}/bin:${PATH}
+      export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SACHOME}/lib
+      export C_INCLUDE_PATH=$C_INCLUDE_PATH:${SACHOME}/include
+      export SACAUX=$SACHOME/aux
+      alias sac="$SACHOME/bin/sac $SACHOME/macros/sac.init"
+
+##################################################
+All Done
