@@ -9,13 +9,13 @@ tar gmt-5.4.2-src.tar.xz
 cd gmt-5.4.2
 mkdir build
 cd cmake
-echo 'set (CMAKE_INSTALL_PREFIX "/opt/GMT5")' > ConfigUser.cmake
-echo 'set (GMT_INSTALL_MODULE_LINKS FALSE)' >> ConfigUser.cmake
-echo 'set (GSHHG_ROOT <PATH-to-your-gshhg>' >> ConfigUser.cmake
-echo 'set (DCW_ROOT <PATH-to-your-dcw>' >> ConfigUser.cmake
-echo 'set (COPY_GSHHG TRUE)' >> ConfigUser.cmake
-echo 'set (COPY_DCW TRUE)' >> ConfigUser.cmake
-echo 'set (GMT_USE_THREADS TRUE)' >> ConfigUser.cmake
+set (CMAKE_INSTALL_PREFIX "/opt/GMT5")
+set (GMT_INSTALL_MODULE_LINKS FALSE)
+set (GSHHG_ROOT <PATH-to-your-gshhg>)
+set (DCW_ROOT <PATH-to-your-dcw>
+set (COPY_GSHHG TRUE)
+set (COPY_DCW TRUE)
+set (GMT_USE_THREADS TRUE)
 cd ../build
 cmake ..
 make
