@@ -16,3 +16,5 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SACHOME}/lib
 export C_INCLUDE_PATH=$C_INCLUDE_PATH:${SACHOME}/include
 export SACAUX=$SACHOME/aux
 alias sac="$SACHOME/bin/sac ~/src/SAC/macros/sac.init"
+
+Done
