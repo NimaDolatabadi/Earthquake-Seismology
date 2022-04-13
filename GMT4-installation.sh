@@ -12,7 +12,7 @@
 mkdir /opt/GMT4
 cd gmt-4.5.16
 
-./configure --prefix=/opt/GMT4 --with-gshhg-dir=.... 
+./configure --prefix=/opt/GMT4
 make && make install && make install-gmt && make install-data && make spotless && make install-man && make install-doc && make examples
 Add the Following lines to bashrc:
 
