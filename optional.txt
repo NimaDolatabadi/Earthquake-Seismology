@@ -9,12 +9,14 @@ Up and Running "apt-cyg install"
 ============================================================================================
 
 Options For .bashrc
+
 # SAC-102.0 For plotting, 'startxwin' before starting SAC
-export SACHOME=/home/nima/src/SAC
+export SACHOME=/opt/SAC102
 export PATH=${SACHOME}/bin:${PATH}
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${SACHOME}/lib
 export C_INCLUDE_PATH=$C_INCLUDE_PATH:${SACHOME}/include
 export SACAUX=$SACHOME/aux
-alias sac="$SACHOME/bin/sac ~/src/SAC/macros/sac.init"
+alias sac="$SACHOME/bin/sac $SACHOME/macros/sac.init"
+
 
 Done
