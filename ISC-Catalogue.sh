@@ -26,13 +26,10 @@ maxlon="48"	# maximum longitude
 minmag="2.5"	# minimum magnitude
 maxmag="10"	# maximum magnitude
 magtype="any"	# magnitude type
-# Now it's time to get the catalogue from WWW.ISC.AC.UK
-#http://www.isc.ac.uk/cgi-bin/web-db-run?request=COMPREHENSIVE&out_format=CATCSV&searchshape=RECT&bot_lat=33&top_lat=36&left_lon=45&right_lon=48&ctr_lat=&ctr_lon=
-#&radius=&max_dist_units=deg&srn=&grn=&start_year=2006&start_month=1&start_day=01&start_time=00%3A00%3A00&end_year=2020
-#&end_month=1&end_day=01&end_time=00%3A00%3A00&min_dep=&max_dep=&min_mag=2.5&max_mag=10&req_mag_type=Any&req_mag_agcy=
-#&include_links=on
 
-curl --cookie cjar --cookie-jar cjar \
+# Now it's time to get the catalogue from WWW.ISC.AC.UK
+
+curl -G --cookie cjar --cookie-jar cjar \
 	-d "out_format=$out" \
 	-d "searchshape=$sesh" \
 	-d "bot_lat=$minlat" \
