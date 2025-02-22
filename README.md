@@ -25,38 +25,23 @@ The repository is organized into the following directories and files:
 - `utilities/` - Miscellaneous helper scripts and utilities.
 - `GitHub Cheat Sheet` - A guide for using GitHub under Ubuntu command line.
 
-*Note: The above structure is based on standard practices. Please adjust the directory names and descriptions to match the actual contents of your repository.*
-
 ## Branches
 
 This repository utilizes branches to manage different features, experiments, or versions. Below is an overview of the existing branches:
 
 - **master**: The default branch containing the stable version of the codebase. All major updates are merged here after thorough testing.
 
-- **SAC-101.6a**: SAC software configuration on linux: [https://www.youtube.com/watch?v=3yQ0UulFkl4](hellow)
+- **SAC-101.6a**: SAC software configuration on linux: [https://www.youtube.com/watch?v=3yQ0UulFkl4](url)
 
 - **SAC-102.0----For-Windows**: SAC software installation on windows using Cygwin (Not Rcommended): [https://www.youtube.com/watch?v=4htSqxYzu60](url)
-- **experimental/ml-integration**: An experimental branch exploring the integration of machine learning models into seismic data analysis workflows.
-
-*Note: The above branch names and descriptions are illustrative. Please replace them with the actual branch names and purposes from your repository.*
+- **Matlab-Functions**: Usefull matlab functions in case of need for seismic processing
+- **Seisan**: Seisan Installation on Linux: [https://www.youtube.com/watch?v=dINPfp_tPsY](url)
+- **GMT**: GMT 4/5 compilation and installation on linux: [https://www.youtube.com/watch?v=InVvSzD0BCw](url) , [https://www.youtube.com/watch?v=dYFhZtU4_Uk](url)
 
 ## Installation
 
-To utilize the scripts and programs in this repository, ensure you have the following prerequisites installed:
-
-- **Python 3.x**
-- **Required Python libraries** (e.g., NumPy, SciPy, ObsPy)
-- **Git**
-
 ## Usage
 Each script and program comes with its own documentation or help message. To understand how to use a specific tool, navigate to its directory and refer to the README file or execute the script with the --help flag.
-
-**Example:**
-bash
-Copy
-Edit
-cd data_processing
-python process_seismic_data.py --help
 
 ## Contributing
 Contributions to this repository are welcome. If you have scripts or programs that could benefit the seismological community, please consider contributing.
