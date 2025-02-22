@@ -57,10 +57,8 @@ Submit a pull request to the main repository.
 For detailed guidelines, refer to the CONTRIBUTING.md file.
 
 ## Clone the Repository
-
-```bash
 git clone https://github.com/NimaDolatabadi/Earthquake-Seismology.git
-cd Earthquake-Seismology```
+cd Earthquake-Seismology
 
 ## License
 This repository is licensed under the MIT License. You are free to use, modify, and distribute the code, provided you include proper attribution. For more information, see the LICENSE file.
