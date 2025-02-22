@@ -27,6 +27,20 @@ The repository is organized into the following directories and files:
 
 *Note: The above structure is based on standard practices. Please adjust the directory names and descriptions to match the actual contents of your repository.*
 
+## Branches
+
+This repository utilizes branches to manage different features, experiments, or versions. Below is an overview of the existing branches:
+
+- **master**: The default branch containing the stable version of the codebase. All major updates are merged here after thorough testing.
+
+- **SAC-101.6a**: SAC software configuration on linux: [https://www.youtube.com/watch?v=3yQ0UulFkl4](url)
+
+- **feature/visualization-tools**: Dedicated to developing and refining visualization tools for better representation of seismic data.
+
+- **experimental/ml-integration**: An experimental branch exploring the integration of machine learning models into seismic data analysis workflows.
+
+*Note: The above branch names and descriptions are illustrative. Please replace them with the actual branch names and purposes from your repository.*
+
 ## Installation
 
 To utilize the scripts and programs in this repository, ensure you have the following prerequisites installed:
