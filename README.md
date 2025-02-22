@@ -35,6 +35,27 @@ To utilize the scripts and programs in this repository, ensure you have the foll
 - **Required Python libraries** (e.g., NumPy, SciPy, ObsPy)
 - **Git**
 
+**Usage**
+Each script and program comes with its own documentation or help message. To understand how to use a specific tool, navigate to its directory and refer to the README file or execute the script with the --help flag.
+
+**Example:**
+bash
+Copy
+Edit
+cd data_processing
+python process_seismic_data.py --help
+
+**Contributing**
+Contributions to this repository are welcome. If you have scripts or programs that could benefit the seismological community, please consider contributing.
+
+**To Contribute:**
+Fork the repository.
+Create a new branch for your feature or bug fix.
+Commit your changes with clear and descriptive messages.
+Push your changes to your forked repository.
+Submit a pull request to the main repository.
+For detailed guidelines, refer to the CONTRIBUTING.md file.
+
 ### Clone the Repository
 
 ```bash
