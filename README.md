@@ -33,10 +33,9 @@ This repository utilizes branches to manage different features, experiments, or 
 
 - **master**: The default branch containing the stable version of the codebase. All major updates are merged here after thorough testing.
 
-- **SAC-101.6a**: SAC software configuration on linux: [https://www.youtube.com/watch?v=3yQ0UulFkl4](url)
+- **SAC-101.6a**: SAC software configuration on linux: [https://www.youtube.com/watch?v=3yQ0UulFkl4](hellow)
 
-- **feature/visualization-tools**: Dedicated to developing and refining visualization tools for better representation of seismic data.
-
+- **SAC-102.0----For-Windows**: SAC software installation on windows using Cygwin (Not Rcommended): [https://www.youtube.com/watch?v=4htSqxYzu60](url)
 - **experimental/ml-integration**: An experimental branch exploring the integration of machine learning models into seismic data analysis workflows.
 
 *Note: The above branch names and descriptions are illustrative. Please replace them with the actual branch names and purposes from your repository.*
