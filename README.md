@@ -39,7 +39,7 @@ To utilize the scripts and programs in this repository, ensure you have the foll
 
 ```bash
 git clone https://github.com/NimaDolatabadi/Earthquake-Seismology.git
-cd Earthquake-Seismology
+cd Earthquake-Seismology```
 
 
 **License**
